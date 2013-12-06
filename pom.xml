@@ -17,9 +17,9 @@
 		<system>Dev Bukkit</system>
 	</issueManagement>
 	<scm>
-		<url>https://github.com/multidude/Jail</url>
-		<connection>scm:git:git://github.com/multidude/Jail.git</connection>
-		<developerConnection>scm:git:git:@github.com/multidude/Jail.git</developerConnection>
+		<url>https://github.com/graywolf336/Jail</url>
+		<connection>scm:git:git://github.com/graywolf336/Jail.git</connection>
+		<developerConnection>scm:git:git:@github.com/graywolf336/Jail.git</developerConnection>
 	</scm>
 
 	<repositories>

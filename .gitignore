@@ -40,4 +40,5 @@ target/
 .settings/
 .classpath
 .project
+config.yml
 src/com/matejdro/

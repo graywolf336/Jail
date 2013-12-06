@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -50,19 +51,39 @@ public class TestInstanceCreator {
 			
 			MockGateway.MOCK_STANDARD_METHODS = false;
 			
+			// Initialize the Mock server.
+			mockServer = mock(Server.class);
+			when(mockServer.getName()).thenReturn("TestBukkit");
+			when(mockServer.getVersion()).thenReturn("Jail-Testing-0.0.1");
+			when(mockServer.getBukkitVersion()).thenReturn("0.0.1");
+			Logger.getLogger("Minecraft").setParent(Util.logger);
+			when(mockServer.getLogger()).thenReturn(Util.logger);
+			when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
+			
 			main = PowerMockito.spy(new JailMain());
 			
-			doReturn(pluginDirectory).when(main).getDataFolder();
-			
 			PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("Jail", "3.0.0-Test", "com.graywolf336.jail.JailMain"));
+			when(pdf.getPrefix()).thenReturn("Jail");
 			List<String> authors = new ArrayList<String>();
 				authors.add("matejdro");
 				authors.add("multidude");
 				authors.add("graywolf336");
-			when(pdf.getAuthors()).thenReturn(authors);
+			doReturn(authors).when(pdf).getAuthors();
 			doReturn(pdf).when(main).getDescription();
 			doReturn(true).when(main).isEnabled();
 			doReturn(Util.logger).when(main).getLogger();
+			doReturn(mockServer).when(main).getServer();
+			doReturn(pluginDirectory).when(main).getDataFolder();
+			
+			Field configFile = JavaPlugin.class.getDeclaredField("configFile");
+			configFile.setAccessible(true);
+			configFile.set(main, new File(pluginDirectory, "config.yml"));
+			
+			Field logger = JavaPlugin.class.getDeclaredField("logger");
+			logger.setAccessible(true);
+			logger.set(main, new PluginLogger(main));
+			
+			doReturn(getClass().getClassLoader().getResourceAsStream("config.yml")).when(main).getResource("config.yml");
 			
 			// Add Jail to the list of loaded plugins
 			JavaPlugin[] plugins = new JavaPlugin[] { main };
@@ -72,15 +93,6 @@ public class TestInstanceCreator {
 			when(mockPluginManager.getPlugins()).thenReturn(plugins);
 			when(mockPluginManager.getPlugin("Jail")).thenReturn(main);
 			when(mockPluginManager.getPermission(anyString())).thenReturn(null);
-			
-			// Initialize the Mock server.
-			mockServer = mock(Server.class);
-			when(mockServer.getName()).thenReturn("TestBukkit");
-			when(mockServer.getVersion()).thenReturn("Jail-Testing-0.0.1");
-			when(mockServer.getBukkitVersion()).thenReturn("0.0.1");
-			Logger.getLogger("Minecraft").setParent(Util.logger);
-			when(mockServer.getLogger()).thenReturn(Util.logger);
-			when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
 			
             // Give the server some worlds
             when(mockServer.getWorld(anyString())).thenAnswer(new Answer<World>() {
@@ -237,6 +249,7 @@ public class TestInstanceCreator {
 		}
 		
 		main.onDisable();
+		
 		
 		deleteFolder(serverDirectory);
 		

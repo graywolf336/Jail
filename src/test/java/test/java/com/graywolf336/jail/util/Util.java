@@ -10,7 +10,7 @@ public class Util {
     private Util() {}
 
     public static final Logger logger = Logger.getLogger("Jail-Test");
-
+    
     static {
         logger.setUseParentHandlers(false);
 
