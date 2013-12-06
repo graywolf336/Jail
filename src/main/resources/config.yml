@@ -1,6 +1,7 @@
 system:
   configVersion: 3
   debug: false
+  language: 'en'
   updateNotifications: true
 storage:
   type: 'flatfile' #can be flatfile, sqlite, or mysql

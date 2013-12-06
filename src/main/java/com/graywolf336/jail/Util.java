@@ -1,5 +1,11 @@
 package com.graywolf336.jail;
 
+import java.util.LinkedList;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 public class Util {
@@ -40,4 +46,17 @@ public class Util {
     public static String getColorfulMessage(String message) {
 		return message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
 	}
+    
+    public static ItemStack getWand() {
+    	ItemStack wand = new ItemStack(Material.WOOD_SWORD);
+		ItemMeta meta = wand.getItemMeta();
+			meta.setDisplayName(ChatColor.AQUA + "Jail Wand");
+			LinkedList<String> lore = new LinkedList<String>();
+			lore.add(ChatColor.BLUE + "The wand for creating");
+			lore.add(ChatColor.BLUE + "a jail or cell.");
+			meta.setLore(lore);
+		wand.setItemMeta(meta);
+		
+		return wand;
+    }
 }

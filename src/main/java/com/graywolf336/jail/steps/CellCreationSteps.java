@@ -19,7 +19,7 @@ import com.graywolf336.jail.beans.SimpleLocation;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class CellCreationSteps {
 	
@@ -28,6 +28,16 @@ public class CellCreationSteps {
 		player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation ----------");
 		player.sendMessage(ChatColor.GREEN + "First, you must select a teleport point for the cell! Move to the teleport point and then click anywhere with your wooden sword to set it.");
 		player.sendMessage(ChatColor.AQUA + "----------------------------------------");
+		
+		if(player.getInventory().contains(Material.WOOD_SWORD)) {
+			int i = player.getInventory().first(Util.getWand());
+			if(i != -1) {
+				player.getInventory().setItem(i, player.getItemInHand());
+				player.setItemInHand(Util.getWand());
+			}
+		}else {
+			player.getInventory().addItem(Util.getWand());
+		}
 	}
 	
 	/**

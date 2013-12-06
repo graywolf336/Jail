@@ -2,6 +2,7 @@ package com.graywolf336.jail.steps;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -15,7 +16,7 @@ import com.graywolf336.jail.beans.Jail;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.1.0
+ * @version 1.1.1
  */
 public class JailCreationSteps {
 	
@@ -24,6 +25,16 @@ public class JailCreationSteps {
 		player.sendMessage(ChatColor.AQUA + "----------Jail Zone Creation----------");
 		player.sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your wooden sword. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
 		player.sendMessage(ChatColor.AQUA + "--------------------------------------");
+		
+		if(player.getInventory().contains(Material.WOOD_SWORD)) {
+			int i = player.getInventory().first(Util.getWand());
+			if(i != -1) {
+				player.getInventory().setItem(i, player.getItemInHand());
+				player.setItemInHand(Util.getWand());
+			}
+		}else {
+			player.getInventory().addItem(Util.getWand());
+		}
 	}
 	
 	/**
