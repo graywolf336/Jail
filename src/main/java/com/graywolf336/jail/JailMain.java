@@ -20,7 +20,8 @@ public class JailMain extends JavaPlugin {
 		loadConfig();
 		
 		io = new JailIO(this);
-		io.PrepareStorage();
+		io.prepareStorage();
+		io.loadJails();
 		
 		jm = new JailManager(this);
 		cmdHand = new CommandHandler(this);
