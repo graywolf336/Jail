@@ -40,9 +40,9 @@ public class TestInstanceCreator {
 	private Player mockPlayer;
 	private CommandSender mockSender, mockPlayerSender;
 	
-	public static final File pluginDirectory = new File("bin/test/server/plugins/JailTest");
-	public static final File serverDirectory = new File("bin/test/server");
-	public static final File worldsDirectory = new File("bin/test/server");
+	public static final File serverDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
+	public static final File worldsDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
+	public static final File pluginDirectory = new File(serverDirectory + File.separator + "plugins" + File.separator + "JailTest");
 	
 	public boolean setup() {
 		try {
