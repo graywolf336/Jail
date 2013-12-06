@@ -1,0 +1,11 @@
+system:
+  configVersion: 3
+  debug: false
+  updateNotifications: true
+storage:
+  type: 'flatfile' #can be flatfile, sqlite, or mysql
+  mysql:
+    host: 'localhost'
+    port: 3306
+    username: 'root'
+    password: 'password'

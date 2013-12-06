@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.graywolf336</groupId>
+	<artifactId>Jail</artifactId>
+	<version>3.0.0-SNAPSHOT</version>
+	<name>Jail</name>
+	<description>Ban too harsh? Mute too weak? Kicking not enough? Jail them!	</description>
+	<url>http://dev.bukkit.org/bukkit-plugins/jail/</url>
+	<ciManagement>
+		<url>http://ci.graywolf336.com/job/Jail/</url>
+		<system>jenkins</system>
+	</ciManagement>
+	<issueManagement>
+		<url>http://dev.bukkit.org/bukkit-plugins/jail/tickets/</url>
+		<system>Dev Bukkit</system>
+	</issueManagement>
+	<scm>
+		<url>https://github.com/multidude/Jail</url>
+		<connection>scm:git:git://github.com/multidude/Jail.git</connection>
+		<developerConnection>scm:git:git:@github.com/multidude/Jail.git</developerConnection>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>vault-repo</id>
+			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+		</repository>
+
+		<repository>
+			<id>bukkit-repo</id>
+			<url>http://repo.bukkit.org/content/groups/public</url>
+		</repository>
+
+		<repository>
+			<id>sk89q-repo</id>
+			<url>http://maven.sk89q.com/repo/</url>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.bukkit</groupId>
+			<artifactId>bukkit</artifactId>
+			<version>1.6.2-R0.1-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sk89q</groupId>
+			<artifactId>worldedit</artifactId>
+			<version>5.5.7-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.milkbowl.vault</groupId>
+			<artifactId>Vault</artifactId>
+			<version>1.2.27-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+
+		<!-- Start of Test Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.4.9</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>1.4.9</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<version>1.4.9</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>org.easymock</groupId>
+			<artifactId>easymock</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<!-- End of Test Dependencies -->
+	</dependencies>
+
+	<build>
+		<directory>target</directory>
+		<outputDirectory>target/classes</outputDirectory>
+		<!-- <sourceDirectory>${basedir}/src</sourceDirectory> -->
+		<defaultGoal>clean install test</defaultGoal>
+
+		<resources>
+			<resource>
+				<targetPath>.</targetPath>
+				<directory>${basedir}/src/main/resources/</directory>
+			</resource>
+		</resources>
+
+		<testResources>
+			<testResource>
+				<directory>${basedir}/src/main/resources</directory>
+			</testResource>
+		</testResources>
+
+		<!-- Plugins -->
+		<plugins>
+			<!-- Compile plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+
+			<!-- Jar Plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<archive>
+						<manifestEntries />
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.11</version>
+				<configuration>
+					<parallel>methods</parallel>
+					<threadCount>10</threadCount>
+					<excludes>
+						<exclude>**/TestCommandSender.java</exclude>
+						<exclude>**/TestInstanceCreator.java</exclude>
+					</excludes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.surefire</groupId>
+						<artifactId>surefire-junit47</artifactId>
+						<version>2.11</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<distributionManagement>
+		<repository>
+			<id>repo-release</id>
+			<name>repo.graywolf336.com Releases</name>
+			<url>http://repo.graywolf336.com/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>repo-snapshot</id>
+			<name>repo.graywolf336.com Snapshots</name>
+			<url>http://repo.graywolf336.com/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>

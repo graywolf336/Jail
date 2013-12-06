@@ -1,0 +1,191 @@
+name: Jail
+main: com.graywolf336.jail.JailMain
+version: ${project.version}-b${BUILD_NUMBER}
+description: Ban too harsh? Kick/mute/whatever not enough? Jail bad players!
+authors: [matejdro,multidude,graywolf336]
+website: dev.bukkit.org/server-mods/jail/
+softdepend: [Spout, WorldEdit, Vault, Notifications]
+commands:
+    jailcreate:
+        description: Creates a new jail zone.
+    jailcreatecells:
+        description: Creates cells in existing jail zone.
+    jailremove:
+        description: Remove existing jail zone
+    jail:
+        description: Jail specified player for specified amount of time.
+        usage: /jail [player name] (time) (jail name):(cell name) (reason)
+    unjail:
+        description: Release a player from jail.
+    unjailforce:
+        description: Remove player from the database.
+    jailclear:
+        description: Unjail every player on the server. Use with caution!
+    jailclearforce:
+        description: Remove every player from the jail database.
+    jailtransfer:
+        description: Transfer player from current jail to another
+    jailtransferall:
+        description: Transfer all players in one jail to another jail
+    jailcheck:
+        description: Check the status of the specified player
+    jailtelein:
+        description: Teleport inside jail
+    jailteleout:
+        description: Teleport outside of the jail.
+    jaillist:
+        description: List all created jails
+    jailstatus:
+        description: Check your current jail status
+    jailmute:
+        description: Toggle mute of the specified prisoner
+    jailstop:
+        description: Stop any creation process.
+    jailset:
+        description: modify existing jail or prisoner.
+        usage: /jailset [player/jail/cell name] [property name] (property value)
+    jailpay:
+        description: Pay money to be released early.
+        usage: /jailpay (amount) (prisoner name)
+    jailremovecells:
+        description: Remove all cells from specified jail.
+    jaillistcells:
+        description: List all named cells from specified jail.
+    jailstick:
+        description: Toggle jailstick feature.
+    jailcreatewe:
+        description: Create a new jail zone based on existing world guard region.
+    jailremovecell:
+        description: Remove one cell.
+    jailreload:
+        description: Reload jail data
+    jailrecord:
+        description: Shows a players record
+    jailversion:
+        description: Shows the plugin version
+    votejail:
+        description: Allows players to vote to jail a player
+    handcuff:
+        description: Allows the player to handcuff another player
+permissions:
+    jail.*:
+        children:
+            jail.command.*: true
+            jail.usercmd.*: true
+            jail.modifyjail: true
+            jail.usejailstick280: true
+            jail.canbestickjailed: true
+            jail.openchest: true
+            jail.canswear: true
+            jail.cantbejailed: true
+    jail.command.*:
+        description: access to all admin commands
+        children:
+            jail.command.jailcreate: true
+            jail.command.jailcreatecells: true
+            jail.command.jailremove: true
+            jail.command.jailremovecells: true
+            jail.command.jail: true
+            jail.command.unjail: true
+            jail.command.jailtransfer: true
+            jail.command.jailtransferall: true
+            jail.command.jailcheck: true
+            jail.command.jailtelein: true
+            jail.command.jailteleout: true
+            jail.command.jaillist: true
+            jail.command.jaillistcells: true
+            jail.command.unjailforce: true
+            jail.command.jailclear: true
+            jail.command.jailclearforce: true
+            jail.command.jailmute: true
+            jail.command.jailstop: true
+            jail.command.jailset: true
+            jail.command.jailcreatewe: true
+            jail.command.jailremovecell: true
+            jail.command.jailreload: true
+            jail.command.jailrecord: true
+            jail.command.handcuff: true
+    jail.usercmd.*:
+        description: access to all user commands
+        children:
+            jail.usercmd.jailstatus: true
+            jail.usercmd.jailpay: true
+            jail.usercmd.jailstick: true
+            jail.usercmd.votejail: true
+            jail.usercmd.votejail.player: true
+            jail.usercmd.jailversion: true
+    jail.command.jail:
+        default: op
+    jail.command.jailcreate:
+        default: op
+    jail.command.jailcreatecells:
+        default: op
+    jail.command.jailremove:
+        default: op
+    jail.command.jailremovecells:
+        default: op
+    jail.command.unjail:
+        default: op
+    jail.command.jailtransfer:
+        default: op
+    jail.command.jailtransferall:
+        default: op
+    jail.command.jailcheck:
+        default: op
+    jail.command.jailtelein:
+        default: op
+    jail.command.jailteleout:
+        default: op
+    jail.command.jaillist:
+        default: op
+    jail.command.jaillistcells:
+        default: op
+    jail.command.unjailforce:
+        default: op
+    jail.command.jailclear:
+        default: op
+    jail.command.jailclearforce:
+        default: op
+    jail.command.jailmute:
+        default: op
+    jail.command.jailstop:
+        default: op
+    jail.command.jailset:
+        default: op
+    jail.command.jailcreatewe:
+        default: op
+    jail.command.jailremovecell:
+        default: op
+    jail.command.jailreload:
+        default: op
+    jail.command.jailrecord:
+        default: op
+    jail.usercmd.jailversion:
+        default: true
+    jail.command.handcuff:
+        default: op
+    jail.usercmd.jailvote:
+        default: true
+    jail.usercmd.jailvote.player:
+        default: op
+    jail.usercmd.jailvote.immune:
+        default: op
+    jail.usercmd.jailstatus:
+        default: true
+    jail.usercmd.jailpay:
+        default: true
+    jail.usercmd.jailstick:
+        default: true
+    jail.modifyjail:
+        default: op
+    jail.usejailstick280:
+        default: op
+        description: change 280 for another jailstick item
+    jail.canbestickjailed:
+        default: true
+    jail.openchest:
+        default: op
+    jail.canswear:
+        default: op
+    jail.cantbejailed:
+        default: op
