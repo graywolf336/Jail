@@ -40,4 +40,17 @@ public class TestJailStuff {
 		assertNotNull("The HashSet for jails return is null.", main.getJailManager().getJails());
 		assertThat(main, is(main.getJailManager().getPlugin()));
 	}
+	
+	@Test
+	public void testDefaultConfig() {
+		assertEquals("The config version is not 3.", main.getConfig().getInt("system.configVersion"), 3);
+		assertFalse("Default debugging is on.", main.getConfig().getBoolean("system.debug"));
+		assertTrue("Default updating notifications is false.", main.getConfig().getBoolean("system.updateNotifications"));
+		
+		assertEquals("The default storage system is not flatfile.", main.getConfig().getString("storage.type"), "flatfile");
+		assertEquals("The default mysql host is not localhost.", main.getConfig().getString("storage.mysql.host"), "localhost");
+		assertEquals("The default mysql port is not 3306.", main.getConfig().getInt("storage.mysql.port"), 3306);
+		assertEquals("The default mysql username is not root.", main.getConfig().getString("storage.mysql.username"), "root");
+		assertEquals("The default mysql password is not password.", main.getConfig().getString("storage.mysql.password"), "password");
+	}
 }
