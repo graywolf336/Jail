@@ -35,4 +35,9 @@ public class Util {
 
         return (point1 <= loc) && (loc <= point2);
     }
+    
+    /** Returns a colorful message from the color codes. */
+    public static String getColorfulMessage(String message) {
+		return message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
+	}
 }
