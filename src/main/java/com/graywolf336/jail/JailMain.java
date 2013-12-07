@@ -19,11 +19,11 @@ public class JailMain extends JavaPlugin {
 	public void onEnable() {
 		loadConfig();
 		
+		jm = new JailManager(this);
 		io = new JailIO(this);
 		io.prepareStorage();
 		io.loadJails();
 		
-		jm = new JailManager(this);
 		cmdHand = new CommandHandler(this);
 		
 		PluginManager pm = this.getServer().getPluginManager();

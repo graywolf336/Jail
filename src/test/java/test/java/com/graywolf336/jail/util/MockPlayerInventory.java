@@ -277,6 +277,7 @@ public class MockPlayerInventory implements PlayerInventory {
 		return false;
 	}
 
+	@SuppressWarnings("deprecation")
 	private static Map<String, Object> makeMap(ItemStack[] items) {
 		Map<String, Object> contents = new LinkedHashMap<String, Object>(
 				items.length);

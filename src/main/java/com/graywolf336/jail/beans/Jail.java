@@ -5,6 +5,7 @@ import java.util.HashSet;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailMain;
@@ -13,7 +14,7 @@ import com.graywolf336.jail.JailMain;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.0.2
+ * @version 1.0.3
  */
 public class Jail {
 	private JailMain plugin;
@@ -89,6 +90,21 @@ public class Jail {
 		this.maxX = coords[0];
 		this.maxY = coords[1];
 		this.maxZ = coords[2];
+	}
+	
+	/** Sets the name of the world this Jail is in. */
+	public void setWorld(String name) {
+		this.world = name;
+	}
+	
+	/** Gets the name of the world this Jail is in. */
+	public String getWorldName() {
+		return this.world;
+	}
+	
+	/** Gets the instance of the {@link World world} this Jail is in. */
+	public World getWorld() {
+		return plugin.getServer().getWorld(world);
 	}
 	
 	/** Sets the {@link SimpleLocation location} of the teleport <strong>in</strong>. */

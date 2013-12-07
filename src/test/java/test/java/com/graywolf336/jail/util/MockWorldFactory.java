@@ -15,7 +15,6 @@ import org.bukkit.World;
 import org.bukkit.WorldType;
 import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator;
-
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
@@ -97,7 +96,8 @@ public class MockWorldFactory {
             }
         });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
-            public Block answer(InvocationOnMock invocation) throws Throwable {
+            @SuppressWarnings("deprecation")
+			public Block answer(InvocationOnMock invocation) throws Throwable {
                 Location loc;
                 try {
                     loc = (Location) invocation.getArguments()[0];
@@ -141,7 +141,8 @@ public class MockWorldFactory {
             }
         });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
-            public Block answer(InvocationOnMock invocation) throws Throwable {
+            @SuppressWarnings("deprecation")
+			public Block answer(InvocationOnMock invocation) throws Throwable {
                 Location loc;
                 try {
                     loc = (Location) invocation.getArguments()[0];
