@@ -135,7 +135,7 @@ public class JailCreationSteps {
 		jail.setTeleportIn(cp.getTeleportInSL());
 		jail.setTeleportFree(cp.getTeleportFreeSL());
 		
-		jm.addJail(jail);
+		jm.addJail(jail, true);
 		
 		p.sendMessage(ChatColor.GREEN + "Jail (" + jail.getName() +  ") created successfully!");
 		

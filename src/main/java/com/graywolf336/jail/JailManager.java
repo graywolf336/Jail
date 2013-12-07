@@ -58,9 +58,15 @@ public class JailManager {
 		return this.jails.keySet().toArray(new String[jails.size()]);
 	}
 	
-	/** Adds a jail to the collection of them. */
-	public void addJail(Jail jail) {
+	/**
+	 * Adds a jail to the collection of them.
+	 * 
+	 * @param jail The jail to add
+	 * @param n True if this is a new jail, false if it isn't.
+	 */
+	public void addJail(Jail jail, boolean n) {
 		this.jails.put(jail.getName(), jail);
+		if(n) plugin.getJailIO().saveJail(jail);
 	}
 	
 	/**
