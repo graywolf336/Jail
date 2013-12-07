@@ -24,7 +24,7 @@ public class JailListCommand implements Command {
 		
 		if(!jm.getJails().isEmpty()) {
 			for(Jail j : jm.getJails()) {
-				sender.sendMessage(ChatColor.BLUE + "  " + j.getName() + " (" + j.getAllPrisoners().size() + ")");
+				sender.sendMessage(ChatColor.BLUE + "    " + j.getName() + " (" + j.getAllPrisoners().size() + ")");
 			}
 		}else {
 			sender.sendMessage(ChatColor.RED + "  There are no jails.");
