@@ -64,12 +64,28 @@ public class JailIO {
 			default:
 				if(flat != null) {
 					String node = "jails." + j.getName();
+					
+					//Corners
 					flat.set(node + "top.x", j.getMaxPoint().getBlockX());
 					flat.set(node + "top.y", j.getMaxPoint().getBlockY());
 					flat.set(node + "top.z", j.getMaxPoint().getBlockZ());
 					flat.set(node + "bottom.x", j.getMinPoint().getBlockX());
 					flat.set(node + "bottom.y", j.getMinPoint().getBlockY());
 					flat.set(node + "bottom.z", j.getMinPoint().getBlockZ());
+					
+					//Tele in
+					flat.set(node + "tps.in.x", j.getTeleportIn().getX());
+					flat.set(node + "tps.in.y", j.getTeleportIn().getY());
+					flat.set(node + "tps.in.z", j.getTeleportIn().getZ());
+					flat.set(node + "tps.in.pitch", j.getTeleportIn().getPitch());
+					flat.set(node + "tps.in.yaw", j.getTeleportIn().getYaw());
+					
+					//Tele out
+					flat.set(node + "tps.free.x", j.getTeleportFree().getX());
+					flat.set(node + "tps.free.y", j.getTeleportFree().getY());
+					flat.set(node + "tps.free.z", j.getTeleportFree().getZ());
+					flat.set(node + "tps.free.pitch", j.getTeleportFree().getPitch());
+					flat.set(node + "tps.free.yaw", j.getTeleportFree().getYaw());
 					
 					try {
 						flat.save(new File(pl.getDataFolder(), "data.yml"));
