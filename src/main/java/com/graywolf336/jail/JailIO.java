@@ -63,7 +63,7 @@ public class JailIO {
 				break;
 			default:
 				if(flat != null) {
-					String node = "jails." + j.getName();
+					String node = "jails." + j.getName() + ".";
 					
 					//Corners
 					flat.set(node + "top.x", j.getMaxPoint().getBlockX());
