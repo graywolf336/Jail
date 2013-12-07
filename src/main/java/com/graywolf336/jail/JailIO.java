@@ -1,9 +1,12 @@
 package com.graywolf336.jail;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+
+import com.graywolf336.jail.beans.Jail;
 
 public class JailIO {
 	private JailMain pl;
@@ -49,6 +52,33 @@ public class JailIO {
 				//load the jails from flatfile
 				if(flat.contains("jails"))
 					pl.getLogger().info("Jails exists");
+				break;
+		}
+	}
+	
+	public void saveJail(Jail j) {
+		switch(storage) {
+			case 1:
+			case 2:
+				break;
+			default:
+				if(flat != null) {
+					String node = "jails." + j.getName();
+					flat.set(node + "top.x", j.getMaxPoint().getBlockX());
+					flat.set(node + "top.y", j.getMaxPoint().getBlockY());
+					flat.set(node + "top.z", j.getMaxPoint().getBlockZ());
+					flat.set(node + "bottom.x", j.getMinPoint().getBlockX());
+					flat.set(node + "bottom.y", j.getMinPoint().getBlockY());
+					flat.set(node + "bottom.z", j.getMinPoint().getBlockZ());
+					
+					try {
+						flat.save(new File(pl.getDataFolder(), "data.yml"));
+					} catch (IOException e) {
+						pl.getLogger().severe("Unable to save the Jail data: " + e.getMessage());
+					}
+				}else {
+					pl.getLogger().severe("Storage not enabled, could not save the jail " + j.getName());
+				}
 				break;
 		}
 	}
