@@ -14,6 +14,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
+import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftItemFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
@@ -22,18 +23,23 @@ import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
 import org.junit.Assert;
+
 import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.MockGateway;
+import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 import com.graywolf336.jail.JailMain;
 
+@PrepareForTest({ CraftItemFactory.class })
 public class TestInstanceCreator {
 	private JailMain main;
 	private Server mockServer;
@@ -59,6 +65,7 @@ public class TestInstanceCreator {
 			Logger.getLogger("Minecraft").setParent(Util.logger);
 			when(mockServer.getLogger()).thenReturn(Util.logger);
 			when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
+			when(mockServer.getItemFactory()).thenReturn(CraftItemFactory.instance());
 			
 			main = PowerMockito.spy(new JailMain());
 			
@@ -208,6 +215,7 @@ public class TestInstanceCreator {
 			when(mockPlayer.hasPermission(anyString())).thenReturn(true);
 			when(mockPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
 			when(mockPlayer.isOp()).thenReturn(true);
+			when(mockPlayer.getInventory()).thenReturn(new MockPlayerInventory());
 			
 			// Init our second command sender, but this time is an instance of a player
 			mockPlayerSender = (CommandSender) mockPlayer;
