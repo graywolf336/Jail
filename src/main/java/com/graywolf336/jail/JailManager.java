@@ -248,7 +248,7 @@ public class JailManager {
 		if(isCreatingACell(player)) {
 			return false;
 		}else {
-			this.cellCreators.put(player.toLowerCase(), new CreationPlayer(cellName));
+			this.cellCreators.put(player.toLowerCase(), new CreationPlayer(jailName, cellName));
 			return true;
 		}
 	}

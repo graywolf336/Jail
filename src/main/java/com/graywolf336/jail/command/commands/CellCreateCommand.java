@@ -5,7 +5,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
@@ -46,10 +45,8 @@ public class CellCreateCommand implements Command {
 				
 				//If they didn't provide a cell name, let's provide one ourself.
 				if(cell.isEmpty()) cell = "cell_n" + (j.getCellCount() + 1);
-				Cell c = j.getCell(cell);
 				
-				//No cell found
-				if(c == null) {
+				if(j.getCell(cell) == null) {
 					if(jm.addCreatingCell(name, jail, cell)) {
 						jm.getCellCreationSteps().startStepping(player);
 					}else {
