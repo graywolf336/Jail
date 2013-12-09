@@ -5,6 +5,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
@@ -37,6 +38,10 @@ public class JailMain extends JavaPlugin {
 	}
 
 	public void onDisable() {
+		if(jm != null)
+			for(Jail j : jm.getJails())
+				io.saveJail(j);
+		
 		cmdHand = null;
 		jm = null;
 		io = null;
