@@ -10,7 +10,7 @@ import org.bukkit.block.Chest;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.1.1
+ * @version 1.1.2
  */
 public class Cell {
 	private String name;
@@ -18,6 +18,10 @@ public class Cell {
 	private HashSet<SimpleLocation> signs;
 	private SimpleLocation teleport, chest;
 	
+	/** Creates a new Cell with the given name
+	 * 
+	 * @param name The name of the cell.
+	 */
 	public Cell(String name) {
 		this.name = name;
 		this.signs = new HashSet<SimpleLocation>();
@@ -55,6 +59,11 @@ public class Cell {
 	/** Adds a sign to the cell. */
 	public void addSign(SimpleLocation sign) {
 		this.signs.add(sign);
+	}
+	
+	/** Returns all the signs for this cell. */
+	public HashSet<SimpleLocation> getSigns() {
+		return this.signs;
 	}
 	
 	/** Sets the location of where the prisoner will be teleported at when jailed here. */

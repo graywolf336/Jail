@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Set;
 
+import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.SimpleLocation;
 
 public class JailIO {
@@ -103,6 +106,33 @@ public class JailIO {
 					flat.set(node + "tps.free.yaw", j.getTeleportFree().getYaw());
 					flat.set(node + "tps.free.pitch", j.getTeleportFree().getPitch());
 					
+					for(Cell c : j.getCells()) {
+						String cNode = node + ".cells." + c.getName() + ".";
+						
+						if(c.getTeleport() != null) {
+							flat.set(cNode + "tp.x", c.getTeleport().getX());
+							flat.set(cNode + "tp.y", c.getTeleport().getY());
+							flat.set(cNode + "tp.z", c.getTeleport().getZ());
+							flat.set(cNode + "tp.yaw", c.getTeleport().getYaw());
+							flat.set(cNode + "tp.pitch", c.getTeleport().getPitch());
+						}
+						
+						if(c.getChestLocation() != null) {
+							flat.set(cNode + "chest.x", c.getChestLocation().getBlockX());
+							flat.set(cNode + "chest.y", c.getChestLocation().getBlockY());
+							flat.set(cNode + "chest.z", c.getChestLocation().getBlockZ());
+						}
+						
+						flat.set(cNode + "signs", c.getSigns().toArray(new String[c.getSigns().size()]));
+						
+						if(c.getPrisoner() != null) {
+							Prisoner p = c.getPrisoner();
+							flat.set(cNode + "prisoner.name", p.getName());
+							flat.set(cNode + "prisoner.muted", p.isMuted());
+							flat.set(cNode + "prisoner.time", p.getRemainingTime());
+						}
+					}
+					
 					try {
 						flat.save(new File(pl.getDataFolder(), "data.yml"));
 					} catch (IOException e) {
@@ -122,6 +152,7 @@ public class JailIO {
 				break;
 			default:
 				String node = "jails." + name + ".";
+				String cNode = node + "cells.";
 				Jail j = new Jail(pl, name);
 				
 				j.setWorld(node + "world");
@@ -142,6 +173,47 @@ public class JailIO {
 						flat.getDouble(node + "tps.free.z"),
 						(float) flat.getDouble(node + "tps.free.yaw"),
 						(float) flat.getDouble(node + "tps.free.pitch")));
+				
+				if(flat.isConfigurationSection(node + "cells")) {
+					Set<String> cells = flat.getConfigurationSection(node + "cells").getKeys(false);
+					if(!cells.isEmpty()) {
+						pl.getLogger().info("Cell configuration section for " + name + " exists and there are " + cells.size() + " cells.");
+						for(String cell : cells) {
+							Cell c = new Cell(cell);
+							String cellNode = cNode + "cell.";
+							
+							c.setTeleport(new SimpleLocation(j.getTeleportIn().getWorld().getName(),
+									flat.getDouble(cellNode + "tp.x"),
+									flat.getDouble(cellNode + "tp.y"),
+									flat.getDouble(cellNode + "tp.z"),
+									(float) flat.getDouble(cellNode + "tp.yaw"),
+									(float) flat.getDouble(cellNode + "tp.pitch")));
+							c.setChestLocation(new Location(j.getTeleportIn().getWorld(),
+									flat.getInt(cellNode + "chest.x"),
+									flat.getInt(cellNode + "chest.y"),
+									flat.getInt(cellNode + "cheset.z")));
+							
+							for(String sign : flat.getStringList(cellNode + "signs")) {
+								String[] arr = sign.split(",");
+								c.addSign(new SimpleLocation(arr[0],
+										Double.valueOf(arr[1]),
+										Double.valueOf(arr[2]),
+										Double.valueOf(arr[3]),
+										Float.valueOf(arr[4]),
+										Float.valueOf(arr[5])));
+							}
+							
+							Prisoner p = null;
+							if(flat.contains(cellNode + "prisoner")) {
+								p = new Prisoner(flat.getString(cellNode + "prisoner.name"), flat.getBoolean(cellNode + "prisoner.muted"), flat.getLong(cellNode + "prisoner.time"));
+								c.setPrisoner(p);
+							}
+							
+						}
+					}else {
+						pl.getLogger().warning("Cell configuration section for " + name + " exists but no cells are there.");
+					}
+				}
 				
 				pl.getJailManager().addJail(j, false);
 				break;

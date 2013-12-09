@@ -9,7 +9,7 @@ import org.bukkit.World;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.1.0
+ * @version 1.1.1
  */
 public class SimpleLocation {
 	private String world;
@@ -44,5 +44,9 @@ public class SimpleLocation {
 	
 	public Location getLocation() {
 		return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+	}
+	
+	public String toString() {
+		return world + "," + x + "," + y + "," + z + "," + yaw + "," + pitch;
 	}
 }
