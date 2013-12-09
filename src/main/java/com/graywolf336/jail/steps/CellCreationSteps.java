@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.graywolf336.jail.JailManager;
@@ -29,14 +30,15 @@ public class CellCreationSteps {
 		player.sendMessage(ChatColor.GREEN + "First, you must select a teleport point for the cell! Move to the teleport point and then click anywhere with your wooden sword to set it.");
 		player.sendMessage(ChatColor.AQUA + "----------------------------------------");
 		
-		if(player.getInventory().contains(Material.WOOD_SWORD)) {
-			int i = player.getInventory().first(Util.getWand());
+		ItemStack wand = Util.getWand();
+		if(player.getInventory().contains(wand)) {
+			int i = player.getInventory().first(wand);
 			if(i != -1) {
 				player.getInventory().setItem(i, player.getItemInHand());
-				player.setItemInHand(Util.getWand());
+				player.setItemInHand(wand);
 			}
 		}else {
-			player.getInventory().addItem(Util.getWand());
+			player.getInventory().addItem(wand);
 		}
 	}
 	
