@@ -12,11 +12,11 @@ import com.graywolf336.jail.command.CommandInfo;
 
 @CommandInfo(
 		maxArgs = 2,
-		minimumArgs = 2,
+		minimumArgs = 1,
 		needsPlayer = true,
 		pattern = "jailcreatecells|jcc",
 		permission = "jail.command.jailcreatecells",
-		usage = "/jailcellcreate [jail] [cellname]"
+		usage = "/jailcellcreate [jail] (cellname)"
 	)
 public class CellCreateCommand implements Command {
 
@@ -24,7 +24,12 @@ public class CellCreateCommand implements Command {
 		Player player = (Player) sender;
 		String name = player.getName();
 		String jail = args[0].toLowerCase();
-		String cell = args[1];
+		String cell = "";
+		
+		//Only get the cell name they provide if they provide it
+		if(args.length >= 2) {
+			cell = args[1];
+		}
 		
 		//Check if the player is currently creating something else
 		if(jm.isCreatingSomething(name)) {
@@ -38,6 +43,9 @@ public class CellCreateCommand implements Command {
 			//Not creating anything, so let them create some cells.
 			if(jm.isValidJail(jail)) {
 				Jail j = jm.getJail(jail);
+				
+				//If they didn't provide a cell name, let's provide one ourself.
+				if(cell.isEmpty()) cell = "cell_n" + (j.getCellCount() + 1);
 				Cell c = j.getCell(cell);
 				
 				//No cell found

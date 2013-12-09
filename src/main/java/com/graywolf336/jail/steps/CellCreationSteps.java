@@ -115,7 +115,9 @@ public class CellCreationSteps {
 	    	    player.sendMessage(ChatColor.GREEN + "Chest selected.");
 	    	    player.sendMessage(ChatColor.AQUA + "----------------------------------------");
 	    	}else {
+	    		player.sendMessage(ChatColor.RED + "---------- Jail Cell Creation ----------");
 	    		player.sendMessage(ChatColor.RED + "Chest must be a double chest, chest not selected");
+	    		player.sendMessage(ChatColor.RED + "----------------------------------------");
 	    		return;
 	    	}
 	    }else {
