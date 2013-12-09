@@ -209,6 +209,7 @@ public class JailIO {
 								c.setPrisoner(p);
 							}
 							
+							j.addCell(c, false);
 						}
 					}else {
 						pl.getLogger().warning("Cell configuration section for " + name + " exists but no cells are there.");

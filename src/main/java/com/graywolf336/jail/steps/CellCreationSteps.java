@@ -138,7 +138,7 @@ public class CellCreationSteps {
 		c.setTeleport(cp.getTeleportInSL());
 		c.setChestLocation(cp.getChestLocation());
 		
-		j.addCell(c);
+		j.addCell(c, true);
 		
 		jm.removeCellCreationPlayer(player.getName());
 		jm.addCreatingCell(player.getName(), j.getName(), "cell_n" + (j.getCellCount() + 1));
