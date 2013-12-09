@@ -28,13 +28,9 @@ public class PlayerListener implements Listener {
 			
 			if(jm.isCreatingSomething(p.getName())) {
 				if(jm.isCreatingAJail(p.getName())) {
-					
 					jm.getJailCreationSteps().step(jm, p, jm.getJailCreationPlayer(p.getName()), loc);
-					
 				}else if(jm.isCreatingACell(p.getName())) {
-					
-					//One for jail cell creation
-					
+					jm.getCellCreationSteps().step(jm, p, jm.getCellCreationPlayer(p.getName()), loc);
 				}
 				
 				event.setCancelled(true);
