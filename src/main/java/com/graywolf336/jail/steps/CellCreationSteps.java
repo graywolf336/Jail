@@ -95,7 +95,7 @@ public class CellCreationSteps {
 			player.sendMessage(ChatColor.GREEN + "Sign added, if you want to select another go ahead otherwise right click on any non-sign block.");
 		}else {
 			player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation ----------");
-			player.sendMessage(ChatColor.GREEN + "Sign selection completed. Now select a double chest associated with this cell. If there is no chest click on any non-chest block. (Please note that having no chest may result in players items being lost.)");
+			player.sendMessage(ChatColor.GREEN + (cp.getSigns().size() != 0 ? "Sign selection completed. " : "") + "Now select a double chest associated with this cell. If there is no chest click on any non-chest block. (Please note that having no chest may result in players items being lost.)");
 			player.sendMessage(ChatColor.AQUA + "----------------------------------------");
 			cp.nextStep();
 		}
@@ -108,8 +108,13 @@ public class CellCreationSteps {
 	    Material bpos3 = block.getLocation().add(0, 0, -1).getBlock().getType();
 	    Material bpos4 = block.getLocation().add(0, 0, +1).getBlock().getType();
 	    
-	    if (block.getType() == Material.CHEST) {
-	    	if(bpos1 == Material.CHEST || bpos2 == Material.CHEST || bpos3 == Material.CHEST || bpos4 == Material.CHEST) {
+	    boolean pos1 = bpos1 == Material.CHEST || bpos1 == Material.TRAPPED_CHEST;
+	    boolean pos2 = bpos2 == Material.CHEST || bpos2 == Material.TRAPPED_CHEST;
+	    boolean pos3 = bpos3 == Material.CHEST || bpos3 == Material.TRAPPED_CHEST;
+	    boolean pos4 = bpos4 == Material.CHEST || bpos4 == Material.TRAPPED_CHEST;
+	    
+	    if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
+	    	if(pos1 || pos2 || pos3 || pos4) {
 	    		cp.setChestLocation(block.getLocation());
 	    		player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation ----------");
 	    	    player.sendMessage(ChatColor.GREEN + "Chest selected.");
