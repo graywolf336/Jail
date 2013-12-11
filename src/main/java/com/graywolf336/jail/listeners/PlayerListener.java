@@ -27,6 +27,8 @@ public class PlayerListener implements Listener {
 			Location loc = event.getClickedBlock() == null ? p.getLocation() : event.getClickedBlock().getLocation();
 			JailManager jm = pl.getJailManager();
 			
+			p.sendMessage("The material of the clicked block is " + (event.getClickedBlock() == null ? "nothing." : event.getClickedBlock().getType().toString()));
+			
 			if(p.getItemInHand().isSimilar(Util.getWand())) {
 				if(jm.isCreatingSomething(p.getName())) {
 					if(jm.isCreatingAJail(p.getName())) {
