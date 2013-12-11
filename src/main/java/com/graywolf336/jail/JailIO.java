@@ -203,10 +203,8 @@ public class JailIO {
 										Float.valueOf(arr[5])));
 							}
 							
-							Prisoner p = null;
 							if(flat.contains(cellNode + "prisoner")) {
-								p = new Prisoner(flat.getString(cellNode + "prisoner.name"), flat.getBoolean(cellNode + "prisoner.muted"), flat.getLong(cellNode + "prisoner.time"));
-								c.setPrisoner(p);
+								c.setPrisoner(new Prisoner(flat.getString(cellNode + "prisoner.name"), flat.getBoolean(cellNode + "prisoner.muted"), flat.getLong(cellNode + "prisoner.time")));
 							}
 							
 							j.addCell(c, false);
