@@ -46,6 +46,7 @@ public class SimpleLocation {
 		return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
 	}
 	
+	@Override
 	public String toString() {
 		return world + "," + x + "," + y + "," + z + "," + yaw + "," + pitch;
 	}

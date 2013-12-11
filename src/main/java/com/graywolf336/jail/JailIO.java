@@ -123,7 +123,14 @@ public class JailIO {
 							flat.set(cNode + "chest.z", c.getChestLocation().getBlockZ());
 						}
 						
-						flat.set(cNode + "signs", c.getSigns().toArray(new String[c.getSigns().size()]));
+						String[] signs = new String[c.getSigns().size()];
+						int count = 0;
+						for(SimpleLocation loc : c.getSigns()) {
+							signs[count] = loc.toString();
+							count++;
+						}
+						
+						flat.set(cNode + "signs", signs);
 						
 						if(c.getPrisoner() != null) {
 							Prisoner p = c.getPrisoner();
