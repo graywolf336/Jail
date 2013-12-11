@@ -11,6 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.Util;
 
 public class PlayerListener implements Listener {
 	private JailMain pl;
@@ -26,14 +27,16 @@ public class PlayerListener implements Listener {
 			Location loc = event.getClickedBlock() == null ? p.getLocation() : event.getClickedBlock().getLocation();
 			JailManager jm = pl.getJailManager();
 			
-			if(jm.isCreatingSomething(p.getName())) {
-				if(jm.isCreatingAJail(p.getName())) {
-					jm.getJailCreationSteps().step(jm, p, jm.getJailCreationPlayer(p.getName()), loc);
-				}else if(jm.isCreatingACell(p.getName())) {
-					jm.getCellCreationSteps().step(jm, p, jm.getCellCreationPlayer(p.getName()), loc);
+			if(p.getItemInHand().isSimilar(Util.getWand())) {
+				if(jm.isCreatingSomething(p.getName())) {
+					if(jm.isCreatingAJail(p.getName())) {
+						jm.getJailCreationSteps().step(jm, p, jm.getJailCreationPlayer(p.getName()), loc);
+					}else if(jm.isCreatingACell(p.getName())) {
+						jm.getCellCreationSteps().step(jm, p, jm.getCellCreationPlayer(p.getName()), loc);
+					}
+					
+					event.setCancelled(true);
 				}
-				
-				event.setCancelled(true);
 			}
 		}
 	}
