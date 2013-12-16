@@ -13,11 +13,11 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 1,
 		minimumArgs = 1,
 		needsPlayer = false,
-		pattern = "jaillistcell|jcc",
+		pattern = "jaillistcells|jcc",
 		permission = "jail.command.jaillistcell",
 		usage = "/jaillistcell <jail>"
 	)
-public class JailListCellCommand implements Command {
+public class JailListCellsCommand implements Command {
 	@Override
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		sender.sendMessage(ChatColor.AQUA + "----------Jails----------");
