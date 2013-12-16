@@ -237,7 +237,8 @@ public class JailIO {
 					}
 				}
 				
-				pl.getJailManager().addJail(j, false);
+				if(pl.getServer().getWorld(j.getWorldName()) != null) pl.getJailManager().addJail(j, false);
+				else pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
 				break;
 		}
 	}
