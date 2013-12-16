@@ -13,7 +13,7 @@ import com.graywolf336.jail.command.CommandInfo;
 		needsPlayer = false,
 		pattern = "jail|j",
 		permission = "jail.command.jail",
-		usage = "/jail [p:name] (t:time) (j:Jail name) (c:Cell name) (r:Reason) (m:Muted)"
+		usage = "/jail [p:name] (t:time) (j:Jail name) (c:Cell name) (m:Muted) (r:Reason)"
 	)
 public class JailCommand implements Command {
 
@@ -26,7 +26,7 @@ public class JailCommand implements Command {
 			if(s.startsWith("p:")) {
 				player = s.substring(2);
 			}else if(s.startsWith("t:")) {
-				Integer.parseInt(s.substring(2));
+				time = Integer.parseInt(s.substring(2));
 			}else if(s.startsWith("j:")) {
 				jail = s.substring(2);
 			}else if(s.startsWith("c:")) {
@@ -42,10 +42,10 @@ public class JailCommand implements Command {
 		
 		//Player is not online
 		if(p == null) {
-			sender.sendMessage(player + " is offline.");
+			sender.sendMessage(player + " is offline and will be jailed for " + time + " minutes in the jail " + jail + " and will be muted: " + muted + ".");
 		}else {
 			//Player *is* online
-			sender.sendMessage(player + " is online.");
+			sender.sendMessage(player + " is offline and will be jailed for " + time + " minutes in the jail " + jail + " and will be muted: " + muted + ".");
 		}
 		
 		return true;

@@ -15,7 +15,7 @@ commands:
         description: Remove existing jail zone
     jail:
         description: Jail specified player for specified amount of time.
-        usage: /jail [p:player] (t:time) (j:jail) (c:cell) (r:reason) (m:muted)
+        usage: /jail [p:name] (t:time) (j:Jail name) (c:Cell name) (m:Muted) (r:Reason)
     unjail:
         description: Release a player from jail.
     unjailforce:
