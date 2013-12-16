@@ -18,14 +18,34 @@ import com.graywolf336.jail.command.CommandInfo;
 public class JailCommand implements Command {
 
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		Player p = jm.getPlugin().getServer().getPlayer(args[0]);
+		String player = "", jail = "", cell = "", reason = "";
+		int time = 30;
+		boolean muted = false;
+		
+		for(String s : args) {
+			if(s.startsWith("p:")) {
+				player = s.substring(2);
+			}else if(s.startsWith("t:")) {
+				Integer.parseInt(s.substring(2));
+			}else if(s.startsWith("j:")) {
+				jail = s.substring(2);
+			}else if(s.startsWith("c:")) {
+				cell = s.substring(2);
+			}else if(s.startsWith("m:")) {
+				muted = Boolean.parseBoolean(s.substring(2));
+			}else if(s.startsWith("r:")) {
+				reason = s.substring(2);
+			}
+		}
+		
+		Player p = jm.getPlugin().getServer().getPlayer(player);
 		
 		//Player is not online
 		if(p == null) {
-			sender.sendMessage(args[0] + " is offline.");
+			sender.sendMessage(player + " is offline.");
 		}else {
 			//Player *is* online
-			sender.sendMessage(args[0] + " is online.");
+			sender.sendMessage(player + " is online.");
 		}
 		
 		return true;
