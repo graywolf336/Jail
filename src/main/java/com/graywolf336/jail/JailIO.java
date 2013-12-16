@@ -13,6 +13,14 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.SimpleLocation;
 
+/**
+ * Handles all the saving and loading of the plugin's data.
+ * 
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ * 
+ */
 public class JailIO {
 	private JailMain pl;
 	private FileConfiguration flat;
@@ -31,6 +39,9 @@ public class JailIO {
 		}
 	}
 	
+	/**
+	 * Prepares the storage engine to be used.
+	 */
 	public void prepareStorage() {
 		switch(storage) {
 			case 1:
@@ -45,6 +56,9 @@ public class JailIO {
 		}
 	}
 	
+	/**
+	 * Loads the jails, this should <strong>only</strong> be called after {@link #prepareStorage()}.
+	 */
 	public void loadJails() {
 		switch(storage) {
 			case 1:
@@ -58,12 +72,9 @@ public class JailIO {
 				if(flat.isConfigurationSection("jails")) {
 					Set<String> jails = flat.getConfigurationSection("jails").getKeys(false);
 					if(!jails.isEmpty()) {
-						pl.getLogger().info("Jails configuration section exists and there are " + jails.size() + ".");
 						for(String name : jails) {
 							loadJail(name);
 						}
-					}else {
-						pl.getLogger().warning("Jails configuration section exists but no jails are there.");
 					}
 				}
 				break;
@@ -73,6 +84,11 @@ public class JailIO {
 		pl.getLogger().info("Loaded " + s + (s == 1 ? " jail." : " jails."));
 	}
 	
+	/**
+	 * Saves the provided {@link Jail jail} to the storage system we are using.
+	 * 
+	 * @param j The jail to save.
+	 */
 	public void saveJail(Jail j) {
 		switch(storage) {
 			case 1:
