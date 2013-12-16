@@ -20,7 +20,7 @@ import com.graywolf336.jail.command.CommandInfo;
 public class JailListCellsCommand implements Command {
 	@Override
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		sender.sendMessage(ChatColor.AQUA + "----------Jails----------");
+		sender.sendMessage(ChatColor.AQUA + "----------Cells----------");
 		
 		if(!jm.getJails().isEmpty()) {
 			if(jm.getJail(args[0]) != null) {
@@ -35,7 +35,11 @@ public class JailListCellsCommand implements Command {
 					}
 				}
 				
-				sender.sendMessage(ChatColor.GREEN + message);
+				if(message.isEmpty()) {
+					sender.sendMessage(ChatColor.RED + "There are no cells for the jail '" + args[0] + "'.");
+				}else {
+					sender.sendMessage(ChatColor.GREEN + message);
+				}
 			}else {
 				sender.sendMessage(ChatColor.RED + "No jail by the name of '" + args[0] + "'.");
 			}
