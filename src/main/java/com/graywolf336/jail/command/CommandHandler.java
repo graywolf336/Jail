@@ -10,11 +10,13 @@ import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
+
 import com.graywolf336.jail.command.commands.CellCreateCommand;
 import com.graywolf336.jail.command.commands.JailCheckCommand;
 import com.graywolf336.jail.command.commands.JailClearCommand;
 import com.graywolf336.jail.command.commands.JailCommand;
 import com.graywolf336.jail.command.commands.JailCreateCommand;
+import com.graywolf336.jail.command.commands.JailListCellCommand;
 import com.graywolf336.jail.command.commands.JailListCommand;
 import com.graywolf336.jail.command.commands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.commands.JailStopCommand;
@@ -140,6 +142,7 @@ public class CommandHandler {
 		load(JailClearCommand.class);
 		load(JailCommand.class);
 		load(JailCreateCommand.class);
+		load(JailListCellCommand.class);
 		load(JailListCommand.class);
 		load(JailRemoveCellCommand.class);
 		load(JailStopCommand.class);
