@@ -178,7 +178,7 @@ public class JailIO {
 				String cNode = node + "cells.";
 				Jail j = new Jail(pl, name);
 				
-				j.setWorld(node + "world");
+				j.setWorld(flat.getString(node + "world"));
 				j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
 				j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
 				
