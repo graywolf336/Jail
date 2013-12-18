@@ -1,21 +1,34 @@
 package test.java.com.graywolf336.jail;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import com.beust.jcommander.JCommander;
-
-import test.java.com.graywolf336.jail.util.JCommanderExample;
+import com.beust.jcommander.Parameter;
 
 public class TestJCommander {
+	@Parameter
+	public List<String> parameters = new ArrayList<String>();
+	
+	@Parameter(names = { "-log", "-verbose" }, description = "Level of verbosity")
+	public Integer verbose = 1;
+
+	@Parameter(names = "-groups", description = "Comma-separated list of group names to be run")
+	public String groups;
+	
+	@Parameter(names = "-debug", description = "Debug mode")
+	public boolean debug = false;
+	
 	@Test
-	public void testIt() {
-		JCommanderExample jce = new JCommanderExample();
+	public void testJCommander() {
 		String[] args = { "-log", "2", "-groups", "unit" };
-		new JCommander(jce, args);
+		new JCommander(this, args);
 		
-		Assert.assertEquals(jce.verbose.intValue(), 2);
-		Assert.assertEquals(jce.groups.toLowerCase(), "unit");
+		Assert.assertEquals(this.verbose.intValue(), 2);
+		Assert.assertEquals(this.groups.toLowerCase(), "unit");
 	}
 }
