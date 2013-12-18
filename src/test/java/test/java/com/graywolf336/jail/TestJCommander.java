@@ -9,7 +9,9 @@ import org.junit.Test;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 
+@Parameters(separators = ":")
 public class TestJCommander {
 	@Parameter
 	public List<String> parameters = new ArrayList<String>();
@@ -25,7 +27,7 @@ public class TestJCommander {
 	
 	@Test
 	public void testJCommander() {
-		String[] args = { "-log", "2", "-groups", "unit" };
+		String[] args = { "-log:2", "-groups:unit" };
 		new JCommander(this, args);
 		
 		Assert.assertEquals(this.verbose.intValue(), 2);

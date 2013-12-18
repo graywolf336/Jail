@@ -3,9 +3,13 @@ package com.graywolf336.jail.command.commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.command.parameters.JailParameters;
 
 @CommandInfo(
 		maxArgs = -1,
@@ -13,39 +17,28 @@ import com.graywolf336.jail.command.CommandInfo;
 		needsPlayer = false,
 		pattern = "jail|j",
 		permission = "jail.command.jail",
-		usage = "/jail [p:name] (t:time) (j:Jail name) (c:Cell name) (m:Muted) (r:Reason)"
+		usage = "/jail [-p name] (-t time) (-j JailName) (-c CellName) (-m Muted) (-r A reason for jailing)"
 	)
 public class JailCommand implements Command {
 
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		String player = "", jail = "", cell = "", reason = "";
-		int time = 30;
-		boolean muted = false;
+		JailParameters params = new JailParameters();
 		
-		for(String s : args) {
-			if(s.startsWith("p:")) {
-				player = s.substring(2);
-			}else if(s.startsWith("t:")) {
-				time = Integer.parseInt(s.substring(2));
-			}else if(s.startsWith("j:")) {
-				jail = s.substring(2);
-			}else if(s.startsWith("c:")) {
-				cell = s.substring(2);
-			}else if(s.startsWith("m:")) {
-				muted = Boolean.parseBoolean(s.substring(2));
-			}else if(s.startsWith("r:")) {
-				reason = s.substring(2);
-			}
+		try {
+			new JCommander(params, args);
+		}catch(ParameterException e) {
+			return false;
 		}
 		
-		Player p = jm.getPlugin().getServer().getPlayer(player);
+		
+		Player p = jm.getPlugin().getServer().getPlayer(params.player());
 		
 		//Player is not online
 		if(p == null) {
-			sender.sendMessage(player + " is offline and will be jailed for " + time + " minutes in the jail " + jail + " and will be muted: " + muted + ".");
+			sender.sendMessage(params.player() + " is offline and will be jailed for " + params.time() + " minutes in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + params.muted() + ".");
 		}else {
 			//Player *is* online
-			sender.sendMessage(player + " is offline and will be jailed for " + time + " minutes in the jail " + jail + " and will be muted: " + muted + ".");
+			sender.sendMessage(params.player() + " is online and will be jailed for " + params.time() + " minutes in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + params.muted() + ".");
 		}
 		
 		return true;

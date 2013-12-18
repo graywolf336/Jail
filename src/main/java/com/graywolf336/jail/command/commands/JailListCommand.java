@@ -12,7 +12,7 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jaillist|jc",
+		pattern = "jaillist|jl",
 		permission = "jail.command.jaillist",
 		usage = "/jaillist"
 	)
