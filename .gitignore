@@ -42,3 +42,4 @@ target/
 .project
 config.yml
 src/com/matejdro/
+/dependency-reduced-pom.xml
