@@ -40,16 +40,26 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
-		Long time = Long.parseLong(params.time());
+		Long time = 10L;
+		
+		try {
+			Long.parseLong(params.time());
+		}catch(NumberFormatException e) {
+			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
+			return true;
+		}
+		
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
 		Prisoner pris = new Prisoner(params.player(), params.muted(), TimeUnit.MILLISECONDS.convert(time, TimeUnit.MINUTES));
 		
 		//Player is not online
 		if(p == null) {
 			sender.sendMessage(pris.getName() + " is offline and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
+			sender.sendMessage(pris.getName() + " will be jailed for " + TimeUnit.MINUTES.convert(pris.getRemainingTime(), TimeUnit.MILLISECONDS) + " minutes.");
 		}else {
 			//Player *is* online
 			sender.sendMessage(pris.getName() + " is online and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
+			sender.sendMessage(pris.getName() + " will be jailed for " + TimeUnit.MINUTES.convert(pris.getRemainingTime(), TimeUnit.MILLISECONDS) + " minutes.");
 		}
 		
 		return true;
