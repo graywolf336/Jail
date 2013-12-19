@@ -41,7 +41,7 @@ public class PrisonerJailedEvent extends Event implements Cancellable {
 		this.player = player;
 		this.online = online;
 		this.jailer = jailer;
-		cancelMsg = "";
+		this.cancelMsg = "";
 	}
 	
 	/** Gets the {@link Jail} this prisoner is being sent to. */
