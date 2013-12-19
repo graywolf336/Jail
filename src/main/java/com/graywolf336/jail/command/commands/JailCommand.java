@@ -1,12 +1,15 @@
 package com.graywolf336.jail.command.commands;
 
+import java.util.concurrent.TimeUnit;
+
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.parameters.JailParameters;
@@ -22,24 +25,31 @@ import com.graywolf336.jail.command.parameters.JailParameters;
 public class JailCommand implements Command {
 
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
+		
+		if(jm.getJails().size() == 0) {
+			sender.sendMessage(ChatColor.RED + "No jails found.");
+			return true;
+		}
+		
 		JailParameters params = new JailParameters();
 		
 		try {
 			new JCommander(params, args);
 		}catch(ParameterException e) {
-			sender.sendMessage(e.getMessage());
+			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;
 		}
 		
-		
+		Long time = Long.parseLong(params.time());
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
+		Prisoner pris = new Prisoner(params.player(), params.muted(), TimeUnit.MILLISECONDS.convert(time, TimeUnit.MINUTES));
 		
 		//Player is not online
 		if(p == null) {
-			sender.sendMessage(params.player() + " is offline and will be jailed for " + params.time() + " minutes in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + params.muted() + ".");
+			sender.sendMessage(pris.getName() + " is offline and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
 		}else {
 			//Player *is* online
-			sender.sendMessage(params.player() + " is online and will be jailed for " + params.time() + " minutes in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + params.muted() + ".");
+			sender.sendMessage(pris.getName() + " is online and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + "in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
 		}
 		
 		return true;

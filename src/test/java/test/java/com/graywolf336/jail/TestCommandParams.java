@@ -5,6 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+
 import com.graywolf336.jail.command.parameters.JailParameters;
 
 public class TestCommandParams {
@@ -22,5 +24,13 @@ public class TestCommandParams {
 		Assert.assertEquals("The cell doesn't match up.", "cell_01", jail.cell());
 		Assert.assertEquals("The muted is false.", true, jail.muted());
 		Assert.assertEquals("Jailed reason didn't match up.", "He was a very bad boy.", jail.reason());
+	}
+	
+	@Test(expected=ParameterException.class)
+	public void TestFailedJailCommand() {
+		JailParameters jail = new JailParameters();
+		String[] params = { "-t", "30", "-j", "den", "-c", "cell_01", "-m", "-r", "He", "was", "a", "very", "bad", "boy." };
+		
+		new JCommander(jail, params);
 	}
 }

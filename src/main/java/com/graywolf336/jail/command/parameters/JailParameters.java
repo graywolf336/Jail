@@ -16,7 +16,7 @@ public class JailParameters {
 	@Parameter
 	private List<String> parameters = new ArrayList<String>();
 	
-	@Parameter(names = { "-p", "-player", "-prisoner" }, description = "The name of the player we are jailing.")
+	@Parameter(names = { "-p", "-player", "-prisoner" }, description = "The name of the player we are jailing.", required = true)
 	private String player = "";
 	
 	@Parameter(names = { "-t", "-time", "-length" }, description = "The length of the jailing sentence.")
@@ -49,9 +49,19 @@ public class JailParameters {
 		return time;
 	}
 	
+	/** Sets the time parameter. */
+	public void setTime(String time) {
+		this.time = time;
+	}
+	
 	/** Returns the jail parameter. */
 	public String jail() {
 		return jail;
+	}
+	
+	/** Sets the jail parameter. */
+	public void setJail(String jail) {
+		this.jail = jail;
 	}
 	
 	/** Returns the cell parameter. */
@@ -62,6 +72,11 @@ public class JailParameters {
 	/** Returns the muted parameter. */
 	public boolean muted() {
 		return muted;
+	}
+	
+	/** Sets the muted parameter. */
+	public void setMuted(boolean muted) {
+		this.muted = muted;
 	}
 	
 	/** Returns the reason compressed into one string. */
