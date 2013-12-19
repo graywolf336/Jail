@@ -9,7 +9,7 @@ import com.beust.jcommander.Parameter;
  * Contains all the parameters from the jail command.
  * 
  * @author graywolf336
- * @version 1.0.0
+ * @version 1.0.1
  * @since 3.0.0
  */
 public class JailParameters {
@@ -28,7 +28,7 @@ public class JailParameters {
 	@Parameter(names = { "-c", "-cell" }, description = "The cell in the jail we are sending them to.")
 	private String cell = "";
 	
-	@Parameter(names = { "-m", "-muted" }, description = "Whether they can talk or not.", arity = 1)
+	@Parameter(names = { "-m", "-muted" }, description = "Whether they can talk or not.")
 	private boolean muted = false;
 	
 	@Parameter(names = { "-r", "-reason" }, description = "The reason this player is being jailed for.", variableArity = true)

@@ -13,14 +13,14 @@ public class TestCommandParams {
 	public void TestJailCommand() {
 		JailParameters jail = new JailParameters();
 		//"/jail [-p name] (-t time) (-j JailName) (-c CellName) (-m Muted) (-r A reason for jailing)"
-		String[] params = { "-p", "graywolf336", "-t", "30", "-j", "den", "-c", "cell_01", "-m", "true", "-r", "He", "was", "a", "very", "bad", "boy." };
+		String[] params = { "-p", "graywolf336", "-t", "30", "-j", "den", "-c", "cell_01", "-m", "-r", "He", "was", "a", "very", "bad", "boy." };
 		new JCommander(jail, params);
 		
-		Assert.assertEquals("The player is not the one we provided.", jail.player(), "graywolf336");
-		Assert.assertEquals("The time doesn't match what we gave.", jail.time(), "30");
-		Assert.assertEquals("The jail is not the one we specified.", jail.jail(), "den");
-		Assert.assertEquals("The cell doesn't match up.", jail.cell(), "cell_01");
-		Assert.assertEquals("The muted is not true.", jail.muted(), true);
-		Assert.assertEquals("Jailed reason didn't match up.", jail.reason(), "He was a very bad boy.");
+		Assert.assertEquals("The player is not the one we provided.", "graywolf336", jail.player());
+		Assert.assertEquals("The time doesn't match what we gave.", "30", jail.time());
+		Assert.assertEquals("The jail is not the one we specified.", "den", jail.jail());
+		Assert.assertEquals("The cell doesn't match up.", "cell_01", jail.cell());
+		Assert.assertEquals("The muted is false.", true, jail.muted());
+		Assert.assertEquals("Jailed reason didn't match up.", "He was a very bad boy.", jail.reason());
 	}
 }

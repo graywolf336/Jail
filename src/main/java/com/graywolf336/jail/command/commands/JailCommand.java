@@ -27,7 +27,8 @@ public class JailCommand implements Command {
 		try {
 			new JCommander(params, args);
 		}catch(ParameterException e) {
-			return false;
+			sender.sendMessage(e.getMessage());
+			return true;
 		}
 		
 		
