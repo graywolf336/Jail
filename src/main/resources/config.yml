@@ -10,3 +10,16 @@ storage:
     port: 3306
     username: 'root'
     password: 'password'
+jailing:
+  jail:
+    automaticMute: true
+    countDownTimeWhileOffline: false
+    defaultJail: nearest #the jail nearest to the player
+    defaultTime: 30m #default the time to 30 minutes, if no time
+    deleteInventory: false
+    ignoreSleeping: true
+    logToConsole: true
+    logToProfile: false
+  release:
+    backToPreviousPosition: false
+    teleport: true
