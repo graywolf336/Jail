@@ -43,7 +43,7 @@ public class JailCommand implements Command {
 		Long time = 10L;
 		
 		try {
-			Long.parseLong(params.time());
+			time = Long.parseLong(params.time());
 		}catch(NumberFormatException e) {
 			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
 			return true;
