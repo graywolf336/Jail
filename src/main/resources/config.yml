@@ -17,6 +17,7 @@ jailing:
     openChest: true
   jail:
     automaticMute: true
+    broadcastJailing: false
     commands: []
     defaultJail: nearest #the jail nearest to the player
     defaultTime: 30m #default the time to 30 minutes, if no time
