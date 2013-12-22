@@ -11,15 +11,20 @@ storage:
     username: 'root'
     password: 'password'
 jailing:
+  during:
+    countDownTimeWhileOffline: false
+    ignoreSleeping: true
+    openChest: true
   jail:
     automaticMute: true
-    countDownTimeWhileOffline: false
+    commands: []
     defaultJail: nearest #the jail nearest to the player
     defaultTime: 30m #default the time to 30 minutes, if no time
     deleteInventory: false
-    ignoreSleeping: true
     logToConsole: true
     logToProfile: false
+    storeInventory: true
   release:
     backToPreviousPosition: false
+    commands: []
     teleport: true
