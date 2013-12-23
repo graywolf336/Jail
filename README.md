@@ -13,6 +13,7 @@ Done
 * Muted Prisoners are now muted
 * New command system, internally we handle commands a lot better
 * Delete commands are now remove
+* Language system
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====

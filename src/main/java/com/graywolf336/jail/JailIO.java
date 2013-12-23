@@ -12,6 +12,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.SimpleLocation;
+import com.graywolf336.jail.enums.LangString;
 
 /**
  * Handles all the saving and loading of the plugin's data.
@@ -23,7 +24,7 @@ import com.graywolf336.jail.beans.SimpleLocation;
  */
 public class JailIO {
 	private JailMain pl;
-	private FileConfiguration flat;
+	private FileConfiguration flat, lang;
 	private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
 	
 	public JailIO(JailMain plugin) {
@@ -37,6 +38,60 @@ public class JailIO {
 		}else {
 			storage = 0;
 		}
+	}
+	
+	/** Loads the language file from disk, if there is none then we save the default one. */
+	public void loadLanguage() {
+		String language = pl.getConfig().getString("system.language");
+		boolean save = false;
+		File langFile = new File(pl.getDataFolder(), language + ".yml");
+		
+		//File or folder already exists, let's check
+		if(langFile.exists()) {
+			if(langFile.isFile()) {
+				lang = YamlConfiguration.loadConfiguration(langFile);
+			}else {
+				pl.getLogger().severe("The language file can not be a folder, please double check your setup. Because of that, we are reverting back to English as the language.");
+				lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
+				save = true;
+			}
+		}else {
+			pl.getLogger().info("Loading the default language of: en");
+			pl.getLogger().info("If you wish to change this, please rename 'en.yml' to whatever you wish and set the config value to the name of the file.");
+			lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
+			save = true;
+		}
+		
+		//If we have flagged to save the language file, let's save it as en.yml as this flag usually means they didn't have it loaded.
+		if(save) {
+			try {
+				lang.save(new File(pl.getDataFolder(), "en.yml"));
+			} catch (IOException e) {
+				pl.getLogger().severe("Unable to save the language file: " + e.getMessage());
+			}
+		}
+	}
+	
+	/** Returns the message in the language, no variables are replaced.*/
+	public String getLanguageString(LangString langString) {
+		return getLanguageString(langString, new String[] {});
+	}
+	
+	/**
+	 * Returns the message in the language, with the provided variables being replaced.
+	 * 
+	 * @param langString Which {@link LangString} we should be getting to send.
+	 * @param variables All the variables to replace, in order from 0 to however many.
+	 * @return The message as a colorful message.
+	 */
+	public String getLanguageString(LangString langString, String... variables) {
+		String message = lang.getString("language." + langString.toString().toLowerCase());
+		
+		for (int i = 0; i < variables.length; i++) {
+			message = message.replaceAll("%" + i + "%", variables[i]);
+		}
+		
+		return Util.getColorfulMessage(message);
 	}
 	
 	/**

@@ -22,6 +22,7 @@ public class JailMain extends JavaPlugin {
 		
 		jm = new JailManager(this);
 		io = new JailIO(this);
+		io.loadLanguage();
 		io.prepareStorage();
 		io.loadJails();
 		
