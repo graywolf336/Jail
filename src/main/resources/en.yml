@@ -1,4 +1,4 @@
 language:
-  jailed: "&cYou've been jailed!"
-  jailedwithreason: "&cYou've been jailed for: %s"
+  jailed: "&cYou have been jailed!"
+  jailedwithreason: "&cYou have been jailed for: %0%"
   unjailed: "&2You have been released! Please respect the server rules."

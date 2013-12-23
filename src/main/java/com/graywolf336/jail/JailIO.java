@@ -50,6 +50,7 @@ public class JailIO {
 		if(langFile.exists()) {
 			if(langFile.isFile()) {
 				lang = YamlConfiguration.loadConfiguration(langFile);
+				pl.getLogger().info("Loaded the language: " + language);
 			}else {
 				pl.getLogger().severe("The language file can not be a folder, please");
 				pl.getLogger().info("double check your setup. Because of that, we");
