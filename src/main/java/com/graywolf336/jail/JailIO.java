@@ -51,13 +51,18 @@ public class JailIO {
 			if(langFile.isFile()) {
 				lang = YamlConfiguration.loadConfiguration(langFile);
 			}else {
-				pl.getLogger().severe("The language file can not be a folder, please double check your setup. Because of that, we are reverting back to English as the language.");
+				pl.getLogger().severe("The language file can not be a folder, please");
+				pl.getLogger().info("double check your setup. Because of that, we");
+				pl.getLogger().info("are reverting back to English as the language.");
 				lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
 				save = true;
 			}
 		}else {
 			pl.getLogger().info("Loading the default language of: en");
-			pl.getLogger().info("If you wish to change this, please rename 'en.yml' to whatever you wish and set the config value to the name of the file.");
+			pl.getLogger().info("If you wish to change this,");
+			pl.getLogger().info("please rename 'en.yml' to whatever");
+			pl.getLogger().info("you wish and set the config value");
+			pl.getLogger().info("to the name of the file.");
 			lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
 			save = true;
 		}
