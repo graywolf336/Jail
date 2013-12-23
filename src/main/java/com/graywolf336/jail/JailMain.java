@@ -51,6 +51,9 @@ public class JailMain extends JavaPlugin {
 		//Only create the default config if it doesn't exist
 		saveDefaultConfig();
 		
+		//Append new key-value pairs to the config
+		getConfig().options().copyDefaults(true);
+		
 		// Set the header and save
         getConfig().options().header(getHeader());
         saveConfig();
