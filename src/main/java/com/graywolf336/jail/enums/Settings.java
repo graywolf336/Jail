@@ -2,6 +2,7 @@ package com.graywolf336.jail.enums;
 
 public enum Settings {
 	DEBUG("system.debug"),
+	DEFAULTJAIL("jailing.jail.defaultJail"),
 	UPDATENOTIFICATIONS("system.updateNotifications"),
 	JAILDEFAULTTIME("jailing.jail.defaultTime");
 	

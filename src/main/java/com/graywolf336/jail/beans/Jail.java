@@ -245,4 +245,17 @@ public class Jail {
 		
 		return r;
 	}
+	
+	/**
+	 * Returns the squared distance between teleport location of this jail
+	 * and specified location in blocks. If locations are not in same world,
+	 * distance cannot be calculated and it will return Integer.MAX_VALUE.
+	 * 
+	 * @param loc The location to check
+	 * @return Distance between the location provided and the teleport in location.
+	 */
+	public double getDistance(Location loc) {
+		if (loc.getWorld().getName().equalsIgnoreCase(getTeleportIn().getWorld().getName())) return (double) Integer.MAX_VALUE;
+		else return loc.distance(getTeleportIn());
+	}
 }

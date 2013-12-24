@@ -63,7 +63,7 @@ public class TestJailStuff {
 		assertTrue("Default setting for automatically muting is false.", main.getConfig().getBoolean("jailing.jail.automaticMute"));
 		assertFalse("Default setting for broadcasting a jailing is true.", main.getConfig().getBoolean("jailing.jail.broadcastJailing"));
 		assertEquals("Default setting for commands contains information.", 0, main.getConfig().getList("jailing.jail.commands").size());
-		assertEquals("Default setting for default jail is not nearest but something else.", "nearest", main.getConfig().getString("jailing.jail.defaultJail"));
+		assertEquals("Default setting for default jail is not 'nearest' but something else.", "nearest", main.getConfig().getString("jailing.jail.defaultJail"));
 		assertEquals("Default setting for time is not 30 minutes.", "30m", main.getConfig().getString("jailing.jail.defaultTime"));
 		assertFalse("Default setting for deleting inventory is true.", main.getConfig().getBoolean("jailing.jail.deleteInventory"));
 		assertTrue("Default setting for logging to console when someone is jailed is false.", main.getConfig().getBoolean("jailing.jail.logToConsole"));

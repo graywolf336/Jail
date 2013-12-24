@@ -3,6 +3,10 @@ package com.graywolf336.jail;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
 import com.graywolf336.jail.beans.CreationPlayer;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
@@ -77,6 +81,34 @@ public class JailManager {
 	 */
 	public Jail getJail(String name) {
 		return this.jails.get(name);
+	}
+	
+	/**
+	 * Gets the nearest {@link Jail} to the player, if the sender is a player or else it will get the first jail defined.
+	 * 
+	 * @param sender The sender who we are looking around.
+	 * @return The nearest {@link Jail} to the sender if it is a player or else the first jail defined.
+	 */
+	public Jail getNearestJail(CommandSender sender) {
+		if(sender instanceof Player) {
+			Location loc = ((Player) sender).getLocation();
+			
+			Jail j = null;
+			double len = -1;
+			
+			for(Jail jail : jails.values()) {
+				double clen = jail.getDistance(loc);
+				
+				if (clen < len || len == -1) {
+					len = clen;
+					j = jail;
+				}
+			}
+			
+			return (j == null ? jails.values().iterator().next() : j);
+		}else {
+			return jails.values().iterator().next();
+		}
 	}
 	
 	/**

@@ -13,9 +13,10 @@ import com.graywolf336.jail.listeners.PlayerListener;
 import com.graywolf336.jail.listeners.PlayerPreventionsListener;
 
 public class JailMain extends JavaPlugin {
+	private CommandHandler cmdHand;
 	private JailIO io;
 	private JailManager jm;
-	private CommandHandler cmdHand;
+	private PrisonerManager pm;
 	
 	public void onEnable() {
 		loadConfig();
@@ -27,12 +28,13 @@ public class JailMain extends JavaPlugin {
 		io.loadJails();
 		
 		cmdHand = new CommandHandler(this);
+		pm = new PrisonerManager(this);
 		
-		PluginManager pm = this.getServer().getPluginManager();
-		pm.registerEvents(new BlockListener(), this);
-		pm.registerEvents(new EntityListener(), this);
-		pm.registerEvents(new PlayerListener(this), this);
-		pm.registerEvents(new PlayerPreventionsListener(this), this);
+		PluginManager plm = this.getServer().getPluginManager();
+		plm.registerEvents(new BlockListener(), this);
+		plm.registerEvents(new EntityListener(), this);
+		plm.registerEvents(new PlayerListener(this), this);
+		plm.registerEvents(new PlayerPreventionsListener(this), this);
 		
 		//For the time, we will use:
 		//http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html#convert(long, java.util.concurrent.TimeUnit)
@@ -44,6 +46,7 @@ public class JailMain extends JavaPlugin {
 				io.saveJail(j);
 		
 		cmdHand = null;
+		pm = null;
 		jm = null;
 		io = null;
 	}
@@ -87,5 +90,10 @@ public class JailMain extends JavaPlugin {
 	/** Gets the {@link JailManager} instance. */
 	public JailManager getJailManager() {
 		return this.jm;
+	}
+	
+	/** Gets the {@link PrisonerManager} instance. */
+	public PrisonerManager getPrisonerManager() {
+		return this.pm;
 	}
 }

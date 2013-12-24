@@ -35,7 +35,7 @@ public class JailCommand implements Command {
 	 * - If there are any jails.
 	 * - If the command can be parsed correctly.
 	 * - If the specified jail is null (TODO: if no jail given then find one close to them)
-	 * - If the given time can be parsed correctly, defaults to 10 minutes at the moment TODO
+	 * - If the given time can be parsed correctly, defaults to what is defined in the config
 	 * - If the prisoner is online or not.
 	 */
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
@@ -54,19 +54,30 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
-		//TODO: Add a way to get the nearest jail if they provide no jail
-		if(jm.getJail(params.jail()) == null) {
+		//Check the jail params. If it is empty, let's get the default jail
+		//from the config. If that is nearest, let's make a call to getting the nearest jail to
+		//the sender but otherwise if it isn't nearest then let's set it to the default jail
+		//which is defined in the config.
+		if(params.jail().isEmpty()) {
+			String dJail = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
+			
+			if(dJail.equalsIgnoreCase("nearest")) {
+				params.setJail(jm.getNearestJail(sender).getName());
+			}else {
+				params.setJail(jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath()));
+			}
+		}else if(jm.getJail(params.jail()) == null) {
 			sender.sendMessage(ChatColor.RED + "No jail found by the name of '" + params.jail() + "'.");
 			return true;
 		}
 		
+		//Trying out the time.
 		Long time = 10L;
-		
 		try {
 			time = Util.getTime(params.time());
 		}catch(Exception e) {
 			try {
-				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath()));
+				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "10m"));
 			}catch(Exception e2) {
 				sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
 				return true;
@@ -74,7 +85,7 @@ public class JailCommand implements Command {
 		}
 		
 		Jail j = jm.getJail(params.jail());
-		Prisoner pris = new Prisoner(params.player(), params.muted(), TimeUnit.MILLISECONDS.convert(time, TimeUnit.MINUTES));
+		Prisoner pris = new Prisoner(params.player(), params.muted(), time);
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
 		
 		//call the event
