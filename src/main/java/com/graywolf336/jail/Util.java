@@ -13,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 public class Util {
-	private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(sec(?:ond?)?s?|(min(?:ute)?s?|h(?:ours?)?|d(?:ays?)?$", Pattern.CASE_INSENSITIVE);
+	private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(min(?:ute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
 	
 	/** Checks if the first {@link Vector} is inside the other two. */
 	public static boolean isInsideAB(Vector point, Vector first, Vector second) {

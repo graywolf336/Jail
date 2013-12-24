@@ -43,14 +43,36 @@ public class TestJailStuff {
 	
 	@Test
 	public void testDefaultConfig() {
-		assertEquals("The config version is not 3.", main.getConfig().getInt("system.configVersion"), 3);
+		assertEquals("The config version is not 3.", 3, main.getConfig().getInt("system.configVersion"));
 		assertFalse("Default debugging is on.", main.getConfig().getBoolean("system.debug"));
 		assertTrue("Default updating notifications is false.", main.getConfig().getBoolean("system.updateNotifications"));
 		
-		assertEquals("The default storage system is not flatfile.", main.getConfig().getString("storage.type"), "flatfile");
-		assertEquals("The default mysql host is not localhost.", main.getConfig().getString("storage.mysql.host"), "localhost");
-		assertEquals("The default mysql port is not 3306.", main.getConfig().getInt("storage.mysql.port"), 3306);
-		assertEquals("The default mysql username is not root.", main.getConfig().getString("storage.mysql.username"), "root");
-		assertEquals("The default mysql password is not password.", main.getConfig().getString("storage.mysql.password"), "password");
+		//Storage system
+		assertEquals("The default storage system is not flatfile.", "flatfile", main.getConfig().getString("storage.type"));
+		assertEquals("The default mysql host is not localhost.", "localhost", main.getConfig().getString("storage.mysql.host"));
+		assertEquals("The default mysql port is not 3306.", 3306, main.getConfig().getInt("storage.mysql.port"));
+		assertEquals("The default mysql username is not root.", "root", main.getConfig().getString("storage.mysql.username"));
+		assertEquals("The default mysql password is not password.", "password", main.getConfig().getString("storage.mysql.password"));
+		
+		//Settings pertaining to being jailed
+		assertFalse("Default setting for counting down time while prisoner is offline is true.", main.getConfig().getBoolean("jailing.during.countDownTimeWhileOffline"));
+		assertTrue("Default setting for ignoring sleeping is false.", main.getConfig().getBoolean("jailing.during.ignoreSleeping"));
+		assertTrue("Default setting for opening a chest is false.", main.getConfig().getBoolean("jailing.during.openChest"));
+		
+		//Settings pertaining to when jailed
+		assertTrue("Default setting for automatically muting is false.", main.getConfig().getBoolean("jailing.jail.automaticMute"));
+		assertFalse("Default setting for broadcasting a jailing is true.", main.getConfig().getBoolean("jailing.jail.broadcastJailing"));
+		assertEquals("Default setting for commands contains information.", 0, main.getConfig().getList("jailing.jail.commands").size());
+		assertEquals("Default setting for default jail is not nearest but something else.", "nearest", main.getConfig().getString("jailing.jail.defaultJail"));
+		assertEquals("Default setting for time is not 30 minutes.", "30m", main.getConfig().getString("jailing.jail.defaultTime"));
+		assertFalse("Default setting for deleting inventory is true.", main.getConfig().getBoolean("jailing.jail.deleteInventory"));
+		assertTrue("Default setting for logging to console when someone is jailed is false.", main.getConfig().getBoolean("jailing.jail.logToConsole"));
+		assertFalse("Default setting for logging to prisoner's profile is true.", main.getConfig().getBoolean("jailing.jail.logToProfile"));
+		assertTrue("Default setting for storing prisoner's inventory upon jailing is false.", main.getConfig().getBoolean("jailing.jail.storeInventory"));
+		
+		//Settings pertaining to after a prisoner is released
+		assertFalse("Default setting for releasing back to previous position is true.", main.getConfig().getBoolean("jailing.release.backToPreviousPosition"));
+		assertEquals("Default setting for commands contains information.", 0, main.getConfig().getList("jailing.release.commands").size());
+		assertTrue("Default setting for teleporting them out of the jail is false.", main.getConfig().getBoolean("jailing.release.teleport"));
 	}
 }
