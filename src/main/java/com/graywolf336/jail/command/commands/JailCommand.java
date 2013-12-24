@@ -9,12 +9,14 @@ import org.bukkit.entity.Player;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.parameters.JailParameters;
 import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 
 @CommandInfo(
@@ -61,10 +63,14 @@ public class JailCommand implements Command {
 		Long time = 10L;
 		
 		try {
-			time = Long.parseLong(params.time());
-		}catch(NumberFormatException e) {
-			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
-			return true;
+			time = Util.getTime(params.time());
+		}catch(Exception e) {
+			try {
+				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath()));
+			}catch(Exception e2) {
+				sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
+				return true;
+			}
 		}
 		
 		Jail j = jm.getJail(params.jail());
