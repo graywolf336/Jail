@@ -5,7 +5,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -79,8 +78,6 @@ public class Util {
             	t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.HOURS);
             else if ("days".equals(units) || "day".equals(units) || "d".equals(units))
             	t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.DAYS);
-    		
-    		Bukkit.getLogger().info(units);
     	}else {
     		throw new Exception("Invalid format.");
     	}
