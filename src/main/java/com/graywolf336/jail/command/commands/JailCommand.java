@@ -14,6 +14,7 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.parameters.JailParameters;
+import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 
 @CommandInfo(
@@ -98,6 +99,12 @@ public class JailCommand implements Command {
 			//Player *is* online
 			sender.sendMessage(pris.getName() + " is online and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + " in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
 			sender.sendMessage(pris.getName() + " will be jailed for " + TimeUnit.MINUTES.convert(pris.getRemainingTime(), TimeUnit.MILLISECONDS) + " minutes by " + jailer + ".");
+			
+			if(params.reason().isEmpty()) {
+				p.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILED));
+			}else {
+				p.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILEDWITHREASON, new String[] { params.reason() }));
+			}
 		}
 		
 		return true;
