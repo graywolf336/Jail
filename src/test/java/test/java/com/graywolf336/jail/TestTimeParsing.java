@@ -10,10 +10,16 @@ import com.graywolf336.jail.Util;
 public class TestTimeParsing {
 	
 	@Test
+	public void testNoFormat() throws Exception {
+		assertThat(60000L, is(Util.getTime("1")));
+		assertThat(360000L, is(Util.getTime("6")));
+	}
+	
+	@Test
 	public void testSeconds() throws Exception {
-		assertThat(1000L, is(Util.getTime("1s")));
-		assertThat(1000L, is(Util.getTime("1second")));
-		assertThat(1000L, is(Util.getTime("1seconds")));
+		assertThat(2000L, is(Util.getTime("2s")));
+		assertThat(2000L, is(Util.getTime("2second")));
+		assertThat(2000L, is(Util.getTime("2seconds")));
 	}
 	
 	@Test

@@ -79,26 +79,23 @@ public class Util {
     		String units = match.group(2);
     		if ("seconds".equals(units) || "second".equals(units) || "s".equals(units))
     			t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.SECONDS);
-    		if ("minutes".equals(units) || "minute".equals(units) || "mins".equals(units) || "min".equals(units) || "m".equals(units))
+    		else if ("minutes".equals(units) || "minute".equals(units) || "mins".equals(units) || "min".equals(units) || "m".equals(units))
                 t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.MINUTES);
             else if ("hours".equals(units) || "hour".equals(units) || "h".equals(units))
             	t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.HOURS);
             else if ("days".equals(units) || "day".equals(units) || "d".equals(units))
             	t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.DAYS);
+            else {
+            	try {
+        			t = TimeUnit.MILLISECONDS.convert(Long.parseLong(time), TimeUnit.MINUTES);
+        		}catch(NumberFormatException e) {
+        			throw new Exception("Invalid format.");
+        		}
+            }
     	}else {
-    		try {
-    			Long l = Long.parseLong(time);
-    			
-    			t = TimeUnit.MILLISECONDS.convert(l, TimeUnit.MINUTES);
-    		}catch(NumberFormatException e) {
-    			throw new Exception("Invalid format.");
-    		}
+    		throw new Exception("Invalid format.");
     	}
     	
     	return Long.valueOf(t);
     }
-    
-    /*
-		
-     */
 }
