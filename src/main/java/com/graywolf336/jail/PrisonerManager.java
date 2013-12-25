@@ -58,13 +58,15 @@ public class PrisonerManager {
 		else//
 			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFOREVER, new String[] { prisoner.getName(), String.valueOf(prisoner.getRemainingTimeInMinutes()) });
 		
+		boolean broadcasted = false;
 		//Broadcast the message, if it is enabled
 		if(pl.getConfig().getBoolean(Settings.BROADCASTJAILING.getPath(), false)) {
 			pl.getServer().broadcastMessage(msg);
+			broadcasted = true;
 		}
 		
 		//Log the message, if it is enabled
-		if(pl.getConfig().getBoolean(Settings.LOGJAILING.getPath(), true)) {
+		if(pl.getConfig().getBoolean(Settings.LOGJAILING.getPath(), true) && !broadcasted) {
 			pl.getServer().getConsoleSender().sendMessage(msg);
 		}
 	}
