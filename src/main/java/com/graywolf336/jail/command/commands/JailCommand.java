@@ -57,7 +57,8 @@ public class JailCommand implements Command {
 		//Check the jail params. If it is empty, let's get the default jail
 		//from the config. If that is nearest, let's make a call to getting the nearest jail to
 		//the sender but otherwise if it isn't nearest then let's set it to the default jail
-		//which is defined in the config.
+		//which is defined in the config. After that is done, we set the name of it in the params
+		//so that we can keep consistency.
 		if(params.jail().isEmpty()) {
 			String dJail = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
 			
@@ -71,11 +72,14 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
-		//Trying out the time.
+		//Try to parse the time, if they give us nothing in the time parameter then we get the default time
+		//from the config and if that isn't there then we default to thirty minutes.
 		Long time = 10L;
 		try {
 			if(params.time().isEmpty()) {
 				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
+			}else if(Integer.valueOf(params.time()) == -1) {
+				time = -1L;
 			}else {
 				time = Util.getTime(params.time());
 			}
@@ -84,6 +88,7 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
+		//Get the jail instance from the name of jail in the params.
 		Jail j = jm.getJail(params.jail());
 		Prisoner pris = new Prisoner(params.player(), params.muted(), time);
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());

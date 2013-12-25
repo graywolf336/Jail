@@ -129,6 +129,11 @@ public class Jail {
 		return this.free.getLocation();
 	}
 	
+	/** Add a prisoner to this jail. */
+	public void addPrisoner(Prisoner p) {
+		this.nocellPrisoners.add(p);
+	}
+	
 	/** Adds a cell to the Jail. */
 	public void addCell(Cell cell, boolean save) {
 		if(save) plugin.getJailIO().saveJail(this);

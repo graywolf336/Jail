@@ -1,5 +1,7 @@
 package com.graywolf336.jail.beans;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Represents a Prisoner, player who is jailed, and contains all the information about him/her.
  * 
@@ -9,7 +11,7 @@ package com.graywolf336.jail.beans;
  */
 public class Prisoner {
 	private String name;
-	private boolean muted;
+	private boolean muted, offlinePending;
 	private long time;
 	
 	/**
@@ -40,26 +42,32 @@ public class Prisoner {
 		this.muted = muted;
 	}
 	
-	/** Gets the remaining time the prisoner has.
-	 * 
-	 * <p />
-	 * 
-	 * <strong>WARNING:</strong> The time system hasn't been implemented so this is likely to change.
-	 */
+	/** Gets the remaining time the prisoner has. */
 	public long getRemainingTime() {
 		return this.time;
+	}
+	
+	/** Gets the remaining time the prisoner has in minutes. */
+	public long getRemainingTimeInMinutes() {
+		return TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
 	}
 	
 	/**
 	 * Sets the remaining time the prisoner has left.
 	 * 
-	 * <p />
-	 * 
-	 * <strong>WARNING:</strong> The time system hasn't been implemented so this is likely to change.
-	 * 
 	 * @param time The amount of time left, in milliseconds.
 	 */
 	public void setRemainingTime(long time) {
 		this.time = time;
+	}
+	
+	/** Gets whether the player is offline or not. */
+	public boolean isOfflinePending() {
+		return this.offlinePending;
+	}
+	
+	/** Sets whether the player is offline or not. */
+	public void setOfflinePending(boolean offline) {
+		this.offlinePending = offline;
 	}
 }

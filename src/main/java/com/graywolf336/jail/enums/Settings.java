@@ -1,10 +1,12 @@
 package com.graywolf336.jail.enums;
 
 public enum Settings {
+	BROADCASTJAILING("jailing.jail.broadcastJailing"),
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
-	UPDATENOTIFICATIONS("system.updateNotifications"),
-	JAILDEFAULTTIME("jailing.jail.defaultTime");
+	JAILDEFAULTTIME("jailing.jail.defaultTime"),
+	LOGJAILING("jailing.jail.logToConsole"),
+	UPDATENOTIFICATIONS("system.updateNotifications");
 	
 	private String path;
 	

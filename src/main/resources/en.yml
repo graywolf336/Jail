@@ -2,3 +2,5 @@ language:
   jailed: "&cYou have been jailed!"
   jailedwithreason: "&cYou have been jailed for: %0%"
   unjailed: "&2You have been released! Please respect the server rules."
+  broadcastmessageforever: "&9%0% has been jailed forever."
+  broadcastmessageforminutes: "&9%0% has been jailed for %1% minutes."
