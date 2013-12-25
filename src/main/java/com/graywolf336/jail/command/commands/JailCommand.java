@@ -74,14 +74,14 @@ public class JailCommand implements Command {
 		//Trying out the time.
 		Long time = 10L;
 		try {
-			time = Util.getTime(params.time());
-		}catch(Exception e) {
-			try {
-				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "10m"));
-			}catch(Exception e2) {
-				sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
-				return true;
+			if(params.time().isEmpty()) {
+				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
+			}else {
+				time = Util.getTime(params.time());
 			}
+		}catch(Exception e) {
+			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
+			return true;
 		}
 		
 		Jail j = jm.getJail(params.jail());
