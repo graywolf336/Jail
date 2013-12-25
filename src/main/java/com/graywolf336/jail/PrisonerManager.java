@@ -18,8 +18,11 @@ public class PrisonerManager {
 	/**
 	 * Prepare the jailing of this player.
 	 * 
+	 * @param jail The jail instance we are sending this prisoner to
+	 * @param cell The name of the cell we are sending this prisoner to
 	 * @param player The player we are preparing the jail for.
 	 * @param prisoner The prisoner file.
+	 * @throws Exception if the jail or prisoner are null.
 	 */
 	public void prepareJail(Jail jail, Cell cell, Player player, Prisoner prisoner) throws Exception {
 		//Do some checks of whether the passed params are null.
@@ -42,10 +45,8 @@ public class PrisonerManager {
 		//Save the jail after adding them to the jail
 		pl.getJailIO().saveJail(jail);
 		
-		//If they are offline, handle different..?
-		if(prisoner.isOfflinePending()) {
-			
-		}else {
+		//If they are NOT offline, jail them
+		if(!prisoner.isOfflinePending()) {
 			
 		}
 		

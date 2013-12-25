@@ -5,6 +5,7 @@ import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
+import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 
@@ -22,6 +23,7 @@ public class PrisonerJailedEvent extends Event implements Cancellable {
 	private boolean cancelled;
 	private boolean online;
 	private Jail jail;
+	private Cell cell;
 	private Prisoner prisoner;
 	private Player player;
 	private String jailer, cancelMsg;
@@ -30,13 +32,15 @@ public class PrisonerJailedEvent extends Event implements Cancellable {
 	 * Creates a new {@link PrisonerJailedEvent prisoner jailed event} for the given player.
 	 * 
 	 * @param jail The jail the prisoner will be jailed at.
+	 * @param cell The cell we're going to be sending the prisoner to, can be null.
 	 * @param prisoner The prisoner data.
 	 * @param player The player being jailed.
 	 * @param online Whether the player is online or not.
 	 * @param jailer The name of what jailed this prisoner.
 	 */
-	public PrisonerJailedEvent(Jail jail, Prisoner prisoner, Player player, boolean online, String jailer) {
+	public PrisonerJailedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player, boolean online, String jailer) {
 		this.jail = jail;
+		this.cell = cell;
 		this.prisoner = prisoner;
 		this.player = player;
 		this.online = online;
@@ -47,6 +51,16 @@ public class PrisonerJailedEvent extends Event implements Cancellable {
 	/** Gets the {@link Jail} this prisoner is being sent to. */
 	public Jail getJail() {
 		return this.jail;
+	}
+	
+	/** Gets the cell we're going to be sending the prisoner to. */
+	public Cell getCell() {
+		return this.cell;
+	}
+	
+	/** Sets the cell we're going to be sending the prisoner to. */
+	public void setCell(Cell cell) {
+		this.cell = cell;
 	}
 	
 	/** Gets the {@link Prisoner} data for this prisoner. */

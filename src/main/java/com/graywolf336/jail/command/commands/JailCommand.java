@@ -10,6 +10,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
+import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
@@ -34,8 +35,9 @@ public class JailCommand implements Command {
 	 * 
 	 * - If there are any jails.
 	 * - If the command can be parsed correctly.
-	 * - If the specified jail is null (TODO: if no jail given then find one close to them)
 	 * - If the given time can be parsed correctly, defaults to what is defined in the config
+	 * - If the jail is reasonable or not, else sets the one from the config
+	 * - If the cell is not empty then checks to be sure that cell exists
 	 * - If the prisoner is online or not.
 	 */
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
@@ -51,6 +53,22 @@ public class JailCommand implements Command {
 			new JCommander(params, args);
 		}catch(ParameterException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
+			return true;
+		}
+		
+		//Try to parse the time, if they give us nothing in the time parameter then we get the default time
+		//from the config and if that isn't there then we default to thirty minutes.
+		Long time = 10L;
+		try {
+			if(params.time().isEmpty()) {
+				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
+			}else if(Integer.valueOf(params.time()) == -1) {
+				time = -1L;
+			}else {
+				time = Util.getTime(params.time());
+			}
+		}catch(Exception e) {
+			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
 			return true;
 		}
 		
@@ -72,24 +90,17 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
-		//Try to parse the time, if they give us nothing in the time parameter then we get the default time
-		//from the config and if that isn't there then we default to thirty minutes.
-		Long time = 10L;
-		try {
-			if(params.time().isEmpty()) {
-				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
-			}else if(Integer.valueOf(params.time()) == -1) {
-				time = -1L;
-			}else {
-				time = Util.getTime(params.time());
+		//Check if the cell is defined, and if so check to be sure it exists.
+		if(!params.cell().isEmpty()) {
+			if(jm.getJail(params.jail()).getCell(params.cell()) == null) {
+				sender.sendMessage(ChatColor.RED + "The cell provided does not exist.");
+				return true;
 			}
-		}catch(Exception e) {
-			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
-			return true;
 		}
 		
 		//Get the jail instance from the name of jail in the params.
 		Jail j = jm.getJail(params.jail());
+		Cell c = j.getCell(params.cell());
 		Prisoner pris = new Prisoner(params.player(), params.muted(), time);
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
 		
@@ -101,7 +112,7 @@ public class JailCommand implements Command {
 		}
 		
 		//call the event
-		PrisonerJailedEvent event = new PrisonerJailedEvent(j, pris, p, p == null, sender.getName());
+		PrisonerJailedEvent event = new PrisonerJailedEvent(j, c, pris, p, p == null, sender.getName());
 		jm.getPlugin().getServer().getPluginManager().callEvent(event);
 		
 		//check if the event is cancelled
@@ -116,9 +127,17 @@ public class JailCommand implements Command {
 		
 		//recall data from the event
 		j = event.getJail();
+		c = event.getCell();
 		pris = event.getPrisoner();
 		p = event.getPlayer();
 		String jailer = event.getJailer();
+		
+		try {
+			jm.getPlugin().getPrisonerManager().prepareJail(j, c, p, pris);
+		} catch (Exception e) {
+			sender.sendMessage(ChatColor.RED + e.getMessage());
+			return true;
+		}
 		
 		//Player is not online
 		if(p == null) {
