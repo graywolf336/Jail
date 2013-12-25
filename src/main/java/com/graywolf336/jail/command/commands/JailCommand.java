@@ -62,7 +62,7 @@ public class JailCommand implements Command {
 		try {
 			if(params.time().isEmpty()) {
 				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
-			}else if(Integer.valueOf(params.time()) == -1) {
+			}else if(params.time() == String.valueOf(-1)) {
 				time = -1L;
 			}else {
 				time = Util.getTime(params.time());
