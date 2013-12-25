@@ -4,3 +4,4 @@ language:
   unjailed: "&2You have been released! Please respect the server rules."
   broadcastmessageforever: "&9%0% has been jailed forever."
   broadcastmessageforminutes: "&9%0% has been jailed for %1% minutes."
+  cantbejailed: "&cThat player can't be jailed, due to permissions."

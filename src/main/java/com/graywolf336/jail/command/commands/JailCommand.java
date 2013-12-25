@@ -93,6 +93,13 @@ public class JailCommand implements Command {
 		Prisoner pris = new Prisoner(params.player(), params.muted(), time);
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
 		
+		//If the player instance is not null and the player has the permission
+		//'jail.cantbejailed' then don't allow this to happen
+		if(p != null && p.hasPermission("jail.cantbejailed")) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANTBEJAILED));
+			return true;
+		}
+		
 		//call the event
 		PrisonerJailedEvent event = new PrisonerJailedEvent(j, pris, p, p == null, sender.getName());
 		jm.getPlugin().getServer().getPluginManager().callEvent(event);

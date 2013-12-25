@@ -5,6 +5,8 @@ public enum LangString {
 	BROADCASTMESSAGEFOREVER,
 	/** The message sent when we broadcast/log the message for any time above -1. */
 	BROADCASTMESSAGEFORMINUTES,
+	/** The message sent when trying to jail someone who can't be jailed by permission. */
+	CANTBEJAILED,
 	/** The message sent when players are jailed without a reason. */
 	JAILED,
 	/** The message sent when players are jailed with a reason. */
