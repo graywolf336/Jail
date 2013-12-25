@@ -13,7 +13,12 @@ Done
 * Muted Prisoners are now muted
 * New command system, internally we handle commands a lot better
 * Delete commands are now remove
-* Language system
+* Language system (adding language strings as I use them, be patient with me)
+* Config value ``jailing.jail.defaultJail`` is now used
+* Config value ``jailing.jail.defaultTime`` is now used
+* The time passed can be represented by time shorthand, aka "3hours" or "15minutes" or etc (defaults to minutes)
+* Config value ``jailing.jail.broadcastJailing`` is now used
+* Config value ``jailing.jail.logToConsole`` is now used
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====
