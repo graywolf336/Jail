@@ -64,6 +64,13 @@ public class Util {
 		return wand;
     }
     
+    /**
+     * Converts a string like '20minutes' into the appropriate amount of milliseconds.
+     * 
+     * @param time The string to convert.
+     * @return The time in milliseconds that is converted.
+     * @throws Exception if there are no matches
+     */
     public static Long getTime(String time) throws Exception {
     	Long t = 10L;
     	Matcher match = DURATION_PATTERN.matcher(time);
@@ -79,7 +86,13 @@ public class Util {
             else if ("days".equals(units) || "day".equals(units) || "d".equals(units))
             	t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.DAYS);
     	}else {
-    		throw new Exception("Invalid format.");
+    		try {
+    			Long l = Long.parseLong(time);
+    			
+    			t = TimeUnit.MILLISECONDS.convert(l, TimeUnit.MINUTES);
+    		}catch(NumberFormatException e) {
+    			throw new Exception("Invalid format.");
+    		}
     	}
     	
     	return t;
