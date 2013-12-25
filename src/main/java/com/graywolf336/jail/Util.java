@@ -12,7 +12,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 
 public class Util {
-	private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(min(?:ute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
+	private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(m(?:inute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
 	
 	/** Checks if the first {@link Vector} is inside the other two. */
 	public static boolean isInsideAB(Vector point, Vector first, Vector second) {
@@ -79,7 +79,7 @@ public class Util {
     		String units = match.group(2);
     		if ("seconds".equals(units) || "second".equals(units) || "s".equals(units))
     			t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.SECONDS);
-    		if ("minutes".equals(units) || "minute".equals(units) || "mins".equals(units) || "min".equals(units))
+    		if ("minutes".equals(units) || "minute".equals(units) || "mins".equals(units) || "min".equals(units) || "m".equals(units))
                 t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.MINUTES);
             else if ("hours".equals(units) || "hour".equals(units) || "h".equals(units))
             	t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.HOURS);
@@ -95,7 +95,7 @@ public class Util {
     		}
     	}
     	
-    	return t;
+    	return Long.valueOf(t);
     }
     
     /*
