@@ -214,7 +214,15 @@ public class JailIO {
 							flat.set(cNode + "prisoner.name", p.getName());
 							flat.set(cNode + "prisoner.muted", p.isMuted());
 							flat.set(cNode + "prisoner.time", p.getRemainingTime());
+							flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
 						}
+					}
+					
+					for(Prisoner p : j.getPrisonersNotInCells()) {
+						String pNode = node + "prisoners." + p.getName() + ".";
+						flat.set(pNode + "muted", p.isMuted());
+						flat.set(pNode + "time", p.getRemainingTime());
+						flat.set(pNode + "offlinePending", p.isOfflinePending());
 					}
 					
 					try {
@@ -288,7 +296,9 @@ public class JailIO {
 							}
 							
 							if(flat.contains(cellNode + "prisoner")) {
-								c.setPrisoner(new Prisoner(flat.getString(cellNode + "prisoner.name"), flat.getBoolean(cellNode + "prisoner.muted"), flat.getLong(cellNode + "prisoner.time")));
+								Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"), flat.getBoolean(cellNode + "prisoner.muted"), flat.getLong(cellNode + "prisoner.time"));
+								p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
+								c.setPrisoner(p);
 							}
 							
 							j.addCell(c, false);
@@ -298,8 +308,26 @@ public class JailIO {
 					}
 				}
 				
-				if(pl.getServer().getWorld(j.getWorldName()) != null) pl.getJailManager().addJail(j, false);
-				else pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
+				if(flat.isConfigurationSection(node + "prisoners")) {
+					Set<String> prisoners = flat.getConfigurationSection(node + "prisoners").getKeys(false);
+					if(!prisoners.isEmpty()) {
+						pl.getLogger().info("Prisoner configuration section for " + j.getName() + " exists and there are " + prisoners.size() + " prisoners.");
+						for(String prisoner : prisoners) {
+							String pNode = node + "prisoners." + prisoner + ".";
+							Prisoner pris = new Prisoner(prisoner, flat.getBoolean(pNode + "muted"), flat.getLong(pNode + "time"));
+							pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
+							j.addPrisoner(pris);
+						}
+					}else {
+						pl.getLogger().warning("Prisoner configuration section for " + j.getName() + "exists but there are no prisoners.");
+					}
+				}
+				
+				if(pl.getServer().getWorld(j.getWorldName()) != null) {
+					pl.getJailManager().addJail(j, false);
+					pl.getLogger().info("Loaded jail " + j.getName() + " with " + j.getAllPrisoners().size() + " prisoners.");
+				} else
+					pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
 				break;
 		}
 	}
