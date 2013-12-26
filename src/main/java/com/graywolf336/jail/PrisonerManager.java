@@ -135,8 +135,9 @@ public class PrisonerManager {
 		
 		//only eject them if they're inside a vehicle and also eject anyone else on top of them
     	if(player.isInsideVehicle()) {
-    		player.eject();
     		player.getVehicle().eject();
+    		player.getPassenger().eject();
+    		player.eject();
     	}
 	}
 }
