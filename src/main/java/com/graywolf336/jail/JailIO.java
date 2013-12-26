@@ -219,7 +219,8 @@ public class JailIO {
 							flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
 							flat.set(cNode + "prisoner.reason", p.getReason());
 							flat.set(cNode + "prisoner.previousLocation", p.getPreviousLocationString());
-							flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
+							if(p.getPreviousGameMode() != null)
+								flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
 						}
 					}
 					
@@ -230,7 +231,8 @@ public class JailIO {
 						flat.set(pNode + "offlinePending", p.isOfflinePending());
 						flat.set(pNode + "reason", p.getReason());
 						flat.set(pNode + "previousLocation", p.getPreviousLocationString());
-						flat.set(pNode + "previousGameMode", p.getPreviousGameMode().toString());
+						if(p.getPreviousGameMode() != null)
+							flat.set(pNode + "previousGameMode", p.getPreviousGameMode().toString());
 					}
 					
 					try {
