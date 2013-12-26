@@ -126,7 +126,12 @@ public class PrisonerManager {
 		
 		//Set their gamemode to the one in the config, if we get a null value
 		//from the parsing then we set theirs to adventure
-		player.setGameMode(GameMode.valueOf(pl.getConfig().getString(Settings.JAILEDGAMEMODE.getPath(), "ADVENTURE")));
+		try {
+			player.setGameMode(GameMode.valueOf(pl.getConfig().getString(Settings.JAILEDGAMEMODE.getPath(), "ADVENTURE").toUpperCase()));
+		}catch(Exception e) {
+			pl.getLogger().severe("Your jailedgamemode setting is incorrect, please fix.");
+			player.setGameMode(GameMode.ADVENTURE);
+		}
 		
 		//only eject them if they're inside a vehicle and also eject anyone else on top of them
     	if(player.isInsideVehicle()) {
