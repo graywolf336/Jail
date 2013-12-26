@@ -8,6 +8,7 @@ public enum Settings {
 	JAILDEFAULTTIME("jailing.jail.defaultTime"),
 	LOGJAILING("jailing.jail.logToConsole"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
+	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
 	UPDATENOTIFICATIONS("system.updateNotifications");
 	
 	private String path;

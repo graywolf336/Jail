@@ -219,6 +219,7 @@ public class JailIO {
 							flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
 							flat.set(cNode + "prisoner.reason", p.getReason());
 							flat.set(cNode + "prisoner.previousLocation", p.getPreviousLocationString());
+							flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
 						}
 					}
 					
@@ -229,6 +230,7 @@ public class JailIO {
 						flat.set(pNode + "offlinePending", p.isOfflinePending());
 						flat.set(pNode + "reason", p.getReason());
 						flat.set(pNode + "previousLocation", p.getPreviousLocationString());
+						flat.set(pNode + "previousGameMode", p.getPreviousGameMode().toString());
 					}
 					
 					try {
@@ -308,6 +310,7 @@ public class JailIO {
 												flat.getString(cellNode + "prisoner.reason"));
 								p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
 								p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
+								p.setPreviousGameMode(flat.getString(cellNode + "prisoner.previousGameMode"));
 								c.setPrisoner(p);
 							}
 							
@@ -324,6 +327,7 @@ public class JailIO {
 							Prisoner pris = new Prisoner(prisoner, flat.getBoolean(pNode + "muted"), flat.getLong(pNode + "time"), flat.getString(pNode + "reason"));
 							pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
 							pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
+							pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));
 							j.addPrisoner(pris);
 						}
 					}

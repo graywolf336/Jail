@@ -116,5 +116,11 @@ public class PrisonerManager {
 		if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
 			prisoner.setPreviousPosition(player.getLocation());
 		}
+		
+		//If the config has restoring their previous gamemode enabled,
+		//then let's set it in their prisoner data.
+		if(pl.getConfig().getBoolean(Settings.RESTOREPREVIOUSGAMEMODE.getPath(), false)) {
+			prisoner.setPreviousGameMode(player.getGameMode());
+		}
 	}
 }

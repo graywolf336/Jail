@@ -28,4 +28,5 @@ jailing:
   release:
     backToPreviousPosition: false
     commands: []
+    restorePreviousGameMode: false
     teleport: true

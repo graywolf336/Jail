@@ -3,6 +3,7 @@ package com.graywolf336.jail.beans;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 
 /**
@@ -17,6 +18,7 @@ public class Prisoner {
 	private boolean muted, offlinePending, teleporting;
 	private long time;
 	private Location previousPosition;
+	private GameMode previousGameMode;
 	
 	/**
 	 * Creates a new prisoner with a name and whether they are muted or not.
@@ -33,6 +35,7 @@ public class Prisoner {
 		this.offlinePending = false;
 		this.teleporting = false;
 		this.previousPosition = null;
+		this.previousGameMode = null;
 	}
 	
 	/** Gets the name of this player. */
@@ -132,5 +135,22 @@ public class Prisoner {
 				Double.valueOf(s[3]),
 				Float.valueOf(s[4]),
 				Float.valueOf(s[5]));
+	}
+	
+	/** Gets the previous gamemode of this player. */
+	public GameMode getPreviousGameMode() {
+		return this.previousGameMode;
+	}
+	
+	/** Sets the previous gamemode of this player. */
+	public void setPreviousGameMode(GameMode previous) {
+		this.previousGameMode = previous;
+	}
+	
+	/** Sets the previous gamemode of this player based upon the provided string. */
+	public void setPreviousGameMode(String previous) {
+		if(previous == null) return;
+		else if(previous.isEmpty()) return;
+		else this.previousGameMode = GameMode.valueOf(previous);
 	}
 }
