@@ -1,5 +1,6 @@
 package com.graywolf336.jail;
 
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.beans.Cell;
@@ -122,5 +123,15 @@ public class PrisonerManager {
 		if(pl.getConfig().getBoolean(Settings.RESTOREPREVIOUSGAMEMODE.getPath(), false)) {
 			prisoner.setPreviousGameMode(player.getGameMode());
 		}
+		
+		//Set their gamemode to the one in the config, if we get a null value
+		//from the parsing then we set theirs to adventure
+		player.setGameMode(GameMode.valueOf(pl.getConfig().getString(Settings.JAILEDGAMEMODE.getPath(), "ADVENTURE")));
+		
+		//only eject them if they're inside a vehicle and also eject anyone else on top of them
+    	if(player.isInsideVehicle()) {
+    		player.eject();
+    		player.getVehicle().eject();
+    	}
 	}
 }

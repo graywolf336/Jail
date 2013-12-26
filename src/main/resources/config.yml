@@ -22,6 +22,7 @@ jailing:
     defaultJail: nearest #the jail nearest to the player
     defaultTime: 30m #default the time to 30 minutes, if no time
     deleteInventory: false
+    gameMode: adventure
     logToConsole: true
     logToProfile: false
     storeInventory: true

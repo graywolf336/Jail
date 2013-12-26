@@ -22,6 +22,7 @@ Done
 * Config value ``jailing.jail.deleteInventory`` is now used
 * Config value ``jailing.release.backToPreviousPosition`` is now used
 * Config value ``jailing.release.restorePreviousGameMode`` is now used
+* Config value ``jailing.jail.gameMode`` is now used
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====

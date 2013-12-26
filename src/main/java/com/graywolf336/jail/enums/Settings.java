@@ -6,6 +6,7 @@ public enum Settings {
 	DEFAULTJAIL("jailing.jail.defaultJail"),
 	DELETEINVENTORY("jailing.jail.deleteInventory"),
 	JAILDEFAULTTIME("jailing.jail.defaultTime"),
+	JAILEDGAMEMODE("jailing.jail.gameMode"),
 	LOGJAILING("jailing.jail.logToConsole"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
