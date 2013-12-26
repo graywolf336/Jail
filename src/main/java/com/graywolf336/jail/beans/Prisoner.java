@@ -123,6 +123,7 @@ public class Prisoner {
 	/** Sets the previous location of this player from a comma separated string. */
 	public void setPreviousPosition(String location) {
 		if(location == null) return;
+		if(location.isEmpty()) return;
 		
 		String[] s = location.split(",");
 		this.previousPosition = new Location(Bukkit.getWorld(s[0]),

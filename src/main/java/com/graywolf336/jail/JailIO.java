@@ -88,10 +88,12 @@ public class JailIO {
 	 * 
 	 * @param langString Which {@link LangString} we should be getting to send.
 	 * @param variables All the variables to replace, in order from 0 to however many.
-	 * @return The message as a colorful message.
+	 * @return The message as a colorful message or an empty message if that isn't defined in the language file.
 	 */
 	public String getLanguageString(LangString langString, String... variables) {
 		String message = lang.getString("language." + langString.toString().toLowerCase());
+		
+		if(message == null) return "";
 		
 		for (int i = 0; i < variables.length; i++) {
 			message = message.replaceAll("%" + i + "%", variables[i]);
