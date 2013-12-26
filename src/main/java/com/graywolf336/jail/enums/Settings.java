@@ -4,8 +4,10 @@ public enum Settings {
 	BROADCASTJAILING("jailing.jail.broadcastJailing"),
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
+	DELETEINVENTORY("jailing.jail.deleteInventory"),
 	JAILDEFAULTTIME("jailing.jail.defaultTime"),
 	LOGJAILING("jailing.jail.logToConsole"),
+	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	UPDATENOTIFICATIONS("system.updateNotifications");
 	
 	private String path;

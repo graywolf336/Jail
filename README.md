@@ -19,6 +19,8 @@ Done
 * The time passed can be represented by time shorthand, aka "3hours" or "15minutes" or etc (defaults to minutes)
 * Config value ``jailing.jail.broadcastJailing`` is now used
 * Config value ``jailing.jail.logToConsole`` is now used
+* Config value ``jailing.jail.deleteInventory`` is now used
+* Config value ``jailing.release.backToPreviousPosition`` is now used
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====

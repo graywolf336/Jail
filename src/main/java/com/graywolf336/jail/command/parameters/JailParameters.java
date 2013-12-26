@@ -93,4 +93,13 @@ public class JailParameters {
 		
 		return r;
 	}
+	
+	/** Sets the reason. */
+	public void setReason(String r) {
+		String[] rs = r.split(" ");
+		
+		for(String s : rs) {
+			reason.add(s);
+		}
+	}
 }

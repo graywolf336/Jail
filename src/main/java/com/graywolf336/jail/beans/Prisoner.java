@@ -2,6 +2,9 @@ package com.graywolf336.jail.beans;
 
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+
 /**
  * Represents a Prisoner, player who is jailed, and contains all the information about him/her.
  * 
@@ -10,9 +13,10 @@ import java.util.concurrent.TimeUnit;
  * @version 2.0.1
  */
 public class Prisoner {
-	private String name;
-	private boolean muted, offlinePending;
+	private String name, reason;
+	private boolean muted, offlinePending, teleporting;
 	private long time;
+	private Location previousPosition;
 	
 	/**
 	 * Creates a new prisoner with a name and whether they are muted or not.
@@ -21,15 +25,29 @@ public class Prisoner {
 	 * @param muted Whether the prisoner is muted or not
 	 * @param time The amount of remaining time the prisoner has
 	 */
-	public Prisoner(String name, boolean muted, long time) {
+	public Prisoner(String name, boolean muted, long time, String reason) {
 		this.name = name;
 		this.muted = muted;
 		this.time = time;
+		this.reason = reason;
+		this.offlinePending = false;
+		this.teleporting = false;
+		this.previousPosition = null;
 	}
 	
 	/** Gets the name of this player. */
 	public String getName() {
 		return this.name;
+	}
+	
+	/** Gets the reason this player was jailed for. */
+	public String getReason() {
+		return this.reason;
+	}
+	
+	/** Sets the reason this player was jailed for. */
+	public void setReason(String reason) {
+		this.reason = reason;
 	}
 	
 	/** Gets whether the prisoner is muted or not. */
@@ -69,5 +87,47 @@ public class Prisoner {
 	/** Sets whether the player is offline or not. */
 	public void setOfflinePending(boolean offline) {
 		this.offlinePending = offline;
+	}
+	
+	/** Gets whether the player is being teleported or not. */
+	public boolean isTeleporting() {
+		return this.teleporting;
+	}
+	
+	/** Sets whether the player is being teleported or not. */
+	public void setTeleporting(boolean teleport) {
+		this.teleporting = teleport;
+	}
+	
+	/** Gets the previous location of this player, can be null. */
+	public Location getPreviousLocation() {
+		return this.previousPosition;
+	}
+	
+	/** Gets the previous location of this player, separated by a comma. */
+	public String getPreviousLocationString() {
+		if(previousPosition == null) return "";
+		else return previousPosition.getWorld().getName() + "," + 
+				previousPosition.getX() + "," + 
+				previousPosition.getY() + "," +
+				previousPosition.getZ() + "," +
+				previousPosition.getYaw() + "," +
+				previousPosition.getPitch();
+	}
+	
+	/** Sets the previous location of this player. */
+	public void setPreviousPosition(Location location) {
+		this.previousPosition = location;
+	}
+	
+	/** Sets the previous location of this player from a comma separated string. */
+	public void setPreviousPosition(String location) {
+		String[] s = location.split(",");
+		this.previousPosition = new Location(Bukkit.getWorld(s[0]),
+				Double.valueOf(s[1]),
+				Double.valueOf(s[2]),
+				Double.valueOf(s[3]),
+				Float.valueOf(s[4]),
+				Float.valueOf(s[5]));
 	}
 }

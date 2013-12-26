@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
@@ -47,6 +48,15 @@ public class PlayerListener implements Listener {
 			if(pl.getJailManager().getPrisoner(event.getPlayer().getName()).isMuted()) {
 				event.setCancelled(true);
 				event.getPlayer().sendMessage(ChatColor.RED + "Stop talking, you're currently jailed and muted.");
+			}
+		}
+	}
+	
+	@EventHandler
+	public void checkForOfflineJail(PlayerJoinEvent event) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).getPrisoner(event.getPlayer().getName()).isOfflinePending()) {
+				pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
 			}
 		}
 	}

@@ -7,6 +7,8 @@ public enum LangString {
 	BROADCASTMESSAGEFORMINUTES,
 	/** The message sent when trying to jail someone who can't be jailed by permission. */
 	CANTBEJAILED,
+	/** The message sent when someone is jailed without a reason. */
+	DEFAULTJAILEDREASON,
 	/** The message sent when players are jailed without a reason. */
 	JAILED,
 	/** The message sent when players are jailed with a reason. */

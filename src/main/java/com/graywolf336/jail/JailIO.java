@@ -215,6 +215,8 @@ public class JailIO {
 							flat.set(cNode + "prisoner.muted", p.isMuted());
 							flat.set(cNode + "prisoner.time", p.getRemainingTime());
 							flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
+							flat.set(cNode + "prisoner.reason", p.getReason());
+							flat.set(cNode + "prisoner.previousLocation", p.getPreviousLocationString());
 						}
 					}
 					
@@ -223,6 +225,8 @@ public class JailIO {
 						flat.set(pNode + "muted", p.isMuted());
 						flat.set(pNode + "time", p.getRemainingTime());
 						flat.set(pNode + "offlinePending", p.isOfflinePending());
+						flat.set(pNode + "reason", p.getReason());
+						flat.set(pNode + "previousLocation", p.getPreviousLocationString());
 					}
 					
 					try {
@@ -296,30 +300,30 @@ public class JailIO {
 							}
 							
 							if(flat.contains(cellNode + "prisoner")) {
-								Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"), flat.getBoolean(cellNode + "prisoner.muted"), flat.getLong(cellNode + "prisoner.time"));
+								Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"),
+												flat.getBoolean(cellNode + "prisoner.muted"),
+												flat.getLong(cellNode + "prisoner.time"),
+												flat.getString(cellNode + "prisoner.reason"));
 								p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
+								p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
 								c.setPrisoner(p);
 							}
 							
 							j.addCell(c, false);
 						}
-					}else {
-						pl.getLogger().warning("Cell configuration section for " + name + " exists but no cells are there.");
 					}
 				}
 				
 				if(flat.isConfigurationSection(node + "prisoners")) {
 					Set<String> prisoners = flat.getConfigurationSection(node + "prisoners").getKeys(false);
 					if(!prisoners.isEmpty()) {
-						pl.getLogger().info("Prisoner configuration section for " + j.getName() + " exists and there are " + prisoners.size() + " prisoners.");
 						for(String prisoner : prisoners) {
 							String pNode = node + "prisoners." + prisoner + ".";
-							Prisoner pris = new Prisoner(prisoner, flat.getBoolean(pNode + "muted"), flat.getLong(pNode + "time"));
+							Prisoner pris = new Prisoner(prisoner, flat.getBoolean(pNode + "muted"), flat.getLong(pNode + "time"), flat.getString(pNode + "reason"));
 							pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
+							pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
 							j.addPrisoner(pris);
 						}
-					}else {
-						pl.getLogger().warning("Prisoner configuration section for " + j.getName() + "exists but there are no prisoners.");
 					}
 				}
 				

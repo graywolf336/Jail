@@ -98,10 +98,10 @@ public class JailCommand implements Command {
 			}
 		}
 		
-		//Get the jail instance from the name of jail in the params.
-		Jail j = jm.getJail(params.jail());
-		Cell c = j.getCell(params.cell());
-		Prisoner pris = new Prisoner(params.player(), params.muted(), time);
+		if(params.reason().isEmpty()) {
+			params.setReason(jm.getPlugin().getJailIO().getLanguageString(LangString.DEFAULTJAILEDREASON));
+		}
+		
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
 		
 		//If the player instance is not null and the player has the permission
@@ -110,6 +110,11 @@ public class JailCommand implements Command {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANTBEJAILED));
 			return true;
 		}
+		
+		//Get the jail instance from the name of jail in the params.
+		Jail j = jm.getJail(params.jail());
+		Cell c = j.getCell(params.cell());
+		Prisoner pris = new Prisoner(params.player(), params.muted(), time, params.reason());
 		
 		//call the event
 		PrisonerJailedEvent event = new PrisonerJailedEvent(j, c, pris, p, p == null, sender.getName());
@@ -147,12 +152,6 @@ public class JailCommand implements Command {
 			//Player *is* online
 			sender.sendMessage(pris.getName() + " is online and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + " in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
 			sender.sendMessage(pris.getName() + " will be jailed for " + TimeUnit.MINUTES.convert(pris.getRemainingTime(), TimeUnit.MILLISECONDS) + " minutes by " + jailer + ".");
-			
-			if(params.reason().isEmpty()) {
-				p.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILED));
-			}else {
-				p.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILEDWITHREASON, new String[] { params.reason() }));
-			}
 		}
 		
 		return true;

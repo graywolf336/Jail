@@ -145,6 +145,16 @@ public class Jail {
 		return this.cells.get(name);
 	}
 	
+	/** Returns the cell which the given player name is jailed in, null if not. */
+	public Cell getCellPrisonerIsIn(String name) {
+		for(Cell c : cells.values())
+			if(c.getPrisoner() != null)
+				if(c.getPrisoner().getName().equalsIgnoreCase(name))
+					return c;
+		
+		return null;
+	}
+	
 	/** Returns the first empty cell, returns null if there aren't any cells or any free cells. */
 	public Cell getFirstEmptyCell() {
 		for(Cell c : getCells())
@@ -230,6 +240,25 @@ public class Jail {
 		}
 		
 		return is;
+	}
+	
+	/**
+	 * Checks if the given name is a prisoner in a cell.
+	 * 
+	 * @param name of the prisoner to check.
+	 * @return true if is jailed in a cell, false if not.
+	 */
+	public boolean isJailedInACell(String name) {
+		for(Prisoner p : nocellPrisoners)
+			if(p.getName().equalsIgnoreCase(name))
+				return false;
+		
+		for(Cell c : cells.values())
+			if(c.getPrisoner() != null)
+				if(c.getPrisoner().getName().equalsIgnoreCase(name))
+					return true;
+		
+		return false;
 	}
 	
 	/**

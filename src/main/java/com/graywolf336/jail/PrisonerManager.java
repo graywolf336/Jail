@@ -47,7 +47,7 @@ public class PrisonerManager {
 		
 		//If they are NOT offline, jail them
 		if(!prisoner.isOfflinePending()) {
-			
+			jailPrisoner(jail, cell, player, prisoner);
 		}
 		
 		//Get a message ready for broadcasting or logging.
@@ -68,6 +68,53 @@ public class PrisonerManager {
 		//Log the message, if it is enabled
 		if(pl.getConfig().getBoolean(Settings.LOGJAILING.getPath(), true) && !broadcasted) {
 			pl.getServer().getConsoleSender().sendMessage(msg);
+		}
+	}
+	
+	/**
+	 * Jails the prisoner with the given name.
+	 * 
+	 * @param name of the prisoner to jail.
+	 */
+	public void jailPrisoner(String name) {
+		Jail j = pl.getJailManager().getJailPlayerIsIn(name);
+		
+		jailPrisoner(j, j.getCellPrisonerIsIn(name), pl.getServer().getPlayerExact(name), j.getPrisoner(name));
+	}
+	
+	/**
+	 * Jails the prisoner with the proper information given.
+	 * 
+	 * @param jail where they are going
+	 * @param cell where they are being placed in, can be null
+	 * @param player who is the prisoner
+	 * @param prisoner data containing everything pertaining to them
+	 */
+	public void jailPrisoner(Jail jail, Cell cell, Player player, Prisoner prisoner) {
+		//They are no longer offline, so set that.
+		prisoner.setOfflinePending(false);
+		
+		//We are getting ready to teleport them, so set it to true so that
+		//the *future* move checkers won't be cancelling our moving.
+		prisoner.setTeleporting(true);
+		
+		//If their reason is empty send proper message, else send other proper message
+		if(prisoner.getReason().isEmpty()) {
+			player.sendMessage(pl.getJailIO().getLanguageString(LangString.JAILED));
+		}else {
+			player.sendMessage(pl.getJailIO().getLanguageString(LangString.JAILEDWITHREASON, new String[] { prisoner.getReason() }));
+		}
+		
+		//If the config has inventory deletion, then let's delete it
+		if(pl.getConfig().getBoolean(Settings.DELETEINVENTORY.getPath(), false)) {
+			player.getInventory().setArmorContents(null);
+			player.getInventory().clear();
+		}
+		
+		//If the config has releasing them back to their previous position,
+		//then let's set it in the prisoner data.
+		if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
+			prisoner.setPreviousPosition(player.getLocation());
 		}
 	}
 }
