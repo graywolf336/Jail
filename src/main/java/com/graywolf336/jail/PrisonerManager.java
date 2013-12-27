@@ -19,6 +19,21 @@ public class PrisonerManager {
 	/**
 	 * Prepare the jailing of this player.
 	 * 
+	 * <p />
+	 * 
+	 * In this we do the following:
+	 * <ol>
+	 * 	<li>Checks if the jail is null, if so it throws an Exception</li>
+	 * 	<li>Checks if the prisoner is null, if so it throws an Exception</li>
+	 * 	<li>Sets the prisoner data to offline pending or not, player == null</li>
+	 * 	<li>If the cell is null, add the prisoner data to the jail otherwise we set the cell's prisoner to this one. <em>Check before here if the cell already contains a prisoner.</em></li>
+	 * 	<li>Saves the jail information, goes out to the {@link JailIO} to initate a save.</li>
+	 * 	<li>If the prisoner is <em>not</em> offline, we will actually {@link #jailPrisoner(Jail, Cell, Player, Prisoner) jail} them now.</li>
+	 * 	<li>Does checks to get the right message for the next two items.</li>
+	 * 	<li>If we broadcast the jailing, then let's broadcast it.</li>
+	 * 	<li>If we log the jailing to console <em>and</em> we haven't broadcasted it, then we log it to the console.</li>
+	 * </ol>
+	 * 
 	 * @param jail The jail instance we are sending this prisoner to
 	 * @param cell The name of the cell we are sending this prisoner to
 	 * @param player The player we are preparing the jail for.
@@ -40,7 +55,7 @@ public class PrisonerManager {
 		if(cell == null) {
 			jail.addPrisoner(prisoner);
 		}else {
-			jail.getCell(cell.getName()).setPrisoner(prisoner);
+			cell.setPrisoner(prisoner);
 		}
 		
 		//Save the jail after adding them to the jail
@@ -138,6 +153,13 @@ public class PrisonerManager {
     		player.getVehicle().eject();
     		player.getPassenger().eject();
     		player.eject();
+    	}
+    	
+    	//If the cell doesn't equal null, then let's put them in the jail
+    	if(cell != null) {
+    		
+    	}else {
+    		//There is no cell we're jailing them to, so stick them in the jail
     	}
 	}
 }
