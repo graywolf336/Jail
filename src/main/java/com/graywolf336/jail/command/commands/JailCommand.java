@@ -95,6 +95,17 @@ public class JailCommand implements Command {
 			if(jm.getJail(params.jail()).getCell(params.cell()) == null) {
 				sender.sendMessage(ChatColor.RED + "The cell provided does not exist.");
 				return true;
+			}else if(jm.getJail(params.jail()).getCell(params.cell()).hasPrisoner()) {
+				//If the cell has a prisoner, don't allow jailing them to that particular cell
+				sender.sendMessage(ChatColor.RED + "The destination cell already has a prisoner in it.");
+				Cell suggestedCell = jm.getJail(params.jail()).getFirstEmptyCell();
+				if(suggestedCell != null) {
+					sender.sendMessage(ChatColor.RED + "We found an empty cell in the same jail (" + params.jail() + ") with the name: " + suggestedCell.getName());
+				}else {
+					sender.sendMessage(ChatColor.RED + "We didn't find any empty cells, this jail's (" + params.jail() + ") cells appear to be full");
+				}
+				
+				return true;
 			}
 		}
 		

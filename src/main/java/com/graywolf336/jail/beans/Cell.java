@@ -42,6 +42,7 @@ public class Cell {
 		return this.p;
 	}
 	
+	/** Nullifies the prisoner data. */
 	public void removePrisoner() {
 		this.p = null;
 	}
