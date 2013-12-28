@@ -320,7 +320,7 @@ public class JailIO {
 								p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
 								p.setPreviousGameMode(flat.getString(cellNode + "prisoner.previousGameMode"));
 								p.setInventory(flat.getString(cellNode + "prisoner.inventory", ""));
-								p.setInventory(flat.getString(cellNode + "prisoner.armor", ""));
+								p.setArmor(flat.getString(cellNode + "prisoner.armor", ""));
 								c.setPrisoner(p);
 							}
 							
@@ -339,7 +339,7 @@ public class JailIO {
 							pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
 							pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));
 							pris.setInventory(flat.getString(pNode + "inventory", ""));
-							pris.setInventory(flat.getString(pNode + "armor", ""));
+							pris.setArmor(flat.getString(pNode + "armor", ""));
 							j.addPrisoner(pris);
 						}
 					}
