@@ -2,6 +2,8 @@ package com.graywolf336.jail;
 
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
@@ -155,11 +157,96 @@ public class PrisonerManager {
     		player.eject();
     	}
     	
+    	//If we are ignoring the sleeping state of prisoners,
+    	//then let's set that
+    	if(pl.getConfig().getBoolean(Settings.IGNORESLEEPINGSTATE.getPath(), true)) {
+    		player.setSleepingIgnored(true);
+    	}
+    	
+    	//Get the max and min food level in the config
+    	int maxFood = pl.getConfig().getInt(Settings.MAXFOODLEVEL.getPath(), 20);
+    	int minFood = pl.getConfig().getInt(Settings.MINFOODLEVEL.getPath(), 10);
+    	
+    	//If their food level is less than the min food level, set it to the min
+    	//but if it is higher than the max, set it to the max
+    	if (player.getFoodLevel() <  minFood) {
+			player.setFoodLevel(minFood);
+		} else if (player.getFoodLevel() > maxFood) {
+			player.setFoodLevel(maxFood);
+		}
+    	
     	//If the cell doesn't equal null, then let's put them in the jail
     	if(cell != null) {
+    		//check if we store the inventory
+    		if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
+    			//Check if there is a chest to store our items to and if it is a double chest, if not we will then serialize it
+    			if(cell.hasChest()) {
+    				//Get the chest's inventory and then clear it
+    				Inventory chest = cell.getChest().getInventory();
+    				chest.clear();
+    				
+    				//Get the separate inventory, so we can iterate of them
+    				ItemStack[] inventory = player.getInventory().getContents();
+    				ItemStack[] armor = player.getInventory().getArmorContents();
+    				
+    				for(ItemStack item : inventory) {
+    					int i = chest.firstEmpty();
+    					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+    						chest.setItem(i, item);
+    					}
+    				}
+    				
+    				for(ItemStack item : armor) {
+    					int i = chest.firstEmpty();
+    					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+    						chest.setItem(i, item);
+    					}
+    				}
+    				
+    				player.getInventory().setArmorContents(null);
+    				player.getInventory().clear();
+    				
+    				//Here so we don't forget about it later as this method isn't finished, but
+    				//Updates the cell's signs
+    				cell.update();
+    			}else {
+    				String[] inv = Util.playerInventoryToBase64(player.getInventory());
+    				prisoner.setInventory(inv[0]);
+    				prisoner.setArmor(inv[1]);
+    			}
+    		}
     		
+    		//Teleport them to the cell's teleport location
+    		//they will now be placed in jail.
+    		player.teleport(cell.getTeleport());
     	}else {
     		//There is no cell we're jailing them to, so stick them in the jail
+    		if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
+    			String[] inv = Util.playerInventoryToBase64(player.getInventory());
+				prisoner.setInventory(inv[0]);
+				prisoner.setArmor(inv[1]);
+				
+				player.getInventory().setArmorContents(null);
+				player.getInventory().clear();
+    		}
+    		
+    		//Teleport them to the jail's teleport in location
+    		//They will now be placed in jail.
+    		player.teleport(jail.getTeleportIn());
     	}
+    	
+    	//Set them to not allowing teleporting, as we are not going to be moving them anymore
+    	//this way the move checkers will start checking this player.
+    	prisoner.setTeleporting(false);
+    	
+    	//Get the commands to execute after they are jailed
+    	//replace all of the %p% so that the commands can have a player name in them
+    	for(String command : pl.getConfig().getStringList(Settings.COMMANDSONJAIL.getPath())) {
+    		command = command.replaceAll("%p%", player.getName());
+    		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
+    	}
+    	
+    	//Save the data, as we have changed it
+    	pl.getJailIO().saveJail(jail);
 	}
 }

@@ -2,6 +2,7 @@ package com.graywolf336.jail.beans;
 
 import java.util.HashSet;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -30,6 +31,11 @@ public class Cell {
 	/** Gets the name of the cell. */
 	public String getName() {
 		return this.name;
+	}
+	
+	/** Updates the signs of the cell, with the player name and time and such. TODO */
+	public void update() {
+		//TODO: Update the signs
 	}
 	
 	/** Sets the prisoner in this cell. */
@@ -101,5 +107,21 @@ public class Cell {
 		if((this.chest.getLocation().getBlock() == null) || (this.chest.getLocation().getBlock().getType() != Material.CHEST)) return null;
 		
 		return (Chest) this.chest.getLocation().getBlock().getState();
+	}
+	
+	/**
+	 * Checks if the chest location doesn't equal null and if it is a double chest.
+	 * 
+	 * @return true if there is a chest, false if there isn't.
+	 */
+	public boolean hasChest() {
+		if(getChest() != null) {
+			if(getChest().getInventory().getSize() == 40) return true;
+			else {
+				Bukkit.getLogger().severe("The cell " + this.name + " has chest that isn't a double chest, please fix.");
+				return false;
+			}
+		}else
+			return false;
 	}
 }

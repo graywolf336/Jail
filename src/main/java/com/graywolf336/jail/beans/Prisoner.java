@@ -14,7 +14,7 @@ import org.bukkit.Location;
  * @version 2.0.1
  */
 public class Prisoner {
-	private String name, reason;
+	private String name, reason, inventory, armor;
 	private boolean muted, offlinePending, teleporting;
 	private long time;
 	private Location previousPosition;
@@ -36,6 +36,8 @@ public class Prisoner {
 		this.teleporting = false;
 		this.previousPosition = null;
 		this.previousGameMode = null;
+		this.inventory = "";
+		this.armor = "";
 	}
 	
 	/** Gets the name of this player. */
@@ -152,5 +154,25 @@ public class Prisoner {
 		if(previous == null) return;
 		else if(previous.isEmpty()) return;
 		else this.previousGameMode = GameMode.valueOf(previous);
+	}
+	
+	/** Gets the inventory string for this player, it is encoded in Base64 string. */
+	public String getInventory() {
+		return this.inventory;
+	}
+	
+	/** Sets the inventory Base64 string. */
+	public void setInventory(String inventory) {
+		this.inventory = inventory;
+	}
+	
+	/** Gets the armor content, encoded in Base64 string. */
+	public String getArmor() {
+		return this.armor;
+	}
+	
+	/** Sets the armor inventory Base64 string. */
+	public void setArmor(String armor) {
+		this.armor = armor;
 	}
 }

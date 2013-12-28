@@ -18,7 +18,7 @@ import com.graywolf336.jail.beans.Prisoner;
  * @since 3.0.0
  * @version 1.0.0
  */
-public class PrisonerJailedEvent extends Event implements Cancellable {
+public class PrePrisonerJailedEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
 	private boolean cancelled;
 	private boolean online;
@@ -29,7 +29,7 @@ public class PrisonerJailedEvent extends Event implements Cancellable {
 	private String jailer, cancelMsg;
 	
 	/**
-	 * Creates a new {@link PrisonerJailedEvent prisoner jailed event} for the given player.
+	 * Creates a new {@link PrePrisonerJailedEvent prisoner jailed event} for the given player.
 	 * 
 	 * @param jail The jail the prisoner will be jailed at.
 	 * @param cell The cell we're going to be sending the prisoner to, can be null.
@@ -38,7 +38,7 @@ public class PrisonerJailedEvent extends Event implements Cancellable {
 	 * @param online Whether the player is online or not.
 	 * @param jailer The name of what jailed this prisoner.
 	 */
-	public PrisonerJailedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player, boolean online, String jailer) {
+	public PrePrisonerJailedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player, boolean online, String jailer) {
 		this.jail = jail;
 		this.cell = cell;
 		this.prisoner = prisoner;

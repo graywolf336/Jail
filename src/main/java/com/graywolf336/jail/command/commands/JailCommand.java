@@ -18,7 +18,7 @@ import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.parameters.JailParameters;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
-import com.graywolf336.jail.events.PrisonerJailedEvent;
+import com.graywolf336.jail.events.PrePrisonerJailedEvent;
 
 @CommandInfo(
 		maxArgs = -1,
@@ -128,7 +128,7 @@ public class JailCommand implements Command {
 		Prisoner pris = new Prisoner(params.player(), params.muted(), time, params.reason());
 		
 		//call the event
-		PrisonerJailedEvent event = new PrisonerJailedEvent(j, c, pris, p, p == null, sender.getName());
+		PrePrisonerJailedEvent event = new PrePrisonerJailedEvent(j, c, pris, p, p == null, sender.getName());
 		jm.getPlugin().getServer().getPluginManager().callEvent(event);
 		
 		//check if the event is cancelled

@@ -10,7 +10,6 @@ import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.PlayerListener;
-import com.graywolf336.jail.listeners.PlayerPreventionsListener;
 
 public class JailMain extends JavaPlugin {
 	private CommandHandler cmdHand;
@@ -34,7 +33,6 @@ public class JailMain extends JavaPlugin {
 		plm.registerEvents(new BlockListener(), this);
 		plm.registerEvents(new EntityListener(), this);
 		plm.registerEvents(new PlayerListener(this), this);
-		plm.registerEvents(new PlayerPreventionsListener(this), this);
 		
 		//For the time, we will use:
 		//http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html#convert(long, java.util.concurrent.TimeUnit)

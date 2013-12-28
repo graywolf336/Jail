@@ -23,6 +23,10 @@ Done
 * Config value ``jailing.release.backToPreviousPosition`` is now used
 * Config value ``jailing.release.restorePreviousGameMode`` is now used
 * Config value ``jailing.jail.gameMode`` is now used
+* Config value ``jailing.during.ignoreSleeping`` is now used in one part
+* Config value ``jailing.jail.commands`` is now used
+* Config value ``jailing.during.maxFoodLevel`` is now used in one part
+* Config value ``jailing.during.minFoodLevel`` is now used in one part
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====

@@ -14,6 +14,8 @@ jailing:
   during:
     countDownTimeWhileOffline: false
     ignoreSleeping: true
+    maxFoodLevel: 20
+    minFoodLevel: 10
     openChest: true
   jail:
     automaticMute: true
