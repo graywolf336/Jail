@@ -116,7 +116,7 @@ public class Cell {
 	 */
 	public boolean hasChest() {
 		if(getChest() != null) {
-			if(getChest().getInventory().getSize() == 40) return true;
+			if(getChest().getInventory().getSize() >= 40) return true;
 			else {
 				Bukkit.getLogger().severe("The cell " + this.name + " has chest that isn't a double chest, please fix.");
 				return false;
