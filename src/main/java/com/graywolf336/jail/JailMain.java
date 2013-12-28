@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.CommandHandler;
+import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.PlayerListener;
@@ -16,6 +17,7 @@ public class JailMain extends JavaPlugin {
 	private JailIO io;
 	private JailManager jm;
 	private PrisonerManager pm;
+	private boolean debug = false;
 	
 	public void onEnable() {
 		loadConfig();
@@ -33,6 +35,10 @@ public class JailMain extends JavaPlugin {
 		plm.registerEvents(new BlockListener(), this);
 		plm.registerEvents(new EntityListener(), this);
 		plm.registerEvents(new PlayerListener(this), this);
+		
+		debug = getConfig().getBoolean(Settings.DEBUG.getPath());
+		
+		if(debug) getLogger().info("Debugging enabled.");
 		
 		//For the time, we will use:
 		//http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html#convert(long, java.util.concurrent.TimeUnit)
@@ -93,5 +99,10 @@ public class JailMain extends JavaPlugin {
 	/** Gets the {@link PrisonerManager} instance. */
 	public PrisonerManager getPrisonerManager() {
 		return this.pm;
+	}
+	
+	/** Returns if the plugin is in debug state or not. */
+	public boolean inDebug() {
+		return this.debug;
 	}
 }
