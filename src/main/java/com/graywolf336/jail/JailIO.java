@@ -380,6 +380,12 @@ public class JailIO {
 					flat.set("jails." + j.getName() + ".prisoners." + p.getName(), null);
 				else
 					flat.set("jails." + j.getName() + "." + c.getName() + ".prisoner", null);
+				
+				try {
+					flat.save(new File(pl.getDataFolder(), "data.yml"));
+				} catch (IOException e) {
+					pl.getLogger().severe("Unable to save the Jail data: " + e.getMessage());
+				}
 				break;
 		}
 	}
