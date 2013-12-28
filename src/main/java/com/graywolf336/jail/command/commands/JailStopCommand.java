@@ -1,5 +1,6 @@
 package com.graywolf336.jail.command.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
@@ -15,13 +16,17 @@ import com.graywolf336.jail.command.CommandInfo;
 		usage = "/jailstop"
 	)
 public class JailStopCommand implements Command {
-
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		jm.removeJailCreationPlayer(sender.getName());
-		jm.removeCellCreationPlayer(sender.getName());
+		if(jm.isCreatingACell(sender.getName())) {
+			jm.removeCellCreationPlayer(sender.getName());
+			sender.sendMessage(ChatColor.RED + "You have stopped creating cells.");
+		}
 		
-		sender.sendMessage("Any creations, jail or cell, have been stopped.");
+		if(jm.isCreatingAJail(sender.getName())) {
+			jm.removeJailCreationPlayer(sender.getName());
+			sender.sendMessage(ChatColor.RED + "You have stopped creating a jail.");
+		}
+		
 		return true;
 	}
-	
 }
