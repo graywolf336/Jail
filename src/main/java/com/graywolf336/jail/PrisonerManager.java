@@ -71,7 +71,7 @@ public class PrisonerManager {
 		//Get a message ready for broadcasting or logging.
 		String msg = "";
 		
-		if(prisoner.getRemainingTime() < 0)
+		if(prisoner.getRemainingTime() < 0L)
 			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFOREVER, new String[] { prisoner.getName() });
 		else//
 			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFOREVER, new String[] { prisoner.getName(), String.valueOf(prisoner.getRemainingTimeInMinutes()) });
@@ -213,6 +213,9 @@ public class PrisonerManager {
     				String[] inv = Util.playerInventoryToBase64(player.getInventory());
     				prisoner.setInventory(inv[0]);
     				prisoner.setArmor(inv[1]);
+    				
+    				player.getInventory().setArmorContents(null);
+    				player.getInventory().clear();
     			}
     		}
     		
