@@ -15,7 +15,7 @@ import com.graywolf336.jail.command.CommandInfo;
 		needsPlayer = false,
 		pattern = "jaillistcells|jcc",
 		permission = "jail.command.jaillistcell",
-		usage = "/jaillistcell <jail>"
+		usage = "/jaillistcells <jail>"
 	)
 public class JailListCellsCommand implements Command {
 	@Override
