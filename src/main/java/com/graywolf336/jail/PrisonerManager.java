@@ -336,13 +336,14 @@ public class PrisonerManager {
 				restoreInventory(player, prisoner);
 			}
 			
+			pl.getJailIO().removePrisoner(jail, cell, prisoner);
 			cell.removePrisoner();
 		}else {
 			restoreInventory(player, prisoner);
+			
+			pl.getJailIO().removePrisoner(jail, prisoner);
 			jail.removePrisoner(prisoner);
 		}
-		
-		pl.getJailIO().saveJail(jail);
 	}
 	
 	private void restoreInventory(Player player, Prisoner prisoner) {

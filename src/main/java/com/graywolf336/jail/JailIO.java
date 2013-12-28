@@ -352,4 +352,35 @@ public class JailIO {
 				break;
 		}
 	}
+	
+	/**
+	 * Removes the prisoner from the storage system.
+	 * 
+	 * @param j the jail which the prisoner is in.
+	 * @param p the prisoner data
+	 */
+	public void removePrisoner(Jail j, Prisoner p) {
+		this.removePrisoner(j, null, p);
+	}
+	
+	/**
+	 * Removes the prisoner from the storage system.
+	 * 
+	 * @param j the jail which the prisoner is in.
+	 * @param c the cell which the prisoner is in, null if none
+	 * @param p the prisoner data
+	 */
+	public void removePrisoner(Jail j, Cell c, Prisoner p) {
+		switch(storage) {
+			case 1:
+			case 2:
+				break;
+			default:
+				if(c == null)
+					flat.set("jails." + j.getName() + ".prisoners." + p.getName(), null);
+				else
+					flat.set("jails." + j.getName() + "." + c.getName() + ".prisoner", null);
+				break;
+		}
+	}
 }
