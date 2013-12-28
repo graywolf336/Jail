@@ -1,6 +1,9 @@
 package com.graywolf336.jail;
 
+import java.io.IOException;
+
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -113,7 +116,7 @@ public class PrisonerManager {
 		prisoner.setOfflinePending(false);
 		
 		//We are getting ready to teleport them, so set it to true so that
-		//the *future* move checkers won't be cancelling our moving.
+		//the *future* move checkers won't be canceling our moving.
 		prisoner.setTeleporting(true);
 		
 		//If their reason is empty send proper message, else send other proper message
@@ -251,5 +254,129 @@ public class PrisonerManager {
     	
     	//Save the data, as we have changed it
     	pl.getJailIO().saveJail(jail);
+	}
+	
+	/**
+	 * Unjails a prisoner from jail, removing all their data.
+	 * 
+	 * TODO: Finish this documentation
+	 * 
+	 * @param jail
+	 * @param cell
+	 * @param player
+	 * @param prisoner
+	 * @throws Exception
+	 */
+	public void unJail(Jail jail, Cell cell, Player player, Prisoner prisoner) throws Exception {
+		//Do some checks of whether the passed params are null.
+		if(jail == null)
+			throw new Exception("The jail can not be null.");
+		
+		if(prisoner == null)
+			throw new Exception("Prisoner data can not be null.");
+		
+		//We are getting ready to teleport them, so set it to true so that
+		//the *future* move checkers won't be canceling our moving.
+		prisoner.setTeleporting(true);
+		
+		//In case they have somehow got on a vehicle, let's unmount
+		//them so we can possibly teleport them
+		if(player.isInsideVehicle()) {
+    		player.getVehicle().eject();
+    		player.getPassenger().eject();
+    		player.eject();
+    	}
+		
+		//In case we had set their sleeping state to be ignored
+		//let's enable their sleeping state taking place again
+		player.setSleepingIgnored(false);
+		
+		//If the config has us teleporting them back to their previous position
+		//then let's do that, but if it doesn't yet it has the teleport on release
+		//then let's teleport them to the free teleport location
+		if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
+			player.teleport(prisoner.getPreviousLocation());
+		}else if(pl.getConfig().getBoolean(Settings.TELEPORTONRELEASE.getPath(), true)) {
+			player.teleport(jail.getTeleportFree());
+		}
+		
+		//If we are to restore their previous gamemode and we have it stored,
+		//then by all means let's restore it
+		if(pl.getConfig().getBoolean(Settings.RESTOREPREVIOUSGAMEMODE.getPath(), false)) {
+			player.setGameMode(prisoner.getPreviousGameMode());
+		}
+		
+		//Now, let's restore their inventory
+		//if the cell isn't null, let's check if the cell has a chest and if so then try out best to restore
+		//the prisoner's inventory from that
+		if(cell != null) {
+			if(cell.hasChest()) {
+				Inventory chest = cell.getChest().getInventory();
+				
+				for (ItemStack item : chest.getContents()) {
+					if (item == null || item.getType() == Material.AIR) continue;
+					
+					if(item.getType().toString().toLowerCase().contains("helmet") && (player.getInventory().getHelmet() == null || player.getInventory().getHelmet().getType() == Material.AIR)) {
+						player.getInventory().setHelmet(item);
+					} else if(item.getType().toString().toLowerCase().contains("chestplate") && (player.getInventory().getChestplate() == null || player.getInventory().getChestplate().getType() == Material.AIR)) {
+						player.getInventory().setChestplate(item);
+					} else if(item.getType().toString().toLowerCase().contains("leg") && (player.getInventory().getLeggings() == null || player.getInventory().getLeggings().getType() == Material.AIR)) {
+						player.getInventory().setLeggings(item);
+					} else if(item.getType().toString().toLowerCase().contains("boots") && (player.getInventory().getBoots() == null || player.getInventory().getBoots().getType() == Material.AIR)) {
+						player.getInventory().setBoots(item);
+					} else if (player.getInventory().firstEmpty() == -1) {
+						player.getWorld().dropItem(player.getLocation(), item);
+					} else {
+						player.getInventory().addItem(item);
+					}
+				}
+				
+				chest.clear();
+			}else {
+				restoreInventory(player, prisoner);
+			}
+			
+			cell.removePrisoner();
+		}else {
+			restoreInventory(player, prisoner);
+			jail.removePrisoner(prisoner);
+		}
+		
+		pl.getJailIO().saveJail(jail);
+	}
+	
+	private void restoreInventory(Player player, Prisoner prisoner) {
+		try {
+			Inventory content = Util.fromBase64(prisoner.getInventory());
+			ItemStack[] armor = Util.itemStackArrayFromBase64(prisoner.getArmor());
+			
+			for(ItemStack item : armor) {
+				if(item == null)
+					continue;
+				else if(item.getType().toString().toLowerCase().contains("helmet"))
+					player.getInventory().setHelmet(item);
+				else if(item.getType().toString().toLowerCase().contains("chestplate"))
+					player.getInventory().setChestplate(item);
+				else if(item.getType().toString().toLowerCase().contains("leg"))
+					player.getInventory().setLeggings(item);
+				else if(item.getType().toString().toLowerCase().contains("boots"))
+					player.getInventory().setBoots(item);
+				else if (player.getInventory().firstEmpty() == -1)
+					player.getWorld().dropItem(player.getLocation(), item);
+				else
+					player.getInventory().addItem(item);
+			}
+			
+			for(ItemStack item : content.getContents()) {
+				if(item == null) continue;
+				else if(player.getInventory().firstEmpty() == -1)
+					player.getWorld().dropItem(player.getLocation(), item);
+				else
+					player.getInventory().addItem(item);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			pl.getLogger().severe("Unable to restore " + player.getName() + "'s inventory.");
+		}
 	}
 }

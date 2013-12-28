@@ -15,6 +15,7 @@ public enum Settings {
 	MINFOODLEVEL("jailing.during.minFoodLevel"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
+	TELEPORTONRELEASE("jailing.release.teleport"),
 	UPDATENOTIFICATIONS("system.updateNotifications");
 	
 	private String path;

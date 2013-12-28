@@ -134,6 +134,11 @@ public class Jail {
 		this.nocellPrisoners.add(p);
 	}
 	
+	/** Removes a prisoner from this jail, doesn't remove it from the cell. */
+	public void removePrisoner(Prisoner p) {
+		this.nocellPrisoners.remove(p);
+	}
+	
 	/** Adds a cell to the Jail. */
 	public void addCell(Cell cell, boolean save) {
 		if(save) plugin.getJailIO().saveJail(this);

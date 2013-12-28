@@ -35,7 +35,7 @@ public class Prisoner {
 		this.offlinePending = false;
 		this.teleporting = false;
 		this.previousPosition = null;
-		this.previousGameMode = null;
+		this.previousGameMode = GameMode.SURVIVAL;
 		this.inventory = "";
 		this.armor = "";
 	}

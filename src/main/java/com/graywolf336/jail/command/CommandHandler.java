@@ -21,6 +21,7 @@ import com.graywolf336.jail.command.commands.JailListCommand;
 import com.graywolf336.jail.command.commands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.commands.JailStopCommand;
 import com.graywolf336.jail.command.commands.JailVersionCommand;
+import com.graywolf336.jail.command.commands.UnjailCommand;
 
 /**
  * Where all the commands are registered at and handled, processed, at.
@@ -147,6 +148,7 @@ public class CommandHandler {
 		load(JailRemoveCellCommand.class);
 		load(JailStopCommand.class);
 		load(JailVersionCommand.class);
+		load(UnjailCommand.class);
 	}
 
 	private void load(Class<? extends Command> c) {
