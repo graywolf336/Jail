@@ -298,7 +298,7 @@ public class JailIO {
 							c.setChestLocation(new Location(j.getTeleportIn().getWorld(),
 									flat.getInt(cellNode + "chest.x"),
 									flat.getInt(cellNode + "chest.y"),
-									flat.getInt(cellNode + "cheset.z")));
+									flat.getInt(cellNode + "chest.z")));
 							
 							for(String sign : flat.getStringList(cellNode + "signs")) {
 								String[] arr = sign.split(",");
