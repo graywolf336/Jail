@@ -285,7 +285,6 @@ public class JailIO {
 				if(flat.isConfigurationSection(node + "cells")) {
 					Set<String> cells = flat.getConfigurationSection(node + "cells").getKeys(false);
 					if(!cells.isEmpty()) {
-						pl.getLogger().info("Cell configuration section for " + name + " exists and there are " + cells.size() + " cells.");
 						for(String cell : cells) {
 							Cell c = new Cell(cell);
 							String cellNode = cNode + "cell.";
