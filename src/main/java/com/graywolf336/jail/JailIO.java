@@ -287,7 +287,7 @@ public class JailIO {
 					if(!cells.isEmpty()) {
 						for(String cell : cells) {
 							Cell c = new Cell(cell);
-							String cellNode = cNode + "cell.";
+							String cellNode = cNode + cell + ".";
 							
 							c.setTeleport(new SimpleLocation(j.getTeleportIn().getWorld().getName(),
 									flat.getDouble(cellNode + "tp.x"),
