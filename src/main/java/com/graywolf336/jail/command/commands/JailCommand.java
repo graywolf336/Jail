@@ -35,6 +35,7 @@ public class JailCommand implements Command {
 	 * 
 	 * - If there are any jails.
 	 * - If the command can be parsed correctly.
+	 * - If the player is already jailed.
 	 * - If the given time can be parsed correctly, defaults to what is defined in the config
 	 * - If the jail is reasonable or not, else sets the one from the config
 	 * - If the cell is not empty then checks to be sure that cell exists
@@ -53,6 +54,12 @@ public class JailCommand implements Command {
 			new JCommander(params, args);
 		}catch(ParameterException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
+			return true;
+		}
+		
+		//Check if the given player is already jailed or not
+		if(jm.isPlayerJailed(params.player())) {
+			sender.sendMessage(ChatColor.RED + "That player is already jailed.");
 			return true;
 		}
 		
