@@ -20,6 +20,13 @@ import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
+/**
+ * Provides a variety of methods, static, that are used throughout the plugin.
+ * 
+ * @author graywolf336
+ * @since 2.x.x
+ * @version 3.0.0
+ */
 public class Util {
 	private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(m(?:inute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
 	
@@ -34,12 +41,13 @@ public class Util {
 	
 	/**
      * Checks if two numbers are inside a point, or something.
+     * 
      * <p />
      * 
      * @param loc The location.
      * @param first The first point
      * @param second The second point
-     * @return True if they are inside, false if not.
+     * @return true if they are inside, false if not.
      */
     private static boolean isInside(int loc, int first, int second) {
         int point1 = 0;
@@ -60,6 +68,7 @@ public class Util {
 		return message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
 	}
     
+    /** Returns the wand used throughout the different creation steps. */
     public static ItemStack getWand() {
     	ItemStack wand = new ItemStack(Material.WOOD_SWORD);
 		ItemMeta meta = wand.getItemMeta();

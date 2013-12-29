@@ -14,6 +14,13 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 
+/**
+ * Provides methods, non-statically, that do the preparing of jails and handle all the good stuff like that.
+ * 
+ * @author graywolf336
+ * @since 2.x.x
+ * @version 3.0.0
+ */
 public class PrisonerManager {
 	private JailMain pl;
 	
@@ -22,7 +29,7 @@ public class PrisonerManager {
 	}
 	
 	/**
-	 * Prepare the jailing of this player.
+	 * Does everything preparing for the jailing of the provided prisoner, if they are online it forwards it to {@link #jailPrisoner(Jail, Cell, Player, Prisoner)}.
 	 * 
 	 * <p />
 	 * 
@@ -39,10 +46,10 @@ public class PrisonerManager {
 	 * 	<li>If we log the jailing to console <em>and</em> we haven't broadcasted it, then we log it to the console.</li>
 	 * </ol>
 	 * 
-	 * @param jail The jail instance we are sending this prisoner to
-	 * @param cell The name of the cell we are sending this prisoner to
-	 * @param player The player we are preparing the jail for.
-	 * @param prisoner The prisoner file.
+	 * @param jail The {@link Jail jail instance} we are sending this prisoner to
+	 * @param cell The name of the {@link Cell cell} we are sending this prisoner to
+	 * @param player The {@link Player player} we are preparing the jail for.
+	 * @param prisoner The {@link Prisoner prisoner} file.
 	 * @throws Exception if the jail or prisoner are null.
 	 */
 	public void prepareJail(Jail jail, Cell cell, Player player, Prisoner prisoner) throws Exception {
@@ -259,12 +266,14 @@ public class PrisonerManager {
 	/**
 	 * Unjails a prisoner from jail, removing all their data.
 	 * 
-	 * TODO: Finish this documentation
+	 * <p />
 	 * 
-	 * @param jail
-	 * @param cell
-	 * @param player
-	 * @param prisoner
+	 * Throws an exception if either the jail is null or the prisoner is null.
+	 * 
+	 * @param jail where the prisoner is located at
+	 * @param cell which the prisoner is in, can be null
+	 * @param player instance for the prisoner we're unjailing
+	 * @param prisoner data where everything resides
 	 * @throws Exception
 	 */
 	public void unJail(Jail jail, Cell cell, Player player, Prisoner prisoner) throws Exception {

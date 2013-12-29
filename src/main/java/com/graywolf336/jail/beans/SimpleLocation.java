@@ -16,6 +16,16 @@ public class SimpleLocation {
 	private double x, y, z;
 	private float yaw, pitch;
 	
+	/**
+	 * Creates a new SimpleLocation with each detail provided separately.
+	 * 
+	 * @param world as a string
+	 * @param x coordinate as a double
+	 * @param y coordinate as a double
+	 * @param z coordinate as a double
+	 * @param yaw as a float
+	 * @param pitch as a float
+	 */
 	public SimpleLocation(String world, double x, double y, double z, float yaw, float pitch) {
 		this.world = world;
 		this.x = x;
@@ -25,6 +35,11 @@ public class SimpleLocation {
 		this.pitch = pitch;
 	}
 	
+	/**
+	 * Creates a new SimpleLocation with all the detail provided from {@link Location}.
+	 * 
+	 * @param location to convert to a SimpleLocation
+	 */
 	public SimpleLocation(Location location) {
 		this.world = location.getWorld().getName();
 		this.x = location.getX();
@@ -34,14 +49,17 @@ public class SimpleLocation {
 		this.pitch = location.getPitch();
 	}
 	
+	/** Returns the instance from Bukkit of the world this location is in. */
 	public World getWorld() {
 		return Bukkit.getWorld(world);
 	}
 	
+	/** Returns the name of the world this location is in. */
 	public String getWorldName() {
 		return this.world;
 	}
 	
+	/** Returns a new {@link Location} from this SimpleLocation. */
 	public Location getLocation() {
 		return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
 	}

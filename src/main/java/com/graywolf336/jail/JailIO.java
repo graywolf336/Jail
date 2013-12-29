@@ -18,8 +18,8 @@ import com.graywolf336.jail.enums.LangString;
  * Handles all the saving and loading of the plugin's data.
  * 
  * @author graywolf336
- * @since 3.0.0
- * @version 1.0.0
+ * @since 2.x.x
+ * @version 3.0.0
  * 
  */
 public class JailIO {

@@ -12,6 +12,13 @@ import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.PlayerListener;
 
+/**
+ * The main class for this Jail plugin, holds instances of vital classes.
+ * 
+ * @author graywolf336
+ * @since 1.x.x
+ * @version 3.0.0
+ */
 public class JailMain extends JavaPlugin {
 	private CommandHandler cmdHand;
 	private JailIO io;
