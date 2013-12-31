@@ -351,5 +351,14 @@ public class PrisonerManager {
 			pl.getJailIO().removePrisoner(jail, prisoner);
 			jail.removePrisoner(prisoner);
 		}
+		
+		//Get the commands to execute prisoners are unjailed
+    	//replace all of the %p% so that the commands can have a player name in them
+    	for(String command : pl.getConfig().getStringList(Settings.COMMANDSONRELEASE.getPath())) {
+    		command = command.replaceAll("%p%", player.getName());
+    		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
+    	}
+		
+		player.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILED));
 	}
 }
