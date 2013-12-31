@@ -21,7 +21,7 @@ public class PlayerListener implements Listener {
 		this.pl = plugin;
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled=true)
 	public void jailOrCellCreation(PlayerInteractEvent event) {
 		if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Player p = event.getPlayer();
@@ -42,7 +42,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled=true)
 	public void chatting(AsyncPlayerChatEvent event) {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 			if(pl.getJailManager().getPrisoner(event.getPlayer().getName()).isMuted()) {
