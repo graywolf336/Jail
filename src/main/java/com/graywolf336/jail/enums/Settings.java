@@ -3,6 +3,7 @@ package com.graywolf336.jail.enums;
 public enum Settings {
 	BROADCASTJAILING("jailing.jail.broadcastJailing"),
 	COMMANDSONJAIL("jailing.jail.commands"),
+	COMMANDSONRELEASE("jailing.release.commands"),
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
 	DELETEINVENTORY("jailing.jail.deleteInventory"),

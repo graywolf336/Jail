@@ -1,7 +1,5 @@
 package com.graywolf336.jail;
 
-import java.io.IOException;
-
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -348,51 +346,25 @@ public class PrisonerManager {
 				
 				chest.clear();
 			}else {
-				restoreInventory(player, prisoner);
+				Util.restoreInventory(player, prisoner);
 			}
 			
 			pl.getJailIO().removePrisoner(jail, cell, prisoner);
 			cell.removePrisoner();
 		}else {
-			restoreInventory(player, prisoner);
+			Util.restoreInventory(player, prisoner);
 			
 			pl.getJailIO().removePrisoner(jail, prisoner);
 			jail.removePrisoner(prisoner);
 		}
-	}
-	
-	private void restoreInventory(Player player, Prisoner prisoner) {
-		try {
-			Inventory content = Util.fromBase64(prisoner.getInventory());
-			ItemStack[] armor = Util.itemStackArrayFromBase64(prisoner.getArmor());
-			
-			for(ItemStack item : armor) {
-				if(item == null)
-					continue;
-				else if(item.getType().toString().toLowerCase().contains("helmet"))
-					player.getInventory().setHelmet(item);
-				else if(item.getType().toString().toLowerCase().contains("chestplate"))
-					player.getInventory().setChestplate(item);
-				else if(item.getType().toString().toLowerCase().contains("leg"))
-					player.getInventory().setLeggings(item);
-				else if(item.getType().toString().toLowerCase().contains("boots"))
-					player.getInventory().setBoots(item);
-				else if (player.getInventory().firstEmpty() == -1)
-					player.getWorld().dropItem(player.getLocation(), item);
-				else
-					player.getInventory().addItem(item);
-			}
-			
-			for(ItemStack item : content.getContents()) {
-				if(item == null) continue;
-				else if(player.getInventory().firstEmpty() == -1)
-					player.getWorld().dropItem(player.getLocation(), item);
-				else
-					player.getInventory().addItem(item);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			pl.getLogger().severe("Unable to restore " + player.getName() + "'s inventory.");
-		}
+		
+		//Get the commands to execute prisoners are unjailed
+    	//replace all of the %p% so that the commands can have a player name in them
+    	for(String command : pl.getConfig().getStringList(Settings.COMMANDSONRELEASE.getPath())) {
+    		command = command.replaceAll("%p%", player.getName());
+    		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
+    	}
+		
+		player.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILED));
 	}
 }

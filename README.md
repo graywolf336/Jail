@@ -29,6 +29,7 @@ Done
 * Config value ``jailing.during.maxFoodLevel`` is now used in one part
 * Config value ``jailing.during.minFoodLevel`` is now used in one part
 * Config value ``jailing.release.teleport`` is used in unjailing
+* Config value ``jailing.release.commands`` is now used
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====

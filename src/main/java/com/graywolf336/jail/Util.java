@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -19,6 +20,8 @@ import org.bukkit.util.Vector;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
+
+import com.graywolf336.jail.beans.Prisoner;
 
 /**
  * Provides a variety of methods, static, that are used throughout the plugin.
@@ -265,4 +268,39 @@ public class Util {
             throw new IOException("Unable to decode class type.", e);
         }
     }
+    
+	public static void restoreInventory(Player player, Prisoner prisoner) {
+		try {
+			Inventory content = Util.fromBase64(prisoner.getInventory());
+			ItemStack[] armor = Util.itemStackArrayFromBase64(prisoner.getArmor());
+			
+			for(ItemStack item : armor) {
+				if(item == null)
+					continue;
+				else if(item.getType().toString().toLowerCase().contains("helmet"))
+					player.getInventory().setHelmet(item);
+				else if(item.getType().toString().toLowerCase().contains("chestplate"))
+					player.getInventory().setChestplate(item);
+				else if(item.getType().toString().toLowerCase().contains("leg"))
+					player.getInventory().setLeggings(item);
+				else if(item.getType().toString().toLowerCase().contains("boots"))
+					player.getInventory().setBoots(item);
+				else if (player.getInventory().firstEmpty() == -1)
+					player.getWorld().dropItem(player.getLocation(), item);
+				else
+					player.getInventory().addItem(item);
+			}
+			
+			for(ItemStack item : content.getContents()) {
+				if(item == null) continue;
+				else if(player.getInventory().firstEmpty() == -1)
+					player.getWorld().dropItem(player.getLocation(), item);
+				else
+					player.getInventory().addItem(item);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			Bukkit.getLogger().severe("Unable to restore " + player.getName() + "'s inventory.");
+		}
+	}
 }
