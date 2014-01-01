@@ -10,6 +10,7 @@ import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
+import com.graywolf336.jail.listeners.HandCuffListener;
 import com.graywolf336.jail.listeners.PlayerListener;
 
 /**
@@ -41,6 +42,7 @@ public class JailMain extends JavaPlugin {
 		pm = new PrisonerManager(this);
 		
 		PluginManager plm = this.getServer().getPluginManager();
+		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new BlockListener(), this);
 		plm.registerEvents(new EntityListener(), this);
 		plm.registerEvents(new PlayerListener(this), this);
