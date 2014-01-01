@@ -21,6 +21,7 @@ import com.graywolf336.jail.listeners.PlayerListener;
  */
 public class JailMain extends JavaPlugin {
 	private CommandHandler cmdHand;
+	private HandCuffManager hcm;
 	private JailIO io;
 	private JailManager jm;
 	private PrisonerManager pm;
@@ -29,6 +30,7 @@ public class JailMain extends JavaPlugin {
 	public void onEnable() {
 		loadConfig();
 		
+		hcm = new HandCuffManager();
 		jm = new JailManager(this);
 		io = new JailIO(this);
 		io.loadLanguage();
@@ -91,6 +93,11 @@ public class JailMain extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
 		return true;//Always return true here, that way we can handle the help and command usage ourself.
+	}
+	
+	/** Gets the {@link HandCuffManager} instance. */
+	public HandCuffManager getHandCuffManager() {
+		return this.hcm;
 	}
 	
 	/** Gets the {@link JailIO} instance. */

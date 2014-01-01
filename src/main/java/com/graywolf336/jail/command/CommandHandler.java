@@ -12,6 +12,7 @@ import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 
 import com.graywolf336.jail.command.commands.CellCreateCommand;
+import com.graywolf336.jail.command.commands.HandCuffCommand;
 import com.graywolf336.jail.command.commands.JailCheckCommand;
 import com.graywolf336.jail.command.commands.JailClearCommand;
 import com.graywolf336.jail.command.commands.JailCommand;
@@ -21,6 +22,7 @@ import com.graywolf336.jail.command.commands.JailListCommand;
 import com.graywolf336.jail.command.commands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.commands.JailStopCommand;
 import com.graywolf336.jail.command.commands.JailVersionCommand;
+import com.graywolf336.jail.command.commands.UnHandCuffCommand;
 import com.graywolf336.jail.command.commands.UnjailCommand;
 
 /**
@@ -139,6 +141,7 @@ public class CommandHandler {
 	/** Loads all the commands into the hashmap. */
 	private void loadCommands() {
 		load(CellCreateCommand.class);
+		load(HandCuffCommand.class);
 		load(JailCheckCommand.class);
 		load(JailClearCommand.class);
 		load(JailCommand.class);
@@ -148,6 +151,7 @@ public class CommandHandler {
 		load(JailRemoveCellCommand.class);
 		load(JailStopCommand.class);
 		load(JailVersionCommand.class);
+		load(UnHandCuffCommand.class);
 		load(UnjailCommand.class);
 	}
 

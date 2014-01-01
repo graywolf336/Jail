@@ -14,6 +14,7 @@ Done
 * New command system, internally we handle commands a lot better
 * Delete commands are now remove
 * Language system (adding language strings as I use them, be patient with me)
+* Handcuffs are now implemented
 * Config value ``jailing.jail.defaultJail`` is now used
 * Config value ``jailing.jail.defaultTime`` is now used
 * The time passed can be represented by time shorthand, aka "3hours" or "15minutes" or etc (defaults to minutes)
