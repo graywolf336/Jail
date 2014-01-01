@@ -1,12 +1,12 @@
 package com.graywolf336.jail.command.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.enums.LangString;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -21,13 +21,13 @@ public class UnHandCuffCommand implements Command {
 		Player player = jm.getPlugin().getServer().getPlayerExact(args[0]);
 		
 		if(player == null) {
-			sender.sendMessage(ChatColor.RED + "That player is not online!");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE));
 		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getName())) {
-			sender.sendMessage(ChatColor.GREEN + "Releasing them now!");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSRELEASED, new String[] { player.getName() }));
 			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getName());
-			player.sendMessage(ChatColor.GREEN + "Your handcuffs have been rmeoved.");
+			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.UNHANDCUFFED));
 		}else {
-			sender.sendMessage(ChatColor.BLUE + player.getName() + ChatColor.RED + " doesn't have any handcuffs to remove!");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHANDCUFFED, new String[] { player.getName() }));
 		}
 		
 		return true;

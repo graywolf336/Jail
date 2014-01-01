@@ -1,12 +1,12 @@
 package com.graywolf336.jail.command.commands;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.enums.LangString;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -21,19 +21,19 @@ public class HandCuffCommand implements Command {
 		Player player = jm.getPlugin().getServer().getPlayer(args[0]);
 		
 		if(player == null) {
-			sender.sendMessage(ChatColor.RED + "That player is not online!");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE));
 		}else if(player.hasPermission("jail.cantbehandcuffed")) {
-			sender.sendMessage(ChatColor.RED + "That player can't be handcuffed.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANTBEHANDCUFFED, new String[] { player.getName() }));
 		}else if(jm.isPlayerJailed(player.getName())) {
-			sender.sendMessage(ChatColor.RED + "That player is currently jailed, you can't handcuff a prisoner.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CURRENTLYJAILEDHANDCUFF, new String[] { player.getName() }));
 		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getName())) {
-			sender.sendMessage(ChatColor.GREEN + "That player is already handcuffed, releasing them now!");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSRELEASED, new String[] { player.getName() }));
 			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getName());
-			player.sendMessage(ChatColor.GREEN + "Your handcuffs have been rmeoved.");
+			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.UNHANDCUFFED));
 		}else {
 			jm.getPlugin().getHandCuffManager().addHandCuffs(player.getName(), player.getLocation());
-			sender.sendMessage(ChatColor.BLUE + args[0] + ChatColor.GREEN + " has been handcuffed!");
-			player.sendMessage(ChatColor.RED + "You've been handcuffed.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSON, new String[] { player.getName() }));
+			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFED));
 		}
 		
 		return true;

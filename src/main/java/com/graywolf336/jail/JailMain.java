@@ -42,9 +42,9 @@ public class JailMain extends JavaPlugin {
 		pm = new PrisonerManager(this);
 		
 		PluginManager plm = this.getServer().getPluginManager();
-		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new BlockListener(), this);
 		plm.registerEvents(new EntityListener(), this);
+		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new PlayerListener(this), this);
 		
 		debug = getConfig().getBoolean(Settings.DEBUG.getPath());
