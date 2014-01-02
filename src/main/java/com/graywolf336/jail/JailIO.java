@@ -91,7 +91,7 @@ public class JailIO {
 	 * @return The message as a colorful message or an empty message if that isn't defined in the language file.
 	 */
 	public String getLanguageString(LangString langString, String... variables) {
-		String message = lang.getString("language." + langString.getSection() + langString.getName());
+		String message = lang.getString("language." + langString.getSection() + "." + langString.getName());
 		
 		if(message == null) return "";
 		
