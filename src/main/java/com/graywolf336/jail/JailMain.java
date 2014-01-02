@@ -64,6 +64,7 @@ public class JailMain extends JavaPlugin {
 		pm = null;
 		jm = null;
 		io = null;
+		hcm = null;
 	}
 	
 	private void loadConfig() {

@@ -35,6 +35,7 @@ public class TestJailStuff {
 
 	@Test
 	public void testForJails() {
+		assertNotNull("The HandCuffManager is null.", main.getHandCuffManager());
 		assertNotNull("The JailIO is null.", main.getJailIO());
 		assertNotNull("The JailManager is null.", main.getJailManager());
 		assertNotNull("The HashSet for jails return is null.", main.getJailManager().getJails());
