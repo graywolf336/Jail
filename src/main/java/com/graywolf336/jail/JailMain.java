@@ -25,6 +25,7 @@ public class JailMain extends JavaPlugin {
 	private HandCuffManager hcm;
 	private JailIO io;
 	private JailManager jm;
+	private JailTimer jt;
 	private PrisonerManager pm;
 	private boolean debug = false;
 	
@@ -47,18 +48,23 @@ public class JailMain extends JavaPlugin {
 		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new PlayerListener(this), this);
 		
+		jt = new JailTimer(this);
+		
 		debug = getConfig().getBoolean(Settings.DEBUG.getPath());
 		
 		if(debug) getLogger().info("Debugging enabled.");
 		
-		//For the time, we will use:
-		//http://docs.oracle.com/javase/7/docs/api/java/util/concurrent/TimeUnit.html#convert(long, java.util.concurrent.TimeUnit)
+		getLogger().info("Successfully loaded, is our impression.");
 	}
 
 	public void onDisable() {
 		if(jm != null)
 			for(Jail j : jm.getJails())
 				io.saveJail(j);
+		
+		if(jt != null)
+			if(jt.getTimer() != null)
+				jt.getTimer().stop();
 		
 		cmdHand = null;
 		pm = null;

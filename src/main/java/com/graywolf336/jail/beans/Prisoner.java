@@ -11,12 +11,12 @@ import org.bukkit.Location;
  * 
  * @author graywolf336
  * @since 2.x.x
- * @version 2.0.1
+ * @version 3.0.0
  */
 public class Prisoner {
 	private String name, reason, inventory, armor;
 	private boolean muted, offlinePending, teleporting;
-	private long time;
+	private long time, afk;
 	private Location previousPosition;
 	private GameMode previousGameMode;
 	
@@ -38,6 +38,7 @@ public class Prisoner {
 		this.previousGameMode = GameMode.SURVIVAL;
 		this.inventory = "";
 		this.armor = "";
+		this.afk = 0;
 	}
 	
 	/** Gets the name of this player. */
@@ -174,5 +175,15 @@ public class Prisoner {
 	/** Sets the armor inventory Base64 string. */
 	public void setArmor(String armor) {
 		this.armor = armor;
+	}
+	
+	/** Gets the time, in milliseconds, this prisoner has been afk. */
+	public long getAFKTime() {
+		return this.afk;
+	}
+	
+	/** Sets the time, in milliseconds, this prisoner has been afk. */
+	public void setAFKTime(long time) {
+		this.afk = time;
 	}
 }

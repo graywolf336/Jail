@@ -3,6 +3,8 @@ package com.graywolf336.jail.enums;
 public enum LangString {
 	//Jailing section
 	
+	/** The message displayed when players are kicked for being afk. */
+	AFKKICKMESSAGE ("jailing"),
 	/** The message sent when we broadcast/log the message for time below -1. */
 	BROADCASTMESSAGEFOREVER ("jailing"),
 	/** The message sent when we broadcast/log the message for any time above -1. */

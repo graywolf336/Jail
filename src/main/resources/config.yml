@@ -3,6 +3,7 @@ system:
   debug: false
   language: 'en'
   updateNotifications: true
+  useBukkitTimer: true
 storage:
   type: 'flatfile' #can be flatfile, sqlite, or mysql
   mysql:
@@ -14,6 +15,7 @@ jailing:
   during:
     countDownTimeWhileOffline: false
     ignoreSleeping: true
+    maxAFKTime: 10m #in minutes
     maxFoodLevel: 20
     minFoodLevel: 10
     openChest: true

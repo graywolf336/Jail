@@ -4,6 +4,7 @@ public enum Settings {
 	BROADCASTJAILING("jailing.jail.broadcastJailing"),
 	COMMANDSONJAIL("jailing.jail.commands"),
 	COMMANDSONRELEASE("jailing.release.commands"),
+	COUNTDOWNTIMEOFFLINE("jailing.during.countDownTimeWhileOffline"),
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
 	DELETEINVENTORY("jailing.jail.deleteInventory"),
@@ -12,12 +13,14 @@ public enum Settings {
 	JAILEDGAMEMODE("jailing.jail.gameMode"),
 	JAILEDSTOREINVENTORY("jailing.jail.storeInventory"),
 	LOGJAILING("jailing.jail.logToConsole"),
+	MAXAFKTIME("jailing.during.maxAFKTime"),
 	MAXFOODLEVEL("jailing.during.maxFoodLevel"),
 	MINFOODLEVEL("jailing.during.minFoodLevel"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
 	TELEPORTONRELEASE("jailing.release.teleport"),
-	UPDATENOTIFICATIONS("system.updateNotifications");
+	UPDATENOTIFICATIONS("system.updateNotifications"),
+	USEBUKKITTIMER("system.useBukkitTimer");
 	
 	private String path;
 	

@@ -268,6 +268,28 @@ public class PrisonerManager {
 	}
 	
 	/**
+	 * Release the given prisoner from jailing, does the checks if they are offline or not.
+	 * 
+	 * @param player we are releasing, can be null and if so they'll be treated as offline.
+	 * @param prisoner data to handle.
+	 */
+	public void releasePrisoner(Player player, Prisoner prisoner) {
+		if(player == null) {
+			prisoner.setOfflinePending(true);
+			prisoner.setRemainingTime(0);
+		}else {
+			Jail j = pl.getJailManager().getJailPlayerIsIn(player.getName());
+			
+			try {
+				unJail(j, j.getCellPrisonerIsIn(player.getName()), player, prisoner);
+			}catch(Exception e) {
+				pl.getLogger().severe("Unable to unjail the prisoner " + player.getName() + " because '" + e.getMessage() + "'.");
+			}
+			
+		}
+	}
+	
+	/**
 	 * Unjails a prisoner from jail, removing all their data.
 	 * 
 	 * <p />

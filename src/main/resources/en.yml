@@ -2,6 +2,7 @@ language:
   general:
     playernotonline: '&cThat player is not online!'
   jailing:
+    afkkickmessage: '&cYou can not be afk while being jailed.'
     broadcastmessageforever: '&9%0% has been jailed forever.'
     broadcastmessageforminutes: '&9%0% has been jailed for %1% minutes.'
     cantbejailed: '&cThat player can not be jailed.'

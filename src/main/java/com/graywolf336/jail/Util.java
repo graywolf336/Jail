@@ -93,6 +93,8 @@ public class Util {
      * @throws Exception if there are no matches
      */
     public static Long getTime(String time) throws Exception {
+    	if(time.equalsIgnoreCase("-1")) return -1L;
+    	
     	Long t = 10L;
     	Matcher match = DURATION_PATTERN.matcher(time);
     	
