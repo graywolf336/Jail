@@ -66,6 +66,7 @@ public class JailMain extends JavaPlugin {
 			if(jt.getTimer() != null)
 				jt.getTimer().stop();
 		
+		jt = null;
 		cmdHand = null;
 		pm = null;
 		jm = null;
