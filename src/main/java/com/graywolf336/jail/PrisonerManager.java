@@ -81,8 +81,8 @@ public class PrisonerManager {
 		
 		if(prisoner.getRemainingTime() < 0L)
 			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFOREVER, new String[] { prisoner.getName() });
-		else//
-			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFOREVER, new String[] { prisoner.getName(), String.valueOf(prisoner.getRemainingTimeInMinutes()) });
+		else
+			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFORMINUTES, new String[] { prisoner.getName(), String.valueOf(prisoner.getRemainingTimeInMinutes()) });
 		
 		boolean broadcasted = false;
 		//Broadcast the message, if it is enabled
