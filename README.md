@@ -11,6 +11,7 @@ ToDo
 Done
 ===
 * Muted Prisoners are now muted
+* Implemented counting down time **always use the bukkit scheduler, unless your tick rate is slow as the other way we do it is not always stable**
 * New command system, internally we handle commands a lot better
 * Delete commands are now remove
 * Language system (adding language strings as I use them, be patient with me)
