@@ -9,6 +9,7 @@ language:
     defaultjailedreason: Breaking the rules.
     jailed: '&cYou have been jailed!'
     jailedwithreason: '&cYou have been jailed for: %0%'
+    muted: '&cStop talking, you are in jail.'
     unjailed: '&2You have been released! Please respect the server rules.'
   handcuffing:
     cantbehandcuffed: '&9%0% &ccan not be handcuffed.'

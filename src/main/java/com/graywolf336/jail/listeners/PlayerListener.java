@@ -3,7 +3,6 @@ package com.graywolf336.jail.listeners;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,6 +17,7 @@ import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 
 public class PlayerListener implements Listener {
@@ -53,7 +53,7 @@ public class PlayerListener implements Listener {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 			if(pl.getJailManager().getPrisoner(event.getPlayer().getName()).isMuted()) {
 				event.setCancelled(true);
-				event.getPlayer().sendMessage(ChatColor.RED + "Stop talking, you're currently jailed and muted.");
+				event.getPlayer().sendMessage(pl.getJailIO().getLanguageString(LangString.MUTED));
 			}
 		}
 		

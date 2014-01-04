@@ -17,6 +17,8 @@ public enum LangString {
 	JAILED ("jailing"),
 	/** The message sent when players are jailed with a reason. */
 	JAILEDWITHREASON ("jailing"),
+	/** The message sent when players are jailed and they try to talk. */
+	MUTED ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
 	
