@@ -1,5 +1,8 @@
 package com.graywolf336.jail.listeners;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -13,6 +16,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
+import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.enums.Settings;
 
 public class PlayerListener implements Listener {
 	private JailMain pl;
@@ -49,6 +55,23 @@ public class PlayerListener implements Listener {
 				event.setCancelled(true);
 				event.getPlayer().sendMessage(ChatColor.RED + "Stop talking, you're currently jailed and muted.");
 			}
+		}
+		
+		//If the config has recieve messages set to false, let's remove all the prisoners
+		//from getting the chat messages.
+		if(!pl.getConfig().getBoolean(Settings.RECIEVEMESSAGES.getPath())) {
+			if(pl.inDebug()) pl.getLogger().info("Debug - There are " + event.getRecipients().size() + " players getting the message before.");
+			Set<Player> rec = new HashSet<Player>(event.getRecipients());
+			
+			for(Jail j : pl.getJailManager().getJails()) {
+				for(Prisoner p : j.getAllPrisoners()) {
+					rec.remove(pl.getServer().getPlayerExact(p.getName()));
+				}
+			}
+			
+			event.getRecipients().clear();
+			event.getRecipients().addAll(rec);
+			if(pl.inDebug()) pl.getLogger().info("Debug - There are now " + event.getRecipients().size() + " players getting the message.");
 		}
 	}
 	

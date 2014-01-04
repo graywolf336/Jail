@@ -19,6 +19,7 @@ jailing:
     maxFoodLevel: 20
     minFoodLevel: 10
     openChest: true
+    recieveMessages: true
   jail:
     automaticMute: true
     broadcastJailing: false

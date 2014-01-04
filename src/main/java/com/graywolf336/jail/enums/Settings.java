@@ -16,6 +16,7 @@ public enum Settings {
 	MAXAFKTIME("jailing.during.maxAFKTime"),
 	MAXFOODLEVEL("jailing.during.maxFoodLevel"),
 	MINFOODLEVEL("jailing.during.minFoodLevel"),
+	RECIEVEMESSAGES("jailing.during.recieveMessages"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
 	TELEPORTONRELEASE("jailing.release.teleport"),
