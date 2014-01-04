@@ -30,8 +30,10 @@ public class JailTimer {
 		
 		this.lastTime = System.currentTimeMillis();
 		if(pl.getConfig().getBoolean(Settings.USEBUKKITTIMER.getPath())) {
+			pl.getLogger().info("Using the Bukkit Scheduler.");
 			pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new TimeEvent(), 20, 20);
 		}else {
+			pl.getLogger().info("Using the Java Timer.");
 			timer = new Timer(1000, new ActionListener () {
 				public void actionPerformed (ActionEvent event) {
 					pl.getServer().getScheduler().scheduleSyncDelayedTask(pl, new TimeEvent());
