@@ -16,6 +16,7 @@ jailing:
     blockBreakProtection: true
     blockPlaceProtection: true
     countDownTimeWhileOffline: false
+    explosionProtection: true
     ignoreSleeping: true
     maxAFKTime: 10m #in minutes
     maxFoodLevel: 20

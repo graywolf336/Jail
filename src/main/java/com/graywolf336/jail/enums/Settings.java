@@ -10,6 +10,7 @@ public enum Settings {
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
 	DELETEINVENTORY("jailing.jail.deleteInventory"),
+	EXPLOSIONPROTECTION("jailing.during.explosionProtection"),
 	IGNORESLEEPINGSTATE("jailing.during.ignoreSleeping"),
 	JAILDEFAULTTIME("jailing.jail.defaultTime"),
 	JAILEDGAMEMODE("jailing.jail.gameMode"),
