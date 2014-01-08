@@ -112,6 +112,22 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets the jail which this location is in, will return null if none exist.
+	 * 
+	 * @param loc to get the jail from
+	 * @return The jail this block is in, null if no jail found.
+	 */
+	public Jail getJailFromLocation(Location loc) {
+		for(Jail j : jails.values()) {
+			if(Util.isInsideAB(loc.toVector(), j.getMinPoint().toVector(), j.getMaxPoint().toVector())) {
+				return j;
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Checks to see if the given name for a {@link Jail} is valid, returns true if it is a valid jail.
 	 * 
 	 * @param name The name of the jail to check.

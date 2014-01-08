@@ -33,7 +33,14 @@ import com.graywolf336.jail.beans.Prisoner;
 public class Util {
 	private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(m(?:inute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
 	
-	/** Checks if the first {@link Vector} is inside the other two. */
+	/**
+	 * Checks if the first {@link Vector} is inside this region.
+	 * 
+	 * @param point The point to check
+	 * @param first point of the region
+	 * @param second second point of the region
+	 * @return True if all the coords of the first vector are in the entire region.
+	 */
 	public static boolean isInsideAB(Vector point, Vector first, Vector second) {
 		boolean x = isInside(point.getBlockX(), first.getBlockX(), second.getBlockX());
 		boolean y = isInside(point.getBlockY(), first.getBlockY(), second.getBlockY());

@@ -13,6 +13,8 @@ storage:
     password: 'password'
 jailing:
   during:
+    blockBreakProtection: true
+    blockPlaceProtection: true
     countDownTimeWhileOffline: false
     ignoreSleeping: true
     maxAFKTime: 10m #in minutes

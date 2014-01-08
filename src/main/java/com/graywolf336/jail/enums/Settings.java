@@ -2,6 +2,8 @@ package com.graywolf336.jail.enums;
 
 public enum Settings {
 	BROADCASTJAILING("jailing.jail.broadcastJailing"),
+	BLOCKBREAKPROTECTION("jailing.during.blockBreakProtection"),
+	BLOCKPLACEPROTECTION("jailing.during.blockPlaceProtection"),
 	COMMANDSONJAIL("jailing.jail.commands"),
 	COMMANDSONRELEASE("jailing.release.commands"),
 	COUNTDOWNTIMEOFFLINE("jailing.during.countDownTimeWhileOffline"),

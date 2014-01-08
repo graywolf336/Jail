@@ -4,9 +4,20 @@ This plugins adds Jail to your Minecraft server. Admins can define several jails
 
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
 
+Changes
+===
+With this being version 3 of this plugin, a couple things have changed but the core concept is still the exact same. Here are some drastic changes:
+* Time can now be entered different formats, 3hours or 15mins or 4days
+* New language system
+* New config system (per jail configs are going to make a come back)
+* Only prisoners will be able to place/break blocks on the whitelist
+* Items in the config use item names now, not the ids
+
 ToDo
 ===
 * About everything
+* Enable a whitelist of blocks which can be broke
+* Enabled a whitelist of blocks which can be placed
 
 Done
 ===
