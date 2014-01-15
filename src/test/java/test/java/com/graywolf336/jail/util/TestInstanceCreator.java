@@ -14,6 +14,7 @@ import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_7_R1.inventory.CraftItemFactory;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
@@ -23,13 +24,10 @@ import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
-
 import org.junit.Assert;
-
 import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.MockGateway;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -45,6 +43,7 @@ public class TestInstanceCreator {
 	private Server mockServer;
 	private Player mockPlayer;
 	private CommandSender mockSender, mockPlayerSender;
+	private ConsoleCommandSender consoleSender;
 	
 	public static final File serverDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
 	public static final File worldsDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
@@ -187,6 +186,26 @@ public class TestInstanceCreator {
 			Field serverField = JavaPlugin.class.getDeclaredField("server");
 			serverField.setAccessible(true);
 			serverField.set(main, mockServer);
+			
+			// Init our command sender
+			final Logger consoleSenderLogger = Logger.getLogger("ConsoleCommandSender");
+			consoleSenderLogger.setParent(Util.logger);
+			consoleSender = mock(ConsoleCommandSender.class);
+			doAnswer(new Answer<Void>() {
+				public Void answer(InvocationOnMock invocation) throws Throwable {
+					consoleSenderLogger.info(ChatColor.stripColor((String) invocation.getArguments()[0]));
+					return null;
+				}
+			}).when(consoleSender).sendMessage(anyString());
+			when(consoleSender.getServer()).thenReturn(mockServer);
+			when(consoleSender.getName()).thenReturn("MockCommandSender");
+			when(consoleSender.isPermissionSet(anyString())).thenReturn(true);
+			when(consoleSender.isPermissionSet(Matchers.isA(Permission.class))).thenReturn(true);
+			when(consoleSender.hasPermission(anyString())).thenReturn(true);
+			when(consoleSender.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
+			when(consoleSender.addAttachment(main)).thenReturn(null);
+			when(consoleSender.isOp()).thenReturn(true);
+			when(mockServer.getConsoleSender()).thenReturn(consoleSender);
 			
 			// Init our command sender
 			final Logger commandSenderLogger = Logger.getLogger("CommandSender");
