@@ -47,7 +47,7 @@ public class TestJailCommandInfo {
 		CommandSender sender = creator.getCommandSender();
 		
 		assertTrue(main.onCommand(sender, command, "thisisnotavalidcommand", args));
-		verify(sender).sendMessage("No commands registered by the name of thisisnotavalidcommand.");
+		verify(sender).sendMessage(ChatColor.RED + "No commands registered by the name of thisisnotavalidcommand.");
 	}
 	
 	@Test
@@ -59,7 +59,7 @@ public class TestJailCommandInfo {
 		CommandSender sender = creator.getCommandSender();
 		
 		assertTrue(main.onCommand(sender, command, "jailcreate", args));
-		verify(sender).sendMessage("A player context is required for this command.");
+		verify(sender).sendMessage(ChatColor.RED + "A player context is required for this.");
 	}
 	
 	@Test
