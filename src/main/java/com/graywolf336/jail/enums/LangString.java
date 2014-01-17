@@ -24,8 +24,9 @@ public enum LangString {
 	
 	//Handcuffing section
 	
-	/** The message setnt to the sender when trying to handcuff someone who can't be. */
+	/** The message sent to the sender when trying to handcuff someone who can't be. */
 	CANTBEHANDCUFFED ("handcuffing"),
+	/** The message sent to the sender whenever they try to handcuff someone who is in jail. */
 	CURRENTLYJAILEDHANDCUFF ("handcuffing", "currentlyjailed"),
 	/** The message sent to the sender when the player doesn't have any handcuffs. */
 	NOTHANDCUFFED ("handcuffing"),
@@ -40,8 +41,14 @@ public enum LangString {
 	
 	//General section, used by different parts
 	
+	/** The message sent whenever the sender/player doesn't have permission. */
+	NOPERMISSION ("general"),
+	/** The message sent whenever something is done that needs a player but doesn't have it. */
+	PLAYERCONTEXTREQUIRED ("general"),
 	/** The message sent whenever an online player is required but not found. */
-	PLAYERNOTONLINE ("general");
+	PLAYERNOTONLINE ("general"),
+	/** The message sent whenever someone does a command we don't know. */
+	UNKNOWNCOMMAND ("general");
 	
 	private String section, name;
 	

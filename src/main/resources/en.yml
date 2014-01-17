@@ -1,5 +1,8 @@
 language:
   general:
+    unknowncommand: '&cNo commands registered by the name of %0%.'
+    nopermission: '&cInsufficient permission.'
+    playercontextrequired: '&cA player context is required for this.'
     playernotonline: '&cThat player is not online!'
   jailing:
     afkkickmessage: '&cYou can not be afk while being jailed.'

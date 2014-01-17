@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
-
 import com.graywolf336.jail.command.commands.CellCreateCommand;
 import com.graywolf336.jail.command.commands.HandCuffCommand;
 import com.graywolf336.jail.command.commands.JailCheckCommand;
@@ -24,6 +23,7 @@ import com.graywolf336.jail.command.commands.JailStopCommand;
 import com.graywolf336.jail.command.commands.JailVersionCommand;
 import com.graywolf336.jail.command.commands.UnHandCuffCommand;
 import com.graywolf336.jail.command.commands.UnjailCommand;
+import com.graywolf336.jail.enums.LangString;
 
 /**
  * Where all the commands are registered at and handled, processed, at.
@@ -68,7 +68,7 @@ public class CommandHandler {
 		List<Command> matches = getMatches(command);
 		
 		if(matches.size() == 0) {
-			sender.sendMessage("No commands registered by the name of " + command + ".");
+			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, command));
 			return;
 		}
 		
@@ -83,13 +83,13 @@ public class CommandHandler {
 		
 		// First, let's check if the sender has permission for the command.
 		if(!sender.hasPermission(i.permission())) {
-			sender.sendMessage("No permission to use that command.");//TODO: Make this configurable
+			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
 			return;
 		}
 		
 		// Next, let's check if we need a player and then if the sender is actually a player
 		if(i.needsPlayer() && !(sender instanceof Player)) {
-			sender.sendMessage("A player context is required for this command.");
+			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
 			return;
 		}
 		
