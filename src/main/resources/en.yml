@@ -1,4 +1,7 @@
 language:
+  actions:
+    blockbreaking: 'breaking a block'
+    blockplacing: 'placing a block'
   general:
     unknowncommand: '&cNo commands registered by the name of %0%.'
     nopermission: '&cInsufficient permission.'
@@ -13,6 +16,7 @@ language:
     jailed: '&cYou have been jailed!'
     jailedwithreason: '&cYou have been jailed for: %0%'
     muted: '&cStop talking, you are in jail.'
+    protectionmessage: '&c%0% minutes has been added to your time for %1%.'
     unjailed: '&2You have been released! Please respect the server rules.'
   handcuffing:
     cantbehandcuffed: '&9%0% &ccan not be handcuffed.'

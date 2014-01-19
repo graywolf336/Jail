@@ -12,6 +12,7 @@ import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.HandCuffListener;
 import com.graywolf336.jail.listeners.PlayerListener;
+import com.graywolf336.jail.listeners.ProtectionListener;
 
 /**
  * The main class for this Jail plugin, holds instances of vital classes.
@@ -47,6 +48,7 @@ public class JailMain extends JavaPlugin {
 		plm.registerEvents(new EntityListener(this), this);
 		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new PlayerListener(this), this);
+		plm.registerEvents(new ProtectionListener(this), this);
 		
 		jt = new JailTimer(this);
 		

@@ -13,7 +13,9 @@ storage:
     password: 'password'
 jailing:
   during:
+    blockBreakPenalty: 5m
     blockBreakProtection: true
+    blockPlacePenalty: 5m
     blockPlaceProtection: true
     countDownTimeWhileOffline: false
     explosionProtection: true

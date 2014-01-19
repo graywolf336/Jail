@@ -85,6 +85,15 @@ public class Prisoner {
 		this.time = time;
 	}
 	
+	/**
+	 * Adds the given time to the remaining time the prisoner has left.
+	 * 
+	 * @param time to add to the prisoner's remaining time.
+	 */
+	public void addTime(long time) {
+		this.time += time;
+	}
+	
 	/** Gets whether the player is offline or not. */
 	public boolean isOfflinePending() {
 		return this.offlinePending;

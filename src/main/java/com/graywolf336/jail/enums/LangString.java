@@ -1,6 +1,13 @@
 package com.graywolf336.jail.enums;
 
 public enum LangString {
+	//actions section
+	
+	/** Section for when they break a block. */
+	BLOCKBREAKING ("actions"),
+	/** Section for when they place a block. */
+	BLOCKPLACING ("actions"),
+	
 	//Jailing section
 	
 	/** The message displayed when players are kicked for being afk. */
@@ -19,6 +26,8 @@ public enum LangString {
 	JAILEDWITHREASON ("jailing"),
 	/** The message sent when players are jailed and they try to talk. */
 	MUTED ("jailing"),
+	/** The message sent to the prisoner when they try to do something but it is protected. */
+	PROTECTIONMESSAGE ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
 	
