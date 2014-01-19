@@ -11,13 +11,11 @@ With this being version 3 of this plugin, a couple things have changed but the c
 * New language system
 * New config system (per jail configs are going to make a come back)
 * Only prisoners will be able to place/break blocks on the whitelist
-* Items in the config use item names now, not the ids
+* Items in the config use item names now, **not** the ids
 
 ToDo
 ===
 * About everything
-* Enable a whitelist of blocks which can be broke
-* Enabled a whitelist of blocks which can be placed
 
 Done
 ===

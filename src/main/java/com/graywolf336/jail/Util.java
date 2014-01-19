@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -71,6 +72,24 @@ public class Util {
         }
 
         return (point1 <= loc) && (loc <= point2);
+    }
+    
+    /**
+     * Checks if the given string is inside the list, ignoring the casing.
+     * 
+     * <p />
+     * 
+     * @param list of strings to check
+     * @param value to check 
+     * @return true if the list contains the provided value, false if it doesn't
+     */
+    public static boolean isStringInsideList(List<String> list, String value) {
+    	boolean r = false;
+    	for(String s : list)
+    		if(s.equalsIgnoreCase(value))
+    			return true;
+    	
+    	return r;
     }
     
     /** Returns a colorful message from the color codes. */
