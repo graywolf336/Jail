@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -80,6 +81,22 @@ public class PlayerListener implements Listener {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 			if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).getPrisoner(event.getPlayer().getName()).isOfflinePending()) {
 				pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
+			}
+		}
+	}
+	
+	@EventHandler
+	public void foodControl(FoodLevelChangeEvent event) {
+		if(pl.getConfig().getBoolean(Settings.FOODCONTROL.getPath())) {
+			if(pl.getJailManager().isPlayerJailed(event.getEntity().getName())) {
+				int min = pl.getConfig().getInt(Settings.FOODCONTROLMIN.getPath());
+				int max = pl.getConfig().getInt(Settings.FOODCONTROLMAX.getPath());
+				
+				if (event.getFoodLevel() <  min) {
+					event.setFoodLevel(min);
+				}else {
+					event.setFoodLevel(max);
+				}
 			}
 		}
 	}

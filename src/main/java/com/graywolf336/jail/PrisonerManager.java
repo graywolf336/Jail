@@ -178,8 +178,8 @@ public class PrisonerManager {
     	}
     	
     	//Get the max and min food level in the config
-    	int maxFood = pl.getConfig().getInt(Settings.MAXFOODLEVEL.getPath(), 20);
-    	int minFood = pl.getConfig().getInt(Settings.MINFOODLEVEL.getPath(), 10);
+    	int maxFood = pl.getConfig().getInt(Settings.FOODCONTROLMAX.getPath(), 20);
+    	int minFood = pl.getConfig().getInt(Settings.FOODCONTROLMIN.getPath(), 10);
     	
     	//If their food level is less than the min food level, set it to the min
     	//but if it is higher than the max, set it to the max
