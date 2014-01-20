@@ -19,6 +19,9 @@ jailing:
     blockPlacePenalty: 5m
     blockPlaceProtection: true
     blockPlaceWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
+    commandPenalty: 5m
+    commandProtection: true
+    commandWhitelist: ['/ping', '/list']
     countDownTimeWhileOffline: false
     explosionProtection: true
     ignoreSleeping: true

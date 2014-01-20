@@ -2,6 +2,7 @@ language:
   actions:
     blockbreaking: 'breaking a block'
     blockplacing: 'placing a block'
+    command: 'trying to use a command'
   general:
     unknowncommand: '&cNo commands registered by the name of %0%.'
     nopermission: '&cInsufficient permission.'

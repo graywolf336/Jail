@@ -10,7 +10,6 @@ With this being version 3 of this plugin, a couple things have changed but the c
 * Time can now be entered different formats, 3hours or 15mins or 4days
 * New language system
 * New config system (per jail configs are going to make a come back)
-* Only prisoners will be able to place/break blocks on the whitelist
 * Items in the config use item names now, **not** the ids
 
 ToDo

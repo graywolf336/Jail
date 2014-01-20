@@ -7,6 +7,8 @@ public enum LangString {
 	BLOCKBREAKING ("actions"),
 	/** Section for when they place a block. */
 	BLOCKPLACING ("actions"),
+	/** Section for when they try to do a command that isn't whitelisted. */
+	COMMAND ("actions"),
 	
 	//Jailing section
 	
