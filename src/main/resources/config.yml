@@ -15,10 +15,10 @@ jailing:
   during:
     blockBreakPenalty: 5m
     blockBreakProtection: true
-    blockBreakWhiteList: ['wheat', 'carrot'] # these blocks can be broken at any time by prisoners
+    blockBreakWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be broken at any time by prisoners
     blockPlacePenalty: 5m
     blockPlaceProtection: true
-    blockPlaceWhiteList: ['seeds', 'carrot'] # these blocks can be placed at any time by prisoners
+    blockPlaceWhiteList: ['seeds', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
     countDownTimeWhileOffline: false
     explosionProtection: true
     ignoreSleeping: true
