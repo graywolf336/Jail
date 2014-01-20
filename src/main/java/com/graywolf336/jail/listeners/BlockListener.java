@@ -17,6 +17,9 @@ public class BlockListener implements Listener {
 	
 	@EventHandler(ignoreCancelled=true)
 	public void blockBreak(BlockBreakEvent event) {
+		//If we're in debugging mode, let's send the player what block they're breaking.
+		if(pl.inDebug()) event.getPlayer().sendMessage("[Jail Debug]: " + event.getBlock().getType().toString());
+				
 		//If we are protecting against block breaking, then let's do the action.
 		//If we're not, let's not use any processing power to get the jail
 		//where this block was broke at
@@ -35,6 +38,8 @@ public class BlockListener implements Listener {
 	
 	@EventHandler(ignoreCancelled=true)
 	public void blockPlace(BlockPlaceEvent event) {
+		//If we're in debugging mode, let's send the player what block they're placing.
+		if(pl.inDebug()) event.getPlayer().sendMessage("[Jail Debug]: " + event.getBlock().getType().toString());
 		
 		//If we are protecting against block placing, then let's do the action.
 		//If we're not, let's not use any processing power to get the jail
