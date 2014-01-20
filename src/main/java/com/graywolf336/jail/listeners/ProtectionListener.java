@@ -2,11 +2,14 @@ package com.graywolf336.jail.listeners;
 
 import java.util.concurrent.TimeUnit;
 
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.Util;
@@ -132,6 +135,51 @@ public class ProtectionListener implements Listener {
 					
 					//Stop the command from happening, as it wasn't whitelisted
 					event.setCancelled(true);
+				}
+			}
+		}
+	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void chestProtection(PlayerInteractEvent event) {
+		//First thing is first, let's be sure the player we're dealing with is in jail
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			//Next, let's check if it is a chest and if they're in a cell
+			//If they are in a cell and are opening a chest, then we check
+			//the config to see if they can open the chests
+			if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
+				//Let's get the cell the player is in, then check if it is null or not.
+				if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).isJailedInACell(event.getPlayer().getName())) {
+					if(pl.getConfig().getBoolean(Settings.OPENCHEST.getPath())) {
+						//The prisoner is in a cell, so let's check if it is a couple chest.
+						Material bpos1 = event.getClickedBlock().getLocation().add(-1, 0, 0).getBlock().getType();
+					    Material bpos2 = event.getClickedBlock().getLocation().add(+1, 0, 0).getBlock().getType();
+					    Material bpos3 = event.getClickedBlock().getLocation().add(0, 0, -1).getBlock().getType();
+					    Material bpos4 = event.getClickedBlock().getLocation().add(0, 0, +1).getBlock().getType();
+					    
+					    boolean pos1 = bpos1 == Material.CHEST || bpos1 == Material.TRAPPED_CHEST;
+					    boolean pos2 = bpos2 == Material.CHEST || bpos2 == Material.TRAPPED_CHEST;
+					    boolean pos3 = bpos3 == Material.CHEST || bpos3 == Material.TRAPPED_CHEST;
+					    boolean pos4 = bpos4 == Material.CHEST || bpos4 == Material.TRAPPED_CHEST;
+					    
+					    if(pos1 || pos2 || pos3 || pos4) {
+					    	//it is a double chest, so they're free to go!
+					    	if(pl.inDebug()) event.getPlayer().sendMessage("[Jail Debug]: You're opening up a double chest.");
+					    }else {
+					    	//it is not a double chest, so we won't be allowing it.
+					    	event.setCancelled(true);
+					    	return;
+					    }
+					}else {
+						//the config has opening chests disabled
+				    	event.setCancelled(true);
+				    	return;
+					}
+				}else {
+					//The prisoner is not in a cell, so let's not allow it. IF we get feedback from people who
+					//use the plugin, this might get removed or permission node might be added.
+					event.setCancelled(true);
+					return;
 				}
 			}
 		}

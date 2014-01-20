@@ -27,6 +27,7 @@ public enum Settings {
 	JAILEDSTOREINVENTORY("jailing.jail.storeInventory"),
 	LOGJAILING("jailing.jail.logToConsole"),
 	MAXAFKTIME("jailing.during.maxAFKTime"),
+	OPENCHEST("jailing.during.openChest"),
 	RECIEVEMESSAGES("jailing.during.recieveMessages"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
