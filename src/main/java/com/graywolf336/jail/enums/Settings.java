@@ -17,6 +17,7 @@ public enum Settings {
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
 	DELETEINVENTORY("jailing.jail.deleteInventory"),
+	ENDERMENPROTECTION("jails.endermenProtection"),
 	EXPLOSIONPROTECTION("jails.explosionProtection"),
 	FOODCONTROL("jailing.during.foodControl"),
 	FOODCONTROLMAX("jailing.during.foodControlMax"),

@@ -12,6 +12,7 @@ storage:
     username: 'root'
     password: 'password'
 jails:
+  endermenProtection: true
   explosionProtection: true
 jailing:
   during:

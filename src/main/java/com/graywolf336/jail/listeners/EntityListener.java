@@ -3,6 +3,7 @@ package com.graywolf336.jail.listeners;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import com.graywolf336.jail.JailMain;
@@ -29,6 +30,18 @@ public class EntityListener implements Listener {
 					event.blockList().clear();
 					return;
 				}
+			}
+		}
+	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void protectFromEndermen(EntityChangeBlockEvent event) {
+		//If we are protecting the jails from endermen protection
+		if(pl.getConfig().getBoolean(Settings.ENDERMENPROTECTION.getPath())) {
+			//Check if there are any jails where the block's location is
+			if(pl.getJailManager().getJailFromLocation(event.getBlock().getLocation()) != null) {
+				//Let's cancel the event so it doesn't happen
+				event.setCancelled(true);
 			}
 		}
 	}
