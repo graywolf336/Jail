@@ -43,11 +43,18 @@ public class ProtectionListener implements Listener {
 						long add = Util.getTime(pl.getConfig().getString(Settings.BLOCKBREAKPENALTY.getPath()));
 						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
 						
-						//Generate the protection message, provide the method with two arguments
-						//First is the time in minutes and second is the thing we are protecting against
-						String msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
-								new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
-								pl.getJailIO().getLanguageString(LangString.BLOCKBREAKING) });
+						String msg = "";
+						if(add == 0L) {
+							//Generate the protection message, provide the method with one argument
+							//which is the thing we are protecting against
+							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.BLOCKBREAKING));
+						}else {
+							//Generate the protection message, provide the method with two arguments
+							//First is the time in minutes and second is the thing we are protecting against
+							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
+									new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
+									pl.getJailIO().getLanguageString(LangString.BLOCKBREAKING) });
+						}
 						
 						//Send the message
 						event.getPlayer().sendMessage(msg);
@@ -82,11 +89,18 @@ public class ProtectionListener implements Listener {
 						long add = Util.getTime(pl.getConfig().getString(Settings.BLOCKPLACEPENALTY.getPath()));
 						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
 						
-						//Generate the protection message, provide the method with two arguments
-						//First is the time in minutes and second is the thing we are protecting against
-						String msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
-								new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
-								pl.getJailIO().getLanguageString(LangString.BLOCKPLACING) });
+						String msg = "";
+						if(add == 0L) {
+							//Generate the protection message, provide the method with one argument
+							//which is the thing we are protecting against
+							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.BLOCKPLACING));
+						}else {
+							//Generate the protection message, provide the method with two arguments
+							//First is the time in minutes and second is the thing we are protecting against
+							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
+									new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
+									pl.getJailIO().getLanguageString(LangString.BLOCKPLACING) });
+						}
 						
 						//Send the message
 						event.getPlayer().sendMessage(msg);
@@ -121,11 +135,18 @@ public class ProtectionListener implements Listener {
 						long add = Util.getTime(pl.getConfig().getString(Settings.COMMANDPENALTY.getPath()));
 						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
 						
-						//Generate the protection message, provide the method with two arguments
-						//First is the time in minutes and second is the thing we are protecting against
-						String msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
-								new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
-								pl.getJailIO().getLanguageString(LangString.COMMAND) });
+						String msg = "";
+						if(add == 0L) {
+							//Generate the protection message, provide the method with one argument
+							//which is the thing we are protecting against
+							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.COMMAND));
+						}else {
+							//Generate the protection message, provide the method with two arguments
+							//First is the time in minutes and second is the thing we are protecting against
+							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
+									new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
+									pl.getJailIO().getLanguageString(LangString.COMMAND) });
+						}
 						
 						//Send the message
 						event.getPlayer().sendMessage(msg);

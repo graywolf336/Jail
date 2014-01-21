@@ -30,6 +30,8 @@ public enum LangString {
 	MUTED ("jailing"),
 	/** The message sent to the prisoner when they try to do something but it is protected. */
 	PROTECTIONMESSAGE ("jailing"),
+	/** The message sent to the prisoner when they try to do something and it is protected, but no penalty. */
+	PROTECTIONMESSAGENOPENALTY ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
 	
