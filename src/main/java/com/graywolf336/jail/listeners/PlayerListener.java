@@ -84,11 +84,13 @@ public class PlayerListener implements Listener {
 			Prisoner p = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).getPrisoner(event.getPlayer().getName());
 			//Check if they're offline pending, as if this is true then they were jailed offline
 			if(p.isOfflinePending()) {
-				//Proceed with jailing the prisoner
-				pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
-			}else if(p.getRemainingTime() == 0L) {
-				//If their remaining time is 0, let's unjail them
-				pl.getPrisonerManager().releasePrisoner(event.getPlayer(), p);
+				if(p.getRemainingTime() == 0L) {
+					//If their remaining time is 0, let's unjail them
+					pl.getPrisonerManager().releasePrisoner(event.getPlayer(), p);
+				}else {
+					//Their remaining time isn't 0 so let's proceed with jailing of the prisoner
+					pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
+				}
 			}
 			
 			//if we are ignoring a prisoner's sleeping state, then let's set that
