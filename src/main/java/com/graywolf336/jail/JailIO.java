@@ -181,6 +181,8 @@ public class JailIO {
 					flat.set(node + "tps.free.yaw", j.getTeleportFree().getYaw());
 					flat.set(node + "tps.free.pitch", j.getTeleportFree().getPitch());
 					
+					//Set all the cells to nothing, then we save each of them so no cells are left behind
+					flat.set(node + ".cells", null);
 					for(Cell c : j.getCells()) {
 						String cNode = node + ".cells." + c.getName() + ".";
 						
@@ -223,6 +225,8 @@ public class JailIO {
 						}
 					}
 					
+					//Null all the prisoners out before we save them again, this way no prisoners are left behind
+					flat.set(node + "prisoners", null);
 					for(Prisoner p : j.getPrisonersNotInCells()) {
 						String pNode = node + "prisoners." + p.getName() + ".";
 						flat.set(pNode + "muted", p.isMuted());
