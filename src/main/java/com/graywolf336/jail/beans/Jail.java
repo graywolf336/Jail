@@ -181,6 +181,18 @@ public class Jail {
 		return new HashSet<Cell>(this.cells.values());
 	}
 	
+	/** Clears all the prisoners from this Jail. */
+	public void clearPrisoners() {
+		//Remove the prisoners from all the cells
+		for(Cell c : getCells()) {
+			c.removePrisoner();
+		}
+		
+		//Replace all the current no cell prisoners with
+		//a new hashset of prisoners.
+		this.nocellPrisoners = new HashSet<Prisoner>();
+	}
+	
 	/** Gets a HashSet of <b>all</b> the prisoners, the ones in cells and ones who aren't. */
 	public HashSet<Prisoner> getAllPrisoners() {
 		HashSet<Prisoner> all = new HashSet<Prisoner>(nocellPrisoners); //initalize the temp one to return with the prisoners not in any cells

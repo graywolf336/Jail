@@ -14,6 +14,8 @@ public enum LangString {
 	
 	/** The message displayed when players are kicked for being afk. */
 	AFKKICKMESSAGE ("jailing"),
+	/** The message sent when jailing someone that is already jailed. */
+	ALREADYJAILED ("jailing"),
 	/** The message sent when we broadcast/log the message for time below -1. */
 	BROADCASTMESSAGEFOREVER ("jailing"),
 	/** The message sent when we broadcast/log the message for any time above -1. */
@@ -54,12 +56,22 @@ public enum LangString {
 	
 	//General section, used by different parts
 	
+	/** Part message of any messages which require 'all the jails' or such. */
+	ALLJAILS ("general"),
+	/** The message sent whenever the sender does something which the jail does not found. */
+	NOJAIL ("general"),
+	/** The message sent whenever the sender does something and there are no jails. */
+	NOJAILS ("general"),
 	/** The message sent whenever the sender/player doesn't have permission. */
 	NOPERMISSION ("general"),
+	/** The message sent whenever the sender/player supplies a number format that is incorrect. */
+	NUMBERFORMATINCORRECT ("general"),
 	/** The message sent whenever something is done that needs a player but doesn't have it. */
 	PLAYERCONTEXTREQUIRED ("general"),
 	/** The message sent whenever an online player is required but not found. */
 	PLAYERNOTONLINE ("general"),
+	/** The message sent whenever the prisoners are cleared from jail(s). */
+	PRISONERSCLEARED ("general"),
 	/** The message sent whenever someone does a command we don't know. */
 	UNKNOWNCOMMAND ("general");
 	

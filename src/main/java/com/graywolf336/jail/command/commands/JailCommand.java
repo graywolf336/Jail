@@ -44,7 +44,7 @@ public class JailCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		
 		if(jm.getJails().size() == 0) {
-			sender.sendMessage(ChatColor.RED + "No jails found.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
 			return true;
 		}
 		
@@ -59,7 +59,7 @@ public class JailCommand implements Command {
 		
 		//Check if the given player is already jailed or not
 		if(jm.isPlayerJailed(params.player())) {
-			sender.sendMessage(ChatColor.RED + "That player is already jailed.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED));
 			return true;
 		}
 		
@@ -75,7 +75,7 @@ public class JailCommand implements Command {
 				time = Util.getTime(params.time());
 			}
 		}catch(Exception e) {
-			sender.sendMessage(ChatColor.RED + "Number format is incorrect.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NUMBERFORMATINCORRECT));
 			return true;
 		}
 		
@@ -93,7 +93,7 @@ public class JailCommand implements Command {
 				params.setJail(jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath()));
 			}
 		}else if(jm.getJail(params.jail()) == null) {
-			sender.sendMessage(ChatColor.RED + "No jail found by the name of '" + params.jail() + "'.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, params.jail()));
 			return true;
 		}
 		
