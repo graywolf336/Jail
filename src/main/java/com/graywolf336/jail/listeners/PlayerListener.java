@@ -58,7 +58,7 @@ public class PlayerListener implements Listener {
 			}
 		}
 		
-		//If the config has recieve messages set to false, let's remove all the prisoners
+		//If the config has receive messages set to false, let's remove all the prisoners
 		//from getting the chat messages.
 		if(!pl.getConfig().getBoolean(Settings.RECIEVEMESSAGES.getPath())) {
 			if(pl.inDebug()) pl.getLogger().info("Debug - There are " + event.getRecipients().size() + " players getting the message before.");
@@ -77,10 +77,23 @@ public class PlayerListener implements Listener {
 	}
 	
 	@EventHandler
-	public void checkForOfflineJail(PlayerJoinEvent event) {
+	public void checkForOfflineJailStuff(PlayerJoinEvent event) {
+		//Let's check if the player is jailed
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
-			if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).getPrisoner(event.getPlayer().getName()).isOfflinePending()) {
+			//Get the prisoner object
+			Prisoner p = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).getPrisoner(event.getPlayer().getName());
+			//Check if they're offline pending, as if this is true then they were jailed offline
+			if(p.isOfflinePending()) {
+				//Proceed with jailing the prisoner
 				pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
+			}else if(p.getRemainingTime() == 0L) {
+				//If their remaining time is 0, let's unjail them
+				pl.getPrisonerManager().releasePrisoner(event.getPlayer(), p);
+			}
+			
+			//if we are ignoring a prisoner's sleeping state, then let's set that
+			if(pl.getConfig().getBoolean(Settings.IGNORESLEEPINGSTATE.getPath())) {
+				event.getPlayer().setSleepingIgnored(true);
 			}
 		}
 	}
