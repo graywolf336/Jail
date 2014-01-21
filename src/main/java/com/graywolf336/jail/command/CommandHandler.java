@@ -107,9 +107,15 @@ public class CommandHandler {
 		
 		// Since everything has been checked and we're all clear, let's execute it.
 		// But if get back false, let's show the usage message.
-		if(!c.execute(jailmanager, sender, args)) {
+		try {
+			if(!c.execute(jailmanager, sender, args)) {
+				showUsage(sender, c);
+				return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			jailmanager.getPlugin().getLogger().severe("An error occured while handling the command: " + i.usage());
 			showUsage(sender, c);
-			return;
 		}
 	}
 	

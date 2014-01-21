@@ -27,5 +27,5 @@ public interface Command {
 	 * @param args The args, in an array
 	 * @return True if the method handled it in any way, false if we should send the usage message.
 	 */
-	public boolean execute(JailManager jm, CommandSender sender, String... args);
+	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception;
 }
