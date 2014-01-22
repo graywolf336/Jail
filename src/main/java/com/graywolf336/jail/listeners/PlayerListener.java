@@ -13,6 +13,7 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
@@ -113,6 +114,19 @@ public class PlayerListener implements Listener {
 				}else {
 					event.setFoodLevel(max);
 				}
+			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerRespawn(PlayerRespawnEvent event) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName());
+			
+			if(j.isJailedInACell(event.getPlayer().getName())) {
+				event.setRespawnLocation(j.getCellPrisonerIsIn(event.getPlayer().getName()).getTeleport());
+			}else {
+				event.setRespawnLocation(j.getTeleportIn());
 			}
 		}
 	}
