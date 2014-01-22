@@ -100,7 +100,7 @@ public class JailCommand implements Command {
 		//Check if the cell is defined, and if so check to be sure it exists.
 		if(!params.cell().isEmpty()) {
 			if(jm.getJail(params.jail()).getCell(params.cell()) == null) {
-				//There is cell by that name
+				//There is no cell by that name
 				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.cell(), params.jail() }));
 				return true;
 			}else if(jm.getJail(params.jail()).getCell(params.cell()).hasPrisoner()) {
