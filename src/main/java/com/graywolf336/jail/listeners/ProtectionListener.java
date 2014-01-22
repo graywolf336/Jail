@@ -207,7 +207,7 @@ public class ProtectionListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOWEST)
 	public void cropTramplingProtection(PlayerInteractEvent event) {
 		//First thing is first, let's be sure the player we're dealing with is in jail
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
