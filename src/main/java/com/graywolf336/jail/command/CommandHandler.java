@@ -13,7 +13,7 @@ import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.commands.CellCreateCommand;
 import com.graywolf336.jail.command.commands.HandCuffCommand;
 import com.graywolf336.jail.command.commands.JailCheckCommand;
-import com.graywolf336.jail.command.commands.JailClearCommand;
+import com.graywolf336.jail.command.commands.JailClearForceCommand;
 import com.graywolf336.jail.command.commands.JailCommand;
 import com.graywolf336.jail.command.commands.JailCreateCommand;
 import com.graywolf336.jail.command.commands.JailListCellsCommand;
@@ -149,7 +149,7 @@ public class CommandHandler {
 		load(CellCreateCommand.class);
 		load(HandCuffCommand.class);
 		load(JailCheckCommand.class);
-		load(JailClearCommand.class);
+		load(JailClearForceCommand.class);
 		load(JailCommand.class);
 		load(JailCreateCommand.class);
 		load(JailListCellsCommand.class);

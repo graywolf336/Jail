@@ -12,11 +12,11 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 1,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jailclear|jclear",
-		permission = "jail.command.jailclear",
-		usage = "/jailclear (Jail name)"
+		pattern = "jailclearforce|jcf",
+		permission = "jail.command.jailclearforce",
+		usage = "/jailclearforce (Jail name)"
 	)
-public class JailClearCommand implements Command {
+public class JailClearForceCommand implements Command {
 	
 	// If Jail is specified clear all prisoners from that Jail (new feature) else, clear all players from all jails
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
