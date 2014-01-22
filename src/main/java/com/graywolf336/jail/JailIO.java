@@ -215,6 +215,7 @@ public class JailIO {
 							flat.set(cNode + "prisoner.muted", p.isMuted());
 							flat.set(cNode + "prisoner.time", p.getRemainingTime());
 							flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
+							flat.set(cNode + "prisoner.jailer", p.getJailer());
 							flat.set(cNode + "prisoner.reason", p.getReason());
 							flat.set(cNode + "prisoner.inventory", p.getInventory());
 							flat.set(cNode + "prisoner.armor", p.getArmor());
@@ -232,6 +233,7 @@ public class JailIO {
 						flat.set(pNode + "muted", p.isMuted());
 						flat.set(pNode + "time", p.getRemainingTime());
 						flat.set(pNode + "offlinePending", p.isOfflinePending());
+						flat.set(pNode + "jailer", p.getJailer());
 						flat.set(pNode + "reason", p.getReason());
 						flat.set(pNode + "inventory", p.getInventory());
 						flat.set(pNode + "armor", p.getArmor());
@@ -314,6 +316,7 @@ public class JailIO {
 								Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"),
 												flat.getBoolean(cellNode + "prisoner.muted"),
 												flat.getLong(cellNode + "prisoner.time"),
+												flat.getString(cellNode + "prisoner.jailer"),
 												flat.getString(cellNode + "prisoner.reason"));
 								p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
 								p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
@@ -333,7 +336,11 @@ public class JailIO {
 					if(!prisoners.isEmpty()) {
 						for(String prisoner : prisoners) {
 							String pNode = node + "prisoners." + prisoner + ".";
-							Prisoner pris = new Prisoner(prisoner, flat.getBoolean(pNode + "muted"), flat.getLong(pNode + "time"), flat.getString(pNode + "reason"));
+							Prisoner pris = new Prisoner(prisoner,
+									flat.getBoolean(pNode + "muted"),
+									flat.getLong(pNode + "time"),
+									flat.getString(pNode + "jailer"),
+									flat.getString(pNode + "reason"));
 							pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
 							pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
 							pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));

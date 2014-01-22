@@ -38,6 +38,10 @@ public enum LangString {
 	NOEMPTYCELLS ("jailing"),
 	/** The message sent when a player is not jailed and the sender is trying to see/do something about it. */
 	NOTJAILED ("jailing"),
+	/** The message sent to the jailer when they jail someone offline. */
+	OFFLINEJAIL ("jailing"),
+	/** The message sent to the jailer when they jail someone who is online. */
+	ONLINEJAIL ("jailing"),
 	/** The message sent to the prisoner when they try to do something but it is protected. */
 	PROTECTIONMESSAGE ("jailing"),
 	/** The message sent to the prisoner when they try to do something and it is protected, but no penalty. */

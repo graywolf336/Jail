@@ -1,7 +1,5 @@
 package com.graywolf336.jail.command.commands;
 
-import java.util.concurrent.TimeUnit;
-
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -43,7 +41,7 @@ public class JailCommand implements Command {
 	 */
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		
-		if(jm.getJails().size() == 0) {
+		if(jm.getJails().isEmpty()) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
 			return true;
 		}
@@ -117,8 +115,14 @@ public class JailCommand implements Command {
 			}
 		}
 		
+		//If the jailer gave no reason, then let's get the default reason
 		if(params.reason().isEmpty()) {
 			params.setReason(jm.getPlugin().getJailIO().getLanguageString(LangString.DEFAULTJAILEDREASON));
+		}
+		
+		//If the config has automatic muting, then let's set them as muted
+		if(jm.getPlugin().getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath())) {
+			params.setMuted(true);
 		}
 		
 		Player p = jm.getPlugin().getServer().getPlayer(params.player());
@@ -133,10 +137,10 @@ public class JailCommand implements Command {
 		//Get the jail instance from the name of jail in the params.
 		Jail j = jm.getJail(params.jail());
 		Cell c = j.getCell(params.cell());
-		Prisoner pris = new Prisoner(params.player(), params.muted(), time, params.reason());
+		Prisoner pris = new Prisoner(params.player(), params.muted(), time, sender.getName(), params.reason());
 		
 		//call the event
-		PrePrisonerJailedEvent event = new PrePrisonerJailedEvent(j, c, pris, p, p == null, sender.getName());
+		PrePrisonerJailedEvent event = new PrePrisonerJailedEvent(j, c, pris, p, p == null, pris.getJailer());
 		jm.getPlugin().getServer().getPluginManager().callEvent(event);
 		
 		//check if the event is cancelled
@@ -154,23 +158,20 @@ public class JailCommand implements Command {
 		c = event.getCell();
 		pris = event.getPrisoner();
 		p = event.getPlayer();
-		String jailer = event.getJailer();
+		
+		//Player is not online
+		if(p == null) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.OFFLINEJAIL, new String[] { pris.getName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
+		}else {
+			//Player *is* online
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ONLINEJAIL, new String[] { pris.getName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
+		}
 		
 		try {
 			jm.getPlugin().getPrisonerManager().prepareJail(j, c, p, pris);
 		} catch (Exception e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;
-		}
-		
-		//Player is not online
-		if(p == null) {
-			sender.sendMessage(pris.getName() + " is offline and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + " in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
-			sender.sendMessage(pris.getName() + " will be jailed for " + TimeUnit.MINUTES.convert(pris.getRemainingTime(), TimeUnit.MILLISECONDS) + " minutes by " + jailer + ".");
-		}else {
-			//Player *is* online
-			sender.sendMessage(pris.getName() + " is online and will be jailed for " + pris.getRemainingTime() + " milliseconds in the jail " + params.jail() + " in the cell " + params.cell() + " and will be muted: " + pris.isMuted() + ".");
-			sender.sendMessage(pris.getName() + " will be jailed for " + TimeUnit.MINUTES.convert(pris.getRemainingTime(), TimeUnit.MILLISECONDS) + " minutes by " + jailer + ".");
 		}
 		
 		return true;

@@ -31,6 +31,8 @@ language:
     muted: '&cStop talking, you are in jail.'
     noemptycells: '&cNo empty cells were found for %0%, all them appear to be full.'
     notjailed: '&c%0% is not jailed.'
+    offlinejail: '&2%0% is offline and will be jailed when they next come online for %1% minutes.'
+    onlinejail: '&2%0% was jailed for %1% minutes.'
     protectionmessage: '&c%0% minutes has been added to your time for %1%.'
     protectionmessagenopenalty: '&cProtection enabled for %0%, do not do it again.'
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'

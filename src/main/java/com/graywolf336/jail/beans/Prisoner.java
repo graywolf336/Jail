@@ -14,7 +14,7 @@ import org.bukkit.Location;
  * @version 3.0.0
  */
 public class Prisoner {
-	private String name, reason, inventory, armor;
+	private String name, jailer, reason, inventory, armor;
 	private boolean muted, offlinePending, teleporting;
 	private long time, afk;
 	private Location previousPosition;
@@ -26,11 +26,14 @@ public class Prisoner {
 	 * @param name The name of the prisoner
 	 * @param muted Whether the prisoner is muted or not
 	 * @param time The amount of remaining time the prisoner has
+	 * @param jailer The name of the person who jailed this prisoner
+	 * @param reason The reason why this prisoner is in jail
 	 */
-	public Prisoner(String name, boolean muted, long time, String reason) {
+	public Prisoner(String name, boolean muted, long time, String jailer, String reason) {
 		this.name = name;
 		this.muted = muted;
 		this.time = time;
+		this.jailer = jailer;
 		this.reason = reason;
 		this.offlinePending = false;
 		this.teleporting = false;
@@ -54,6 +57,16 @@ public class Prisoner {
 	/** Sets the reason this player was jailed for. */
 	public void setReason(String reason) {
 		this.reason = reason;
+	}
+	
+	/** Gets the person who jailed this prisoner. */
+	public String getJailer() {
+		return this.jailer;
+	}
+	
+	/** Sets the person who jailed this prisoner. */
+	public void setJailer(String jailer) {
+		this.jailer = jailer;
 	}
 	
 	/** Gets whether the prisoner is muted or not. */
