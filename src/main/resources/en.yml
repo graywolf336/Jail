@@ -26,6 +26,7 @@ language:
     alreadyjailed: '&cThat player is already jailed.'
     broadcastmessageforever: '&9%0% has been jailed forever.'
     broadcastmessageforminutes: '&9%0% has been jailed for %1% minutes.'
+    broadcastunjailing: '&9%0% has been unjailed by %1%.'
     cancelledbyanotherplugin: '&cJailing %0% was cancelled by another plugin and they did not leave you a message.'
     cantbejailed: '&cThat player can not be jailed.'
     cellnotempty: '&cThe destination cell, %0%, already has a prisoner in it.'

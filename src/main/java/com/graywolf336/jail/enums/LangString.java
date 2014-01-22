@@ -28,6 +28,8 @@ public enum LangString {
 	BROADCASTMESSAGEFOREVER ("jailing"),
 	/** The message sent when we broadcast/log the message for any time above -1. */
 	BROADCASTMESSAGEFORMINUTES ("jailing"),
+	/** The message sent to the broadcast/log the unjailing of someone. */
+	BROADCASTUNJAILING ("jailing"),
 	/** The message sent to the sender when trying to jail someone and a plugin cancels it but doesn't leave a message why. */
 	CANCELLEDBYANOTHERPLUGIN ("jailing"),
 	/** The message sent when trying to jail someone who can't be jailed by permission. */

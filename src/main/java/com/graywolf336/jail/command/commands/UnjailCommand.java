@@ -9,6 +9,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Settings;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -39,6 +40,10 @@ public class UnjailCommand implements Command {
 				} catch (Exception e) {
 					sender.sendMessage(ChatColor.RED + e.getMessage());
 				}
+			}
+			
+			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILING.getPath())) {
+				jm.getPlugin().getLogger().info(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() }));
 			}
 		}else {
 			//The player is not currently jailed
