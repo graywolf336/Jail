@@ -7,8 +7,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import com.graywolf336.jail.JailMain;
+import com.graywolf336.jail.Util;
 
 /** Represents a Jail, contains the prisoners and the cells.
  * 
@@ -313,5 +315,19 @@ public class Jail {
 	public double getDistance(Location loc) {
 		if (loc.getWorld().getName().equalsIgnoreCase(getTeleportIn().getWorld().getName())) return (double) Integer.MAX_VALUE;
 		else return loc.distance(getTeleportIn());
+	}
+	
+	/**
+	 * Returns whether the given location is inside this Jail.
+	 * 
+	 * @param loc to check whether is inside this jail
+	 * @return True if the location is in the jail, false if it isn't
+	 */
+	public boolean isInside(Location loc) {
+		if(loc.getWorld().getName().equalsIgnoreCase(world)) {
+			return Util.isInsideAB(loc.toVector(), new Vector(minX, minY, minZ), new Vector(maxX, maxY, maxZ));
+		}else {
+			return false;
+		}
 	}
 }

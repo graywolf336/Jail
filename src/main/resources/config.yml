@@ -33,6 +33,8 @@ jailing:
     foodControlMin: 10
     ignoreSleeping: true
     maxAFKTime: 10m #in minutes
+    movePenalty: 10m
+    moveProtection: true
     openChest: true
     preventInteractionBlocks: ['wooden_door', 'iron_door_block']
     preventInteractionBlocksPenalty: 5m

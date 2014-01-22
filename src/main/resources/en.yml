@@ -6,6 +6,7 @@ language:
     croptrampling: 'trampling crops'
     interactionBlocks: 'interacting with a block'
     interactionItems: 'interacting with an item'
+    moving: 'trying to escape'
   general:
     alljails: 'all the jails'
     cellremoved: '&9Cell %0% has been successfully removed from the jail %1%.'
@@ -36,7 +37,7 @@ language:
     notjailed: '&c%0% is not jailed.'
     offlinejail: '&2%0% is offline and will be jailed when they next come online for %1% minutes.'
     onlinejail: '&2%0% was jailed for %1% minutes.'
-    protectionmessage: '&c%0% minutes has been added to your time for %1%.'
+    protectionmessage: '&c%0% minutes have been added to your time for %1%.'
     protectionmessagenopenalty: '&cProtection enabled for %0%, do not do it again.'
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'
     unjailed: '&2You have been released! Please respect the server rules.'

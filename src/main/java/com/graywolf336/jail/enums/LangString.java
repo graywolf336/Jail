@@ -15,6 +15,8 @@ public enum LangString {
 	INTERACTIONBLOCKS ("actions"),
 	/** Section for when a player interacts with an item that is blacklisted. */
 	INTERACTIONITEMS ("actions"),
+	/** Section for when a player moves outside of the jail. */
+	MOVING ("actions"),
 	
 	//Jailing section
 	

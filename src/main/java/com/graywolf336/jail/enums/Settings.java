@@ -31,6 +31,8 @@ public enum Settings {
 	JAILEDSTOREINVENTORY("jailing.jail.storeInventory"),
 	LOGJAILING("jailing.jail.logToConsole"),
 	MAXAFKTIME("jailing.during.maxAFKTime"),
+	MOVEPENALTY("jailing.during.movePenalty"),
+	MOVEPROTECTION("jailing.during.moveProtection"),
 	OPENCHEST("jailing.during.openChest"),
 	PREVENTINTERACTIONBLOCKS("jailing.during.preventInteractionBlocks"),
 	PREVENTINTERACTIONBLOCKSPENALTY("jailing.during.preventInteractionBlocksPenalty"),
