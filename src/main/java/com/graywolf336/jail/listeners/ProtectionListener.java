@@ -34,7 +34,6 @@ public class ProtectionListener implements Listener {
 			//of the jails.
 			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 				//Get the breaking whitelist, check if the current item is in there
-				//the list must be lowercase, need to stress that
 				if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKBREAKWHITELIST.getPath()),
 						event.getBlock().getType().toString().toLowerCase())) {
 					//As our Util.getTime throws an exception when the time is in an
@@ -80,7 +79,6 @@ public class ProtectionListener implements Listener {
 			//of the jails.
 			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 				//Get the placing whitelist, check if the current item is in there
-				//the list must be lowercase, need to stress that
 				if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKPLACEWHITELIST.getPath()),
 						event.getBlock().getType().toString().toLowerCase())) {
 					//As our Util.getTime throws an exception when the time is in an
@@ -236,6 +234,80 @@ public class ProtectionListener implements Listener {
 							event.getPlayer().sendMessage(msg);
 						}catch (Exception e) {
 							pl.getLogger().severe("Crop Trampling penalty's time is in the wrong format, please fix.");
+						}
+						
+						event.setCancelled(true);
+					}
+				}
+			}
+		}
+	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void interactionProtection(PlayerInteractEvent event) {
+		//As the old version didn't do anything with Physical interactions, we won't either
+		if (event.getAction() != Action.PHYSICAL) {
+			//First thing is first, let's be sure the player we're dealing with is in jail
+			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+				
+				//Let's check if they've interacted with a block
+				if (event.getClickedBlock() != null) {
+					//Get the interaction blacklist, check if the current block is in there
+					//if it is, then let's take action
+					if(Util.isStringInsideList(pl.getConfig().getStringList(Settings.PREVENTINTERACTIONBLOCKS.getPath()),
+							event.getClickedBlock().getType().toString().toLowerCase())) {
+						try {
+							long add = Util.getTime(pl.getConfig().getString(Settings.PREVENTINTERACTIONBLOCKSPENALTY.getPath()));
+							pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+							
+							String msg = "";
+							if(add == 0L) {
+								//Generate the protection message, provide the method with one argument
+								//which is the thing we are protecting against
+								msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.INTERACTIONBLOCKS));
+							}else {
+								//Generate the protection message, provide the method with two arguments
+								//First is the time in minutes and second is the thing we are protecting against
+								msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
+										new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
+										pl.getJailIO().getLanguageString(LangString.INTERACTIONBLOCKS) });
+							}
+							
+							//Send the message
+							event.getPlayer().sendMessage(msg);
+						}catch(Exception e) {
+							pl.getLogger().severe("Prevent Interaction with Blocks penalty's time is in the wrong format, please fix.");
+						}
+						
+						event.setCancelled(true);
+					}
+				}else if (event.getPlayer().getItemInHand() != null) {
+					//Otherwise let's check if they have something in hand
+					//Get the interaction blacklist, check if the current item is in there
+					//if it is, then let's take action
+					if(Util.isStringInsideList(pl.getConfig().getStringList(Settings.PREVENTINTERACTIONITEMS.getPath()),
+							event.getClickedBlock().getType().toString().toLowerCase())) {
+						try {
+							long add = Util.getTime(pl.getConfig().getString(Settings.PREVENTINTERACTIONITEMSPENALTY.getPath()));
+							pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+							
+							String msg = "";
+							if(add == 0L) {
+								//Generate the protection message, provide the method with one argument
+								//which is the thing we are protecting against
+								msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.INTERACTIONITEMS));
+							}else {
+								//Generate the protection message, provide the method with two arguments
+								//First is the time in minutes and second is the thing we are protecting against
+								msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
+										new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
+										pl.getJailIO().getLanguageString(LangString.INTERACTIONITEMS) });
+							}
+							
+							//Send the message
+							event.getPlayer().sendMessage(msg);
+						}catch(Exception e) {
+							pl.getLogger().severe("Prevent Interaction with Items penalty's time is in the wrong format, please fix.");
 						}
 						
 						event.setCancelled(true);

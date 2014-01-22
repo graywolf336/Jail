@@ -11,6 +11,10 @@ public enum LangString {
 	COMMAND ("actions"),
 	/** Section for when a player tramples a crop and protection is enabled. */
 	CROPTRAMPLING ("actions"),
+	/** Section for when a player interacts with a block that is blacklisted. */
+	INTERACTIONBLOCKS ("actions"),
+	/** Section for when a player interacts with an item that is blacklisted. */
+	INTERACTIONITEMS ("actions"),
 	
 	//Jailing section
 	

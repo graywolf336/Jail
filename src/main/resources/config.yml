@@ -34,6 +34,10 @@ jailing:
     ignoreSleeping: true
     maxAFKTime: 10m #in minutes
     openChest: true
+    preventInteractionBlocks: ['wooden_door', 'iron_door_block']
+    preventInteractionBlocksPenalty: 5m
+    preventInteractionItems: []
+    preventInteractionItemsPenalty: 5m
     recieveMessages: true
   jail:
     automaticMute: true
