@@ -7,6 +7,7 @@ import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.enums.LangString;
 
 @CommandInfo(
 		maxArgs = 0,
@@ -27,7 +28,7 @@ public class JailListCommand implements Command {
 				sender.sendMessage(ChatColor.BLUE + "    " + j.getName() + " (" + j.getAllPrisoners().size() + ")");
 			}
 		}else {
-			sender.sendMessage(ChatColor.RED + "  There are no jails.");
+			sender.sendMessage(" " + jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
 		}
 		
 		sender.sendMessage(ChatColor.AQUA + "-------------------------");

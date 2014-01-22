@@ -8,6 +8,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.enums.LangString;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -36,15 +37,15 @@ public class JailListCellsCommand implements Command {
 				}
 				
 				if(message.isEmpty()) {
-					sender.sendMessage(ChatColor.RED + "There are no cells for the jail '" + args[0] + "'.");
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELLS, j.getName()));
 				}else {
 					sender.sendMessage(ChatColor.GREEN + message);
 				}
 			}else {
-				sender.sendMessage(ChatColor.RED + "No jail by the name of '" + args[0] + "'.");
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[0]));
 			}
 		}else {
-			sender.sendMessage(ChatColor.RED + "  There are no jails.");
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
 		}
 		
 		sender.sendMessage(ChatColor.AQUA + "-------------------------");

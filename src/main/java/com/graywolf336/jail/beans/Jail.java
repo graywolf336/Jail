@@ -150,6 +150,11 @@ public class Jail {
 		return this.cells.get(name);
 	}
 	
+	/** Removes the cell from the jail. */
+	public void removeCell(String name) {
+		this.cells.remove(name);
+	}
+	
 	/** Returns the cell which the given player name is jailed in, null if not. */
 	public Cell getCellPrisonerIsIn(String name) {
 		for(Cell c : cells.values())

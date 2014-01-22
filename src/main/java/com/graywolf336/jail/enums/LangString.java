@@ -20,8 +20,12 @@ public enum LangString {
 	BROADCASTMESSAGEFOREVER ("jailing"),
 	/** The message sent when we broadcast/log the message for any time above -1. */
 	BROADCASTMESSAGEFORMINUTES ("jailing"),
+	/** The message sent to the sender when trying to jail someone and a plugin cancels it but doesn't leave a message why. */
+	CANCELLEDBYANOTHERPLUGIN ("jailing"),
 	/** The message sent when trying to jail someone who can't be jailed by permission. */
 	CANTBEJAILED ("jailing"),
+	/** The message sent to the sender when they are trying to jail into a cell which is not empty. */
+	CELLNOTEMPTY ("jailing"),
 	/** The message sent when someone is jailed without a reason. */
 	DEFAULTJAILEDREASON ("jailing"),
 	/** The message sent when players are jailed without a reason. */
@@ -30,12 +34,20 @@ public enum LangString {
 	JAILEDWITHREASON ("jailing"),
 	/** The message sent when players are jailed and they try to talk. */
 	MUTED ("jailing"),
+	/** The message sent when the sender tries to jail someone in a cell and there aren't any cells to suggest. */
+	NOEMPTYCELLS ("jailing"),
+	/** The message sent when a player is not jailed and the sender is trying to see/do something about it. */
+	NOTJAILED ("jailing"),
 	/** The message sent to the prisoner when they try to do something but it is protected. */
 	PROTECTIONMESSAGE ("jailing"),
 	/** The message sent to the prisoner when they try to do something and it is protected, but no penalty. */
 	PROTECTIONMESSAGENOPENALTY ("jailing"),
+	/** The message sent to the sender of a command when suggesting a cell. */
+	SUGGESTEDCELL ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
+	/** The message went when an offline player is unjailed. */
+	WILLBEUNJAILED ("jailing"),
 	
 	//Handcuffing section
 	
@@ -58,6 +70,14 @@ public enum LangString {
 	
 	/** Part message of any messages which require 'all the jails' or such. */
 	ALLJAILS ("general"),
+	/** The message sent whenever a cell is successfully removed. */
+	CELLREMOVED ("general"),
+	/** The message sent whenever a jail is successfully removed. */
+	JAILREMOVED ("general"),
+	/** Message sent when doing something that requires a cell but the given name of a cell doesn't exist. */
+	NOCELL ("general"),
+	/** Message sent when needing a cell or something and there are no cells. */
+	NOCELLS ("general"),
 	/** The message sent whenever the sender does something which the jail does not found. */
 	NOJAIL ("general"),
 	/** The message sent whenever the sender does something and there are no jails. */

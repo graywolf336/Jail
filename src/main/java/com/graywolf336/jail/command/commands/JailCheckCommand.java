@@ -9,7 +9,7 @@ import com.graywolf336.jail.command.CommandInfo;
 @CommandInfo(
 		maxArgs = 1,
 		minimumArgs = 0,
-		needsPlayer = true,
+		needsPlayer = false,
 		pattern = "jailcheck|jcheck",
 		permission = "jail.command.jailcheck",
 		usage = "/jailcheck (Player name)"

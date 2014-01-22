@@ -100,16 +100,17 @@ public class JailCommand implements Command {
 		//Check if the cell is defined, and if so check to be sure it exists.
 		if(!params.cell().isEmpty()) {
 			if(jm.getJail(params.jail()).getCell(params.cell()) == null) {
-				sender.sendMessage(ChatColor.RED + "The cell provided does not exist.");
+				//There is cell by that name
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.cell(), params.jail() }));
 				return true;
 			}else if(jm.getJail(params.jail()).getCell(params.cell()).hasPrisoner()) {
 				//If the cell has a prisoner, don't allow jailing them to that particular cell
-				sender.sendMessage(ChatColor.RED + "The destination cell already has a prisoner in it.");
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CELLNOTEMPTY, params.cell()));
 				Cell suggestedCell = jm.getJail(params.jail()).getFirstEmptyCell();
 				if(suggestedCell != null) {
-					sender.sendMessage(ChatColor.RED + "We found an empty cell in the same jail (" + params.jail() + ") with the name: " + suggestedCell.getName());
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.SUGGESTEDCELL, new String[] { params.jail(), suggestedCell.getName() }));
 				}else {
-					sender.sendMessage(ChatColor.RED + "We didn't find any empty cells, this jail's (" + params.jail() + ") cells appear to be full");
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOEMPTYCELLS, params.jail()));
 				}
 				
 				return true;
@@ -141,7 +142,7 @@ public class JailCommand implements Command {
 		//check if the event is cancelled
 		if(event.isCancelled()) {
 			if(event.getCancelledMessage().isEmpty())
-				sender.sendMessage(ChatColor.RED + "Jailing " + params.player() + " was cancelled by another plugin and they didn't leave you a message.");
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, params.player()));
 			else
 				sender.sendMessage(event.getCancelledMessage());
 				
