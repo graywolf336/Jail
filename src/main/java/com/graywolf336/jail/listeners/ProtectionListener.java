@@ -206,4 +206,42 @@ public class ProtectionListener implements Listener {
 			}
 		}
 	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void cropTramplingProtection(PlayerInteractEvent event) {
+		//First thing is first, let's be sure the player we're dealing with is in jail
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			//Next, check if crap trampling protection is enabled
+			if(pl.getConfig().getBoolean(Settings.CROPTRAMPLINGPROTECTION.getPath())) {
+				if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL) {
+					if(pl.getJailManager().getJailFromLocation(event.getClickedBlock().getLocation()) != null) {
+						try {
+							long add = Util.getTime(pl.getConfig().getString(Settings.CROPTRAMPLINGPENALTY.getPath()));
+							pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+							
+							String msg = "";
+							if(add == 0L) {
+								//Generate the protection message, provide the method with one argument
+								//which is the thing we are protecting against
+								msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.CROPTRAMPLING));
+							}else {
+								//Generate the protection message, provide the method with two arguments
+								//First is the time in minutes and second is the thing we are protecting against
+								msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
+										new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
+										pl.getJailIO().getLanguageString(LangString.CROPTRAMPLING) });
+							}
+							
+							//Send the message
+							event.getPlayer().sendMessage(msg);
+						}catch (Exception e) {
+							pl.getLogger().severe("Crop Trampling penalty's time is in the wrong format, please fix.");
+						}
+						
+						event.setCancelled(true);
+					}
+				}
+			}
+		}
+	}
 }

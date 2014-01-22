@@ -3,6 +3,7 @@ language:
     blockbreaking: 'breaking a block'
     blockplacing: 'placing a block'
     command: 'trying to use a command'
+    croptrampling: 'trampling crops'
   general:
     alljails: 'all the jails'
     cellremoved: '&9Cell %0% has been successfully removed from the jail %1%.'

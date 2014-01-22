@@ -9,6 +9,8 @@ public enum LangString {
 	BLOCKPLACING ("actions"),
 	/** Section for when they try to do a command that isn't whitelisted. */
 	COMMAND ("actions"),
+	/** Section for when a player tramples a crop and protection is enabled. */
+	CROPTRAMPLING ("actions"),
 	
 	//Jailing section
 	

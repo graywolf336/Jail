@@ -15,6 +15,8 @@ public enum Settings {
 	COMMANDPROTECTION("jailing.during.commandProtection"),
 	COMMANDWHITELIST("jailing.during.commandWhitelist"),
 	COUNTDOWNTIMEOFFLINE("jailing.during.countDownTimeWhileOffline"),
+	CROPTRAMPLINGPENALTY("jailing.during.cropTramplingPenalty"),
+	CROPTRAMPLINGPROTECTION("jailing.during.cropTramplingProtection"),
 	DEBUG("system.debug"),
 	DEFAULTJAIL("jailing.jail.defaultJail"),
 	DELETEINVENTORY("jailing.jail.deleteInventory"),

@@ -26,6 +26,8 @@ jailing:
     commandProtection: true
     commandWhitelist: ['/ping', '/list']
     countDownTimeWhileOffline: false
+    cropTramplingPenalty: 5m
+    cropTramplingProtection: true
     foodControl: true
     foodControlMax: 20
     foodControlMin: 10
