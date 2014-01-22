@@ -4,6 +4,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -23,7 +24,7 @@ public class ProtectionListener implements Listener {
 		this.pl = plugin;
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void protectionBlockBreaking(BlockBreakEvent event) {
 		//Before we check if the player is jailed, let's save a
 		//tiny bit of resources and check if this protection is enabled
@@ -69,7 +70,7 @@ public class ProtectionListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void protectionBlockPlacing(BlockPlaceEvent event) {
 		//Before we check if the player is jailed, let's save a
 		//tiny bit of resources and check if this protection is enabled
@@ -115,7 +116,7 @@ public class ProtectionListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void commandProtection(PlayerCommandPreprocessEvent event) {
 		//Before we check if the player is jailed, let's save a
 		//tiny bit of resources and check if this protection is enabled
@@ -161,7 +162,7 @@ public class ProtectionListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void chestProtection(PlayerInteractEvent event) {
 		//First thing is first, let's be sure the player we're dealing with is in jail
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {

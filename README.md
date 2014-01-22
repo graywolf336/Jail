@@ -15,6 +15,8 @@ With this being version 3 of this plugin, a couple things have changed but the c
 ToDo
 ===
 * About everything
+* Prisoner profiles
+* Guards
 
 Done
 ===
@@ -24,21 +26,7 @@ Done
 * Delete commands are now remove
 * Language system (adding language strings as I use them, be patient with me)
 * Handcuffs are now implemented
-* Config value ``jailing.jail.defaultJail`` is now used
-* Config value ``jailing.jail.defaultTime`` is now used
 * The time passed can be represented by time shorthand, aka "3hours" or "15minutes" or etc (defaults to minutes)
-* Config value ``jailing.jail.broadcastJailing`` is now used
-* Config value ``jailing.jail.logToConsole`` is now used
-* Config value ``jailing.jail.deleteInventory`` is now used
-* Config value ``jailing.release.backToPreviousPosition`` is now used on jail and unjail
-* Config value ``jailing.release.restorePreviousGameMode`` is now used
-* Config value ``jailing.jail.gameMode`` is now used
-* Config value ``jailing.during.ignoreSleeping`` is now used in one part
-* Config value ``jailing.jail.commands`` is now used
-* Config value ``jailing.during.maxFoodLevel`` is now used in one part
-* Config value ``jailing.during.minFoodLevel`` is now used in one part
-* Config value ``jailing.release.teleport`` is used in unjailing
-* Config value ``jailing.release.commands`` is now used
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====

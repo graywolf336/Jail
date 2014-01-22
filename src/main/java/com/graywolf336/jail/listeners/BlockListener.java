@@ -1,6 +1,7 @@
 package com.graywolf336.jail.listeners;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
@@ -15,7 +16,7 @@ public class BlockListener implements Listener {
 		this.pl = plugin;
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.HIGHEST)
 	public void blockBreak(BlockBreakEvent event) {
 		//If we're in debugging mode, let's send the player what block they're breaking.
 		if(pl.inDebug()) event.getPlayer().sendMessage("[Jail Debug]: " + event.getBlock().getType().toString());
@@ -36,7 +37,7 @@ public class BlockListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.HIGHEST)
 	public void blockPlace(BlockPlaceEvent event) {
 		//If we're in debugging mode, let's send the player what block they're placing.
 		if(pl.inDebug()) event.getPlayer().sendMessage("[Jail Debug]: " + event.getBlock().getType().toString());

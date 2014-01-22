@@ -6,6 +6,7 @@ import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
@@ -49,7 +50,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
-	@EventHandler(ignoreCancelled=true)
+	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void chatting(AsyncPlayerChatEvent event) {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 			if(pl.getJailManager().getPrisoner(event.getPlayer().getName()).isMuted()) {
@@ -100,7 +101,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.LOW)
 	public void foodControl(FoodLevelChangeEvent event) {
 		if(pl.getConfig().getBoolean(Settings.FOODCONTROL.getPath())) {
 			if(pl.getJailManager().isPlayerJailed(event.getEntity().getName())) {
