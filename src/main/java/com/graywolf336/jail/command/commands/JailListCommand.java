@@ -18,8 +18,6 @@ import com.graywolf336.jail.enums.LangString;
 		usage = "/jaillist"
 	)
 public class JailListCommand implements Command {
-
-	@Override
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		sender.sendMessage(ChatColor.AQUA + "----------Jails----------");
 		

@@ -48,6 +48,10 @@ public enum LangString {
 	NOEMPTYCELLS ("jailing"),
 	/** The message sent when a player is not jailed and the sender is trying to see/do something about it. */
 	NOTJAILED ("jailing"),
+	/** The message sent to the sender when they mute a prisoner. */
+	NOWMUTED ("jailing"),
+	/** The message sent to the sender when they unmute a prisoner. */
+	NOWUNMUTED ("jailing"),
 	/** The message sent to the jailer when they jail someone offline. */
 	OFFLINEJAIL ("jailing"),
 	/** The message sent to the jailer when they jail someone who is online. */
@@ -58,6 +62,10 @@ public enum LangString {
 	PROTECTIONMESSAGENOPENALTY ("jailing"),
 	/** The message sent to the sender of a command when suggesting a cell. */
 	SUGGESTEDCELL ("jailing"),
+	/** The message sent to the sender when they teleport someone to a jail's teleport in location. */
+	TELEIN ("jailing"),
+	/** The message sent to the sender when they teleport someone to a jail's teleport out location. */
+	TELEOUT ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
 	/** The message went when an offline player is unjailed. */

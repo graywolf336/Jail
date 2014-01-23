@@ -4,7 +4,7 @@ version: ${project.version}-b${BUILD_NUMBER}
 description: Ban too harsh? Kick/mute/whatever not enough? Jail bad players!
 authors: [matejdro,multidude,graywolf336]
 website: dev.bukkit.org/server-mods/jail/
-softdepend: [Spout, WorldEdit, Vault, Notifications]
+softdepend: [WorldEdit, Vault]
 load: POSTWORLD
 commands:
     jailcreate:
