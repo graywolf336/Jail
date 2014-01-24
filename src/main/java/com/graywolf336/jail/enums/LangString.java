@@ -112,6 +112,8 @@ public enum LangString {
 	PLAYERCONTEXTREQUIRED ("general"),
 	/** The message sent whenever an online player is required but not found. */
 	PLAYERNOTONLINE ("general"),
+	/** The message sent to the sender when the plugin data has been reloaded. */
+	PLUGINRELOADED ("general"),
 	/** The message sent whenever the prisoners are cleared from jail(s). */
 	PRISONERSCLEARED ("general"),
 	/** The message sent whenever someone does a command we don't know. */

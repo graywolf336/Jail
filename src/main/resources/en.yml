@@ -19,6 +19,7 @@ language:
     numberformatincorrect: '&cNumber format is incorrect.'
     playercontextrequired: '&cA player context is required for this.'
     playernotonline: '&cThat player is not online!'
+    pluginreloaded: '&9Jail data successfully reloaded.'
     prisonerscleared: '&cAll the prisoners from %0% have been cleared.'
     unknowncommand: '&cNo commands registered by the name of %0%.'
   jailing:
