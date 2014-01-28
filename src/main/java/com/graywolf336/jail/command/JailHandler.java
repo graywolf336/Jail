@@ -30,28 +30,32 @@ public class JailHandler {
 	}
 
 	public void handleCommand(JailManager jm, CommandSender sender, String... args) {
-		JailFoundation foundation = new JailFoundation();
-		JCommander jc = new JCommander(foundation);
-		
-		//Now let's add the subcommands
-		jc.addCommand("list", new ListJails());
-		
-		try {
-			jc.parse(args);
-			
-			List<Command> matches = getMatches(jc.getParsedCommand());
-			
-			if(matches.size() == 0) {
-				//There should only be one for /jail
-				parseCommand(jm, sender, getMatches("jail").get(0), args);
-			} else if(matches.size() > 1) {
-				for(Command c : matches)
-					showUsage(sender, c);
-			}else {
-				parseCommand(jm, sender, matches.get(0), args);
-			}
-		}catch(ParameterException e) {
+		if(args.length == 0) {
 			parseCommand(jm, sender, getMatches("jail").get(0), args);
+		}else {
+			JailFoundation foundation = new JailFoundation();
+			JCommander jc = new JCommander(foundation);
+			
+			//Now let's add the subcommands
+			jc.addCommand("list", new ListJails());
+			
+			try {
+				jc.parse(args);
+				
+				List<Command> matches = getMatches(jc.getParsedCommand());
+				
+				if(matches.size() == 0) {
+					//There should only be one for /jail
+					parseCommand(jm, sender, getMatches("jail").get(0), args);
+				} else if(matches.size() > 1) {
+					for(Command c : matches)
+						showUsage(sender, c);
+				}else {
+					parseCommand(jm, sender, matches.get(0), args);
+				}
+			}catch(ParameterException e) {
+				parseCommand(jm, sender, getMatches("jail").get(0), args);
+			}
 		}
 	}
 	
