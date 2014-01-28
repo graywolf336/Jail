@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
+
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.jcommands.JailFoundation;
