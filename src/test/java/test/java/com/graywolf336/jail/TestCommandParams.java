@@ -6,14 +6,13 @@ import org.junit.Test;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-
-import com.graywolf336.jail.command.parameters.JailParameters;
+import com.graywolf336.jail.command.jcommands.Jailing;
 
 public class TestCommandParams {
 	
 	@Test
 	public void TestJailCommand() {
-		JailParameters jail = new JailParameters();
+		Jailing jail = new Jailing();
 		//"/jail [-p name] (-t time) (-j JailName) (-c CellName) (-m Muted) (-r A reason for jailing)"
 		String[] params = { "-p", "graywolf336", "-t", "30", "-j", "den", "-c", "cell_01", "-m", "-r", "He", "was", "a", "very", "bad", "boy." };
 		new JCommander(jail, params);
@@ -28,8 +27,8 @@ public class TestCommandParams {
 	
 	@Test(expected=ParameterException.class)
 	public void TestFailedJailCommand() {
-		JailParameters jail = new JailParameters();
-		String[] params = { "-t", "30", "-j", "den", "-c", "cell_01", "-m", "-r", "He", "was", "a", "very", "bad", "boy." };
+		Jailing jail = new Jailing();
+		String[] params = { "-t", "30", "-j", "den", "-c", "cell_01", "-m true", "-r", "He", "was", "a", "very", "bad", "boy." };
 		
 		new JCommander(jail, params);
 	}

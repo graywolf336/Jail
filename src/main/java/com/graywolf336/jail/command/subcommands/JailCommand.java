@@ -1,4 +1,8 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -13,7 +17,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.command.parameters.JailParameters;
+import com.graywolf336.jail.command.jcommands.Jailing;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
@@ -24,7 +28,7 @@ import com.graywolf336.jail.events.PrePrisonerJailedEvent;
 		needsPlayer = false,
 		pattern = "jail|j",
 		permission = "jail.command.jail",
-		usage = "/jail [-p name] (-t time) (-j JailName) (-c CellName) (-m Muted) (-r A reason for jailing)"
+		usage = "/jail [name] (-t time) (-j JailName) (-c CellName) (-m Muted) (-r A reason for jailing)"
 	)
 public class JailCommand implements Command {
 	
@@ -46,10 +50,14 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
-		JailParameters params = new JailParameters();
+		//This is just to add the -p param so jCommander doesn't blow up
+		List<String> arguments = new LinkedList<String>(Arrays.asList(args));
+		arguments.add(0, "-p");
+		
+		Jailing params = new Jailing();
 		
 		try {
-			new JCommander(params, args);
+			new JCommander(params, arguments.toArray(new String[arguments.size()]));
 		}catch(ParameterException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;

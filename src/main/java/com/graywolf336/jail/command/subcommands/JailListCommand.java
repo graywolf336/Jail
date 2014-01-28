@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -13,9 +13,9 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jaillist|jl",
+		pattern = "list|l",
 		permission = "jail.command.jaillist",
-		usage = "/jaillist"
+		usage = "/jail list"
 	)
 public class JailListCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {

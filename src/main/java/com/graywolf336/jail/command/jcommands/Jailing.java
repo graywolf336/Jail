@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.parameters;
+package com.graywolf336.jail.command.jcommands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,26 +12,26 @@ import com.beust.jcommander.Parameter;
  * @version 1.0.1
  * @since 3.0.0
  */
-public class JailParameters {
+public class Jailing {
 	@Parameter
 	private List<String> parameters = new ArrayList<String>();
 	
-	@Parameter(names = { "-p", "-player", "-prisoner" }, description = "The name of the player we are jailing.", required = true)
+	@Parameter(names = { "-player", "-p", "-prisoner" }, description = "The name of the player we are jailing.")
 	private String player = "";
 	
-	@Parameter(names = { "-t", "-time", "-length" }, description = "The length of the jailing sentence.")
+	@Parameter(names = { "-time", "-t", "-length" }, description = "The length of the jailing sentence.")
 	private String time = "";
 	
-	@Parameter(names = { "-j", "-jail", "-prison" }, description = "The jail we are sending the player to.")
+	@Parameter(names = { "-jail", "-j", "-prison" }, description = "The jail we are sending the player to.")
 	private String jail = "";
 	
-	@Parameter(names = { "-c", "-cell" }, description = "The cell in the jail we are sending them to.")
+	@Parameter(names = { "-cell", "-c"}, description = "The cell in the jail we are sending them to.")
 	private String cell = "";
 	
-	@Parameter(names = { "-m", "-muted" }, description = "Whether they can talk or not.")
+	@Parameter(names = { "-muted", "-m" }, description = "Whether they can talk or not.")
 	private boolean muted = false;
 	
-	@Parameter(names = { "-r", "-reason" }, description = "The reason this player is being jailed for.", variableArity = true)
+	@Parameter(names = { "-reason", "-r" }, description = "The reason this player is being jailed for.", variableArity = true)
 	private List<String> reason = new ArrayList<String>();
 	
 	/** Returns the parameters. */
