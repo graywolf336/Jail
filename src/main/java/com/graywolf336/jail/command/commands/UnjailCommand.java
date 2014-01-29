@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.LangString;
@@ -25,18 +26,26 @@ public class UnjailCommand implements Command {
 		//Check if the player is jailed
 		if(jm.isPlayerJailed(args[0])) {
 			Jail j = jm.getJailPlayerIsIn(args[0]);
+			Prisoner pris = j.getPrisoner(args[0]);
 			Player p = jm.getPlugin().getServer().getPlayerExact(args[0]);
 			
 			//Check if the player is on the server or not
 			if(p == null) {
-				//The player is not, so we'll set the remaining time to zero and do it when they login next
-				j.getPrisoner(args[0]).setRemainingTime(0L);
-				j.getPrisoner(args[0]).setOfflinePending(true);
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.WILLBEUNJAILED, args[0]));
+				//Check if the player has offline pending and their remaining time is above 0, if so then
+				//forceably unjail them
+				if(pris.isOfflinePending() && pris.getRemainingTime() != 0L) {
+					jm.getPlugin().getPrisonerManager().forceUnJail(j, j.getCellPrisonerIsIn(args[0]), p, pris);
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.FORCEUNJAILED, args[0]));
+				}else {
+					//The player is not, so we'll set the remaining time to zero and do it when they login next
+					pris.setRemainingTime(0L);
+					pris.setOfflinePending(true);
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.WILLBEUNJAILED, args[0]));
+				}
 			}else {
 				//Player is online, so let's try unjailing them
 				try {
-					jm.getPlugin().getPrisonerManager().unJail(j, j.getCellPrisonerIsIn(args[0]), p, j.getPrisoner(args[0]));
+					jm.getPlugin().getPrisonerManager().unJail(j, j.getCellPrisonerIsIn(args[0]), p, pris);
 				} catch (Exception e) {
 					sender.sendMessage(ChatColor.RED + e.getMessage());
 				}
