@@ -394,6 +394,7 @@ public class PrisonerManager {
 		if(player == null) {
 			//Player is offline, we just forcefully remove them from the database
 			pl.getJailIO().removePrisoner(jail, cell, prisoner);
+			jail.removePrisoner(prisoner);
 		}else {
 			try {
 				unJail(jail, cell, player, prisoner);
