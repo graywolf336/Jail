@@ -94,13 +94,15 @@ public class JailHandler {
 		}
 		
 		// Now, let's check the size of the arguments passed. If it is shorter than the minimum required args, let's show the usage.
-		if(args.length < i.minimumArgs()) {
+		// The reason we are subtracting one is because the command is now `/jail <subcommand>` and the subcommand is viewed as an argument
+		if(args.length - 1 < i.minimumArgs()) {
 			showUsage(sender, c);
 			return false;
 		}
 		
 		// Then, if the maximumArgs doesn't equal -1, we need to check if the size of the arguments passed is greater than the maximum args.
-		if(i.maxArgs() != -1 && i.maxArgs() < args.length) {
+		// The reason we are subtracting one is because the command is now `/jail <subcommand>` and the subcommand is viewed as an argument
+		if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) {
 			showUsage(sender, c);
 			return false;
 		}
