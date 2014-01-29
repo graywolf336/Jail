@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.CommandHandler;
+import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
@@ -24,6 +25,7 @@ import com.graywolf336.jail.listeners.ProtectionListener;
 public class JailMain extends JavaPlugin {
 	private CommandHandler cmdHand;
 	private HandCuffManager hcm;
+	private JailHandler jh;
 	private JailIO io;
 	private JailManager jm;
 	private JailTimer jt;
@@ -41,6 +43,7 @@ public class JailMain extends JavaPlugin {
 		io.loadJails();
 		
 		cmdHand = new CommandHandler(this);
+		jh = new JailHandler(this);
 		pm = new PrisonerManager(this);
 		
 		PluginManager plm = this.getServer().getPluginManager();
@@ -103,7 +106,12 @@ public class JailMain extends JavaPlugin {
 	 * Send the command off to the CommandHandler class, that way this main class doesn't get clogged up.
 	 */
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-		cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
+		if(command.getName().equalsIgnoreCase("jail")) {
+			jh.handleCommand(jm, sender, args);
+		}else {
+			cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
+		}
+		
 		return true;//Always return true here, that way we can handle the help and command usage ourself.
 	}
 	

@@ -38,6 +38,8 @@ public enum LangString {
 	CELLNOTEMPTY ("jailing"),
 	/** The message sent when someone is jailed without a reason. */
 	DEFAULTJAILEDREASON ("jailing"),
+	/** The message sent when someone is unjailed yet they never came online and so they were forcefully unjailed. */
+	FORCEUNJAILED ("jailing"),
 	/** The message sent when players are jailed without a reason. */
 	JAILED ("jailing"),
 	/** The message sent when players are jailed with a reason. */

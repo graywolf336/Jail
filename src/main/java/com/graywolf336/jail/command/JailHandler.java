@@ -8,42 +8,55 @@ import java.util.Map.Entry;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.command.commands.CellCreateCommand;
-import com.graywolf336.jail.command.commands.HandCuffCommand;
-import com.graywolf336.jail.command.commands.JailCheckCommand;
-import com.graywolf336.jail.command.commands.JailClearCommand;
-import com.graywolf336.jail.command.commands.JailClearForceCommand;
-import com.graywolf336.jail.command.commands.JailCreateCommand;
-import com.graywolf336.jail.command.commands.JailListCellsCommand;
-import com.graywolf336.jail.command.commands.JailMuteCommand;
-import com.graywolf336.jail.command.commands.JailReloadCommand;
-import com.graywolf336.jail.command.commands.JailRemoveCellCommand;
-import com.graywolf336.jail.command.commands.JailStopCommand;
-import com.graywolf336.jail.command.commands.JailTeleInCommand;
-import com.graywolf336.jail.command.commands.JailTeleOutCommand;
-import com.graywolf336.jail.command.commands.JailVersionCommand;
-import com.graywolf336.jail.command.commands.UnHandCuffCommand;
-import com.graywolf336.jail.command.commands.UnjailCommand;
+import com.graywolf336.jail.command.jcommands.JailFoundation;
+import com.graywolf336.jail.command.jcommands.ListJails;
+import com.graywolf336.jail.command.subcommands.JailCommand;
+import com.graywolf336.jail.command.subcommands.JailListCommand;
 import com.graywolf336.jail.enums.LangString;
 
-/**
- * Where all the commands are registered at and handled, processed, at.
- * 
- * @author graywolf336
- * @since 3.0.0
- * @version 1.0.2
- *
- */
-public class CommandHandler {
+public class JailHandler {
 	private LinkedHashMap<String, Command> commands;
 	
-	public CommandHandler(JailMain plugin) {
+	public JailHandler(JailMain plugin) {
 		commands = new LinkedHashMap<String, Command>();
 		loadCommands();
 		
-		plugin.getLogger().info("Loaded " + commands.size() + " commands.");
+		plugin.getLogger().info("Loaded " + commands.size() + " sub-commands of /jail.");
+	}
+
+	public void handleCommand(JailManager jm, CommandSender sender, String... args) {
+		if(args.length == 0) {
+			parseCommand(jm, sender, getMatches("jail").get(0), args);
+		}else {
+			JailFoundation foundation = new JailFoundation();
+			JCommander jc = new JCommander(foundation);
+			
+			//Now let's add the subcommands
+			jc.addCommand("list", new ListJails());
+			
+			try {
+				jc.parse(args);
+				
+				List<Command> matches = getMatches(jc.getParsedCommand());
+				
+				if(matches.size() == 0) {
+					//There should only be one for /jail
+					parseCommand(jm, sender, getMatches("jail").get(0), args);
+				} else if(matches.size() > 1) {
+					for(Command c : matches)
+						showUsage(sender, c);
+				}else {
+					parseCommand(jm, sender, matches.get(0), args);
+				}
+			}catch(ParameterException e) {
+				parseCommand(jm, sender, getMatches("jail").get(0), args);
+			}
+		}
 	}
 	
 	/**
@@ -53,8 +66,6 @@ public class CommandHandler {
 	 * 
 	 * It checks in the following order:
 	 * <ol>
-	 * 	<li>If the command is registered or not.</li>
-	 * 	<li>If more than one command matches the command's name and sends the usage for each one.</li>
 	 * 	<li>If they have permission for it, if they don't then we send them a message stating so.</li>
 	 * 	<li>If the command needs a player instance, if so we send a message stating that.</li>
 	 * 	<li>If the required minimum arguments have been passed, if not sends the usage.</li>
@@ -67,45 +78,33 @@ public class CommandHandler {
 	 * @param command The name of the command.
 	 * @param args The arguments passed to the command.
 	 */
-	public void handleCommand(JailManager jailmanager, CommandSender sender, String command, String[] args) {
-		List<Command> matches = getMatches(command);
-		
-		if(matches.size() == 0) {
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, command));
-			return;
-		}
-		
-		if(matches.size() > 1) {
-			for(Command c : matches)
-				showUsage(sender, c);
-			return;
-		}
-		
-		Command c = matches.get(0);
+	public boolean parseCommand(JailManager jailmanager, CommandSender sender, Command c, String[] args) {
 		CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
 		
 		// First, let's check if the sender has permission for the command.
 		if(!sender.hasPermission(i.permission())) {
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
-			return;
+			return false;
 		}
 		
 		// Next, let's check if we need a player and then if the sender is actually a player
 		if(i.needsPlayer() && !(sender instanceof Player)) {
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
-			return;
+			return false;
 		}
 		
 		// Now, let's check the size of the arguments passed. If it is shorter than the minimum required args, let's show the usage.
-		if(args.length < i.minimumArgs()) {
+		// The reason we are subtracting one is because the command is now `/jail <subcommand>` and the subcommand is viewed as an argument
+		if(args.length - 1 < i.minimumArgs()) {
 			showUsage(sender, c);
-			return;
+			return false;
 		}
 		
 		// Then, if the maximumArgs doesn't equal -1, we need to check if the size of the arguments passed is greater than the maximum args.
-		if(i.maxArgs() != -1 && i.maxArgs() < args.length) {
+		// The reason we are subtracting one is because the command is now `/jail <subcommand>` and the subcommand is viewed as an argument
+		if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) {
 			showUsage(sender, c);
-			return;
+			return false;
 		}
 		
 		// Since everything has been checked and we're all clear, let's execute it.
@@ -113,12 +112,15 @@ public class CommandHandler {
 		try {
 			if(!c.execute(jailmanager, sender, args)) {
 				showUsage(sender, c);
-				return;
+				return false;
+			}else {
+				return true;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			jailmanager.getPlugin().getLogger().severe("An error occured while handling the command: " + i.usage());
 			showUsage(sender, c);
+			return false;
 		}
 	}
 	
@@ -147,26 +149,11 @@ public class CommandHandler {
 		sender.sendMessage(info.usage());
 	}
 	
-	/** Loads all the commands into the hashmap. */
 	private void loadCommands() {
-		load(CellCreateCommand.class);
-		load(HandCuffCommand.class);
-		load(JailCheckCommand.class);
-		load(JailClearCommand.class);
-		load(JailClearForceCommand.class);
-		load(JailCreateCommand.class);
-		load(JailListCellsCommand.class);
-		load(JailMuteCommand.class);
-		load(JailReloadCommand.class);
-		load(JailRemoveCellCommand.class);
-		load(JailStopCommand.class);
-		load(JailTeleInCommand.class);
-		load(JailTeleOutCommand.class);
-		load(JailVersionCommand.class);
-		load(UnHandCuffCommand.class);
-		load(UnjailCommand.class);
+		load(JailCommand.class);
+		load(JailListCommand.class);
 	}
-
+	
 	private void load(Class<? extends Command> c) {
 		CommandInfo info = c.getAnnotation(CommandInfo.class);
 		if(info == null) return;

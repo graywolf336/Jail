@@ -99,4 +99,15 @@ public class TestJailCommandInfo {
 		verify(sender).sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your wooden sword. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
 		verify(sender).sendMessage(ChatColor.AQUA + "--------------------------------------");
 	}
+	
+	@Test
+	public void testJailingCommand() {
+		Command command = mock(Command.class);
+		when(command.getName()).thenReturn("jail");
+		String[] args = { "graywolf336", "-t", "30", "-j", "den", "-c", "cell_01", "-m", "-r", "He", "was", "a", "very", "bad", "boy." };
+		
+		CommandSender sender = creator.getPlayerCommandSender();
+		assertTrue(main.onCommand(sender, command, "jail", args));
+		verify(sender).sendMessage(ChatColor.RED + "There are currently no jails.");
+	}
 }
