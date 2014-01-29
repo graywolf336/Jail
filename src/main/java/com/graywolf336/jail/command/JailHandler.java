@@ -10,13 +10,18 @@ import org.bukkit.entity.Player;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.jcommands.JailFoundation;
-import com.graywolf336.jail.command.jcommands.ListJails;
+import com.graywolf336.jail.command.jcommands.JailList;
+import com.graywolf336.jail.command.jcommands.Mute;
+import com.graywolf336.jail.command.jcommands.Reload;
+import com.graywolf336.jail.command.jcommands.Version;
 import com.graywolf336.jail.command.subcommands.JailCommand;
 import com.graywolf336.jail.command.subcommands.JailListCommand;
+import com.graywolf336.jail.command.subcommands.JailMuteCommand;
+import com.graywolf336.jail.command.subcommands.JailReloadCommand;
+import com.graywolf336.jail.command.subcommands.JailVersionCommand;
 import com.graywolf336.jail.enums.LangString;
 
 public class JailHandler {
@@ -37,7 +42,10 @@ public class JailHandler {
 			JCommander jc = new JCommander(foundation);
 			
 			//Now let's add the subcommands
-			jc.addCommand("list", new ListJails());
+			jc.addCommand("list", new JailList());
+			jc.addCommand("mute", new Mute());
+			jc.addCommand("reload", new Reload());
+			jc.addCommand("version", new Version());
 			
 			try {
 				jc.parse(args);
@@ -152,6 +160,9 @@ public class JailHandler {
 	private void loadCommands() {
 		load(JailCommand.class);
 		load(JailListCommand.class);
+		load(JailMuteCommand.class);
+		load(JailReloadCommand.class);
+		load(JailVersionCommand.class);
 	}
 	
 	private void load(Class<? extends Command> c) {

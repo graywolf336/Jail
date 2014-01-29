@@ -17,13 +17,10 @@ import com.graywolf336.jail.command.commands.JailClearCommand;
 import com.graywolf336.jail.command.commands.JailClearForceCommand;
 import com.graywolf336.jail.command.commands.JailCreateCommand;
 import com.graywolf336.jail.command.commands.JailListCellsCommand;
-import com.graywolf336.jail.command.commands.JailMuteCommand;
-import com.graywolf336.jail.command.commands.JailReloadCommand;
 import com.graywolf336.jail.command.commands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.commands.JailStopCommand;
 import com.graywolf336.jail.command.commands.JailTeleInCommand;
 import com.graywolf336.jail.command.commands.JailTeleOutCommand;
-import com.graywolf336.jail.command.commands.JailVersionCommand;
 import com.graywolf336.jail.command.commands.UnHandCuffCommand;
 import com.graywolf336.jail.command.commands.UnjailCommand;
 import com.graywolf336.jail.enums.LangString;
@@ -156,13 +153,10 @@ public class CommandHandler {
 		load(JailClearForceCommand.class);
 		load(JailCreateCommand.class);
 		load(JailListCellsCommand.class);
-		load(JailMuteCommand.class);
-		load(JailReloadCommand.class);
 		load(JailRemoveCellCommand.class);
 		load(JailStopCommand.class);
 		load(JailTeleInCommand.class);
 		load(JailTeleOutCommand.class);
-		load(JailVersionCommand.class);
 		load(UnHandCuffCommand.class);
 		load(UnjailCommand.class);
 	}

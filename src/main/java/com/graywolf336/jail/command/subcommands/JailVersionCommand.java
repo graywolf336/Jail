@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 
@@ -10,9 +10,9 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jailversion|jv",
+		pattern = "version|v",
 		permission = "jail.command.jailversion",
-		usage = "/jailversion"
+		usage = "/jail version"
 	)
 public class JailVersionCommand implements Command{
 	

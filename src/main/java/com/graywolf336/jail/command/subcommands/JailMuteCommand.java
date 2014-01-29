@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 
@@ -11,9 +11,9 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 1,
 		minimumArgs = 1,
 		needsPlayer = false,
-		pattern = "jailmute|jmute",
+		pattern = "mute|m",
 		permission = "jail.command.jailmute",
-		usage = "/jailmute <player>"
+		usage = "/jail mute <player>"
 	)
 public class JailMuteCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

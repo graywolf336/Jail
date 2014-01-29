@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 
@@ -11,9 +11,9 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jailreload",
+		pattern = "reload|r",
 		permission = "jail.command.jailreload",
-		usage = "/jailreload"
+		usage = "/jail reload"
 	)
 public class JailReloadCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
