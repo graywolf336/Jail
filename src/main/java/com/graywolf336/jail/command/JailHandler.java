@@ -176,6 +176,7 @@ public class JailHandler {
 		
 		//Puts the commands in the HashMap
 		addCmds.put("list", new JailList());
+		addCmds.put("l", new JailList());
 		addCmds.put("mute", new Mute());
 		addCmds.put("m", new Mute());
 		addCmds.put("reload", new Reload());
@@ -187,6 +188,7 @@ public class JailHandler {
 		addCmds.put("teleout", new TeleOut());
 		addCmds.put("teleportout", new TeleOut());
 		addCmds.put("version", new Version());
+		addCmds.put("ver", new Version());
 		addCmds.put("v", new Version());
 	}
 	

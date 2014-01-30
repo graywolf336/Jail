@@ -17,14 +17,22 @@ import com.graywolf336.jail.command.CommandInfo;
 	)
 public class JailStopCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
+		boolean nothing = true;
+		
 		if(jm.isCreatingACell(sender.getName())) {
 			jm.removeCellCreationPlayer(sender.getName());
 			sender.sendMessage(ChatColor.RED + "You have stopped creating cells.");
+			nothing = false;
 		}
 		
 		if(jm.isCreatingAJail(sender.getName())) {
 			jm.removeJailCreationPlayer(sender.getName());
 			sender.sendMessage(ChatColor.RED + "You have stopped creating a jail.");
+			nothing = false;
+		}
+		
+		if(nothing) {
+			sender.sendMessage(ChatColor.RED + "You've stopped creating....nothing.");
 		}
 		
 		return true;
