@@ -10,7 +10,7 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "version|v",
+		pattern = "version|ver|v",
 		permission = "jail.command.jailversion",
 		usage = "/jail version"
 	)
