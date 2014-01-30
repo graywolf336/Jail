@@ -1,6 +1,7 @@
 package com.graywolf336.jail.command;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -16,19 +17,27 @@ import com.graywolf336.jail.command.jcommands.JailFoundation;
 import com.graywolf336.jail.command.jcommands.JailList;
 import com.graywolf336.jail.command.jcommands.Mute;
 import com.graywolf336.jail.command.jcommands.Reload;
+import com.graywolf336.jail.command.jcommands.Stop;
+import com.graywolf336.jail.command.jcommands.TeleIn;
+import com.graywolf336.jail.command.jcommands.TeleOut;
 import com.graywolf336.jail.command.jcommands.Version;
 import com.graywolf336.jail.command.subcommands.JailCommand;
 import com.graywolf336.jail.command.subcommands.JailListCommand;
 import com.graywolf336.jail.command.subcommands.JailMuteCommand;
 import com.graywolf336.jail.command.subcommands.JailReloadCommand;
+import com.graywolf336.jail.command.subcommands.JailStopCommand;
+import com.graywolf336.jail.command.subcommands.JailTeleInCommand;
+import com.graywolf336.jail.command.subcommands.JailTeleOutCommand;
 import com.graywolf336.jail.command.subcommands.JailVersionCommand;
 import com.graywolf336.jail.enums.LangString;
 
 public class JailHandler {
 	private LinkedHashMap<String, Command> commands;
+	private HashMap<String, Object> addCmds;
 	
 	public JailHandler(JailMain plugin) {
 		commands = new LinkedHashMap<String, Command>();
+		addCmds = new HashMap<String, Object>();
 		loadCommands();
 		
 		plugin.getLogger().info("Loaded " + commands.size() + " sub-commands of /jail.");
@@ -41,11 +50,9 @@ public class JailHandler {
 			JailFoundation foundation = new JailFoundation();
 			JCommander jc = new JCommander(foundation);
 			
-			//Now let's add the subcommands
-			jc.addCommand("list", new JailList());
-			jc.addCommand("mute", new Mute());
-			jc.addCommand("reload", new Reload());
-			jc.addCommand("version", new Version());
+			for(Entry<String, Object> e : addCmds.entrySet()) {
+				jc.addCommand(e.getKey(), e.getValue());
+			}
 			
 			try {
 				jc.parse(args);
@@ -162,7 +169,25 @@ public class JailHandler {
 		load(JailListCommand.class);
 		load(JailMuteCommand.class);
 		load(JailReloadCommand.class);
+		load(JailStopCommand.class);
+		load(JailTeleInCommand.class);
+		load(JailTeleOutCommand.class);
 		load(JailVersionCommand.class);
+		
+		//Puts the commands in the HashMap
+		addCmds.put("list", new JailList());
+		addCmds.put("mute", new Mute());
+		addCmds.put("m", new Mute());
+		addCmds.put("reload", new Reload());
+		addCmds.put("r", new Reload());
+		addCmds.put("stop", new Stop());
+		addCmds.put("s", new Stop());
+		addCmds.put("telein", new TeleIn());
+		addCmds.put("teleportin", new TeleIn());
+		addCmds.put("teleout", new TeleOut());
+		addCmds.put("teleportout", new TeleOut());
+		addCmds.put("version", new Version());
+		addCmds.put("v", new Version());
 	}
 	
 	private void load(Class<? extends Command> c) {

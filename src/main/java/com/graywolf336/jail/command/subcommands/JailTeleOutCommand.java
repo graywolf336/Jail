@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,11 +13,11 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 2,
 		minimumArgs = 1,
 		needsPlayer = false,
-		pattern = "jailtelein|jailteleportin",
-		permission = "jail.command.jailtelein",
-		usage = "/jailtelein <jailname> (player)"
+		pattern = "teleout|teleportout",
+		permission = "jail.command.jailteleout",
+		usage = "/jail teleout <jailname> (player)"
 	)
-public class JailTeleInCommand implements Command {
+public class JailTeleOutCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
 		Jail j = jm.getJail(args[0]);
 		
@@ -36,13 +36,13 @@ public class JailTeleInCommand implements Command {
 				if(p == null) {
 					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE, args[1]));
 				}else {
-					p.teleport(j.getTeleportIn());
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TELEIN, new String[] { args[1], args[0] }));
+					p.teleport(j.getTeleportFree());
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TELEOUT, new String[] { args[1], args[0] }));
 				}
 			}else {
 				if(sender instanceof Player) {
-					((Player) sender).teleport(j.getTeleportIn());
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TELEIN, new String[] { sender.getName(), args[0] }));
+					((Player) sender).teleport(j.getTeleportFree());
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TELEOUT, new String[] { sender.getName(), args[0] }));
 				}else {
 					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
 				}

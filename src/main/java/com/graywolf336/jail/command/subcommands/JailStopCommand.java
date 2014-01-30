@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -11,9 +11,9 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = true,
-		pattern = "jailstop",
+		pattern = "stop|s",
 		permission = "jail.command.jailstop",
-		usage = "/jailstop"
+		usage = "/jail stop"
 	)
 public class JailStopCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
