@@ -112,12 +112,14 @@ public class JailHandler {
 		
 		// First, let's check if the sender has permission for the command.
 		if(!sender.hasPermission(i.permission())) {
+			if(jailmanager.getPlugin().inDebug()) jailmanager.getPlugin().getLogger().info("Sender has no permission.");
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
 			return false;
 		}
 		
 		// Next, let's check if we need a player and then if the sender is actually a player
 		if(i.needsPlayer() && !(sender instanceof Player)) {
+			if(jailmanager.getPlugin().inDebug()) jailmanager.getPlugin().getLogger().info("Sender is not a player.");
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
 			return false;
 		}
@@ -125,6 +127,7 @@ public class JailHandler {
 		// Now, let's check the size of the arguments passed. If it is shorter than the minimum required args, let's show the usage.
 		// The reason we are subtracting one is because the command is now `/jail <subcommand>` and the subcommand is viewed as an argument
 		if(args.length - 1 < i.minimumArgs()) {
+			if(jailmanager.getPlugin().inDebug()) jailmanager.getPlugin().getLogger().info("Sender didn't provide enough arguments.");
 			showUsage(sender, c);
 			return false;
 		}
@@ -132,6 +135,7 @@ public class JailHandler {
 		// Then, if the maximumArgs doesn't equal -1, we need to check if the size of the arguments passed is greater than the maximum args.
 		// The reason we are subtracting one is because the command is now `/jail <subcommand>` and the subcommand is viewed as an argument
 		if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) {
+			if(jailmanager.getPlugin().inDebug()) jailmanager.getPlugin().getLogger().info("Sender provided too many arguments.");
 			showUsage(sender, c);
 			return false;
 		}
