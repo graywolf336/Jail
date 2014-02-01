@@ -53,48 +53,48 @@ public class TestJailCommandInfo {
 	@Test
 	public void testForPlayerContext() {
 		Command command = mock(Command.class);
-		when(command.getName()).thenReturn("jailcreate");
-		String[] args = { "testJail" };
+		when(command.getName()).thenReturn("jail");
+		String[] args = { "create", "testJail" };
 		
 		CommandSender sender = creator.getCommandSender();
 		
-		assertTrue(main.onCommand(sender, command, "jailcreate", args));
+		assertTrue(main.onCommand(sender, command, "jail", args));
 		verify(sender).sendMessage(ChatColor.RED + "A player context is required for this.");
 	}
 	
 	@Test
 	public void testMinimumArgs() {
 		Command command = mock(Command.class);
-		when(command.getName()).thenReturn("jailcreate");
-		String[] args = {};
+		when(command.getName()).thenReturn("jail");
+		String[] args = { "create" };
 		
 		CommandSender sender = creator.getPlayerCommandSender();
 		
-		assertTrue(main.onCommand(sender, command, "jailcreate", args));
-		verify(sender).sendMessage("/jailcreate [name]"); // If you change which command we test against, then change this
+		assertTrue(main.onCommand(sender, command, "jail", args));
+		verify(sender).sendMessage("/jail create [name]"); // If you change which command we test against, then change this
 	}
 	
 	@Test
 	public void testMaximumArgs() {
 		Command command = mock(Command.class);
-		when(command.getName()).thenReturn("jailcreate");
-		String[] args = { "testing", "badarg", "reallyterribleone" };
+		when(command.getName()).thenReturn("jail");
+		String[] args = { "create", "testing", "badarg", "reallyterribleone" };
 		
 		CommandSender sender = creator.getPlayerCommandSender();
 		
-		assertTrue(main.onCommand(sender, command, "jailcreate", args));
-		verify(sender).sendMessage("/jailcreate [name]"); // If you change which command we test against, then change this
+		assertTrue(main.onCommand(sender, command, "jail", args));
+		verify(sender).sendMessage("/jail create [name]"); // If you change which command we test against, then change this
 	}
 	
 	@Test
 	public void testSuccessfulJailCreateCommand() {		
 		Command command = mock(Command.class);
-		when(command.getName()).thenReturn("jailcreate");
-		String[] args = { "testJail" };
+		when(command.getName()).thenReturn("jail");
+		String[] args = { "create", "testJail" };
 		
 		CommandSender sender = creator.getPlayerCommandSender();
 		
-		assertTrue(main.onCommand(sender, command, "jailcreate", args));
+		assertTrue(main.onCommand(sender, command, "jail", args));
 		verify(sender).sendMessage(ChatColor.AQUA + "----------Jail Zone Creation----------");
 		verify(sender).sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your wooden sword. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
 		verify(sender).sendMessage(ChatColor.AQUA + "--------------------------------------");
