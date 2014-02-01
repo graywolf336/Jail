@@ -12,6 +12,7 @@ import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.HandCuffListener;
+import com.graywolf336.jail.listeners.MoveProtectionListener;
 import com.graywolf336.jail.listeners.PlayerListener;
 import com.graywolf336.jail.listeners.ProtectionListener;
 
@@ -52,6 +53,16 @@ public class JailMain extends JavaPlugin {
 		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new PlayerListener(this), this);
 		plm.registerEvents(new ProtectionListener(this), this);
+		
+		//Only register the move protection listener if this is enabled in the
+		//config when we first start the plugin. The reason for this change is
+		//that the move event is called a ton of times per single move and so
+		//not registering this event listener will hopefully safe some performance.
+		//But doing this also forces people to restart their server if they to
+		//enable it after disabling it.
+		if(getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
+			plm.registerEvents(new MoveProtectionListener(this), this);
+		}
 		
 		jt = new JailTimer(this);
 		
