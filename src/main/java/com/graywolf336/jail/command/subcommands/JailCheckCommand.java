@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 
@@ -11,24 +11,23 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 1,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jailcheck|jcheck",
+		pattern = "check",
 		permission = "jail.command.jailcheck",
-		usage = "/jailcheck (Player name)"
+		usage = "/jail check (Player name)"
 	)
 public class JailCheckCommand implements Command{
 
 	// Checks the status of the specified prisoner, if no args, will display all players currently jailed
-	
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		//No args means show everyone
-		if(args.length == 0) {
-			
+		if(args.length == 1) {
+			//TODO
 		}else {
 			//Otherwise let's check the first arg
-			if(jm.isPlayerJailed(args[0])) {
-				
+			if(jm.isPlayerJailed(args[1])) {
+				//TODO
 			}else {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[0]));
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[1]));
 			}
 		}
 		

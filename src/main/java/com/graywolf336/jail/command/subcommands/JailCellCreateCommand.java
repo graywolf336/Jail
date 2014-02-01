@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -13,21 +13,21 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 2,
 		minimumArgs = 1,
 		needsPlayer = true,
-		pattern = "jailcreatecells|jcc",
+		pattern = "createcells|cc",
 		permission = "jail.command.jailcreatecells",
-		usage = "/jailcellcreate [jail] (cellname)"
+		usage = "/jail cellcreate [jail] (cellname)"
 	)
-public class CellCreateCommand implements Command {
+public class JailCellCreateCommand implements Command {
 
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		Player player = (Player) sender;
 		String name = player.getName();
-		String jail = args[0].toLowerCase();
+		String jail = args[1].toLowerCase();
 		String cell = "";
 		
 		//Only get the cell name they provide if they provide it
-		if(args.length >= 2) {
-			cell = args[1];
+		if(args.length >= 3) {
+			cell = args[2];
 		}
 		
 		//Check if the player is currently creating something else

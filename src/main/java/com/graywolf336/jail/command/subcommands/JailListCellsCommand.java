@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,9 +14,9 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 1,
 		minimumArgs = 1,
 		needsPlayer = false,
-		pattern = "jaillistcells|jcc",
+		pattern = "listcells|lc",
 		permission = "jail.command.jaillistcell",
-		usage = "/jaillistcells <jail>"
+		usage = "/jail listcells <jail>"
 	)
 public class JailListCellsCommand implements Command {
 	@Override
@@ -24,8 +24,8 @@ public class JailListCellsCommand implements Command {
 		sender.sendMessage(ChatColor.AQUA + "----------Cells----------");
 		
 		if(!jm.getJails().isEmpty()) {
-			if(jm.getJail(args[0]) != null) {
-				Jail j = jm.getJail(args[0]);
+			if(jm.getJail(args[1]) != null) {
+				Jail j = jm.getJail(args[1]);
 				
 				String message = "";
 				for(Cell c : j.getCells()) {
@@ -42,7 +42,7 @@ public class JailListCellsCommand implements Command {
 					sender.sendMessage(ChatColor.GREEN + message);
 				}
 			}else {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[0]));
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
 			}
 		}else {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));

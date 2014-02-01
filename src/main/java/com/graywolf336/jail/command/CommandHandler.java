@@ -10,14 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.command.commands.CellCreateCommand;
 import com.graywolf336.jail.command.commands.HandCuffCommand;
-import com.graywolf336.jail.command.commands.JailCheckCommand;
-import com.graywolf336.jail.command.commands.JailClearCommand;
-import com.graywolf336.jail.command.commands.JailClearForceCommand;
-import com.graywolf336.jail.command.commands.JailCreateCommand;
-import com.graywolf336.jail.command.commands.JailListCellsCommand;
-import com.graywolf336.jail.command.commands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.commands.UnHandCuffCommand;
 import com.graywolf336.jail.command.commands.UnjailCommand;
 import com.graywolf336.jail.enums.LangString;
@@ -143,14 +136,7 @@ public class CommandHandler {
 	
 	/** Loads all the commands into the hashmap. */
 	private void loadCommands() {
-		load(CellCreateCommand.class);
 		load(HandCuffCommand.class);
-		load(JailCheckCommand.class);
-		load(JailClearCommand.class);
-		load(JailClearForceCommand.class);
-		load(JailCreateCommand.class);
-		load(JailListCellsCommand.class);
-		load(JailRemoveCellCommand.class);
 		load(UnHandCuffCommand.class);
 		load(UnjailCommand.class);
 	}

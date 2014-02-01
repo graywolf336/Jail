@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,16 +12,16 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 1,
 		minimumArgs = 1,
 		needsPlayer = true,
-		pattern = "jailcreate|jc",
+		pattern = "create",
 		permission = "jail.command.jailcreate",
-		usage = "/jailcreate [name]"
+		usage = "/jail create [name]"
 	)
 public class JailCreateCommand implements Command {
 
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		Player player = (Player) sender;
 		String name = player.getName();
-		String jail = args[0];
+		String jail = args[1];
 		
 		//Check if the player is currently creating something else
 		if(jm.isCreatingSomething(name)) {

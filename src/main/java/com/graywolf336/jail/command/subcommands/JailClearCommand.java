@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.commands;
+package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
 
@@ -13,16 +13,16 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 1,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "jailclear|jclear",
+		pattern = "clear",
 		permission = "jail.command.jailclear",
-		usage = "/jailclear (Jail name)"
+		usage = "/jail clear (Jail name)"
 	)
 public class JailClearCommand implements Command {
 	
 	// If Jail is specified unjails all the prisoners from that Jail (new feature) otherwise it unjails all the prisoners from all the jails
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		if(args.length == 1) {
-			Jail j = jm.getJail(args[0]);
+		if(args.length == 2) {
+			Jail j = jm.getJail(args[1]);
 			
 			if(j != null) {
 				for(Prisoner p : j.getAllPrisoners()) {
@@ -31,7 +31,7 @@ public class JailClearCommand implements Command {
 				
 				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName()));
 			}else {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[0]));
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
 			}
 		}else {
 			if(jm.getJails().size() == 0) {
