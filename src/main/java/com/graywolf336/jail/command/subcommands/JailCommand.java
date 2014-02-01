@@ -24,7 +24,7 @@ import com.graywolf336.jail.events.PrePrisonerJailedEvent;
 
 @CommandInfo(
 		maxArgs = -1,
-		minimumArgs = 1,
+		minimumArgs = 0,
 		needsPlayer = false,
 		pattern = "jail|j",
 		permission = "jail.command.jail",
