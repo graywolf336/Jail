@@ -4,8 +4,8 @@ language:
     blockplacing: 'placing a block'
     command: 'trying to use a command'
     croptrampling: 'trampling crops'
-    interactionBlocks: 'interacting with a block'
-    interactionItems: 'interacting with an item'
+    interactionblocks: 'interacting with a block'
+    interactionitems: 'interacting with an item'
     moving: 'trying to escape'
   general:
     alljails: 'all the jails'
