@@ -32,7 +32,7 @@ language:
     cantbejailed: '&cThat player can not be jailed.'
     cellnotempty: '&cThe destination cell, %0%, already has a prisoner in it.'
     defaultjailedreason: 'Breaking the rules.'
-    forceunjailed: '&c%0% was jailed but never came online and was forcefully unjailed.'
+    forceunjailed: '&c%0% was forcefully unjailed.'
     jailed: '&cYou have been jailed!'
     jailedwithreason: '&cYou have been jailed for: %0%'
     muted: '&cStop talking, you are in jail.'

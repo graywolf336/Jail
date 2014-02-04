@@ -138,6 +138,18 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets the {@link Jail jail} the given prisoner is in.
+	 * 
+	 * @param prisoner The prisoner data for the prisoner we are checking
+	 * @return The jail the player is in, <strong>CAN BE NULL</strong>.
+	 */
+	public Jail getJailPrisonerIsIn(Prisoner prisoner) {
+		if(prisoner == null) return null;
+		
+		return getJailPlayerIsIn(prisoner.getName());
+	}
+	
+	/**
 	 * Gets the {@link Jail jail} the given player is in.
 	 * 
 	 * @param name The name of the player whos jail we are getting.

@@ -390,6 +390,13 @@ public class PrisonerManager {
 		player.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILED));
 	}
 	
+	/** Forcefully releases a {@link Prisoner prisoner} from {@link Jail}. */
+	public void forceRelease(Prisoner prisoner) {
+		Jail j = pl.getJailManager().getJailPrisonerIsIn(prisoner);
+		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getName()), pl.getServer().getPlayerExact(prisoner.getName()), prisoner);
+	}
+	
+	/** Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}. */
 	public void forceUnJail(Jail jail, Cell cell, Player player, Prisoner prisoner) {
 		if(player == null) {
 			//Player is offline, we just forcefully remove them from the database

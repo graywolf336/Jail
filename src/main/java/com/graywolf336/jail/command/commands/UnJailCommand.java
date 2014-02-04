@@ -20,7 +20,7 @@ import com.graywolf336.jail.enums.Settings;
 		permission = "jail.command.unjail",
 		usage = "/unjail [player]"
 	)
-public class UnjailCommand implements Command {
+public class UnJailCommand implements Command {
 	
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		//Check if the player is jailed

@@ -12,7 +12,8 @@ import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.commands.HandCuffCommand;
 import com.graywolf336.jail.command.commands.UnHandCuffCommand;
-import com.graywolf336.jail.command.commands.UnjailCommand;
+import com.graywolf336.jail.command.commands.UnJailForceCommand;
+import com.graywolf336.jail.command.commands.UnJailCommand;
 import com.graywolf336.jail.enums.LangString;
 
 /**
@@ -138,7 +139,8 @@ public class CommandHandler {
 	private void loadCommands() {
 		load(HandCuffCommand.class);
 		load(UnHandCuffCommand.class);
-		load(UnjailCommand.class);
+		load(UnJailCommand.class);
+		load(UnJailForceCommand.class);
 	}
 
 	private void load(Class<? extends Command> c) {
