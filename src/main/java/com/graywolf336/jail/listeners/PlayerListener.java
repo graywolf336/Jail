@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
+import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.LangString;
@@ -83,13 +84,29 @@ public class PlayerListener implements Listener {
 		//Let's check if the player is jailed
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
 			//Get the prisoner object
-			Prisoner p = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).getPrisoner(event.getPlayer().getName());
+			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName());
+			Prisoner p = j.getPrisoner(event.getPlayer().getName());
+			
 			//Check if they're offline pending, as if this is true then they were jailed offline
 			if(p.isOfflinePending()) {
 				if(p.getRemainingTime() == 0L) {
 					//If their remaining time is 0, let's unjail them
 					pl.getPrisonerManager().releasePrisoner(event.getPlayer(), p);
-				}else {
+				}else if(p.isToBeTransferred()) {
+					Cell c = j.getCellPrisonerIsIn(event.getPlayer().getName());
+					
+					//If the player is not jailed in a cell, teleport them to the jail's in
+					if(c == null) {
+						p.setTeleporting(true);
+						event.getPlayer().teleport(j.getTeleportIn());
+						p.setTeleporting(false);
+					}else {
+						//If they are in a cell, teleport them into that cell
+						p.setTeleporting(true);
+						event.getPlayer().teleport(c.getTeleport());
+						p.setTeleporting(false);
+					}
+				} else {
 					//Their remaining time isn't 0 so let's proceed with jailing of the prisoner
 					pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
 				}

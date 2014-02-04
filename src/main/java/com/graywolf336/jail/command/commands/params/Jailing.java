@@ -1,4 +1,4 @@
-package com.graywolf336.jail.command.jcommands;
+package com.graywolf336.jail.command.commands.params;
 
 import java.util.ArrayList;
 import java.util.List;

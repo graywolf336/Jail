@@ -79,6 +79,11 @@ public class JailIO {
 		return getLanguageString(langString, new String[] {});
 	}
 	
+	/** Returns the message in the language, no variables are replaced.*/
+	public String getLanguageString(LangString langString, LangString langString2) {
+		return getLanguageString(langString, getLanguageString(langString2, new String[] {}));
+	}
+	
 	/**
 	 * Returns the message in the language, with the provided variables being replaced.
 	 * 
@@ -215,6 +220,7 @@ public class JailIO {
 							flat.set(cNode + "prisoner.muted", p.isMuted());
 							flat.set(cNode + "prisoner.time", p.getRemainingTime());
 							flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
+							flat.set(cNode + "prisoner.toBeTransferred", p.isToBeTransferred());
 							flat.set(cNode + "prisoner.jailer", p.getJailer());
 							flat.set(cNode + "prisoner.reason", p.getReason());
 							flat.set(cNode + "prisoner.inventory", p.getInventory());
@@ -233,6 +239,7 @@ public class JailIO {
 						flat.set(pNode + "muted", p.isMuted());
 						flat.set(pNode + "time", p.getRemainingTime());
 						flat.set(pNode + "offlinePending", p.isOfflinePending());
+						flat.set(pNode + "toBeTransferred", p.isToBeTransferred());
 						flat.set(pNode + "jailer", p.getJailer());
 						flat.set(pNode + "reason", p.getReason());
 						flat.set(pNode + "inventory", p.getInventory());
@@ -319,6 +326,7 @@ public class JailIO {
 												flat.getString(cellNode + "prisoner.jailer"),
 												flat.getString(cellNode + "prisoner.reason"));
 								p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
+								p.setToBeTransferred(flat.getBoolean(cellNode + "prisoner.toBeTransferred"));
 								p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
 								p.setPreviousGameMode(flat.getString(cellNode + "prisoner.previousGameMode"));
 								p.setInventory(flat.getString(cellNode + "prisoner.inventory", ""));
@@ -342,6 +350,7 @@ public class JailIO {
 									flat.getString(pNode + "jailer"),
 									flat.getString(pNode + "reason"));
 							pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
+							pris.setToBeTransferred(flat.getBoolean(pNode + "toBeTransferred"));
 							pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
 							pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));
 							pris.setInventory(flat.getString(pNode + "inventory", ""));

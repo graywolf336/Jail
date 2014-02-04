@@ -27,6 +27,7 @@ import com.graywolf336.jail.command.jcommands.RemoveCell;
 import com.graywolf336.jail.command.jcommands.Stop;
 import com.graywolf336.jail.command.jcommands.TeleIn;
 import com.graywolf336.jail.command.jcommands.TeleOut;
+import com.graywolf336.jail.command.jcommands.Transfer;
 import com.graywolf336.jail.command.jcommands.Version;
 import com.graywolf336.jail.command.subcommands.JailCellCreateCommand;
 import com.graywolf336.jail.command.subcommands.JailCheckCommand;
@@ -42,6 +43,7 @@ import com.graywolf336.jail.command.subcommands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.subcommands.JailStopCommand;
 import com.graywolf336.jail.command.subcommands.JailTeleInCommand;
 import com.graywolf336.jail.command.subcommands.JailTeleOutCommand;
+import com.graywolf336.jail.command.subcommands.JailTransferCommand;
 import com.graywolf336.jail.command.subcommands.JailVersionCommand;
 import com.graywolf336.jail.enums.LangString;
 
@@ -197,6 +199,7 @@ public class JailHandler {
 		load(JailStopCommand.class);
 		load(JailTeleInCommand.class);
 		load(JailTeleOutCommand.class);
+		load(JailTransferCommand.class);
 		load(JailVersionCommand.class);
 		
 		//Puts the commands in the HashMap
@@ -224,6 +227,8 @@ public class JailHandler {
 		addCmds.put("teleportin", new TeleIn());
 		addCmds.put("teleout", new TeleOut());
 		addCmds.put("teleportout", new TeleOut());
+		addCmds.put("transfer", new Transfer());
+		addCmds.put("trans", new Transfer());
 		addCmds.put("version", new Version());
 		addCmds.put("ver", new Version());
 		addCmds.put("v", new Version());

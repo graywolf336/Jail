@@ -150,4 +150,9 @@ public class JailMain extends JavaPlugin {
 	public boolean inDebug() {
 		return this.debug;
 	}
+	
+	/** Logs a debugging message to the console if debugging is enabled. */
+	public void debug(String message) {
+		if(inDebug()) getLogger().info("[Debug]: " + message);
+	}
 }

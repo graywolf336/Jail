@@ -17,7 +17,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.command.jcommands.Jailing;
+import com.graywolf336.jail.command.commands.params.Jailing;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
@@ -61,6 +61,14 @@ public class JailCommand implements Command {
 		}catch(ParameterException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;
+		}
+		
+		//Check if they've actually given us a player to jail
+		if(params.player().isEmpty()) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.JAILING));
+			return true;
+		}else {
+			jm.getPlugin().debug("We are getting ready to handle jailing: " + params.jail());
 		}
 		
 		//Check if the given player is already jailed or not

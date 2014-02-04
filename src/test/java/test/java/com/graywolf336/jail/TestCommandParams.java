@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.ParameterException;
-import com.graywolf336.jail.command.jcommands.Jailing;
+import com.graywolf336.jail.command.commands.params.Jailing;
 
 public class TestCommandParams {
 	

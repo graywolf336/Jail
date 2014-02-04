@@ -62,12 +62,18 @@ public enum LangString {
 	PROTECTIONMESSAGE ("jailing"),
 	/** The message sent to the prisoner when they try to do something and it is protected, but no penalty. */
 	PROTECTIONMESSAGENOPENALTY ("jailing"),
+	/** The message sent to the sender when they need to provide a player. */
+	PROVIDEAPLAYER ("jailing"),
+	/** The message sent to the sender when they need to provide a jail. */
+	PROVIDEAJAIL ("jailing"),
 	/** The message sent to the sender of a command when suggesting a cell. */
 	SUGGESTEDCELL ("jailing"),
 	/** The message sent to the sender when they teleport someone to a jail's teleport in location. */
 	TELEIN ("jailing"),
 	/** The message sent to the sender when they teleport someone to a jail's teleport out location. */
 	TELEOUT ("jailing"),
+	/** The message sent to the player when they get transferred to a new jail. */
+	TRANSFERRED ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
 	/** The message went when an offline player is unjailed. */
@@ -96,6 +102,8 @@ public enum LangString {
 	ALLJAILS ("general"),
 	/** The message sent whenever a cell is successfully removed. */
 	CELLREMOVED ("general"),
+	/** The simple word jailing to be put in other parts. */
+	JAILING ("jailing"),
 	/** The message sent whenever a jail is successfully removed. */
 	JAILREMOVED ("general"),
 	/** Message sent when doing something that requires a cell but the given name of a cell doesn't exist. */
@@ -118,6 +126,8 @@ public enum LangString {
 	PLUGINRELOADED ("general"),
 	/** The message sent whenever the prisoners are cleared from jail(s). */
 	PRISONERSCLEARED ("general"),
+	/** The simple word transferring to be put in other parts. */
+	TRANSFERRING ("general"),
 	/** The message sent whenever someone does a command we don't know. */
 	UNKNOWNCOMMAND ("general");
 	

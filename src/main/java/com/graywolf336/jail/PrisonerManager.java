@@ -410,4 +410,101 @@ public class PrisonerManager {
 			}
 		}
 	}
+	
+	public void transferPrisoner(Jail origin, Cell originCell, Jail targetJail, Cell targetCell, Prisoner prisoner) {
+		Player player = pl.getServer().getPlayer(prisoner.getName());
+		
+		//If there is no origin cell, then we need to basically just put them to their targetJail
+		if(originCell == null) {
+			//But first thing is first, let's check if there is a targetCell we're putting them in
+			if(targetCell == null) {
+				//There is no cell, so we're just going to be putting them into
+				//the target jail and that's it
+				targetJail.addPrisoner(prisoner);
+				//Now then let's remove them from their old jail
+				origin.removePrisoner(prisoner);
+				
+				//If the player is not online, trigger them to be teleported when they
+				//come online again
+				if(player == null) {
+					//Set them to have an action on offline pending, so it gets triggered
+					prisoner.setOfflinePending(true);
+					//Now let's set them to be transferred when they come online next
+					prisoner.setToBeTransferred(true);
+				}else {
+					prisoner.setTeleporting(true);
+					player.teleport(targetJail.getTeleportIn());
+					prisoner.setTeleporting(false);
+					player.sendMessage(pl.getJailIO().getLanguageString(LangString.TRANSFERRED, targetJail.getName()));
+				}
+			}else {
+				//They are set to go to the targetCell, so handle accordingly
+				targetCell.setPrisoner(prisoner);
+				
+				//If the player is not online, trigger them to be teleported when they
+				//come online again
+				if(player == null) {
+					//Set them to have an action on offline pending, so it gets triggered
+					prisoner.setOfflinePending(true);
+					//Now let's set them to be transferred when they come online next
+					prisoner.setToBeTransferred(true);
+				}else {
+					prisoner.setTeleporting(true);
+					player.teleport(targetCell.getTeleport());
+					prisoner.setTeleporting(false);
+					player.sendMessage(pl.getJailIO().getLanguageString(LangString.TRANSFERRED, targetJail.getName()));
+				}
+			}
+		}else {
+			//They are being transferred from a cell, so we need to handle getting the inventory
+			//and all that sort of stuff from the old cell before we transfer them over to the new cell
+			
+			//If they're not being sent to a cell any more, handle that differently as well
+			if(targetCell == null) {
+				//Add them to the target jail
+				targetJail.addPrisoner(prisoner);
+				//Next, remove them from the cell
+				originCell.removePrisoner();
+				
+				//If the cell they came from has any items from their inventory,
+				//let's get it all and store it
+				if(originCell.hasChest()) {
+					//Convert the inventory to base64 string and store it in the prisoner's file 
+					prisoner.setInventory(Util.toBase64(originCell.getChest().getInventory()));
+					//Clear the origin cell's inventory so nothing is left behind
+					originCell.getChest().getInventory().clear();
+				}
+			}else {
+				//They are being transferred to a cell in another cell,
+				//we aren't going to do any sanity checks as we hope the method that is
+				//calling this one does those sanity checks for us.
+				
+				//Set the cell's prisoner to this one
+				targetCell.setPrisoner(prisoner);
+				//Remove the prisoner from the old one
+				originCell.removePrisoner();
+				
+				//Check if the origin cell has a chest, put all the player's inventory into it
+				if(originCell.hasChest()) {
+					//If the targetCell has a chest
+					if(targetCell.hasChest()) {
+						//Loop through the origin's chest inventory and add it to the target cell's chest
+						for(ItemStack i : originCell.getChest().getInventory().getContents()) {
+							targetCell.getChest().getInventory().addItem(i);
+						}
+						
+						//Clear the origin cell's chest as it is clear now
+						originCell.getChest().getInventory().clear();
+					}else {
+						//targetCell has no chest so we aren't going to try and put anything into it
+						
+						//Convert the inventory to base64 string and store it in the prisoner's file 
+						prisoner.setInventory(Util.toBase64(originCell.getChest().getInventory()));
+						//Clear the origin cell's inventory so nothing is left behind
+						originCell.getChest().getInventory().clear();
+					}
+				}
+			}
+		}
+	}
 }

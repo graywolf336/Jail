@@ -10,6 +10,7 @@ language:
   general:
     alljails: 'all the jails'
     cellremoved: '&9Cell %0% has been successfully removed from the jail %1%.'
+    jailing: '&9jailing'
     jailremoved: '&9Jail %0% has been successfully removed.'
     nocell: '&cNo cell found by the name of &0& in the jail %1%.'
     nocells: '&cNo cells found in the jail %0%.'
@@ -21,6 +22,7 @@ language:
     playernotonline: '&cThat player is not online!'
     pluginreloaded: '&9Jail data successfully reloaded.'
     prisonerscleared: '&cAll the prisoners from %0% have been cleared.'
+    transferring: '&9transferring'
     unknowncommand: '&cNo commands registered by the name of %0%.'
   jailing:
     afkkickmessage: '&cYou can not be afk while being jailed.'
@@ -44,9 +46,12 @@ language:
     onlinejail: '&2%0% was jailed for %1% minutes.'
     protectionmessage: '&c%0% minutes have been added to your time for %1%.'
     protectionmessagenopenalty: '&cProtection enabled for %0%, do not do it again.'
+    provideaplayer: '&cPlease provide a player when %0% &cthem.'
+    provideajail: '&cPlease provide a jail to %0% &cthem to.'
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'
     telein: "&9Teleported %0% to %1%'s teleport in location."
     teleout: "&9Teleported %0% to %1%'s teleport out location."
+    transferred: '&9You have been transferred to %0%.'
     unjailed: '&2You have been released! Please respect the server rules.'
     willbeunjailed: '&2%0% will be released the next time they log on.'
   handcuffing:

@@ -15,7 +15,7 @@ import org.bukkit.Location;
  */
 public class Prisoner {
 	private String name, jailer, reason, inventory, armor;
-	private boolean muted, offlinePending, teleporting;
+	private boolean muted, offlinePending, teleporting, toBeTransferred;
 	private long time, afk;
 	private Location previousPosition;
 	private GameMode previousGameMode;
@@ -37,6 +37,7 @@ public class Prisoner {
 		this.reason = reason;
 		this.offlinePending = false;
 		this.teleporting = false;
+		this.toBeTransferred = false;
 		this.previousPosition = null;
 		this.previousGameMode = GameMode.SURVIVAL;
 		this.inventory = "";
@@ -125,6 +126,16 @@ public class Prisoner {
 	/** Sets whether the player is being teleported or not. */
 	public void setTeleporting(boolean teleport) {
 		this.teleporting = teleport;
+	}
+	
+	/** Gets whether the prisoner is going to be transferred or not, mainly for teleporting on join purposes. */
+	public boolean isToBeTransferred() {
+		return this.toBeTransferred;
+	}
+	
+	/** Sets whether the prisoner is going to be transferred or not, mainly for teleporting on join purposes. */
+	public void setToBeTransferred(boolean transferred) {
+		this.toBeTransferred = transferred;
 	}
 	
 	/** Gets the previous location of this player, can be null. */
