@@ -106,6 +106,8 @@ public class PlayerListener implements Listener {
 						event.getPlayer().teleport(c.getTeleport());
 						p.setTeleporting(false);
 					}
+					
+					p.setToBeTransferred(false);
 				} else {
 					//Their remaining time isn't 0 so let's proceed with jailing of the prisoner
 					pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
