@@ -22,7 +22,7 @@ import com.graywolf336.jail.enums.LangString;
 	)
 public class JailListCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		sender.sendMessage(ChatColor.AQUA + "----------Jails----------");
+		sender.sendMessage(ChatColor.AQUA + "----------" + (args.length == 1 ? "Jails" : "Prisoners") + "----------");
 		
 		//Check if there are any jails
 		if(jm.getJails().isEmpty()) {
