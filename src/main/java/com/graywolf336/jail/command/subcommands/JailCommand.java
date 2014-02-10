@@ -70,12 +70,12 @@ public class JailCommand implements Command {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.JAILING));
 			return true;
 		}else {
-			jm.getPlugin().debug("We are getting ready to handle jailing: " + params.jail());
+			jm.getPlugin().debug("We are getting ready to handle jailing: " + params.player());
 		}
 		
 		//Check if the given player is already jailed or not
 		if(jm.isPlayerJailed(params.player())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED));
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED, params.player()));
 			return true;
 		}
 		

@@ -26,7 +26,7 @@ language:
     unknowncommand: '&cNo commands registered by the name of %0%.'
   jailing:
     afkkickmessage: '&cYou can not be afk while being jailed.'
-    alreadyjailed: '&cThat player is already jailed.'
+    alreadyjailed: '&c%0% is already jailed.'
     broadcastmessageforever: '&9%0% has been jailed forever.'
     broadcastmessageforminutes: '&9%0% has been jailed for %1% minutes.'
     broadcastunjailing: '&9%0% has been unjailed by %1%.'
