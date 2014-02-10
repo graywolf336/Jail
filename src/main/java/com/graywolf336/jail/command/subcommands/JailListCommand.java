@@ -1,5 +1,7 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.HashSet;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -39,10 +41,17 @@ public class JailListCommand implements Command {
 					//No jail was found
 					sender.sendMessage(" " + jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
 				}else {
-					for(Prisoner p : j.getAllPrisoners()) {
-						//graywolf663: Being gray's evil twin; CONSOLE (10)
-						//prisoner: reason; jailer (time in minutes)
-						sender.sendMessage(ChatColor.BLUE + "    " + p.getName() + ": " + p.getReason() + "; " + p.getJailer() + "(" + p.getRemainingTimeInMinutes() + ")");
+					HashSet<Prisoner> pris = j.getAllPrisoners();
+					
+					if(pris.isEmpty()) {
+						//If there are no prisoners, then send that message
+						sender.sendMessage(" " + jm.getPlugin().getJailIO().getLanguageString(LangString.NOPRISONERS, j.getName()));
+					}else {
+						for(Prisoner p : j.getAllPrisoners()) {
+							//graywolf663: Being gray's evil twin; CONSOLE (10)
+							//prisoner: reason; jailer (time in minutes)
+							sender.sendMessage(ChatColor.BLUE + "    " + p.getName() + ": " + p.getReason() + "; " + p.getJailer() + "(" + p.getRemainingTimeInMinutes() + ")");
+						}
 					}
 				}
 			}

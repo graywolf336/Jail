@@ -48,6 +48,8 @@ public enum LangString {
 	MUTED ("jailing"),
 	/** The message sent when the sender tries to jail someone in a cell and there aren't any cells to suggest. */
 	NOEMPTYCELLS ("jailing"),
+	/** The message sent to the sender when they list all the prisoners in a jail which has no prisoners. */
+	NOPRISONERS ("jailing"),
 	/** The message sent when a player is not jailed and the sender is trying to see/do something about it. */
 	NOTJAILED ("jailing"),
 	/** The message sent to the sender when they mute a prisoner. */
