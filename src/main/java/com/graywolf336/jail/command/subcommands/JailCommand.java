@@ -52,7 +52,9 @@ public class JailCommand implements Command {
 		
 		//This is just to add the -p param so jCommander doesn't blow up
 		List<String> arguments = new LinkedList<String>(Arrays.asList(args));
-		arguments.add(0, "-p");
+		//Only add the "-p" if it doesn't already contain it, this way people can do `/jail -p check` in the event someone
+		//has a name which is one of our subcommands
+		if(!arguments.contains("-p")) arguments.add(0, "-p");
 		
 		Jailing params = new Jailing();
 		
