@@ -59,7 +59,7 @@ public class JailCommand implements Command {
 		Jailing params = null;
 		
 		try {
-			params = CliFactory.parseArguments(Jailing.class, args);
+			params = CliFactory.parseArguments(Jailing.class, arguments.toArray(new String[arguments.size()]));
 		}catch(ArgumentValidationException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;
