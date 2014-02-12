@@ -150,7 +150,7 @@ public class JailCommand implements Command {
 		}
 		
 		//If the config has automatic muting, then let's set them as muted
-		boolean muted = params.isMuted();
+		boolean muted = params.getMuted();
 		if(jm.getPlugin().getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath())) {
 			muted = true;
 		}

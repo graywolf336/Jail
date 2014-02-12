@@ -37,10 +37,6 @@ public class JailHandler {
 		
 		plugin.getLogger().info("Loaded " + commands.size() + " sub-commands of /jail.");
 	}
-
-	public void handleCommand(JailManager jm, CommandSender sender, String... args) {
-		
-	}
 	
 	/**
 	 * Handles the given command and checks that the command is in valid form.

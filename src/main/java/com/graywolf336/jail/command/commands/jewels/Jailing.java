@@ -19,9 +19,14 @@ public interface Jailing {
 	public String getCell();
 	
 	@Option(longName={"muted", "canttalk"}, shortName="m", description = "whether the prisoner is muted or not")
-	public boolean isMuted();
+	public boolean getMuted();
 	
 	@Option(longName={"reason"}, shortName="r", description = "the reason this player is being jailed")
 	public List<String> getReason();
 	
+	public boolean isTime();
+	public boolean isJail();
+	public boolean isCell();
+	public boolean isMuted();
+	public boolean isReason();
 }

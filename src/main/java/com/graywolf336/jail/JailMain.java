@@ -118,7 +118,7 @@ public class JailMain extends JavaPlugin {
 	 */
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
 		if(command.getName().equalsIgnoreCase("jail")) {
-			jh.handleCommand(jm, sender, args);
+			jh.parseCommand(jm, sender, args);
 		}else {
 			cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
 		}
