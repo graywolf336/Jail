@@ -39,7 +39,7 @@ public class JailTransferCommand implements Command {
 		}
 		
 		//Verify they gave us a player and if so check if they're jailed
-		if(params.getPlayer().isEmpty()) {
+		if(params.getPlayer() == null) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.TRANSFERRING));
 			return true;
 		}else if(!jm.isPlayerJailed(params.getPlayer())) {
@@ -50,7 +50,7 @@ public class JailTransferCommand implements Command {
 		jm.getPlugin().debug("Checking everything before we transfer: " + params.getPlayer());
 		
 		//If they didn't provide a jail, tell them we need one
-		if(params.getJail().isEmpty()) {
+		if(params.getJail() == null) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAJAIL, LangString.TRANSFERRING));
 			return true;
 		}else {
@@ -65,7 +65,7 @@ public class JailTransferCommand implements Command {
 		Cell targetCell = null;
 		
 		//Check if they provided a cell and if so does it exist
-		if(!params.getCell().isEmpty()) {
+		if(params.getCell() != null) {
 			if(target.getCell(params.getCell()) == null) {
 				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, params.getCell()));
 				return true;
