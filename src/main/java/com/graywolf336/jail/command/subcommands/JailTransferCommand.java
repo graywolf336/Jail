@@ -76,7 +76,7 @@ public class JailTransferCommand implements Command {
 		//Check if they provided a cell and if so does it exist
 		if(params.getCell() != null) {
 			if(target.getCell(params.getCell()) == null) {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, params.getCell()));
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.getCell(), params.getJail() }));
 				return true;
 			}else {
 				//Store the cell for easy of access and also check if it already is full
