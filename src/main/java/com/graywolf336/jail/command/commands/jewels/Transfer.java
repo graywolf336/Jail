@@ -12,4 +12,8 @@ public interface Transfer {
 	
 	@Option(longName={"cell"}, shortName="c", description = "the cell")
 	public String getCell();
+	
+	public boolean isPlayer();
+	public boolean isJail();
+	public boolean isCell();
 }
