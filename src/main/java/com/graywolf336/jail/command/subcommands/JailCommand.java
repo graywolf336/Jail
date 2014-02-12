@@ -8,8 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterException;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Cell;
@@ -17,10 +15,12 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.command.commands.params.Jailing;
+import com.graywolf336.jail.command.commands.jewels.Jailing;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
+import com.lexicalscope.jewel.cli.ArgumentValidationException;
+import com.lexicalscope.jewel.cli.CliFactory;
 
 @CommandInfo(
 		maxArgs = -1,
@@ -56,26 +56,26 @@ public class JailCommand implements Command {
 		//has a name which is one of our subcommands
 		if(!arguments.contains("-p")) arguments.add(0, "-p");
 		
-		Jailing params = new Jailing();
+		Jailing params = null;
 		
 		try {
-			new JCommander(params, arguments.toArray(new String[arguments.size()]));
-		}catch(ParameterException e) {
+			params = CliFactory.parseArguments(Jailing.class, args);
+		}catch(ArgumentValidationException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;
 		}
 		
 		//Check if they've actually given us a player to jail
-		if(params.player().isEmpty()) {
+		if(params.getPlayer().isEmpty()) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.JAILING));
 			return true;
 		}else {
-			jm.getPlugin().debug("We are getting ready to handle jailing: " + params.player());
+			jm.getPlugin().debug("We are getting ready to handle jailing: " + params.getPlayer());
 		}
 		
 		//Check if the given player is already jailed or not
-		if(jm.isPlayerJailed(params.player())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED, params.player()));
+		if(jm.isPlayerJailed(params.getPlayer())) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED, params.getPlayer()));
 			return true;
 		}
 		
@@ -83,12 +83,12 @@ public class JailCommand implements Command {
 		//from the config and if that isn't there then we default to thirty minutes.
 		Long time = 10L;
 		try {
-			if(params.time().isEmpty()) {
+			if(params.getTime().isEmpty()) {
 				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
-			}else if(params.time() == String.valueOf(-1)) {
+			}else if(params.getTime() == String.valueOf(-1)) {
 				time = -1L;
 			}else {
-				time = Util.getTime(params.time());
+				time = Util.getTime(params.getTime());
 			}
 		}catch(Exception e) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NUMBERFORMATINCORRECT));
@@ -98,35 +98,37 @@ public class JailCommand implements Command {
 		//Check the jail params. If it is empty, let's get the default jail
 		//from the config. If that is nearest, let's make a call to getting the nearest jail to
 		//the sender but otherwise if it isn't nearest then let's set it to the default jail
-		//which is defined in the config. After that is done, we set the name of it in the params
-		//so that we can keep consistency.
-		if(params.jail().isEmpty()) {
+		//which is defined in the config.
+		String jailName = "";
+		if(params.getJail().isEmpty()) {
 			String dJail = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
 			
 			if(dJail.equalsIgnoreCase("nearest")) {
-				params.setJail(jm.getNearestJail(sender).getName());
+				jailName = jm.getNearestJail(sender).getName();
 			}else {
-				params.setJail(jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath()));
+				jailName = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
 			}
-		}else if(jm.getJail(params.jail()) == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, params.jail()));
+		}else if(jm.getJail(params.getJail()) == null) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, params.getJail()));
 			return true;
+		}else {
+			jailName = params.getJail();
 		}
 		
 		//Check if the cell is defined, and if so check to be sure it exists.
-		if(!params.cell().isEmpty()) {
-			if(jm.getJail(params.jail()).getCell(params.cell()) == null) {
+		if(!params.getCell().isEmpty()) {
+			if(jm.getJail(params.getJail()).getCell(params.getCell()) == null) {
 				//There is no cell by that name
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.cell(), params.jail() }));
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.getCell(), params.getJail() }));
 				return true;
-			}else if(jm.getJail(params.jail()).getCell(params.cell()).hasPrisoner()) {
+			}else if(jm.getJail(params.getJail()).getCell(params.getCell()).hasPrisoner()) {
 				//If the cell has a prisoner, don't allow jailing them to that particular cell
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CELLNOTEMPTY, params.cell()));
-				Cell suggestedCell = jm.getJail(params.jail()).getFirstEmptyCell();
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CELLNOTEMPTY, params.getCell()));
+				Cell suggestedCell = jm.getJail(params.getJail()).getFirstEmptyCell();
 				if(suggestedCell != null) {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.SUGGESTEDCELL, new String[] { params.jail(), suggestedCell.getName() }));
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.SUGGESTEDCELL, new String[] { params.getJail(), suggestedCell.getName() }));
 				}else {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOEMPTYCELLS, params.jail()));
+					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOEMPTYCELLS, params.getJail()));
 				}
 				
 				return true;
@@ -134,16 +136,26 @@ public class JailCommand implements Command {
 		}
 		
 		//If the jailer gave no reason, then let's get the default reason
-		if(params.reason().isEmpty()) {
-			params.setReason(jm.getPlugin().getJailIO().getLanguageString(LangString.DEFAULTJAILEDREASON));
+		String reason = "";
+		if(params.getReason().isEmpty()) {
+			reason = jm.getPlugin().getJailIO().getLanguageString(LangString.DEFAULTJAILEDREASON);
+		}else {
+			StringBuilder sb = new StringBuilder();
+			for(String s : params.getReason()) {
+				sb.append(s).append(' ');
+			}
+			
+			sb.deleteCharAt(sb.length() - 1);
+			reason = sb.toString();
 		}
 		
 		//If the config has automatic muting, then let's set them as muted
+		boolean muted = params.getMuted();
 		if(jm.getPlugin().getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath())) {
-			params.setMuted(true);
+			muted = true;
 		}
 		
-		Player p = jm.getPlugin().getServer().getPlayer(params.player());
+		Player p = jm.getPlugin().getServer().getPlayer(params.getPlayer());
 		
 		//If the player instance is not null and the player has the permission
 		//'jail.cantbejailed' then don't allow this to happen
@@ -153,9 +165,9 @@ public class JailCommand implements Command {
 		}
 		
 		//Get the jail instance from the name of jail in the params.
-		Jail j = jm.getJail(params.jail());
-		Cell c = j.getCell(params.cell());
-		Prisoner pris = new Prisoner(params.player(), params.muted(), time, sender.getName(), params.reason());
+		Jail j = jm.getJail(jailName);
+		Cell c = j.getCell(params.getCell());
+		Prisoner pris = new Prisoner(params.getPlayer(), muted, time, sender.getName(), reason);
 		
 		//call the event
 		PrePrisonerJailedEvent event = new PrePrisonerJailedEvent(j, c, pris, p, p == null, pris.getJailer());
@@ -164,7 +176,7 @@ public class JailCommand implements Command {
 		//check if the event is cancelled
 		if(event.isCancelled()) {
 			if(event.getCancelledMessage().isEmpty())
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, params.player()));
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, params.getPlayer()));
 			else
 				sender.sendMessage(event.getCancelledMessage());
 				

@@ -4,10 +4,10 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.graywolf336.jail.command.jewel.Jailing;
+import com.graywolf336.jail.command.commands.jewels.Jailing;
 import com.lexicalscope.jewel.cli.CliFactory;
 
-public class TestJewel {
+public class JewelCommands {
 	@Test
 	public void testJewel() {
 		String[] args = { "--player", "graywolf336", "-c", "testing", "-r", "This", "is", "a", "reason" };

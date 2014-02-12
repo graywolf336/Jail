@@ -1,7 +1,6 @@
 package com.graywolf336.jail.command;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -9,26 +8,8 @@ import java.util.Map.Entry;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterException;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.command.jcommands.CellCreate;
-import com.graywolf336.jail.command.jcommands.Check;
-import com.graywolf336.jail.command.jcommands.Clear;
-import com.graywolf336.jail.command.jcommands.ClearForce;
-import com.graywolf336.jail.command.jcommands.Create;
-import com.graywolf336.jail.command.jcommands.JailFoundation;
-import com.graywolf336.jail.command.jcommands.JailList;
-import com.graywolf336.jail.command.jcommands.ListCells;
-import com.graywolf336.jail.command.jcommands.Mute;
-import com.graywolf336.jail.command.jcommands.Reload;
-import com.graywolf336.jail.command.jcommands.RemoveCell;
-import com.graywolf336.jail.command.jcommands.Stop;
-import com.graywolf336.jail.command.jcommands.TeleIn;
-import com.graywolf336.jail.command.jcommands.TeleOut;
-import com.graywolf336.jail.command.jcommands.Transfer;
-import com.graywolf336.jail.command.jcommands.Version;
 import com.graywolf336.jail.command.subcommands.JailCellCreateCommand;
 import com.graywolf336.jail.command.subcommands.JailCheckCommand;
 import com.graywolf336.jail.command.subcommands.JailClearCommand;
@@ -49,45 +30,12 @@ import com.graywolf336.jail.enums.LangString;
 
 public class JailHandler {
 	private LinkedHashMap<String, Command> commands;
-	private HashMap<String, Object> addCmds;
 	
 	public JailHandler(JailMain plugin) {
 		commands = new LinkedHashMap<String, Command>();
-		addCmds = new HashMap<String, Object>();
 		loadCommands();
 		
 		plugin.getLogger().info("Loaded " + commands.size() + " sub-commands of /jail.");
-	}
-
-	public void handleCommand(JailManager jm, CommandSender sender, String... args) {
-		if(args.length == 0) {
-			parseCommand(jm, sender, getMatches("jail").get(0), args);
-		}else {
-			JailFoundation foundation = new JailFoundation();
-			JCommander jc = new JCommander(foundation);
-			
-			for(Entry<String, Object> e : addCmds.entrySet()) {
-				jc.addCommand(e.getKey(), e.getValue());
-			}
-			
-			try {
-				jc.parse(args);
-				
-				List<Command> matches = getMatches(jc.getParsedCommand());
-				
-				if(matches.size() == 0) {
-					//There should only be one for /jail
-					parseCommand(jm, sender, getMatches("jail").get(0), args);
-				} else if(matches.size() > 1) {
-					for(Command c : matches)
-						showUsage(sender, c);
-				}else {
-					parseCommand(jm, sender, matches.get(0), args);
-				}
-			}catch(ParameterException e) {
-				parseCommand(jm, sender, getMatches("jail").get(0), args);
-			}
-		}
 	}
 	
 	/**
@@ -109,21 +57,49 @@ public class JailHandler {
 	 * @param command The name of the command.
 	 * @param args The arguments passed to the command.
 	 */
-	public boolean parseCommand(JailManager jailmanager, CommandSender sender, Command c, String[] args) {
+	public boolean parseCommand(JailManager jailmanager, CommandSender sender, String[] args) {
+		Command c = null;
+		
+		//If they didn't provide any arguments (aka just: /jail) then we will need to send them some help
+		if(args.length == 0) {
+			//TODO: Create the help page(s)
+			c = getMatches("jail").get(0);
+			
+		}else {
+			//Get the matches from the first argument passed
+			List<Command> matches = getMatches(args[0]);
+			
+			if(matches.size() == 0) {
+				//No matches found, thus it is more likely than not they are trying to jail someone
+				c = getMatches("jail").get(0);
+				
+			} else if(matches.size() > 1) {
+				//If there was found more than one match
+				//then let's send the usage of each match to the sender
+				for(Command cmd : matches)
+					showUsage(sender, cmd);
+				return true;
+				
+			}else {
+				//Only one match was found, so let's continue
+				c = matches.get(0);
+			}
+		}
+				
 		CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
 		
 		// First, let's check if the sender has permission for the command.
 		if(!sender.hasPermission(i.permission())) {
 			jailmanager.getPlugin().debug("Sender has no permission.");
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
-			return false;
+			return true;
 		}
 		
 		// Next, let's check if we need a player and then if the sender is actually a player
 		if(i.needsPlayer() && !(sender instanceof Player)) {
 			jailmanager.getPlugin().debug("Sender is not a player.");
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
-			return false;
+			return true;
 		}
 		
 		// Now, let's check the size of the arguments passed. If it is shorter than the minimum required args, let's show the usage.
@@ -131,7 +107,7 @@ public class JailHandler {
 		if(args.length - 1 < i.minimumArgs()) {
 			jailmanager.getPlugin().debug("Sender didn't provide enough arguments.");
 			showUsage(sender, c);
-			return false;
+			return true;
 		}
 		
 		// Then, if the maximumArgs doesn't equal -1, we need to check if the size of the arguments passed is greater than the maximum args.
@@ -139,7 +115,7 @@ public class JailHandler {
 		if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) {
 			jailmanager.getPlugin().debug("Sender provided too many arguments.");
 			showUsage(sender, c);
-			return false;
+			return true;
 		}
 		
 		// Since everything has been checked and we're all clear, let's execute it.
@@ -147,7 +123,7 @@ public class JailHandler {
 		try {
 			if(!c.execute(jailmanager, sender, args)) {
 				showUsage(sender, c);
-				return false;
+				return true;
 			}else {
 				return true;
 			}
@@ -155,7 +131,7 @@ public class JailHandler {
 			e.printStackTrace();
 			jailmanager.getPlugin().getLogger().severe("An error occured while handling the command: " + i.usage());
 			showUsage(sender, c);
-			return false;
+			return true;
 		}
 	}
 	
@@ -201,37 +177,6 @@ public class JailHandler {
 		load(JailTeleOutCommand.class);
 		load(JailTransferCommand.class);
 		load(JailVersionCommand.class);
-		
-		//Puts the commands in the HashMap
-		addCmds.put("cellcreate", new CellCreate());
-		addCmds.put("cc", new CellCreate());
-		addCmds.put("check", new Check());
-		addCmds.put("clear", new Clear());
-		addCmds.put("clearforce", new ClearForce());
-		addCmds.put("cf", new ClearForce());
-		addCmds.put("create", new Create());
-		addCmds.put("list", new JailList());
-		addCmds.put("l", new JailList());
-		addCmds.put("listcells", new ListCells());
-		addCmds.put("lc", new ListCells());
-		addCmds.put("mute", new Mute());
-		addCmds.put("m", new Mute());
-		addCmds.put("reload", new Reload());
-		addCmds.put("r", new Reload());
-		addCmds.put("removecell", new RemoveCell());
-		addCmds.put("rcell", new RemoveCell());
-		addCmds.put("rc", new RemoveCell());
-		addCmds.put("stop", new Stop());
-		addCmds.put("s", new Stop());
-		addCmds.put("telein", new TeleIn());
-		addCmds.put("teleportin", new TeleIn());
-		addCmds.put("teleout", new TeleOut());
-		addCmds.put("teleportout", new TeleOut());
-		addCmds.put("transfer", new Transfer());
-		addCmds.put("trans", new Transfer());
-		addCmds.put("version", new Version());
-		addCmds.put("ver", new Version());
-		addCmds.put("v", new Version());
 	}
 	
 	private void load(Class<? extends Command> c) {
