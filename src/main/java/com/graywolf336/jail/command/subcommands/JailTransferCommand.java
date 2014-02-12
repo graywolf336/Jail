@@ -1,5 +1,9 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -28,11 +32,16 @@ public class JailTransferCommand implements Command {
 			return true;
 		}
 		
+		//Convert to a List<String> so we can edit the list
+		List<String> arguments = new LinkedList<String>(Arrays.asList(args));
+		//remove the first argument of "transfer"
+		arguments.remove(0);
+		
 		//Parse the command
 		Transfer params = null;
 		
 		try {
-			params = CliFactory.parseArguments(Transfer.class, args);
+			params = CliFactory.parseArguments(Transfer.class, arguments.toArray(new String[arguments.size()]));
 		}catch(ArgumentValidationException e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 			return true;

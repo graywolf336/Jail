@@ -50,7 +50,7 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
-		//This is just to add the -p param so jCommander doesn't blow up
+		//This is just to add the -p param so CliFactory doesn't blow up
 		List<String> arguments = new LinkedList<String>(Arrays.asList(args));
 		//Only add the "-p" if it doesn't already contain it, this way people can do `/jail -p check` in the event someone
 		//has a name which is one of our subcommands
