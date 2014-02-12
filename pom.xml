@@ -166,7 +166,7 @@
 						<configuration>
 							<artifactSet>
 								<includes>
-									<include>com.beust:jcommander</include>
+									<include>com.lexicalscope.jewelcli:jewelcli</include>
 								</includes>
 							</artifactSet>
 						</configuration>
