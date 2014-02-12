@@ -53,6 +53,7 @@ language:
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'
     telein: "&9Teleported %0% to %1%'s teleport in location."
     teleout: "&9Teleported %0% to %1%'s teleport out location."
+    transferallcomplete: '&2Successfully transferred all the prisoners from %0% to %1%.'
     transfercompletecell: '&2Successfully transferred %0% to %1% in the cell %2%.'
     transfercompletenocell: '&2Successfully transferred %0% to %1%.'
     transferred: '&9You have been transferred to %0%.'
