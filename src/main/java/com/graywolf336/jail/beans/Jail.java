@@ -6,6 +6,7 @@ import java.util.HashSet;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -152,8 +153,26 @@ public class Jail {
 		return this.cells.get(name);
 	}
 	
+	/** Checks if the given name is a valid cell. */
+	public boolean isValidCell(String name) {
+		return this.cells.get(name) != null;
+	}
+	
 	/** Removes the cell from the jail. */
 	public void removeCell(String name) {
+		//Clear the chest and reset the sign
+		this.cells.get(name).getChest().getInventory().clear();
+		
+		//For each sign, clear the lines on the sign
+		for(SimpleLocation s : this.cells.get(name).getSigns()) {
+			if(s.getLocation().getBlock().getState() instanceof Sign) {
+				Sign sign = (Sign) s.getLocation().getBlock();
+				for(int i = 0; i < 4; i++) {
+					sign.setLine(i, "");
+				}
+			}
+		}
+		
 		this.cells.remove(name);
 	}
 	
@@ -186,6 +205,29 @@ public class Jail {
 	/** Gets all the cells in the jail. */
 	public HashSet<Cell> getCells() {
 		return new HashSet<Cell>(this.cells.values());
+	}
+	
+	/** Gets the closest cell to the provided location, via the teleport in location of the cells. */
+	public Cell getNearestCell(Location loc) {
+		Cell cell = null;
+		double distance = -1;
+		
+		for(Cell c : getCells()) {
+			//Check if the worlds are the same, if not we can't calculate anything
+			if(c.getTeleport().getWorld().getName().equalsIgnoreCase(loc.getWorld().getName())) {
+				//They are in the same world
+				double dist = c.getTeleport().distance(loc);
+				if (dist < distance || distance < 0) {
+					cell = c;
+					distance = dist;
+				}
+			}else {
+				//If they aren't, return the first cell found.
+				return c;
+			}
+		}
+		
+		return cell;
 	}
 	
 	/** Clears all the prisoners from this Jail. */

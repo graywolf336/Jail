@@ -9,6 +9,7 @@ language:
     moving: 'trying to escape'
   general:
     alljails: 'all the jails'
+    cellremovalunsuccessful: '&cThe removal of cell %0% from jail %1% was unsuccessful because there is a prisoner in there still. Release or transfer before trying to remove the cell again.'
     cellremoved: '&9Cell %0% has been successfully removed from the jail %1%.'
     jailing: '&9jailing'
     jailremoved: '&9Jail %0% has been successfully removed.'

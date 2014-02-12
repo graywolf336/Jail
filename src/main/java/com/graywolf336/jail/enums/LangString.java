@@ -106,6 +106,8 @@ public enum LangString {
 	
 	/** Part message of any messages which require 'all the jails' or such. */
 	ALLJAILS ("general"),
+	/** The message sent to the sender whenever they try to remove a cell but was unsuccessful due to a prisoner. */
+	CELLREMOVALUNSUCCESSFUL ("general"),
 	/** The message sent whenever a cell is successfully removed. */
 	CELLREMOVED ("general"),
 	/** The simple word jailing to be put in other parts. */
