@@ -74,6 +74,10 @@ public enum LangString {
 	TELEIN ("jailing"),
 	/** The message sent to the sender when they teleport someone to a jail's teleport out location. */
 	TELEOUT ("jailing"),
+	/** The message sent to the sender when they transfer someone to a jail and a cell. */
+	TRANSFERCOMPLETECELL ("jailing"),
+	/** The message sent to the sender when they transfer someone to a jail. */
+	TRANSFERCOMPLETENOCELL ("jailing"),
 	/** The message sent to the player when they get transferred to a new jail. */
 	TRANSFERRED ("jailing"),
 	/** The message sent when players are released from jail. */

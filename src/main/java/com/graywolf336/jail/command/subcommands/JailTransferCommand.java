@@ -105,6 +105,13 @@ public class JailTransferCommand implements Command {
 				jm.getJailPlayerIsIn(params.getPlayer()).getCellPrisonerIsIn(params.getPlayer()),
 				target, targetCell, jm.getPrisoner(params.getPlayer()));
 		
+		//Send the messages to the sender, if no cell then say that but if cell send that as well
+		if(targetCell == null) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERCOMPLETENOCELL, new String[] { params.getPlayer(), target.getName() }));
+		}else {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERCOMPLETECELL, new String[] { params.getPlayer(), target.getName(), targetCell.getName() }));
+		}
+		
 		return true;
 	}
 }

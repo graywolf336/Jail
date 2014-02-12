@@ -52,6 +52,8 @@ language:
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'
     telein: "&9Teleported %0% to %1%'s teleport in location."
     teleout: "&9Teleported %0% to %1%'s teleport out location."
+    transfercompletecell: '&2Successfully transferred %0% to %1% in the cell %2%.'
+    transfercompletenocell: '&2Successfully transferred %0% to %1%.'
     transferred: '&9You have been transferred to %0%.'
     unjailed: '&2You have been released! Please respect the server rules.'
     willbeunjailed: '&2%0% will be released the next time they log on.'
