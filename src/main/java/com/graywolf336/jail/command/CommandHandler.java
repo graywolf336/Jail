@@ -58,11 +58,13 @@ public class CommandHandler {
 	public void handleCommand(JailManager jailmanager, CommandSender sender, String command, String[] args) {
 		List<Command> matches = getMatches(command);
 		
+		//If no matches were found, send them the unknown command message.
 		if(matches.size() == 0) {
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, command));
 			return;
 		}
 		
+		//If more than one command was found, send them each command's help message.
 		if(matches.size() > 1) {
 			for(Command c : matches)
 				showUsage(sender, c);
