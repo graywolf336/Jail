@@ -66,7 +66,7 @@ public class JailCommand implements Command {
 		}
 		
 		//Check if they've actually given us a player to jail
-		if(params.getPlayer().isEmpty()) {
+		if(params.getPlayer() == null) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.JAILING));
 			return true;
 		}else {
@@ -83,7 +83,7 @@ public class JailCommand implements Command {
 		//from the config and if that isn't there then we default to thirty minutes.
 		Long time = 10L;
 		try {
-			if(params.getTime().isEmpty()) {
+			if(params.getTime() == null) {
 				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
 			}else if(params.getTime() == String.valueOf(-1)) {
 				time = -1L;
@@ -100,7 +100,7 @@ public class JailCommand implements Command {
 		//the sender but otherwise if it isn't nearest then let's set it to the default jail
 		//which is defined in the config.
 		String jailName = "";
-		if(params.getJail().isEmpty()) {
+		if(params.getJail() == null) {
 			String dJail = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
 			
 			if(dJail.equalsIgnoreCase("nearest")) {
@@ -116,7 +116,7 @@ public class JailCommand implements Command {
 		}
 		
 		//Check if the cell is defined, and if so check to be sure it exists.
-		if(!params.getCell().isEmpty()) {
+		if(params.getCell() != null) {
 			if(jm.getJail(params.getJail()).getCell(params.getCell()) == null) {
 				//There is no cell by that name
 				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.getCell(), params.getJail() }));
@@ -137,7 +137,7 @@ public class JailCommand implements Command {
 		
 		//If the jailer gave no reason, then let's get the default reason
 		String reason = "";
-		if(params.getReason().isEmpty()) {
+		if(params.getReason() == null) {
 			reason = jm.getPlugin().getJailIO().getLanguageString(LangString.DEFAULTJAILEDREASON);
 		}else {
 			StringBuilder sb = new StringBuilder();
