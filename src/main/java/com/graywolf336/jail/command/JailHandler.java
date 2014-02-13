@@ -24,6 +24,7 @@ import com.graywolf336.jail.command.subcommands.JailListCommand;
 import com.graywolf336.jail.command.subcommands.JailMuteCommand;
 import com.graywolf336.jail.command.subcommands.JailReloadCommand;
 import com.graywolf336.jail.command.subcommands.JailRemoveCellCommand;
+import com.graywolf336.jail.command.subcommands.JailStatusCommand;
 import com.graywolf336.jail.command.subcommands.JailStopCommand;
 import com.graywolf336.jail.command.subcommands.JailTeleInCommand;
 import com.graywolf336.jail.command.subcommands.JailTeleOutCommand;
@@ -179,6 +180,7 @@ public class JailHandler {
 		load(JailMuteCommand.class);
 		load(JailReloadCommand.class);
 		load(JailRemoveCellCommand.class);
+		load(JailStatusCommand.class);
 		load(JailStopCommand.class);
 		load(JailTeleInCommand.class);
 		load(JailTeleOutCommand.class);

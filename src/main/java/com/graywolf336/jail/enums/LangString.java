@@ -68,6 +68,8 @@ public enum LangString {
 	PROVIDEAPLAYER ("jailing"),
 	/** The message sent to the sender when they need to provide a jail. */
 	PROVIDEAJAIL ("jailing"),
+	/** The message sent when to a prisoner about their status in jail. */
+	STATUS ("jailing"),
 	/** The message sent to the sender of a command when suggesting a cell. */
 	SUGGESTEDCELL ("jailing"),
 	/** The message sent to the sender when they teleport someone to a jail's teleport in location. */
@@ -86,6 +88,8 @@ public enum LangString {
 	UNJAILED ("jailing"),
 	/** The message went when an offline player is unjailed. */
 	WILLBEUNJAILED ("jailing"),
+	/** The message sent to the sender when they check their jail status and they aren't jailed. */
+	YOUARENOTJAILED ("jailing"),
 	
 	//Handcuffing section
 	

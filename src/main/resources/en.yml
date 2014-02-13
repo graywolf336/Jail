@@ -51,6 +51,7 @@ language:
     protectionmessagenopenalty: '&cProtection enabled for %0%, do not do it again.'
     provideaplayer: '&cPlease provide a player when %0% &cthem.'
     provideajail: '&cPlease provide a jail to %0% &cthem to.'
+    status: "&2You have been jailed with a reason of '%0%' by %1% and have %2% minutes remaining."
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'
     telein: "&9Teleported %0% to %1%'s teleport in location."
     teleout: "&9Teleported %0% to %1%'s teleport out location."
@@ -60,6 +61,7 @@ language:
     transferred: '&9You have been transferred to %0%.'
     unjailed: '&2You have been released! Please respect the server rules.'
     willbeunjailed: '&2%0% will be released the next time they log on.'
+    youarenotjailed: '&2You are not jailed.'
   handcuffing:
     cantbehandcuffed: '&9%0% &ccan not be handcuffed.'
     currentlyjailed: '&9%0% &cis currently jailed, you can not handcuff a prisoner.'
