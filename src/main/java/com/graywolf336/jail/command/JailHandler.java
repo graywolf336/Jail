@@ -23,7 +23,6 @@ import com.graywolf336.jail.command.subcommands.JailListCellsCommand;
 import com.graywolf336.jail.command.subcommands.JailListCommand;
 import com.graywolf336.jail.command.subcommands.JailMuteCommand;
 import com.graywolf336.jail.command.subcommands.JailReloadCommand;
-import com.graywolf336.jail.command.subcommands.JailRemoveCellCommand;
 import com.graywolf336.jail.command.subcommands.JailStatusCommand;
 import com.graywolf336.jail.command.subcommands.JailStopCommand;
 import com.graywolf336.jail.command.subcommands.JailTeleInCommand;
@@ -94,10 +93,12 @@ public class JailHandler {
 		CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
 		
 		// First, let's check if the sender has permission for the command.
-		if(!sender.hasPermission(i.permission())) {
-			jailmanager.getPlugin().debug("Sender has no permission.");
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
-			return true;
+		if(!i.permission().isEmpty()) {
+			if(!sender.hasPermission(i.permission())) {
+				jailmanager.getPlugin().debug("Sender has no permission.");
+				sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
+				return true;
+			}
 		}
 		
 		// Next, let's check if we need a player and then if the sender is actually a player
@@ -179,7 +180,6 @@ public class JailHandler {
 		load(JailListCommand.class);
 		load(JailMuteCommand.class);
 		load(JailReloadCommand.class);
-		load(JailRemoveCellCommand.class);
 		load(JailStatusCommand.class);
 		load(JailStopCommand.class);
 		load(JailTeleInCommand.class);

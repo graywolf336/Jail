@@ -7,9 +7,12 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.beans.CreationPlayer;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.enums.Confirmation;
+import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.steps.CellCreationSteps;
 import com.graywolf336.jail.steps.JailCreationSteps;
 
@@ -35,6 +38,7 @@ public class JailManager {
 	private HashMap<String, Jail> jails;
 	private HashMap<String, CreationPlayer> jailCreators;
 	private HashMap<String, CreationPlayer> cellCreators;
+	private HashMap<String, ConfirmPlayer> confirms;
 	private JailCreationSteps jcs;
 	private CellCreationSteps ccs;
 	
@@ -43,6 +47,7 @@ public class JailManager {
 		this.jails = new HashMap<String, Jail>();
 		this.jailCreators = new HashMap<String, CreationPlayer>();
 		this.cellCreators = new HashMap<String, CreationPlayer>();
+		this.confirms = new HashMap<String, ConfirmPlayer>();
 		this.jcs = new JailCreationSteps();
 		this.ccs = new CellCreationSteps();
 	}
@@ -214,6 +219,51 @@ public class JailManager {
 	}
 	
 	/**
+	 * Clears a {@link Jail} of all its prisoners if the jail is provided, otherwise it releases all the prisoners in all the jails.
+	 * 
+	 * @param jail The name of the jail to release the prisoners in, null if wanting to clear all.
+	 * @return The resulting message to be sent to the caller of this method.
+	 */
+	public String clearJailOfPrisoners(String jail) {
+		//If they don't pass in a jail name, clear all the jails
+		if(jail != null) {
+			Jail j = getJail(jail);
+			
+			if(j != null) {
+				for(Prisoner p : j.getAllPrisoners()) {
+					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayerExact(p.getName()), p);
+				}
+				
+				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName());
+			}else {
+				return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail);
+			}
+		}else {
+			return clearAllJailsOfAllPrisoners();
+		}
+	}
+	
+	/**
+	 * Clears all the {@link Jail jails} of prisoners by releasing them.
+	 * 
+	 * @return The resulting message to be sent to the caller of this method.
+	 */
+	public String clearAllJailsOfAllPrisoners() {
+		//No name of a jail has been passed, so release all of the prisoners in all the jails
+		if(getJails().size() == 0) {
+			return getPlugin().getJailIO().getLanguageString(LangString.NOJAILS);
+		}else {
+			for(Jail j : getJails()) {
+				for(Prisoner p : j.getAllPrisoners()) {
+					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayerExact(p.getName()), p);
+				}
+			}
+			
+			return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, getPlugin().getJailIO().getLanguageString(LangString.ALLJAILS));
+		}
+	}
+	
+	/**
 	 * Returns whether or not the player is creating a jail or a cell.
 	 * 
 	 * <p>
@@ -341,5 +391,37 @@ public class JailManager {
 	/** Gets the instance of the {@link CellCreationSteps}. */
 	public CellCreationSteps getCellCreationSteps() {
 		return this.ccs;
+	}
+	
+	/** Adds something to the confirming list. */
+	public void addConfirming(String name, ConfirmPlayer confirmer) {
+		this.confirms.put(name, confirmer);
+	}
+	
+	/** Removes a name from the confirming list. */
+	public void removeConfirming(String name) {
+		this.confirms.remove(name);
+	}
+	
+	/** Checks if the given name is confirming something. */
+	public boolean isConfirming(String name) {
+		if(this.confirmingHasExpired(name)) this.removeConfirming(name);
+		
+		return this.confirms.containsKey(name);
+	}
+	
+	/** Returns true if the confirmation has expired, false if it is still valid. */
+	public boolean confirmingHasExpired(String name) {
+		return this.confirms.get(name).getExpiryTime() <= (System.currentTimeMillis() + 5000L);
+	}
+	
+	/** Returns the original arguments for what we are confirming. */
+	public String[] getOriginalArgs(String name) {
+		return this.confirms.get(name).getArguments();
+	}
+	
+	/** Returns what the given name is confirming. */
+	public Confirmation getWhatIsConfirming(String name) {
+		return this.confirms.get(name).getConfirming();
 	}
 }

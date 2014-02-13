@@ -145,7 +145,18 @@ public enum LangString {
 	/** The simple word transferring to be put in other parts. */
 	TRANSFERRING ("general"),
 	/** The message sent whenever someone does a command we don't know. */
-	UNKNOWNCOMMAND ("general");
+	UNKNOWNCOMMAND ("general"),
+	
+	//Confirming action messages.
+	
+	/** The message sent when the sender is already confirming something. */
+	ALREADY ("confirm"),
+	/** The message sent when their confirmation has expired. */
+	EXPIRED ("confirm"),
+	/** The message sent to the sender when they tried to confirm something but don't have anything to confirm. */
+	NOTHING ("confirm"),
+	/** The message sent to the sender when they type something and need to confirm it. */
+	START ("confirm");
 	
 	private String section, name;
 	

@@ -7,6 +7,11 @@ language:
     interactionblocks: 'interacting with a block'
     interactionitems: 'interacting with an item'
     moving: 'trying to escape'
+  confirm:
+    already: "&cYou are already confirming something else, please type '&b/jail confirm&c' to confirm it."
+    expired: '&cYour confirmation expired already, retype what you are trying to confirm.'
+    nothing: '&cYou are not confirming anything.'
+    start: "&cPlease type '&b/jail confirm&c' to confirm we should continue."
   general:
     alljails: 'all the jails'
     cellremovalunsuccessful: '&cThe removal of cell %0% from jail %1% was unsuccessful because there is a prisoner in there still. Release or transfer before trying to remove the cell again.'
