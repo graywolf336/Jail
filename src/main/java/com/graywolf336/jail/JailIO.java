@@ -405,4 +405,26 @@ public class JailIO {
 				break;
 		}
 	}
+	
+	/**
+	 * Removes a jail from the storage system.
+	 * 
+	 * @param name of the jail to remove.
+	 */
+	public void removeJail(String name) {
+		switch(storage) {
+			case 1:
+			case 2:
+				break;
+			default:
+				flat.set("jails." + name, null);
+				
+				try {
+					flat.save(new File(pl.getDataFolder(), "data.yml"));
+				} catch (IOException e) {
+					pl.getLogger().severe("Unable to remove the jail " + name +  " from the storage: " + e.getMessage());
+				}
+				break;
+		}
+	}
 }

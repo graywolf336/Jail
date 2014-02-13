@@ -114,6 +114,8 @@ public enum LangString {
 	CELLREMOVED ("general"),
 	/** The simple word jailing to be put in other parts. */
 	JAILING ("jailing"),
+	/** THe message sent to the sender when they try to remove a jail but there are still prisoners in there. */
+	JAILREMOVALUNSUCCESSFUL ("general"),
 	/** The message sent whenever a jail is successfully removed. */
 	JAILREMOVED ("general"),
 	/** Message sent when doing something that requires a cell but the given name of a cell doesn't exist. */

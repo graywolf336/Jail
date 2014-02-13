@@ -74,6 +74,16 @@ public class JailManager {
 	}
 	
 	/**
+	 * Removes a {@link Jail}.
+	 * 
+	 * @param name of the jail to remove
+	 */
+	public void removeJail(String name) {
+		this.jails.remove(name);
+		plugin.getJailIO().removeJail(name);
+	}
+	
+	/**
 	 * Gets a jail by the given name.
 	 * 
 	 * @param name The name of the jail to get.

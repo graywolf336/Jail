@@ -12,6 +12,7 @@ language:
     cellremovalunsuccessful: '&cThe removal of cell %0% from jail %1% was unsuccessful because there is a prisoner in there still. Release or transfer before trying to remove the cell again.'
     cellremoved: '&9Cell %0% has been successfully removed from the jail %1%.'
     jailing: '&9jailing'
+    jailremovalunsuccessful: '&cThe removal of the jail %0% was unsuccessful because there are prisoners in there, please release or transfer them first.'
     jailremoved: '&9Jail %0% has been successfully removed.'
     nocell: '&cNo cell found by the name of %0% in the jail %1%.'
     nocells: '&cNo cells found in the jail %0%.'
