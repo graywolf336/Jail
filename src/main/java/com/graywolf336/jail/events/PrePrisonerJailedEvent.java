@@ -86,7 +86,7 @@ public class PrePrisonerJailedEvent extends Event implements Cancellable {
 	}
 	
 	/**
-	 * Sets the prisoner whom the data should say jailed this prisoner.
+	 * Sets who jailed this prisoner.
 	 * 
 	 * @param jailer The name to put who is the jailer for this prisoner.
 	 */
