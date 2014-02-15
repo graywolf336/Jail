@@ -11,6 +11,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 
@@ -315,6 +316,10 @@ public class PrisonerManager {
 		
 		if(prisoner == null)
 			throw new Exception("Prisoner data can not be null.");
+		
+		//Throw the custom event which is called before we start releasing them
+		PrePrisonerReleasedEvent preEvent = new PrePrisonerReleasedEvent(jail, cell, prisoner, player);
+		pl.getServer().getPluginManager().callEvent(preEvent);
 		
 		//We are getting ready to teleport them, so set it to true so that
 		//the *future* move checkers won't be canceling our moving.
