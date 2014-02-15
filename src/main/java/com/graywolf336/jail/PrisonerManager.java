@@ -14,6 +14,7 @@ import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
+import com.graywolf336.jail.events.PrisonerTransferredEvent;
 
 /**
  * Provides methods, non-statically, that do the preparing of jails and handle all the good stuff like that.
@@ -435,7 +436,7 @@ public class PrisonerManager {
 	 * @param targetCell The cell we're putting them into.
 	 * @param prisoner The prisoner data we're handling.
 	 */
-	public void transferPrisoner(Jail origin, Cell originCell, Jail targetJail, Cell targetCell, Prisoner prisoner) {
+	public void transferPrisoner(Jail originJail, Cell originCell, Jail targetJail, Cell targetCell, Prisoner prisoner) {
 		Player player = pl.getServer().getPlayer(prisoner.getName());
 		
 		//If there is no origin cell, then we need to basically just put them to their targetJail
@@ -446,7 +447,7 @@ public class PrisonerManager {
 				//the target jail and that's it
 				targetJail.addPrisoner(prisoner);
 				//Now then let's remove them from their old jail
-				origin.removePrisoner(prisoner);
+				originJail.removePrisoner(prisoner);
 				
 				//If the player is not online, trigger them to be teleported when they
 				//come online again
@@ -530,5 +531,9 @@ public class PrisonerManager {
 				}
 			}
 		}
+		
+		//Throw our custom event PrisonerTransferredEvent to say it was successful
+		PrisonerTransferredEvent event = new PrisonerTransferredEvent(originJail, originCell, targetJail, targetCell, prisoner, player);
+		pl.getServer().getPluginManager().callEvent(event);
 	}
 }
