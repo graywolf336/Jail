@@ -31,7 +31,7 @@ public class PrePrisonerJailedEvent extends Event implements Cancellable {
 	private String jailer, cancelMsg;
 	
 	/**
-	 * Creates a new {@link PrePrisonerJailedEvent prisoner jailed event} for the given player.
+	 * Creates a new {@link PrePrisonerJailedEvent prisoner jailed event} for the given player before they get sent to jail.
 	 * 
 	 * @param jail The jail the prisoner will be jailed at.
 	 * @param cell The cell we're going to be sending the prisoner to, can be null.

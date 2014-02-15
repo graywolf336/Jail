@@ -11,6 +11,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.events.PrisonerJailedEvent;
 
 /**
  * Provides methods, non-statically, that do the preparing of jails and handle all the good stuff like that.
@@ -262,6 +263,10 @@ public class PrisonerManager {
     		command = command.replaceAll("%p%", player.getName());
     		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
     	}
+    	
+    	//Call our custom event for when a prisoner is actually jailed.
+    	PrisonerJailedEvent event = new PrisonerJailedEvent(jail, cell, prisoner, player);
+    	pl.getServer().getPluginManager().callEvent(event);
     	
     	//Save the data, as we have changed it
     	pl.getJailIO().saveJail(jail);
