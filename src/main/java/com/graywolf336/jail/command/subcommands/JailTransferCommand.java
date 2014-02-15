@@ -63,12 +63,14 @@ public class JailTransferCommand implements Command {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAJAIL, LangString.TRANSFERRING));
 			return true;
 		}else {
-			//Check if the jail they did provide exists
-			if(jm.getJail(params.getJail()) == null) {
+			//Check if the jail they did provided is not a valid jail
+			if(!jm.isValidJail(params.getJail())) {
 				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, params.getJail()));
 				return true;
 			}
 		}
+		
+		jm.getPlugin().debug("They provided a valid jail, so let's check the target cell.");
 		
 		Jail target = jm.getJail(params.getJail());
 		Cell targetCell = null;
