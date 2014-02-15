@@ -535,9 +535,12 @@ public class JailManager {
 	
 	/** Checks if the given name is confirming something. */
 	public boolean isConfirming(String name) {
-		if(this.confirmingHasExpired(name)) this.removeConfirming(name);
-		
-		return this.confirms.containsKey(name);
+		if(this.confirms.containsKey(name)) {
+			if(this.confirmingHasExpired(name)) this.removeConfirming(name);
+			return this.confirms.containsKey(name);
+		}else {
+			return false;
+		}
 	}
 	
 	/** Returns true if the confirmation has expired, false if it is still valid. */
