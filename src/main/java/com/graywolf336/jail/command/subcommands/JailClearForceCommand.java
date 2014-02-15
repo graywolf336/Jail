@@ -3,9 +3,10 @@ package com.graywolf336.jail.command.subcommands;
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.enums.Confirmation;
 import com.graywolf336.jail.enums.LangString;
 
 @CommandInfo(
@@ -20,26 +21,11 @@ public class JailClearForceCommand implements Command {
 	
 	// If Jail is specified clear all prisoners from that Jail (new feature) else, clear all players from all jails
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		if(args.length == 2) {
-			Jail j = jm.getJail(args[1]);
-			
-			if(j != null) {
-				j.clearPrisoners();
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName()));
-			}else {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
-			}
+		if(jm.isConfirming(sender.getName())) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADY));
 		}else {
-			if(jm.getJails().size() == 0) {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
-			}else {
-				for(Jail j : jm.getJails()) {
-					j.clearPrisoners();
-				}
-				
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED,
-						jm.getPlugin().getJailIO().getLanguageString(LangString.ALLJAILS)));
-			}
+			jm.addConfirming(sender.getName(), new ConfirmPlayer(sender.getName(), args, Confirmation.CLEARFORCE));
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.START));
 		}
 		
 		return true; //If they made it this far, the command is intact and ready to be processed. :)

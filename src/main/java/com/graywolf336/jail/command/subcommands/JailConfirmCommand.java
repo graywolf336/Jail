@@ -35,6 +35,15 @@ public class JailConfirmCommand implements Command{
 						//Remove them from confirming so they can't do it again
 						jm.removeConfirming(sender.getName());
 						break;
+					case CLEARFORCE:
+						//Copy the original arguments for easy access
+						String[] cArgs2 = jm.getOriginalArgs(sender.getName());
+						//Forcefully clear a jail if the args length is two, else send null to clear all
+						String msg2 = jm.forcefullyClearJailOrJails(cArgs2.length == 2 ? cArgs2[1] : null);
+						//Send the message we got back
+						sender.sendMessage(msg2);
+						jm.removeConfirming(sender.getName());
+						break;
 					default:
 						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHING));
 						jm.removeConfirming(sender.getName());

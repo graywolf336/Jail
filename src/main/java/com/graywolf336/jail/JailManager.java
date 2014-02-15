@@ -264,6 +264,39 @@ public class JailManager {
 	}
 	
 	/**
+	 * Forcefully clears all the jails if name provided is null.
+	 * 
+	 * <p />
+	 * 
+	 * This method just clears them from the storage, doesn't release them.
+	 * 
+	 * @param name of the jail to clear, null if all of them.
+	 * @return The resulting message to be sent to the caller of this method.
+	 */
+	public String forcefullyClearJailOrJails(String name) {
+		if(name == null) {
+			if(getJails().size() == 0) {
+				return getPlugin().getJailIO().getLanguageString(LangString.NOJAILS);
+			}else {
+				for(Jail j : getJails()) {
+					j.clearPrisoners();
+				}
+				
+				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, getPlugin().getJailIO().getLanguageString(LangString.ALLJAILS));
+			}
+		}else {
+			Jail j = getJail(name);
+			
+			if(j != null) {
+				j.clearPrisoners();
+				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName());
+			}else {
+				return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, name);
+			}
+		}
+	}
+	
+	/**
 	 * Returns whether or not the player is creating a jail or a cell.
 	 * 
 	 * <p>
