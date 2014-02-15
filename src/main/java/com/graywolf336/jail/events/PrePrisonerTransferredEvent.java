@@ -32,12 +32,13 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
 	/**
 	 * Creates a new {@link PrePrisonerTransferredEvent prisoner transferred event} for the given player before they get transferred to their jail and cell.
 	 * 
-	 * @param jail The jail the prisoner will be jailed at.
-	 * @param cell The cell we're going to be sending the prisoner to, can be null.
+	 * @param originalJail The jail the prisoner is coming from.
+	 * @param originalCell The cell the prisoner is coming from, can be null.
+	 * @param targetJail The jail the prisoner is going to.
+	 * @param targetCell The cell the prisoner is going to, can be null.
 	 * @param prisoner The prisoner data.
 	 * @param player The player being jailed.
-	 * @param online Whether the player is online or not.
-	 * @param jailer The name of what jailed this prisoner.
+	 * @param targetCell The name of what is transferring this prisoner.
 	 */
 	public PrePrisonerTransferredEvent(Jail originalJail, Cell originalCell, Jail targetJail, Cell targetCell, Prisoner prisoner, Player player, String transferor) {
 		this.originalJail = originalJail;
