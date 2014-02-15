@@ -12,6 +12,7 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
+import com.graywolf336.jail.events.PrisonerReleasedEvent;
 
 /**
  * Provides methods, non-statically, that do the preparing of jails and handle all the good stuff like that.
@@ -392,6 +393,10 @@ public class PrisonerManager {
     		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
     	}
 		
+    	//Call the prisoner released event as we have released them.
+    	PrisonerReleasedEvent event = new PrisonerReleasedEvent(jail, cell, prisoner, player);
+    	pl.getServer().getPluginManager().callEvent(event);
+    	
 		player.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILED));
 	}
 	
