@@ -22,7 +22,7 @@ import com.graywolf336.jail.beans.Prisoner;
  */
 public class PrePrisonerJailedEvent extends Event implements Cancellable {
 	private static final HandlerList handlers = new HandlerList();
-	private boolean cancelled;
+	private boolean cancelled = false;
 	private boolean online;
 	private Jail jail;
 	private Cell cell;
