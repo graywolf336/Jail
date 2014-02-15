@@ -525,6 +525,7 @@ public class JailManager {
 	
 	/** Adds something to the confirming list. */
 	public void addConfirming(String name, ConfirmPlayer confirmer) {
+		getPlugin().debug("Adding a confirming for " + name + " to confirm " + confirmer.getConfirming().toString().toLowerCase());
 		this.confirms.put(name, confirmer);
 	}
 	
@@ -536,7 +537,11 @@ public class JailManager {
 	/** Checks if the given name is confirming something. */
 	public boolean isConfirming(String name) {
 		if(this.confirms.containsKey(name)) {
-			if(this.confirmingHasExpired(name)) this.removeConfirming(name);
+			if(this.confirmingHasExpired(name)) {
+				getPlugin().debug("Removing " + name + "'s confirmation as it expired.");
+				this.removeConfirming(name);
+			}
+			
 			return this.confirms.containsKey(name);
 		}else {
 			return false;
@@ -545,7 +550,7 @@ public class JailManager {
 	
 	/** Returns true if the confirmation has expired, false if it is still valid. */
 	public boolean confirmingHasExpired(String name) {
-		return this.confirms.get(name).getExpiryTime() <= (System.currentTimeMillis() + 5000L);
+		return this.confirms.get(name).getExpiryTime() >= (System.currentTimeMillis() + 5000L);
 	}
 	
 	/** Returns the original arguments for what we are confirming. */

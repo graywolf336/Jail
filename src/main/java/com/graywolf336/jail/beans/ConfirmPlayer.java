@@ -27,7 +27,7 @@ public class ConfirmPlayer {
 		return this.name;
 	}
 	
-	/** Returns the inital arguments they sent with their command. */
+	/** Returns the initial arguments they sent with their command. */
 	public String[] getArguments() {
 		return this.args;
 	}
