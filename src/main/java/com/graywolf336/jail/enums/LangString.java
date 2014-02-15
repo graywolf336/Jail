@@ -78,6 +78,8 @@ public enum LangString {
 	TELEOUT ("jailing"),
 	/** The message sent to the sender when they transfer all a jail's prisoners to another jail. */
 	TRANSFERALLCOMPLETE ("jailing"),
+	/** The message sent when another plugin cancels the transferring but doesn't provide a reason why. */
+	TRANSFERCANCELLEDBYANOTHERPLUGIN ("jailing"),
 	/** The message sent to the sender when they transfer someone to a jail and a cell. */
 	TRANSFERCOMPLETECELL ("jailing"),
 	/** The message sent to the sender when they transfer someone to a jail. */

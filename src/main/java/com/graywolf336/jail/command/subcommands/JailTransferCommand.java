@@ -14,6 +14,7 @@ import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.commands.jewels.Transfer;
 import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.events.PrePrisonerTransferredEvent;
 import com.lexicalscope.jewel.cli.ArgumentValidationException;
 import com.lexicalscope.jewel.cli.CliFactory;
 
@@ -100,7 +101,24 @@ public class JailTransferCommand implements Command {
 			}
 		}
 		
-		jm.getPlugin().debug("Sending the transferring off, jail and cell check all came out clean.");
+		jm.getPlugin().debug("Calling the PrePrisonerTransferredEvent, jail and cell check all came out clean.");
+		
+		//Throw the custom event before transferring them, allowing another plugin to cancel it.
+		PrePrisonerTransferredEvent event = new PrePrisonerTransferredEvent(jm.getJailPlayerIsIn(params.getPlayer()),
+				jm.getJailPlayerIsIn(params.getPlayer()).getCellPrisonerIsIn(params.getPlayer()),
+				target, targetCell, jm.getPrisoner(params.getPlayer()), jm.getPlugin().getServer().getPlayer(params.getPlayer()), sender.getName());
+		jm.getPlugin().getServer().getPluginManager().callEvent(event);
+		
+		if(event.isCancelled()) {
+			if(event.getCancelledMessage().isEmpty()) {
+				//The plugin didn't provide a cancel message/reason so send the default one
+				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERCANCELLEDBYANOTHERPLUGIN, params.getPlayer()));
+			}else {
+				sender.sendMessage(event.getCancelledMessage());
+			}
+			
+			return true;
+		}
 		
 		//Start the transferring of the prisoner
 		jm.getPlugin().getPrisonerManager().transferPrisoner(jm.getJailPlayerIsIn(params.getPlayer()),
