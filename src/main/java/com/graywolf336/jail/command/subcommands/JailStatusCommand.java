@@ -22,10 +22,10 @@ public class JailStatusCommand implements Command{
 		if(jm.isPlayerJailed(sender.getName())) {
 			Prisoner p = jm.getPrisoner(sender.getName());
 			//They are jailed, so let's tell them some information
-			jm.getPlugin().getJailIO().getLanguageString(LangString.STATUS, new String[] { p.getReason(), p.getJailer(), String.valueOf(p.getRemainingTimeInMinutes()) });
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.STATUS, new String[] { p.getReason(), p.getJailer(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 		}else {
 			//the sender of the command is not jailed, tell them that
-			jm.getPlugin().getJailIO().getLanguageString(LangString.YOUARENOTJAILED);
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.YOUARENOTJAILED));
 		}
 		
 		return true;
