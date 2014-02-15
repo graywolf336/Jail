@@ -44,6 +44,36 @@ public class JailConfirmCommand implements Command{
 						sender.sendMessage(msg2);
 						jm.removeConfirming(sender.getName());
 						break;
+					case DELETECELL:
+						//Copy the original arguments for easy access
+						String[] cArgs3 = jm.getOriginalArgs(sender.getName());
+						//delete a cell from a jail with the given arguments
+						String msg3 = jm.deleteJailCell(cArgs3[1], cArgs3[2]);
+						//Send the message we got back
+						sender.sendMessage(msg3);
+						jm.removeConfirming(sender.getName());
+						break;
+					case DELETECELLS:
+						//Copy the original arguments for easy access
+						String[] cArgs4 = jm.getOriginalArgs(sender.getName());
+						//delete a cell from a jail with the given arguments
+						String[] msgs4 = jm.deleteAllJailCells(cArgs4[1]);
+						//Send the messages we got back
+						for(String s : msgs4) {
+							sender.sendMessage(s);
+						}
+						
+						jm.removeConfirming(sender.getName());
+						break;
+					case DELETE:
+						//Copy the original arguments for easy access
+						String[] cArgs5 = jm.getOriginalArgs(sender.getName());
+						//delete a cell from a jail with the given arguments
+						String msg5 = jm.deleteJail(cArgs5[1]);
+						//Send the message we got back
+						sender.sendMessage(msg5);
+						jm.removeConfirming(sender.getName());
+						break;
 					default:
 						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHING));
 						jm.removeConfirming(sender.getName());

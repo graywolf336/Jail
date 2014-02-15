@@ -2,11 +2,13 @@ package com.graywolf336.jail;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.beans.CreationPlayer;
 import com.graywolf336.jail.beans.Jail;
@@ -293,6 +295,101 @@ public class JailManager {
 			}else {
 				return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, name);
 			}
+		}
+	}
+	
+	/**
+	 * Deletes a jail's cell, checking everything is setup right for it to be deleted.
+	 * 
+	 * @param jail Name of the jail to delete a cell in.
+	 * @param cell Name of the cell to delete.
+	 * @return The resulting message to be sent to the caller of this method.
+	 */
+	public String deleteJailCell(String jail, String cell) {
+		//Check if the jail name provided is a valid jail
+		if(isValidJail(jail)) {
+			Jail j = getJail(jail);
+			
+			//check if the cell is a valid cell
+			if(j.isValidCell(cell)) {
+				if(j.getCell(cell).hasPrisoner()) {
+					//The cell has a prisoner, so tell them to first transfer the prisoner
+					//or release the prisoner
+					return getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVALUNSUCCESSFUL, new String[] { cell, jail });
+				}else {
+					j.removeCell(cell);
+					return getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVED, new String[] { cell, jail });
+				}
+			}else {
+				//No cell found by the provided name in the stated jail
+				return getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { cell, jail });
+			}
+		}else {
+			//No jail found by the provided name
+			return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail);
+		}
+	}
+	
+	/**
+	 * Deletes all the cells in a jail, returns a list of Strings.
+	 * 
+	 * @param jail The name of the jail to delete all the jails in.
+	 * @return An array of strings of messages to send.
+	 */
+	public String[] deleteAllJailCells(String jail) {
+		LinkedList<String> msgs = new LinkedList<String>();
+		
+		//Check if the jail name provided is a valid jail
+		if(isValidJail(jail)) {
+			Jail j = getJail(jail);
+			
+			if(j.getCellCount() == 0) {
+				//There are no cells in this jail, thus we can't delete them.
+				msgs.add(getPlugin().getJailIO().getLanguageString(LangString.NOCELLS, j.getName()));
+			}else {
+				//Keep a local copy of the hashset so that we don't get any CMEs.
+				HashSet<Cell> cells = new HashSet<Cell>(j.getCells());
+				
+				for(Cell c : cells) {
+					if(c.hasPrisoner()) {
+						//The cell has a prisoner, so tell them to first transfer the prisoner
+						//or release the prisoner
+						msgs.add(getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVALUNSUCCESSFUL, new String[] { c.getName(), j.getName() }));
+					}else {
+						j.removeCell(c.getName());
+						msgs.add(getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVED, new String[] { c.getName(), j.getName() }));
+					}
+				}
+			}
+		}else {
+			//No jail found by the provided name
+			msgs.add(getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail));
+		}
+		
+		return msgs.toArray(new String[msgs.size()]);
+	}
+	
+	/**
+	 * Deletes a jail while doing some checks to verify it can be deleted.
+	 * 
+	 * @param jail The name of the jail to delete.
+	 * @return The resulting message to be sent to the caller of this method.
+	 */
+	public String deleteJail(String jail) {
+		//Check if the jail name provided is a valid jail
+		if(isValidJail(jail)) {
+			//check if the jail doesn't contain prisoners
+			if(getJail(jail).getAllPrisoners().size() == 0) {
+				//There are no prisoners, so we can delete it
+				removeJail(jail);
+				return getPlugin().getJailIO().getLanguageString(LangString.JAILREMOVED, jail);
+			}else {
+				//The jail has prisoners, they need to release them first
+				return getPlugin().getJailIO().getLanguageString(LangString.JAILREMOVALUNSUCCESSFUL, jail);
+			}
+		}else {
+			//No jail found by the provided name
+			return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail);
 		}
 	}
 	
