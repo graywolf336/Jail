@@ -24,7 +24,7 @@ jailing:
     blockPlaceWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
     commandPenalty: 5m
     commandProtection: true
-    commandWhitelist: ['/ping', '/list', '/jail status]
+    commandWhitelist: ['/ping', '/list', '/jail status']
     countDownTimeWhileOffline: false
     cropTramplingPenalty: 5m
     cropTramplingProtection: true
