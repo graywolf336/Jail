@@ -13,7 +13,7 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 2,
 		minimumArgs = 1,
 		needsPlayer = true,
-		pattern = "createcells|cc",
+		pattern = "createcell|cc",
 		permission = "jail.command.jailcreatecells",
 		usage = "/jail cellcreate [jail] (cellname)"
 	)
