@@ -30,9 +30,9 @@ public class JailListCellsCommand implements Command {
 				String message = "";
 				for(Cell c : j.getCells()) {
 					if(message.isEmpty()) {
-						message = c.getName() + (c.getPrisoner() == null ? "" : "(" + c.getPrisoner().getName() + ")");
+						message = c.getName() + (c.getPrisoner() == null ? "" : " (" + c.getPrisoner().getName() + ")");
 					}else {
-						message += ", " + c.getName() + (c.getPrisoner() == null ? "" : "(" + c.getPrisoner().getName() + ")");
+						message += ", " + c.getName() + (c.getPrisoner() == null ? "" : " (" + c.getPrisoner().getName() + ")");
 					}
 				}
 				
