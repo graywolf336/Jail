@@ -2,6 +2,9 @@ package com.graywolf336.jail;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -25,6 +28,7 @@ import com.graywolf336.jail.enums.LangString;
 public class JailIO {
 	private JailMain pl;
 	private FileConfiguration flat, lang;
+	private Connection con;
 	private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
 	
 	public JailIO(JailMain plugin) {
@@ -103,20 +107,53 @@ public class JailIO {
 		return Util.getColorfulMessage(message);
 	}
 	
-	/**
-	 * Prepares the storage engine to be used.
-	 */
-	public void prepareStorage() {
+	/** Prepares the storage engine to be used, returns true if everything went good. */
+	public boolean prepareStorage() {
 		switch(storage) {
 			case 1:
 				//prepare sqlite, I need to research this
-				break;
+				return false;
 			case 2:
-				//prepare mysql, research this as well
+				try {
+					Class.forName("com.mysql.jdbc.Driver");
+					Connection connection = DriverManager.getConnection("jdbc:mysql://" + pl.getConfig().getString("storage.mysql.host") + ":"
+							+ pl.getConfig().getString("storage.mysql.port") + "/"
+							+ pl.getConfig().getString("storage.mysql.database"), pl.getConfig().getString("storage.mysql.username"), pl.getConfig().getString("storage.mysql.password"));
+					connection.setAutoCommit(false);
+					this.con = connection;
+				}catch(ClassNotFoundException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!! ----------");
+					pl.getLogger().severe("MySQL driver not found, disabling the plugin.");
+					return false;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!! ----------");
+					pl.getLogger().severe("Unable to connect to the MySQL database, please update your config accordingly.");
+					return false;
+				}
 				break;
 			default:
 				flat = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "data.yml"));
 				break;
+		}
+		
+		return true;
+	}
+	
+	/**
+	 * Gets the connection for the sqlite and mysql, null if flatfile.
+	 * 
+	 * @return The connection for the sql database.
+	 */
+	public Connection getConnection() {
+		switch(storage) {
+			case 1:
+			case 2:
+				if(con == null) this.prepareStorage();
+				return con;
+			default:
+				return null;
 		}
 	}
 	

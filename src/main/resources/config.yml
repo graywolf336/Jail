@@ -11,6 +11,8 @@ storage:
     port: 3306
     username: 'root'
     password: 'password'
+    prefix: 'j3_'
+    database: 'jailDatabase'
 jails:
   endermenProtection: true
   explosionProtection: true
