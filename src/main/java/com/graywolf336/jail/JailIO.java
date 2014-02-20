@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -30,6 +31,7 @@ public class JailIO {
 	private FileConfiguration flat, lang;
 	private Connection con;
 	private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
+	private String prefix;
 	
 	public JailIO(JailMain plugin) {
 		this.pl = plugin;
@@ -37,11 +39,15 @@ public class JailIO {
 		String st = pl.getConfig().getString("storage.type", "flatfile");
 		if(st.equalsIgnoreCase("sqlite")) {
 			storage = 1;
+			prefix = pl.getConfig().getString("storage.mysql.prefix");
 		}else if(st.equalsIgnoreCase("mysql")) {
 			storage = 2;
+			prefix = pl.getConfig().getString("storage.mysql.prefix");
 		}else {
 			storage = 0;
 		}
+		
+		pl.debug("The storage type " + st + " with the type being " + storage + ".");
 	}
 	
 	/** Loads the language file from disk, if there is none then we save the default one. */
@@ -108,30 +114,53 @@ public class JailIO {
 	}
 	
 	/** Prepares the storage engine to be used, returns true if everything went good. */
-	public boolean prepareStorage() {
+	public boolean prepareStorage(boolean doInitialCreations) {
 		switch(storage) {
 			case 1:
-				//prepare sqlite, I need to research this
-				return false;
+				try {
+					Class.forName("org.sqlite.JDBC");
+					pl.getLogger().info("Connecting to the sqlite database.");
+					Connection sqliteConnection = DriverManager.getConnection("jdbc:sqlite:" +  new File(pl.getDataFolder().getPath(), "jail.sqlite").getPath());
+					sqliteConnection.setAutoCommit(false);
+					this.con = sqliteConnection;
+					pl.debug("Connection created for sqlite.");
+				} catch (ClassNotFoundException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Sqlite driver not found, disabling the plugin.");
+					return false;
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Unable to connect to the sqlite database, please update your config accordingly.");
+					return false;
+				}
+                
+				break;
 			case 2:
 				try {
 					Class.forName("com.mysql.jdbc.Driver");
-					Connection connection = DriverManager.getConnection("jdbc:mysql://" + pl.getConfig().getString("storage.mysql.host") + ":"
+					pl.getLogger().info("Connecting to the MySQL database.");
+					Connection mysqlConnection = DriverManager.getConnection("jdbc:mysql://" + pl.getConfig().getString("storage.mysql.host") + ":"
 							+ pl.getConfig().getString("storage.mysql.port") + "/"
 							+ pl.getConfig().getString("storage.mysql.database"), pl.getConfig().getString("storage.mysql.username"), pl.getConfig().getString("storage.mysql.password"));
-					connection.setAutoCommit(false);
-					this.con = connection;
-				}catch(ClassNotFoundException e) {
+					mysqlConnection.setAutoCommit(false);
+					this.con = mysqlConnection;
+					pl.debug("Connection created for MySQL.");
+					
+					if(doInitialCreations) createTables();
+				} catch(ClassNotFoundException e) {
 					e.printStackTrace();
-					pl.getLogger().severe("---------- Jail Error!! ----------");
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
 					pl.getLogger().severe("MySQL driver not found, disabling the plugin.");
 					return false;
 				} catch (SQLException e) {
 					e.printStackTrace();
-					pl.getLogger().severe("---------- Jail Error!! ----------");
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
 					pl.getLogger().severe("Unable to connect to the MySQL database, please update your config accordingly.");
 					return false;
 				}
+				
 				break;
 			default:
 				flat = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "data.yml"));
@@ -150,10 +179,139 @@ public class JailIO {
 		switch(storage) {
 			case 1:
 			case 2:
-				if(con == null) this.prepareStorage();
+				if(con == null) this.prepareStorage(false);
 				return con;
 			default:
 				return null;
+		}
+	}
+	
+	/** Closes the sql connection. */
+	public void closeConnection() {
+		switch(storage) {
+			case 1:
+			case 2:
+				try {
+					if(con != null) {
+						con.close();
+						con = null;
+						
+						pl.debug("Closed the SQL connection.");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Unable to close the SQL connection.");
+				}
+				
+				break;
+			default:
+				break;
+		}
+	}
+	
+	private void createTables() {
+		if(con == null) {
+			pl.debug("The connection was null when we tried to create a table.");
+			return;
+		}
+		
+		try {
+			Statement st = con.createStatement();
+			switch(storage){ 
+				case 1:
+					break;
+				case 2:
+					String jailCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "jails` ("
+							  + "`name` VARCHAR(250) NOT NULL,"
+							  + "`world` VARCHAR(250) NOT NULL COMMENT 'The world for the top, bottom, and teleport in.',"
+							  + "`top.x` INT NOT NULL COMMENT 'The top coordinate x.',"
+							  + "`top.y` INT NOT NULL COMMENT 'The top coordinate y.',"
+							  + "`top.z` INT NOT NULL COMMENT 'The top coordinate z.',"
+							  + "`bottom.x` INT NOT NULL COMMENT 'The bottom coordinate x.',"
+							  + "`bottom.y` INT NOT NULL COMMENT 'The bottom coordinate y.',"
+							  + "`bottom.z` INT NOT NULL COMMENT 'The bottom coordinate z.',"
+							  + "`tps.in.x` DOUBLE NOT NULL COMMENT 'The teleport in x coordinate.',"
+							  + "`tps.in.y` DOUBLE NOT NULL COMMENT 'The teleport in y coordinate.',"
+							  + "`tps.in.z` DOUBLE NOT NULL COMMENT 'The teleport in z coordinate.',"
+							  + "`tps.in.yaw` DOUBLE NOT NULL COMMENT 'The teleport in yaw.',"
+							  + "`tps.in.pitch` DOUBLE NOT NULL COMMENT 'The teleport in pitch.',"
+							  + "`tps.free.world` VARCHAR(250) NOT NULL COMMENT 'The teleport for being free world.',"
+							  + "`tps.free.x` DOUBLE NOT NULL COMMENT 'The teleport for being free x coordinate.',"
+							  + "`tps.free.y` DOUBLE NOT NULL COMMENT 'The teleport for being free y coordinate.',"
+							  + "`tps.free.z` DOUBLE NOT NULL COMMENT 'The teleport for being free z coordinate.',"
+							  + "`tps.free.yaw` DOUBLE NOT NULL COMMENT 'The teleport for being free yaw.',"
+							  + "`tps.free.pitch` DOUBLE NOT NULL COMMENT 'The teleport for being free pitch.',"
+							  + "PRIMARY KEY (`name`),"
+							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
+							  + "COMMENT = 'Holds all the jails for the Bukkit Jail plugin.';";
+					
+					pl.debug(jailCreateCmd);
+					st.executeUpdate(jailCreateCmd);
+					
+					String cellCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "cells` ("
+							  + "`name` VARCHAR(250) NOT NULL COMMENT 'The name of the cell.',"
+							  + "`tp.x` DOUBLE NOT NULL COMMENT 'The teleport in x coordinate.',"
+							  + "`tp.y` DOUBLE NOT NULL COMMENT 'The teleport in y coordinate.',"
+							  + "`tp.z` DOUBLE NOT NULL COMMENT 'The teleport in z coordinate.',"
+							  + "`tp.yaw` DOUBLE NOT NULL COMMENT 'The teleport in yaw.',"
+							  + "`tp.pitch` DOUBLE NOT NULL COMMENT 'The teleport in pitch.',"
+							  + "`chest.x` INT NOT NULL COMMENT 'The chest x coordinate.',"
+							  + "`chest.y` INT NOT NULL COMMENT 'The chest y coordinate.',"
+							  + "`chest.z` INT NOT NULL COMMENT 'The chest z coordinate.',"
+							  + "`signs` VARCHAR(250) NULL COMMENT 'A string containing the signs.',"
+							  + "PRIMARY KEY (`name`),"
+							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
+							  + "COMMENT = 'Contains all the cells for the jails.';";
+					
+					pl.debug(cellCreateCmd);
+					st.executeUpdate(cellCreateCmd);
+					
+					String prisCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "prisoners` ("
+							  + "`name` VARCHAR(16) NOT NULL COMMENT 'The name of the prisoner.',"
+							  + "`jail` VARCHAR(250) NOT NULL COMMENT 'The jail the prisoner is in.',"
+							  + "`cell` VARCHAR(250) NULL COMMENT 'The cell the prisoner is in.',"
+							  + "`muted` TINYINT NOT NULL COMMENT 'Whether the player is muted or not.',"
+							  + "`time` INT NOT NULL COMMENT 'The remaining time the prisoner has.',"
+							  + "`offlinePending` TINYINT NOT NULL COMMENT 'Whether the prisoner has something happened to them while they were offline.',"
+							  + "`toBeTransferred` TINYINT NOT NULL COMMENT 'Whether the prisoner is to be transferred.',"
+							  + "`jailer` VARCHAR(250) NOT NULL COMMENT 'The name of the person who jailed them.',"
+							  + "`reason` VARCHAR(250) NOT NULL COMMENT 'The reason they are jailed.',"
+							  + "`inventory` BLOB NULL COMMENT 'Their inventory in base64.',"
+							  + "`armor` BLOB NULL COMMENT 'The armor in base64.',"
+							  + "`previousLocation` VARCHAR(250) NULL COMMENT 'A string of their previous location.',"
+							  + "`previousGameMode` VARCHAR(16) NULL COMMENT 'Their previous gamemode before they were jailed.',"
+							  + "PRIMARY KEY (`name`),"
+							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
+							  + "COMMENT = 'Contains all the prisoners, in cells and jails.';";
+					
+					pl.debug(prisCreateCmd);
+					st.executeUpdate(prisCreateCmd);
+					
+					String proCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "profiles` ("
+							  + "`profileid` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated number for the profiles database.',"
+							  + "`username` VARCHAR(16) NOT NULL COMMENT 'The username of the prisoner.',"
+							  + "`jailer` VARCHAR(250) NOT NULL COMMENT 'The name of the person who jailed the prisoner.',"
+							  + "`date` VARCHAR(32) NOT NULL COMMENT 'A string of the date.',"
+							  + "`time` INT NOT NULL COMMENT 'The milliseconds they were jailed for.',"
+							  + "`reason` VARCHAR(250) NOT NULL COMMENT 'The reason they were jailed for.',"
+							  + "PRIMARY KEY (`profileid`),"
+							  + "UNIQUE INDEX `profileid_UNIQUE` (`profileid` ASC))"
+							  + "COMMENT = 'Holds a history of all the times prisoners have been jailed.'";
+					
+					pl.debug(proCreateCmd);
+					st.executeUpdate(proCreateCmd);
+				
+					con.commit();
+					st.close();
+					break;
+				default:
+					break;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			pl.getLogger().severe("---------- Jail Error!!! ----------");
+			pl.getLogger().severe("Error while creating the tables, please check the error and fix what is wrong.");
 		}
 	}
 	
@@ -194,6 +352,7 @@ public class JailIO {
 		switch(storage) {
 			case 1:
 			case 2:
+				
 				break;
 			default:
 				if(flat != null) {

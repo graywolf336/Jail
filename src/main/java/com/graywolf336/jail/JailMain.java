@@ -36,11 +36,21 @@ public class JailMain extends JavaPlugin {
 	public void onEnable() {
 		loadConfig();
 		
+		debug = getConfig().getBoolean(Settings.DEBUG.getPath());
+		if(debug) getLogger().info("Debugging enabled.");
+		
 		hcm = new HandCuffManager();
 		jm = new JailManager(this);
 		io = new JailIO(this);
 		io.loadLanguage();
-		io.prepareStorage();
+		
+		//If the prepareStorage returns false, we need to disable the plugin
+		if(!io.prepareStorage(true)) {
+			this.getLogger().severe("An error occured while preparing the connection to the storage, please see the error above for more information.");
+			this.getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+		
 		io.loadJails();
 		
 		cmdHand = new CommandHandler(this);
@@ -66,10 +76,6 @@ public class JailMain extends JavaPlugin {
 		
 		jt = new JailTimer(this);
 		
-		debug = getConfig().getBoolean(Settings.DEBUG.getPath());
-		
-		if(debug) getLogger().info("Debugging enabled.");
-		
 		getLogger().info("Completed enablement.");
 	}
 
@@ -81,6 +87,9 @@ public class JailMain extends JavaPlugin {
 		if(jt != null)
 			if(jt.getTimer() != null)
 				jt.getTimer().stop();
+		
+		if(io != null)
+			io.closeConnection();
 		
 		jt = null;
 		cmdHand = null;
