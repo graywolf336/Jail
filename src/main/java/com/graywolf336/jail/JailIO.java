@@ -464,42 +464,27 @@ public class JailIO {
 					if(con == null) this.prepareStorage(false);
 					
 					for(Cell c : j.getCells()) {
-						PreparedStatement cPS = con.prepareStatement("REPLACE INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
-								+ "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
-						
-						cPS.setString(1, c.getName());
-						cPS.setString(2, j.getName());
-						cPS.setDouble(3, c.getTeleport().getX());
-						cPS.setDouble(4, c.getTeleport().getY());
-						cPS.setDouble(5, c.getTeleport().getZ());
-						cPS.setDouble(6, c.getTeleport().getYaw());
-						cPS.setDouble(7, c.getTeleport().getPitch());
-						cPS.setInt(8, c.getChestLocation().getBlockX());
-						cPS.setInt(9, c.getChestLocation().getBlockY());
-						cPS.setInt(10, c.getChestLocation().getBlockZ());
-						cPS.setString(11, c.getSignString());
-						
-						cPS.executeUpdate();
-						cPS.close();
-						
-						Prisoner p = c.getPrisoner();
-						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
-								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-						pPS.setString(1, p.getName());
-						pPS.setString(2, j.getName());
-						pPS.setString(3, c.getName());
-						pPS.setBoolean(4, p.isMuted());
-						pPS.setFloat(5, p.getRemainingTime());
-						pPS.setBoolean(6, p.isOfflinePending());
-						pPS.setBoolean(7, p.isToBeTransferred());
-						pPS.setString(8, p.getReason());
-						pPS.setBytes(9, p.getInventory().getBytes());
-						pPS.setBytes(10, p.getArmor().getBytes());
-						pPS.setString(11, p.getPreviousLocationString());
-						pPS.setString(12, p.getPreviousGameMode().toString());
-						
-						pPS.executeUpdate();
-						pPS.close();
+						if(c.hasPrisoner()) {
+							Prisoner p = c.getPrisoner();
+							PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+									+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`)"
+									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+							pPS.setString(1, p.getName());
+							pPS.setString(2, j.getName());
+							pPS.setString(3, c.getName());
+							pPS.setBoolean(4, p.isMuted());
+							pPS.setFloat(5, p.getRemainingTime());
+							pPS.setBoolean(6, p.isOfflinePending());
+							pPS.setBoolean(7, p.isToBeTransferred());
+							pPS.setString(8, p.getReason());
+							pPS.setBytes(9, p.getInventory().getBytes());
+							pPS.setBytes(10, p.getArmor().getBytes());
+							pPS.setString(11, p.getPreviousLocationString());
+							pPS.setString(12, p.getPreviousGameMode().toString());
+							
+							pPS.executeUpdate();
+							pPS.close();
+						}
 					}
 					
 					con.commit();
@@ -744,6 +729,74 @@ public class JailIO {
 			pl.getLogger().info("Loaded jail " + j.getName() + " with " + j.getAllPrisoners().size() + " prisoners and " + j.getCellCount() + " cells.");
 		} else
 			pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
+	}
+	
+	public void saveCell(Jail j, Cell c) {
+		switch(storage) {
+			case 1:
+			case 2:
+				try {
+					if(con == null) this.prepareStorage(false);
+					
+					PreparedStatement cPS = con.prepareStatement("INSERT INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
+							+ "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+					
+					cPS.setString(1, c.getName());
+					cPS.setString(2, j.getName());
+					cPS.setDouble(3, c.getTeleport().getX());
+					cPS.setDouble(4, c.getTeleport().getY());
+					cPS.setDouble(5, c.getTeleport().getZ());
+					cPS.setDouble(6, c.getTeleport().getYaw());
+					cPS.setDouble(7, c.getTeleport().getPitch());
+					
+					if(c.hasChest()) {
+						cPS.setInt(8, c.getChestLocation().getBlockX());
+						cPS.setInt(9, c.getChestLocation().getBlockY());
+						cPS.setInt(10, c.getChestLocation().getBlockZ());
+					}else {
+						cPS.setNull(8, java.sql.Types.INTEGER);
+						cPS.setNull(9, java.sql.Types.INTEGER);
+						cPS.setNull(10, java.sql.Types.INTEGER);
+					}
+					
+					cPS.setString(11, c.getSignString());
+					
+					cPS.executeUpdate();
+					cPS.close();
+					
+					if(c.hasPrisoner()) {
+						Prisoner p = c.getPrisoner();
+						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						pPS.setString(1, p.getName());
+						pPS.setString(2, j.getName());
+						pPS.setString(3, c.getName());
+						pPS.setBoolean(4, p.isMuted());
+						pPS.setFloat(5, p.getRemainingTime());
+						pPS.setBoolean(6, p.isOfflinePending());
+						pPS.setBoolean(7, p.isToBeTransferred());
+						pPS.setString(8, p.getReason());
+						pPS.setBytes(9, p.getInventory().getBytes());
+						pPS.setBytes(10, p.getArmor().getBytes());
+						pPS.setString(11, p.getPreviousLocationString());
+						pPS.setString(12, p.getPreviousGameMode().toString());
+						
+						pPS.executeUpdate();
+						pPS.close();
+					}
+					
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while saving the cell '" + c.getName() + "' of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+				}
+				
+				break;
+			default:
+				this.saveJail(j);
+				break;
+		}
 	}
 	
 	/**

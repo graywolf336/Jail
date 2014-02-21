@@ -144,7 +144,7 @@ public class Jail {
 	
 	/** Adds a cell to the Jail. */
 	public void addCell(Cell cell, boolean save) {
-		if(save) plugin.getJailIO().saveJail(this);
+		if(save) plugin.getJailIO().saveCell(this, cell);
 		this.cells.put(cell.getName(), cell);
 	}
 	
