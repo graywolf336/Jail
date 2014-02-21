@@ -353,7 +353,9 @@ public class JailIO {
 					set.close();
 					ps.close();
 				}catch (SQLException e) {
-					
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while loading the jails, please check the error and fix what is wrong.");
 				}
 				
 				pl.debug("Time Now (end): " + System.currentTimeMillis());
