@@ -81,7 +81,7 @@ public class Cell {
 			if(r.isEmpty()) {
 				r = s.toString();
 			}else {
-				r += r + ";" + s.toString();
+				r += ";" + s.toString();
 			}
 		}
 		
