@@ -129,7 +129,6 @@ public class CellCreationSteps {
 	    	player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation ----------");
 		    player.sendMessage(ChatColor.RED + "No chest selected.");
 		    player.sendMessage(ChatColor.AQUA + "----------------------------------------");
-		    return;
 	    }
 	    
 	    finalStep(jm, cp, player);
