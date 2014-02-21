@@ -416,7 +416,7 @@ public class JailIO {
 						cPS.close();
 						
 						Prisoner p = c.getPrisoner();
-						PreparedStatement pPS = con.prepareStatement("INSERT INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
 								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 						pPS.setString(1, p.getName());
 						pPS.setString(2, j.getName());
@@ -446,7 +446,7 @@ public class JailIO {
 					if(con == null) this.prepareStorage(false);
 					
 					for(Prisoner p : j.getPrisonersNotInCells()) {
-						PreparedStatement pPS = con.prepareStatement("INSERT INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
 								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
 						pPS.setString(1, p.getName());
 						pPS.setString(2, j.getName());
