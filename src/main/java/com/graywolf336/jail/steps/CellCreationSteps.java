@@ -140,7 +140,9 @@ public class CellCreationSteps {
 		
 		c.addAllSigns(cp.getSigns());
 		c.setTeleport(cp.getTeleportInSL());
-		c.setChestLocation(cp.getChestLocation());
+		
+		if(cp.getChestLocation() != null)
+			c.setChestLocation(cp.getChestLocation());
 		
 		j.addCell(c, true);
 		
