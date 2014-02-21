@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Location;
@@ -252,6 +254,7 @@ public class JailIO {
 					st.executeUpdate(jailCreateCmd);
 					
 					String cellCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "cells` ("
+							  + "`cellid` INT NOT NULL AUTO_INCREMENT COMMENT 'The cellid for the database.',"
 							  + "`name` VARCHAR(250) NOT NULL COMMENT 'The name of the cell.',"
 							  + "`jail` VARCHAR(250) NOT NULL COMMENT 'The name of the jail the cell is in.',"
 							  + "`tp.x` DOUBLE NOT NULL COMMENT 'The teleport in x coordinate.',"
@@ -263,8 +266,8 @@ public class JailIO {
 							  + "`chest.y` INT NOT NULL COMMENT 'The chest y coordinate.',"
 							  + "`chest.z` INT NOT NULL COMMENT 'The chest z coordinate.',"
 							  + "`signs` VARCHAR(250) NULL COMMENT 'A string containing the signs.',"
-							  + "PRIMARY KEY (`name`),"
-							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
+							  + "PRIMARY KEY (`cellid`),"
+							  + "UNIQUE INDEX `cellid_UNIQUE` (`cellid` ASC))"
 							  + "COMMENT = 'Contains all the cells for the jails.';";
 					
 					pl.debug(cellCreateCmd);
@@ -352,10 +355,42 @@ public class JailIO {
 					
 					set.close();
 					ps.close();
-				}catch (SQLException e) {
+				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
 					pl.getLogger().severe("Error while loading the jails, please check the error and fix what is wrong.");
+				}
+				
+				try {
+					if(con == null) this.prepareStorage(false);
+					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
+					ResultSet set = ps.executeQuery();
+					
+					List<Integer> remove = new LinkedList<Integer>(); //TODO: Set up something to remove these
+					
+					while(set.next()) {
+						Jail j = pl.getJailManager().getJail(set.getString("jail"));
+						
+						if(j != null) {
+							Cell c = new Cell(set.getString("name"));
+							c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"),
+									set.getDouble("tp.y"), set.getDouble("tp.z"),
+									set.getFloat("tp.yaw"), set.getFloat("tp.pitch")));
+							
+							//TODO: Finish loading the cells and fix the sql requiring everything, whoops
+							
+							j.addCell(c, false);
+						}else {
+							remove.add(set.getInt("cellid"));
+						}
+					}
+					
+					set.close();
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while loading all of the cells, please check the error and fix what is wrong.");
 				}
 				
 				pl.debug("Time Now (end): " + System.currentTimeMillis());
