@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Set;
@@ -251,6 +252,7 @@ public class JailIO {
 					
 					String cellCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "cells` ("
 							  + "`name` VARCHAR(250) NOT NULL COMMENT 'The name of the cell.',"
+							  + "`jail` VARCHAR(250) NOT NULL COMMENT 'The name of the jail the cell is in.',"
 							  + "`tp.x` DOUBLE NOT NULL COMMENT 'The teleport in x coordinate.',"
 							  + "`tp.y` DOUBLE NOT NULL COMMENT 'The teleport in y coordinate.',"
 							  + "`tp.z` DOUBLE NOT NULL COMMENT 'The teleport in z coordinate.',"
@@ -352,7 +354,125 @@ public class JailIO {
 		switch(storage) {
 			case 1:
 			case 2:
+				try {
+					pl.debug("Starting at: " + System.currentTimeMillis());
+					
+					if(con == null) this.prepareStorage(false);
+					PreparedStatement ps = con.prepareStatement("REPLACE INTO "
+							+ prefix + "jails (`name`, `world`, `top.x`, `top.y`, `top.z`, `bottom.x`, `bottom.y`,"
+							+ "`bottom.z`, `tps.in.x`, `tps.in.y`, `tps.in.z`, `tps.in.yaw`, `tps.in.pitch`,"
+							+ "`tps.free.world`, `tps.free.x`, `tps.free.y`, `tps.free.z`, `tps.free.yaw`, `tps.free.pitch`)"
+							+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+					
+					ps.setString(1, j.getName());
+					ps.setString(2, j.getWorldName());
+					ps.setInt(3, j.getMaxPoint().getBlockX());
+					ps.setInt(4, j.getMaxPoint().getBlockY());
+					ps.setInt(5, j.getMaxPoint().getBlockZ());
+					ps.setInt(6, j.getMinPoint().getBlockX());
+					ps.setInt(7, j.getMinPoint().getBlockY());
+					ps.setInt(8, j.getMinPoint().getBlockZ());
+					ps.setDouble(9, j.getTeleportIn().getX());
+					ps.setDouble(10, j.getTeleportIn().getY());
+					ps.setDouble(11, j.getTeleportIn().getZ());
+					ps.setDouble(12, j.getTeleportIn().getYaw());
+					ps.setDouble(13, j.getTeleportIn().getPitch());
+					ps.setString(14, j.getTeleportFree().getWorld().getName());
+					ps.setDouble(15, j.getTeleportFree().getX());
+					ps.setDouble(16, j.getTeleportFree().getY());
+					ps.setDouble(17, j.getTeleportFree().getZ());
+					ps.setDouble(18, j.getTeleportFree().getYaw());
+					ps.setDouble(19, j.getTeleportFree().getPitch());
+					
+					ps.executeUpdate();
+					ps.close();
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while saving the Jail '" + j.getName() + "' (not updating the prisoners), please check the error and fix what is wrong.");
+				}
 				
+				try {
+					if(con == null) this.prepareStorage(false);
+					
+					for(Cell c : j.getCells()) {
+						PreparedStatement cPS = con.prepareStatement("REPLACE INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
+								+ "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+						
+						cPS.setString(1, c.getName());
+						cPS.setString(2, j.getName());
+						cPS.setDouble(3, c.getTeleport().getX());
+						cPS.setDouble(4, c.getTeleport().getY());
+						cPS.setDouble(5, c.getTeleport().getZ());
+						cPS.setDouble(6, c.getTeleport().getYaw());
+						cPS.setDouble(7, c.getTeleport().getPitch());
+						cPS.setInt(8, c.getChestLocation().getBlockX());
+						cPS.setInt(9, c.getChestLocation().getBlockY());
+						cPS.setInt(10, c.getChestLocation().getBlockZ());
+						cPS.setString(11, c.getSignString());
+						
+						cPS.executeUpdate();
+						cPS.close();
+						
+						Prisoner p = c.getPrisoner();
+						PreparedStatement pPS = con.prepareStatement("INSERT INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						pPS.setString(1, p.getName());
+						pPS.setString(2, j.getName());
+						pPS.setString(3, c.getName());
+						pPS.setBoolean(4, p.isMuted());
+						pPS.setFloat(5, p.getRemainingTime());
+						pPS.setBoolean(6, p.isOfflinePending());
+						pPS.setBoolean(7, p.isToBeTransferred());
+						pPS.setString(8, p.getReason());
+						pPS.setBytes(9, p.getInventory().getBytes());
+						pPS.setBytes(10, p.getArmor().getBytes());
+						pPS.setString(11, p.getPreviousLocationString());
+						pPS.setString(12, p.getPreviousGameMode().toString());
+						
+						pPS.executeUpdate();
+						pPS.close();
+					}
+					
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while saving the cells of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+				}
+				
+				try {
+					if(con == null) this.prepareStorage(false);
+					
+					for(Prisoner p : j.getPrisonersNotInCells()) {
+						PreparedStatement pPS = con.prepareStatement("INSERT INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						pPS.setString(1, p.getName());
+						pPS.setString(2, j.getName());
+						pPS.setString(3, "");
+						pPS.setBoolean(4, p.isMuted());
+						pPS.setFloat(5, p.getRemainingTime());
+						pPS.setBoolean(6, p.isOfflinePending());
+						pPS.setBoolean(7, p.isToBeTransferred());
+						pPS.setString(8, p.getReason());
+						pPS.setBytes(9, p.getInventory().getBytes());
+						pPS.setBytes(10, p.getArmor().getBytes());
+						pPS.setString(11, p.getPreviousLocationString());
+						pPS.setString(12, p.getPreviousGameMode().toString());
+						
+						pPS.executeUpdate();
+						pPS.close();
+					}
+					
+					con.commit();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while saving the prisoners of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+				}
+				
+				pl.debug("Ending at: " + System.currentTimeMillis());
 				break;
 			default:
 				if(flat != null) {

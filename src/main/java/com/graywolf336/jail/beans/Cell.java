@@ -73,6 +73,21 @@ public class Cell {
 		return this.signs;
 	}
 	
+	/** Returns the entire list of signs in a string. */
+	public String getSignString() {
+		String r = "";
+		
+		for(SimpleLocation s : signs) {
+			if(r.isEmpty()) {
+				r = s.toString();
+			}else {
+				r += r + ";" + s.toString();
+			}
+		}
+		
+		return r;
+	}
+	
 	/** Sets the location of where the prisoner will be teleported at when jailed here. */
 	public void setTeleport(SimpleLocation location) {
 		this.teleport = location;
