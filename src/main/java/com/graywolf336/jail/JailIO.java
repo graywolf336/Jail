@@ -820,6 +820,17 @@ public class JailIO {
 		switch(storage) {
 			case 1:
 			case 2:
+				try {
+					PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where name = ? limit 1;");
+					pp.setString(1, p.getName());
+					
+					pp.executeUpdate();
+					pp.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while removing the prisoner '" + p.getName() + "' from the database, please check the error and fix what is wrong.");
+				}
 				break;
 			default:
 				if(c == null)
