@@ -331,7 +331,7 @@ public class JailIO {
 				break;
 			case 2:
 				//load the jails from mysql
-				pl.debug("Time Now (str): " + System.currentTimeMillis());
+				long st = System.currentTimeMillis();
 				
 				try {
 					if(con == null) this.prepareStorage(false);
@@ -393,7 +393,7 @@ public class JailIO {
 					pl.getLogger().severe("Error while loading all of the cells, please check the error and fix what is wrong.");
 				}
 				
-				pl.debug("Time Now (end): " + System.currentTimeMillis());
+				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
 				break;
 			default:
 				//load the jails from flatfile
@@ -421,9 +421,9 @@ public class JailIO {
 		switch(storage) {
 			case 1:
 			case 2:
+				long st = System.currentTimeMillis();
+				
 				try {
-					pl.debug("Starting at: " + System.currentTimeMillis());
-					
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("REPLACE INTO "
 							+ prefix + "jails (`name`, `world`, `top.x`, `top.y`, `top.z`, `bottom.x`, `bottom.y`,"
@@ -525,7 +525,7 @@ public class JailIO {
 					pl.getLogger().severe("Error while saving the prisoners of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
 				}
 				
-				pl.debug("Ending at: " + System.currentTimeMillis());
+				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
 				break;
 			default:
 				if(flat != null) {
@@ -556,9 +556,9 @@ public class JailIO {
 					flat.set(node + "tps.free.pitch", j.getTeleportFree().getPitch());
 					
 					//Set all the cells to nothing, then we save each of them so no cells are left behind
-					flat.set(node + ".cells", null);
+					flat.set(node + "cells", null);
 					for(Cell c : j.getCells()) {
-						String cNode = node + ".cells." + c.getName() + ".";
+						String cNode = node + "cells." + c.getName() + ".";
 						
 						if(c.getTeleport() != null) {
 							flat.set(cNode + "tp.x", c.getTeleport().getX());
@@ -837,14 +837,81 @@ public class JailIO {
 	}
 	
 	/**
-	 * Removes a jail from the storage system.
+	 * Removes the provided cell from the jail.
 	 * 
-	 * @param name of the jail to remove.
+	 * @param j instance of the jail the cell is in
+	 * @param c instance of the cell we are removing
 	 */
-	public void removeJail(String name) {
+	public void removeCell(Jail j, Cell c) {
+		//Clear the inventory before we delete it
+		if(c.hasChest()) c.getChest().getInventory().clear();
+		
+		//transfer the prisoner if it has one
+		if(c.hasPrisoner()) {
+			pl.getLogger().warning("Removing of cell '" + c.getName() + "' from the jail '" + j.getName() + "' failed as it has a prisoner.");
+			return;
+		}
+		
 		switch(storage) {
 			case 1:
+				break;
 			case 2:
+				try {
+					PreparedStatement p = con.prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
+					p.setString(1, c.getName());
+					p.setString(2, j.getName());
+					
+					p.executeUpdate();
+					p.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while removing the cell '" + c.getName() + "' from the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+				}
+				break;
+			default:
+				if(flat != null) {
+					flat.set("jails." + j.getName() + "cells." + c.getName(), null);
+					
+					try {
+						flat.save(new File(pl.getDataFolder(), "data.yml"));
+					} catch (IOException e) {
+						e.printStackTrace();
+						pl.getLogger().severe("---------- Jail Error!!! ----------");
+						pl.getLogger().severe("Removing of the cell '" + c.getName() + "' from the jail '" + j.getName() + "' errored out while on saving.");
+					}
+				}
+				break;
+		}
+	}
+	
+	/**
+	 * Removes a jail from the storage system.
+	 * 
+	 * @param j the jail instance to remove.
+	 */
+	public void removeJail(Jail j) {
+		String name = j.getName();
+		
+		switch(storage) {
+			case 1:
+				break;
+			case 2:
+				for(Cell c : j.getCells()) {
+					removeCell(j, c);
+				}
+				
+				try {
+					PreparedStatement p = con.prepareStatement("delete from `" + prefix + "jails` where name = ?");
+					p.setString(1, name);
+					
+					p.executeUpdate();
+					p.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while removing the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+				}
 				break;
 			default:
 				flat.set("jails." + name, null);
@@ -852,7 +919,9 @@ public class JailIO {
 				try {
 					flat.save(new File(pl.getDataFolder(), "data.yml"));
 				} catch (IOException e) {
-					pl.getLogger().severe("Unable to remove the jail " + name +  " from the storage: " + e.getMessage());
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Removing of the jail '" + j.getName() + "' errored out while on saving.");
 				}
 				break;
 		}

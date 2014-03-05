@@ -86,8 +86,8 @@ public class JailManager {
 	 * @param name of the jail to remove
 	 */
 	public void removeJail(String name) {
+		plugin.getJailIO().removeJail(this.jails.get(name));
 		this.jails.remove(name);
-		plugin.getJailIO().removeJail(name);
 	}
 	
 	/**

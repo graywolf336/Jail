@@ -173,6 +173,9 @@ public class Jail {
 			}
 		}
 		
+		//remove the information from the storage first as it requires an instance
+		plugin.getJailIO().removeCell(this, this.cells.remove(name));
+		//now remove it from the local storage
 		this.cells.remove(name);
 	}
 	
