@@ -1059,4 +1059,39 @@ public class JailIO {
 				break;
 		}
 	}
+	
+	/**
+	 * Adds an entry to the database/file for the user, logging when they was jailed.
+	 * 
+	 * @param username of the player
+	 * @param jailer who jailed them
+	 * @param date string of when they are jailed
+	 * @param time of the player's sentence
+	 * @param reason the player is jailed
+	 */
+	public void addProfileEntry(String username, String jailer, String date, long time, String reason) {
+		switch(storage) {
+			case 1:
+				break;
+			case 2:
+				try {
+					PreparedStatement p = con.prepareStatement("insert into `" + prefix + "profiles` (`username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?);");
+					p.setString(1, username);
+					p.setString(2, jailer);
+					p.setString(3, date);
+					p.setLong(4, time);
+					p.setString(5, reason);
+					
+					p.executeUpdate();
+					p.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while adding a profile entry for '" + username + "', please check the error and fix what is wrong.");
+				}
+				break;
+			default:
+				break;
+		}
+	}
 }
