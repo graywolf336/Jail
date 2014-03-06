@@ -365,7 +365,6 @@ public class JailIO {
 				//This list contains an integer which refers to the cellid column in sql
 				//this list only gets populated if there are cells which reference a jail
 				//that doesn't exist anymore
-				//TODO: Implement this
 				List<Integer> cellsToRemove = new LinkedList<Integer>();
 				
 				try {
@@ -405,10 +404,32 @@ public class JailIO {
 					pl.getLogger().severe("Error while loading all of the cells, please check the error and fix what is wrong.");
 				}
 				
-				//This list contains an integer which refers to the cellid column in sql
-				//this list only gets populated if there are cells which reference a jail
+				//Remove the invalid prisoners
+				if(cellsToRemove.size() != 0) {
+					String names = "";
+					for(int c : cellsToRemove) {
+						if(names.isEmpty()) names = "'" + c + "'";
+						else names += "," + "'" + c + "'";
+					}
+					
+					try {
+						PreparedStatement cds = con.prepareStatement("delete from " + prefix + "cells where cellid in (" + names + ");");
+						
+						pl.debug("Deleting old prisoners: 'delete from " + prefix + "cells where cellid in (" + names + ");'");
+						
+						int count = cds.executeUpdate();
+						pl.getLogger().info("Deleted " + count + " old cells which referenced a jail no longer valid: " + names);
+						cds.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+						pl.getLogger().severe("---------- Jail Error!!! ----------");
+						pl.getLogger().severe("Error while deleting the old cells which don't have a valid jail, please check the error and fix what is wrong.");
+					}
+				}
+				
+				//This list contains a string which refers to the name of the prisoner in sql
+				//this list only gets populated if there are prisoners which reference a jail
 				//that doesn't exist anymore
-				//TODO: Implement this
 				List<String> prisonersToRemove = new LinkedList<String>();
 				
 				try {
@@ -447,11 +468,37 @@ public class JailIO {
 						}
 					}
 					
+					set.close();
+					ps.close();
+					
 					pl.debug("There are " + prisonersToRemove.size() + " prisoners we need to remove due to being invalid.");
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
 					pl.getLogger().severe("Error while loading all of the prisoners, please check the error and fix what is wrong.");
+				}
+				
+				//Remove the invalid prisoners
+				if(prisonersToRemove.size() != 0) {
+					String names = "";
+					for(String s : prisonersToRemove) {
+						if(names.isEmpty()) names = "'" + s + "'";
+						else names += "," + "'" + s + "'";
+					}
+					
+					try {
+						PreparedStatement pds = con.prepareStatement("delete from " + prefix + "prisoners where name in (" + names + ");");
+						
+						pl.debug("Deleting old prisoners: 'delete from " + prefix + "prisoners where name in (" + names + ");'");
+						
+						int count = pds.executeUpdate();
+						pl.getLogger().info("Deleted " + count + " old prisoners which referenced a jail no longer valid: " + names);
+						pds.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+						pl.getLogger().severe("---------- Jail Error!!! ----------");
+						pl.getLogger().severe("Error while deleting the old prisoners which don't have a valid jail, please check the error and fix what is wrong.");
+					}
 				}
 				
 				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
