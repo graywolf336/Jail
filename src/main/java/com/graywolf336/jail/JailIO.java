@@ -886,6 +886,8 @@ public class JailIO {
 					PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where name = ? limit 1;");
 					pp.setString(1, p.getName());
 					
+					pl.debug("Removing " + p.getName() + " from MySQL database.");
+					
 					pp.executeUpdate();
 					pp.close();
 				} catch (SQLException e) {
