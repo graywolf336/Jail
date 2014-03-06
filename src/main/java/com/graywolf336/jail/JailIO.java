@@ -149,7 +149,7 @@ public class JailIO {
 					Connection mysqlConnection = DriverManager.getConnection("jdbc:mysql://" + pl.getConfig().getString("storage.mysql.host") + ":"
 							+ pl.getConfig().getString("storage.mysql.port") + "/"
 							+ pl.getConfig().getString("storage.mysql.database"), pl.getConfig().getString("storage.mysql.username"), pl.getConfig().getString("storage.mysql.password"));
-					mysqlConnection.setAutoCommit(false);
+					mysqlConnection.setAutoCommit(true);
 					this.con = mysqlConnection;
 					pl.debug("Connection created for MySQL.");
 					
