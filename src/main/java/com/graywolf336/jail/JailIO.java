@@ -2,6 +2,7 @@ package com.graywolf336.jail;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -404,7 +405,11 @@ public class JailIO {
 					pl.getLogger().severe("Error while loading all of the cells, please check the error and fix what is wrong.");
 				}
 				
-				//TODO: prisoners
+				//This list contains an integer which refers to the cellid column in sql
+				//this list only gets populated if there are cells which reference a jail
+				//that doesn't exist anymore
+				//TODO: Implement this
+				List<String> prisonersToRemove = new LinkedList<String>();
 				
 				try {
 					if(con == null) this.prepareStorage(false);
@@ -418,17 +423,31 @@ public class JailIO {
 							String cellname = set.getString("cell");
 							Cell c = j.getCell(cellname);
 							
-							if(cellname.isEmpty()) {
-								
+							Prisoner p = new Prisoner(set.getString("name"), set.getBoolean("muted"), set.getLong("time"), set.getString("jailer"), set.getString("reason"));
+							p.setOfflinePending(set.getBoolean("offlinePending"));
+							p.setToBeTransferred(set.getBoolean("toBeTransferred"));
+							Blob inv = set.getBlob("inventory");
+							p.setInventory(new String(inv.getBytes(1, (int) inv.length())));
+							Blob ar = set.getBlob("armor");
+							p.setArmor(new String(ar.getBytes(1, (int)ar.length())));
+							p.setPreviousPosition(set.getString("previousLocation"));
+							p.setPreviousGameMode(set.getString("previousGameMode"));
+							
+							if(cellname == null || cellname.isEmpty()) {
+								j.addPrisoner(p);
 							}else if(c != null) {
-								
+								c.setPrisoner(p);
 							}else {
 								//the prisoner is assigned to a cell which doesn't exist, so just put them into the jail
+								j.addPrisoner(p);
 							}
 						} else {
 							//if the jail doesn't exist, do the same as the cells
+							prisonersToRemove.add(set.getString("name"));
 						}
 					}
+					
+					pl.debug("There are " + prisonersToRemove.size() + " prisoners we need to remove due to being invalid.");
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
