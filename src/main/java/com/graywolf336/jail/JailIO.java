@@ -251,7 +251,7 @@ public class JailIO {
 							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
 							  + "COMMENT = 'Holds all the jails for the Bukkit Jail plugin.';";
 					
-					pl.debug(jailCreateCmd);
+					//pl.debug(jailCreateCmd);
 					st.executeUpdate(jailCreateCmd);
 					
 					String cellCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "cells` ("
@@ -271,7 +271,7 @@ public class JailIO {
 							  + "UNIQUE INDEX `cellid_UNIQUE` (`cellid` ASC))"
 							  + "COMMENT = 'Contains all the cells for the jails.';";
 					
-					pl.debug(cellCreateCmd);
+					//pl.debug(cellCreateCmd);
 					st.executeUpdate(cellCreateCmd);
 					
 					String prisCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "prisoners` ("
@@ -292,7 +292,7 @@ public class JailIO {
 							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
 							  + "COMMENT = 'Contains all the prisoners, in cells and jails.';";
 					
-					pl.debug(prisCreateCmd);
+					//pl.debug(prisCreateCmd);
 					st.executeUpdate(prisCreateCmd);
 					
 					String proCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "profiles` ("
@@ -306,7 +306,7 @@ public class JailIO {
 							  + "UNIQUE INDEX `profileid_UNIQUE` (`profileid` ASC))"
 							  + "COMMENT = 'Holds a history of all the times prisoners have been jailed.'";
 					
-					pl.debug(proCreateCmd);
+					//pl.debug(proCreateCmd);
 					st.executeUpdate(proCreateCmd);
 				
 					con.commit();
