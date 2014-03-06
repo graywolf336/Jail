@@ -49,6 +49,23 @@ public class SimpleLocation {
 		this.pitch = location.getPitch();
 	}
 	
+	/**
+	 * Creates a new Simple Location with all the inputs being in string.
+	 * 
+	 * @param world the name of the world
+	 * @param x coordinate as a string
+	 * @param y coordinate as a string
+	 * @param z coordinate as a string
+	 */
+	public SimpleLocation(String world, String x, String y, String z) {
+		this.world = world;
+		this.x = Double.valueOf(x);
+		this.y = Double.valueOf(y);
+		this.z = Double.valueOf(z);
+		this.yaw = 0;
+		this.pitch = 0;
+	}
+
 	/** Returns the instance from Bukkit of the world this location is in. */
 	public World getWorld() {
 		return Bukkit.getWorld(world);

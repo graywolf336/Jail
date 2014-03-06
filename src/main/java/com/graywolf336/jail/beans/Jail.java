@@ -160,11 +160,14 @@ public class Jail {
 	
 	/** Removes the cell from the jail. */
 	public void removeCell(String name) {
-		//Clear the chest and reset the sign
-		this.cells.get(name).getChest().getInventory().clear();
+		Cell c = this.cells.get(name);
+		//If we have a chest, clear the inventory
+		if(c.hasChest()) {
+			c.getChest().getInventory().clear();
+		}
 		
 		//For each sign, clear the lines on the sign
-		for(SimpleLocation s : this.cells.get(name).getSigns()) {
+		for(SimpleLocation s : c.getSigns()) {
 			if(s.getLocation().getBlock() instanceof Sign) {
 				Sign sign = (Sign) s.getLocation().getBlock();
 				for(int i = 0; i < 4; i++) {
@@ -174,7 +177,7 @@ public class Jail {
 		}
 		
 		//remove the information from the storage first as it requires an instance
-		plugin.getJailIO().removeCell(this, this.cells.remove(name));
+		plugin.getJailIO().removeCell(this, c);
 		//now remove it from the local storage
 		this.cells.remove(name);
 	}

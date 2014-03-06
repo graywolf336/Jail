@@ -366,18 +366,27 @@ public class JailIO {
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
 					ResultSet set = ps.executeQuery();
 					
-					List<Integer> remove = new LinkedList<Integer>(); //TODO: Set up something to remove these
+					//This list contains an integer which refers to the cellid column in sql
+					//this list only gets populated if there are cells which reference a jail
+					//that doesn't exist anymore
+					//TODO: Implement this
+					List<Integer> remove = new LinkedList<Integer>();
 					
 					while(set.next()) {
 						Jail j = pl.getJailManager().getJail(set.getString("jail"));
 						
 						if(j != null) {
 							Cell c = new Cell(set.getString("name"));
-							c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"),
-									set.getDouble("tp.y"), set.getDouble("tp.z"),
+							c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"), set.getDouble("tp.y"), set.getDouble("tp.z"),
 									set.getFloat("tp.yaw"), set.getFloat("tp.pitch")));
 							
-							//TODO: Finish loading the cells and fix the sql requiring everything, whoops
+							c.setChestLocation(new Location(j.getWorld(), set.getInt("chest.x"), set.getInt("chest.y"), set.getInt("chest.z")));
+							
+							String[] signs = set.getString("signs").split(";");
+							for(String s : signs) {
+								String[] co = s.split(",");
+								c.addSign(new SimpleLocation(co[0], co[1], co[2], co[4]));
+							}
 							
 							j.addCell(c, false);
 						}else {
