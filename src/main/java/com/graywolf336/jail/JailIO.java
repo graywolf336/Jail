@@ -361,16 +361,16 @@ public class JailIO {
 					pl.getLogger().severe("Error while loading the jails, please check the error and fix what is wrong.");
 				}
 				
+				//This list contains an integer which refers to the cellid column in sql
+				//this list only gets populated if there are cells which reference a jail
+				//that doesn't exist anymore
+				//TODO: Implement this
+				List<Integer> cellsToRemove = new LinkedList<Integer>();
+				
 				try {
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
 					ResultSet set = ps.executeQuery();
-					
-					//This list contains an integer which refers to the cellid column in sql
-					//this list only gets populated if there are cells which reference a jail
-					//that doesn't exist anymore
-					//TODO: Implement this
-					List<Integer> remove = new LinkedList<Integer>();
 					
 					while(set.next()) {
 						Jail j = pl.getJailManager().getJail(set.getString("jail"));
@@ -390,9 +390,11 @@ public class JailIO {
 							
 							j.addCell(c, false);
 						}else {
-							remove.add(set.getInt("cellid"));
+							cellsToRemove.add(set.getInt("cellid"));
 						}
 					}
+					
+					pl.debug("There are " + cellsToRemove.size() + " cells we need to remove due to being invalid.");
 					
 					set.close();
 					ps.close();
@@ -400,6 +402,37 @@ public class JailIO {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
 					pl.getLogger().severe("Error while loading all of the cells, please check the error and fix what is wrong.");
+				}
+				
+				//TODO: prisoners
+				
+				try {
+					if(con == null) this.prepareStorage(false);
+					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "prisoners");
+					ResultSet set = ps.executeQuery();
+					
+					while(set.next()) {
+						Jail j = pl.getJailManager().getJail(set.getString("jail"));
+						
+						if(j != null) {
+							String cellname = set.getString("cell_n1");
+							Cell c = j.getCell(cellname);
+							
+							if(cellname.isEmpty()) {
+								
+							}else if(c != null) {
+								
+							}else {
+								//the prisoner is assigned to a cell which doesn't exist, so just put them into the jail
+							}
+						} else {
+							//if the jail doesn't exist, do the same as the cells
+						}
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while loading all of the prisoners, please check the error and fix what is wrong.");
 				}
 				
 				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
