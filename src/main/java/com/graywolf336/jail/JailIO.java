@@ -415,7 +415,7 @@ public class JailIO {
 						Jail j = pl.getJailManager().getJail(set.getString("jail"));
 						
 						if(j != null) {
-							String cellname = set.getString("cell_n1");
+							String cellname = set.getString("cell");
 							Cell c = j.getCell(cellname);
 							
 							if(cellname.isEmpty()) {
