@@ -165,7 +165,7 @@ public class Jail {
 		
 		//For each sign, clear the lines on the sign
 		for(SimpleLocation s : this.cells.get(name).getSigns()) {
-			if(s.getLocation().getBlock().getState() instanceof Sign) {
+			if(s.getLocation().getBlock() instanceof Sign) {
 				Sign sign = (Sign) s.getLocation().getBlock();
 				for(int i = 0; i < 4; i++) {
 					sign.setLine(i, "");
