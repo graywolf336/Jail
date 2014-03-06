@@ -389,11 +389,15 @@ public class JailIO {
 							
 							c.setChestLocation(new Location(j.getWorld(), set.getInt("chest.x"), set.getInt("chest.y"), set.getInt("chest.z")));
 							
-							String[] signs = set.getString("signs").split(";");
-							for(String s : signs) {
-								String[] co = s.split(",");
-								c.addSign(new SimpleLocation(co[0], co[1], co[2], co[4]));
+							String cSigns = set.getString("signs");
+							if(!cSigns.isEmpty()) {
+								String[] signs = cSigns.split(";");
+								for(String s : signs) {
+									String[] co = s.split(",");
+									c.addSign(new SimpleLocation(co[0], co[1], co[2], co[3]));
+								}
 							}
+							
 							
 							j.addCell(c, false);
 							cs++;
