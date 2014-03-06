@@ -126,7 +126,7 @@ public class JailIO {
 					Class.forName("org.sqlite.JDBC");
 					pl.getLogger().info("Connecting to the sqlite database.");
 					Connection sqliteConnection = DriverManager.getConnection("jdbc:sqlite:" +  new File(pl.getDataFolder().getPath(), "jail.sqlite").getPath());
-					sqliteConnection.setAutoCommit(false);
+					sqliteConnection.setAutoCommit(true);
 					this.con = sqliteConnection;
 					pl.debug("Connection created for sqlite.");
 				} catch (ClassNotFoundException e) {
@@ -185,6 +185,14 @@ public class JailIO {
 			case 1:
 			case 2:
 				if(con == null) this.prepareStorage(false);
+				try {
+					if(!con.isValid(10)) this.prepareStorage(false);
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Unable to get a Sql connection, please see the error above and fix the problem.");
+					return null;
+				}
 				return con;
 			default:
 				return null;
@@ -308,8 +316,6 @@ public class JailIO {
 					
 					//pl.debug(proCreateCmd);
 					st.executeUpdate(proCreateCmd);
-				
-					con.commit();
 					st.close();
 					break;
 				default:
@@ -367,6 +373,7 @@ public class JailIO {
 				//that doesn't exist anymore
 				List<Integer> cellsToRemove = new LinkedList<Integer>();
 				
+				int cs = 0;
 				try {
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
@@ -389,6 +396,7 @@ public class JailIO {
 							}
 							
 							j.addCell(c, false);
+							cs++;
 						}else {
 							cellsToRemove.add(set.getInt("cellid"));
 						}
@@ -427,11 +435,14 @@ public class JailIO {
 					}
 				}
 				
+				pl.getLogger().info("Loaded " + cs + (cs == 1 ? " cell." : " cells."));
+				
 				//This list contains a string which refers to the name of the prisoner in sql
 				//this list only gets populated if there are prisoners which reference a jail
 				//that doesn't exist anymore
 				List<String> prisonersToRemove = new LinkedList<String>();
 				
+				int pc = 0;
 				try {
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "prisoners");
@@ -462,6 +473,8 @@ public class JailIO {
 								//the prisoner is assigned to a cell which doesn't exist, so just put them into the jail
 								j.addPrisoner(p);
 							}
+							
+							pc++;
 						} else {
 							//if the jail doesn't exist, do the same as the cells
 							prisonersToRemove.add(set.getString("name"));
@@ -501,6 +514,8 @@ public class JailIO {
 					}
 				}
 				
+				pl.getLogger().info("Loaded " + pc + (pc == 1 ? " prisoner." : " prisoners."));
+				
 				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
 				break;
 			default:
@@ -516,8 +531,108 @@ public class JailIO {
 				break;
 		}
 		
-		int s = pl.getJailManager().getJails().size();
-		pl.getLogger().info("Loaded " + s + (s == 1 ? " jail." : " jails."));
+		int js = pl.getJailManager().getJails().size();
+		pl.getLogger().info("Loaded " + js + (js == 1 ? " jail." : " jails."));
+	}
+	
+	private void loadJailFromFlatFile(String name) {
+		String node = "jails." + name + ".";
+		String cNode = node + "cells.";
+		Jail j = new Jail(pl, name);
+		
+		j.setWorld(flat.getString(node + "world"));
+		j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
+		j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
+		
+		j.setTeleportIn(new SimpleLocation(
+				flat.getString(node + "world"),
+				flat.getDouble(node + "tps.in.x"),
+				flat.getDouble(node + "tps.in.y"),
+				flat.getDouble(node + "tps.in.z"),
+				(float) flat.getDouble(node + "tps.in.yaw"),
+				(float) flat.getDouble(node + "tps.in.pitch")));
+		j.setTeleportFree(new SimpleLocation(
+				flat.getString(node + "tps.free.world"),
+				flat.getDouble(node + "tps.free.x"),
+				flat.getDouble(node + "tps.free.y"),
+				flat.getDouble(node + "tps.free.z"),
+				(float) flat.getDouble(node + "tps.free.yaw"),
+				(float) flat.getDouble(node + "tps.free.pitch")));
+		
+		if(flat.isConfigurationSection(node + "cells")) {
+			Set<String> cells = flat.getConfigurationSection(node + "cells").getKeys(false);
+			if(!cells.isEmpty()) {
+				for(String cell : cells) {
+					Cell c = new Cell(cell);
+					String cellNode = cNode + cell + ".";
+					
+					c.setTeleport(new SimpleLocation(j.getTeleportIn().getWorld().getName(),
+							flat.getDouble(cellNode + "tp.x"),
+							flat.getDouble(cellNode + "tp.y"),
+							flat.getDouble(cellNode + "tp.z"),
+							(float) flat.getDouble(cellNode + "tp.yaw"),
+							(float) flat.getDouble(cellNode + "tp.pitch")));
+					c.setChestLocation(new Location(j.getTeleportIn().getWorld(),
+							flat.getInt(cellNode + "chest.x"),
+							flat.getInt(cellNode + "chest.y"),
+							flat.getInt(cellNode + "chest.z")));
+					
+					for(String sign : flat.getStringList(cellNode + "signs")) {
+						String[] arr = sign.split(",");
+						c.addSign(new SimpleLocation(arr[0],
+								Double.valueOf(arr[1]),
+								Double.valueOf(arr[2]),
+								Double.valueOf(arr[3]),
+								Float.valueOf(arr[4]),
+								Float.valueOf(arr[5])));
+					}
+					
+					if(flat.contains(cellNode + "prisoner")) {
+						Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"),
+										flat.getBoolean(cellNode + "prisoner.muted"),
+										flat.getLong(cellNode + "prisoner.time"),
+										flat.getString(cellNode + "prisoner.jailer"),
+										flat.getString(cellNode + "prisoner.reason"));
+						p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
+						p.setToBeTransferred(flat.getBoolean(cellNode + "prisoner.toBeTransferred"));
+						p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
+						p.setPreviousGameMode(flat.getString(cellNode + "prisoner.previousGameMode"));
+						p.setInventory(flat.getString(cellNode + "prisoner.inventory", ""));
+						p.setArmor(flat.getString(cellNode + "prisoner.armor", ""));
+						c.setPrisoner(p);
+					}
+					
+					j.addCell(c, false);
+				}
+			}
+		}
+		
+		if(flat.isConfigurationSection(node + "prisoners")) {
+			Set<String> prisoners = flat.getConfigurationSection(node + "prisoners").getKeys(false);
+			if(!prisoners.isEmpty()) {
+				for(String prisoner : prisoners) {
+					String pNode = node + "prisoners." + prisoner + ".";
+					Prisoner pris = new Prisoner(prisoner,
+							flat.getBoolean(pNode + "muted"),
+							flat.getLong(pNode + "time"),
+							flat.getString(pNode + "jailer"),
+							flat.getString(pNode + "reason"));
+					pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
+					pris.setToBeTransferred(flat.getBoolean(pNode + "toBeTransferred"));
+					pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
+					pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));
+					pris.setInventory(flat.getString(pNode + "inventory", ""));
+					pris.setArmor(flat.getString(pNode + "armor", ""));
+					j.addPrisoner(pris);
+				}
+			}
+		}
+		
+		if(pl.getServer().getWorld(j.getWorldName()) != null) {
+			pl.getJailManager().addJail(j, false);
+			pl.getLogger().info("Loaded jail " + j.getName() + " with " + j.getAllPrisoners().size() + " prisoners and " + j.getCellCount() + " cells.");
+		} else
+			pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
 	}
 	
 	/**
@@ -528,6 +643,7 @@ public class JailIO {
 	public void saveJail(Jail j) {
 		switch(storage) {
 			case 1:
+				break;
 			case 2:
 				long st = System.currentTimeMillis();
 				
@@ -561,7 +677,6 @@ public class JailIO {
 					
 					ps.executeUpdate();
 					ps.close();
-					con.commit();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
@@ -595,8 +710,6 @@ public class JailIO {
 							pPS.close();
 						}
 					}
-					
-					con.commit();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
@@ -626,8 +739,6 @@ public class JailIO {
 						pPS.executeUpdate();
 						pPS.close();
 					}
-					
-					con.commit();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
@@ -740,109 +851,10 @@ public class JailIO {
 		}
 	}
 	
-	private void loadJailFromFlatFile(String name) {
-		String node = "jails." + name + ".";
-		String cNode = node + "cells.";
-		Jail j = new Jail(pl, name);
-		
-		j.setWorld(flat.getString(node + "world"));
-		j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
-		j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
-		
-		j.setTeleportIn(new SimpleLocation(
-				flat.getString(node + "world"),
-				flat.getDouble(node + "tps.in.x"),
-				flat.getDouble(node + "tps.in.y"),
-				flat.getDouble(node + "tps.in.z"),
-				(float) flat.getDouble(node + "tps.in.yaw"),
-				(float) flat.getDouble(node + "tps.in.pitch")));
-		j.setTeleportFree(new SimpleLocation(
-				flat.getString(node + "tps.free.world"),
-				flat.getDouble(node + "tps.free.x"),
-				flat.getDouble(node + "tps.free.y"),
-				flat.getDouble(node + "tps.free.z"),
-				(float) flat.getDouble(node + "tps.free.yaw"),
-				(float) flat.getDouble(node + "tps.free.pitch")));
-		
-		if(flat.isConfigurationSection(node + "cells")) {
-			Set<String> cells = flat.getConfigurationSection(node + "cells").getKeys(false);
-			if(!cells.isEmpty()) {
-				for(String cell : cells) {
-					Cell c = new Cell(cell);
-					String cellNode = cNode + cell + ".";
-					
-					c.setTeleport(new SimpleLocation(j.getTeleportIn().getWorld().getName(),
-							flat.getDouble(cellNode + "tp.x"),
-							flat.getDouble(cellNode + "tp.y"),
-							flat.getDouble(cellNode + "tp.z"),
-							(float) flat.getDouble(cellNode + "tp.yaw"),
-							(float) flat.getDouble(cellNode + "tp.pitch")));
-					c.setChestLocation(new Location(j.getTeleportIn().getWorld(),
-							flat.getInt(cellNode + "chest.x"),
-							flat.getInt(cellNode + "chest.y"),
-							flat.getInt(cellNode + "chest.z")));
-					
-					for(String sign : flat.getStringList(cellNode + "signs")) {
-						String[] arr = sign.split(",");
-						c.addSign(new SimpleLocation(arr[0],
-								Double.valueOf(arr[1]),
-								Double.valueOf(arr[2]),
-								Double.valueOf(arr[3]),
-								Float.valueOf(arr[4]),
-								Float.valueOf(arr[5])));
-					}
-					
-					if(flat.contains(cellNode + "prisoner")) {
-						Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"),
-										flat.getBoolean(cellNode + "prisoner.muted"),
-										flat.getLong(cellNode + "prisoner.time"),
-										flat.getString(cellNode + "prisoner.jailer"),
-										flat.getString(cellNode + "prisoner.reason"));
-						p.setOfflinePending(flat.getBoolean(cellNode + "prisoner.offlinePending"));
-						p.setToBeTransferred(flat.getBoolean(cellNode + "prisoner.toBeTransferred"));
-						p.setPreviousPosition(flat.getString(cellNode + "prisoner.previousLocation"));
-						p.setPreviousGameMode(flat.getString(cellNode + "prisoner.previousGameMode"));
-						p.setInventory(flat.getString(cellNode + "prisoner.inventory", ""));
-						p.setArmor(flat.getString(cellNode + "prisoner.armor", ""));
-						c.setPrisoner(p);
-					}
-					
-					j.addCell(c, false);
-				}
-			}
-		}
-		
-		if(flat.isConfigurationSection(node + "prisoners")) {
-			Set<String> prisoners = flat.getConfigurationSection(node + "prisoners").getKeys(false);
-			if(!prisoners.isEmpty()) {
-				for(String prisoner : prisoners) {
-					String pNode = node + "prisoners." + prisoner + ".";
-					Prisoner pris = new Prisoner(prisoner,
-							flat.getBoolean(pNode + "muted"),
-							flat.getLong(pNode + "time"),
-							flat.getString(pNode + "jailer"),
-							flat.getString(pNode + "reason"));
-					pris.setOfflinePending(flat.getBoolean(pNode + "offlinePending"));
-					pris.setToBeTransferred(flat.getBoolean(pNode + "toBeTransferred"));
-					pris.setPreviousPosition(flat.getString(pNode + "previousLocation"));
-					pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));
-					pris.setInventory(flat.getString(pNode + "inventory", ""));
-					pris.setArmor(flat.getString(pNode + "armor", ""));
-					j.addPrisoner(pris);
-				}
-			}
-		}
-		
-		if(pl.getServer().getWorld(j.getWorldName()) != null) {
-			pl.getJailManager().addJail(j, false);
-			pl.getLogger().info("Loaded jail " + j.getName() + " with " + j.getAllPrisoners().size() + " prisoners and " + j.getCellCount() + " cells.");
-		} else
-			pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
-	}
-	
 	public void saveCell(Jail j, Cell c) {
 		switch(storage) {
 			case 1:
+				break;
 			case 2:
 				try {
 					if(con == null) this.prepareStorage(false);
@@ -893,8 +905,6 @@ public class JailIO {
 						pPS.executeUpdate();
 						pPS.close();
 					}
-					
-					con.commit();
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
@@ -928,6 +938,7 @@ public class JailIO {
 	public void removePrisoner(Jail j, Cell c, Prisoner p) {
 		switch(storage) {
 			case 1:
+				break;
 			case 2:
 				try {
 					PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where name = ? limit 1;");
