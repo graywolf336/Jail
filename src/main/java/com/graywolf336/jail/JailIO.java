@@ -415,7 +415,7 @@ public class JailIO {
 					try {
 						PreparedStatement cds = con.prepareStatement("delete from " + prefix + "cells where cellid in (" + names + ");");
 						
-						pl.debug("Deleting old prisoners: 'delete from " + prefix + "cells where cellid in (" + names + ");'");
+						pl.debug("Deleting old cells: 'delete from " + prefix + "cells where cellid in (" + names + ");'");
 						
 						int count = cds.executeUpdate();
 						pl.getLogger().info("Deleted " + count + " old cells which referenced a jail no longer valid: " + names);
