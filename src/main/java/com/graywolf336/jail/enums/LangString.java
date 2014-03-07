@@ -144,6 +144,12 @@ public enum LangString {
 	PLUGINRELOADED ("general"),
 	/** The message sent whenever the prisoners are cleared from jail(s). */
 	PRISONERSCLEARED ("general"),
+	/** The format we should use when entering a record into flatfile or showing it. */
+	RECORDENTRY ("general"),
+	/** The message format sent saying how many times a user has been jailed.*/
+	RECORDTIMESJAILED ("general"),
+	/** The format of the time entry we should use for the record entries. */
+	TIMEFORMAT ("general"),
 	/** The simple word transferring to be put in other parts. */
 	TRANSFERRING ("general"),
 	/** The message sent whenever someone does a command we don't know. */

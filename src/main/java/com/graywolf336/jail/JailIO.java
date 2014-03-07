@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +34,7 @@ import com.graywolf336.jail.enums.LangString;
  */
 public class JailIO {
 	private JailMain pl;
-	private FileConfiguration flat, lang;
+	private FileConfiguration flat, lang, records;
 	private Connection con;
 	private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
 	private String prefix;
@@ -169,6 +170,7 @@ public class JailIO {
 				break;
 			default:
 				flat = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "data.yml"));
+				records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
 				break;
 		}
 		
@@ -303,15 +305,15 @@ public class JailIO {
 					//pl.debug(prisCreateCmd);
 					st.executeUpdate(prisCreateCmd);
 					
-					String proCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "profiles` ("
-							  + "`profileid` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated number for the profiles database.',"
+					String proCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "records` ("
+							  + "`recordid` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated number for the records database.',"
 							  + "`username` VARCHAR(16) NOT NULL COMMENT 'The username of the prisoner.',"
 							  + "`jailer` VARCHAR(250) NOT NULL COMMENT 'The name of the person who jailed the prisoner.',"
 							  + "`date` VARCHAR(32) NOT NULL COMMENT 'A string of the date.',"
 							  + "`time` INT NOT NULL COMMENT 'The milliseconds they were jailed for.',"
 							  + "`reason` VARCHAR(250) NOT NULL COMMENT 'The reason they were jailed for.',"
-							  + "PRIMARY KEY (`profileid`),"
-							  + "UNIQUE INDEX `profileid_UNIQUE` (`profileid` ASC))"
+							  + "PRIMARY KEY (`recordid`),"
+							  + "UNIQUE INDEX `recordid_UNIQUE` (`recordid` ASC))"
 							  + "COMMENT = 'Holds a history of all the times prisoners have been jailed.'";
 					
 					//pl.debug(proCreateCmd);
@@ -1073,13 +1075,13 @@ public class JailIO {
 	 * @param time of the player's sentence
 	 * @param reason the player is jailed
 	 */
-	public void addProfileEntry(String username, String jailer, String date, long time, String reason) {
+	public void addRecordEntry(String username, String jailer, String date, long time, String reason) {
 		switch(storage) {
 			case 1:
 				break;
 			case 2:
 				try {
-					PreparedStatement p = con.prepareStatement("insert into `" + prefix + "profiles` (`username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?);");
+					PreparedStatement p = con.prepareStatement("insert into `" + prefix + "records` (`username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?);");
 					p.setString(1, username);
 					p.setString(2, jailer);
 					p.setString(3, date);
@@ -1091,11 +1093,66 @@ public class JailIO {
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
-					pl.getLogger().severe("Error while adding a profile entry for '" + username + "', please check the error and fix what is wrong.");
+					pl.getLogger().severe("Error while adding a record entry for '" + username + "', please check the error and fix what is wrong.");
 				}
 				break;
 			default:
+				if(records == null) records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
+				
+				List<String> previous = records.getStringList("username");
+				previous.add(this.getLanguageString(LangString.RECORDENTRY, new String[] { date, username, jailer, String.valueOf(time), reason }));
+				
+				records.set(username, previous);
+				
+				try {
+					records.save(new File(pl.getDataFolder(), "records.yml"));
+				} catch (IOException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Saving the records.yml file failed while putting an entry in for '" + username + "'.");
+				}
 				break;
 		}
+	}
+	
+	/**
+	 * Gets all the record entries for the given player.
+	 * 
+	 * @param username of the prisoner to get.
+	 * @return A List of strings containing the record entries.
+	 */
+	public List<String> getRecordEntries(String username) {
+		List<String> entries = new ArrayList<String>();
+		
+		switch(storage) {
+			case 1:
+				break;
+			case 2:
+				try {
+					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "records where username = ?");
+					ps.setString(1, username);
+					ResultSet set = ps.executeQuery();
+					
+					while(set.next()) {
+						entries.add(this.getLanguageString(LangString.RECORDENTRY,
+								new String[] { set.getString("date"), username, set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason") }));
+					}
+					
+					set.close();
+					ps.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+					pl.getLogger().severe("---------- Jail Error!!! ----------");
+					pl.getLogger().severe("Error while getting all the record entries for '" + username + "', please check the error and fix what is wrong.");
+				}
+				break;
+			default:
+				if(records == null) records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
+				
+				entries = records.getStringList(username);
+				break;
+		}
+		
+		return entries;
 	}
 }

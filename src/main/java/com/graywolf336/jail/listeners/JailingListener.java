@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import com.graywolf336.jail.JailMain;
+import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
 
 public class JailingListener implements Listener {
@@ -16,13 +17,13 @@ public class JailingListener implements Listener {
 	
 	public JailingListener(JailMain plugin) {
 		this.pl = plugin;
-		this.dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		this.dateFormat = new SimpleDateFormat(pl.getJailIO().getLanguageString(LangString.TIMEFORMAT));
 	}
 	
 	@EventHandler(ignoreCancelled=true)
 	public void preJailingListener(PrePrisonerJailedEvent event) {
-		pl.getJailIO().addProfileEntry(event.getPrisoner().getName(),
+		pl.getJailIO().addRecordEntry(event.getPrisoner().getName(),
 				event.getPrisoner().getJailer(), dateFormat.format(new Date()),
-				event.getPrisoner().getRemainingTime(), event.getPrisoner().getReason());
+				event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
 	}
 }

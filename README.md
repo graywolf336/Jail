@@ -10,6 +10,7 @@ Beta 1 Changes
 - MySQL storage is now a valid option for storage ([#18](https://github.com/graywolf336/Jail/issues/18))
 - MySQL data validation, basically if a cell or prisoner reference a jail which no longer exists they are removed
 - Fix a bug with not being able to unjail someone forcefully if they were in a cell ([#17](https://github.com/graywolf336/Jail/issues/17))
+- Add the record keeping system ([#12](https://github.com/graywolf336/Jail/issues/12))
 
 Changes
 ===
@@ -21,7 +22,6 @@ Changes
 
 ToDo
 ===
-- Prisoner profiles
 - Guards
 
 Done

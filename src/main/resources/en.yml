@@ -29,6 +29,9 @@ language:
     playernotonline: '&cThat player is not online!'
     pluginreloaded: '&9Jail data successfully reloaded.'
     prisonerscleared: '&cAll the prisoners from %0% have been cleared.'
+    recordentry: '&7[%0%]: &9%1% &fjailed by &9%2% &ffor &9%3% &fminutes with a reason of &9%4%&f.'
+    recordtimesjailed: '&c%0% has been jailed &a%1% &ctimes.'
+    timeformat: "MM/dd/yyyy HH:mm:ss"
     transferring: '&9transferring'
     unknowncommand: '&cNo commands registered by the name of %0%.'
   jailing:
