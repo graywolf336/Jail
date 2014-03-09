@@ -35,12 +35,22 @@ public class JailStickManager {
 		for(String s : config.getStringList("jailstick")) {
 			String[] a = s.split(",");
 			
+			//Check if the jail given, if any, exists
+			if(!a[2].isEmpty()) {
+				if(!pl.getJailManager().isValidJail(a[2])) {
+					pl.getLogger().warning(s);
+					pl.getLogger().warning("The above jail stick configuration is invalid and references a jail that doesn't exist.");
+					continue;
+				}
+			}
+			
 			try {
 				this.sticks.put(Material.getMaterial(a[0]), new Stick(a[2], a[1], Long.valueOf(a[3])));
 			}catch (Exception e) {
 				e.printStackTrace();
 				pl.getLogger().info(s);
 				pl.getLogger().severe("Unable to create a new stick for " + a[0] + ", see the exception above for details.");
+				continue;
 			}
 		}
 		
@@ -105,7 +115,7 @@ public class JailStickManager {
 	 * @param player to check if using one
 	 * @return true if the player is using a jail stick, false if not
 	 */
-	public boolean usingJailStick(Player player) {
+	public boolean isUsingJailStick(Player player) {
 		return this.stickers.contains(player.getName());
 	}
 	
@@ -115,7 +125,33 @@ public class JailStickManager {
 	 * @param name of the player to check if using one
 	 * @return true if the player is using a jail stick, false if not
 	 */
-	public boolean usingJailStick(String name) {
+	public boolean isUsingJailStick(String name) {
 		return this.stickers.contains(name);
+	}
+	
+	/**
+	 * Toggles whether the player is using a jail stick, returning the true if enabled false if disabled.
+	 * 
+	 * @param name of the person to toggle
+	 * @return true if we enabled it, false if we disabled it.
+	 */
+	public boolean toggleUsingStick(Player player) {
+		return this.toggleUsingStick(player.getName());
+	}
+	
+	/**
+	 * Toggles whether the player is using a jail stick, returning the true if enabled false if disabled.
+	 * 
+	 * @param name of the person to toggle
+	 * @return true if we enabled it, false if we disabled it.
+	 */
+	public boolean toggleUsingStick(String name) {
+		if(this.stickers.contains(name)) {
+			this.stickers.remove(name);
+			return false;
+		}else {
+			this.stickers.add(name);
+			return true;
+		}
 	}
 }

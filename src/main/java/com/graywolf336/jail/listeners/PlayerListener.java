@@ -3,12 +3,14 @@ package com.graywolf336.jail.listeners;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -21,8 +23,10 @@ import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.beans.Stick;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.events.PrePrisonerJailedByJailStickEvent;
 
 public class PlayerListener implements Listener {
 	private JailMain pl;
@@ -146,6 +150,71 @@ public class PlayerListener implements Listener {
 				event.setRespawnLocation(j.getCellPrisonerIsIn(event.getPlayer().getName()).getTeleport());
 			}else {
 				event.setRespawnLocation(j.getTeleportIn());
+			}
+		}
+	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void jailStickHandling(EntityDamageByEntityEvent event) {
+		//If the damager and the entity getting damage is not a player,
+		//we don't want to handle it in this method
+		if(!(event.getDamager() instanceof Player) || !(event.getEntity() instanceof Player)) return;
+		
+		Player attacker = (Player) event.getDamager();
+		Player player = (Player) event.getEntity();
+		
+		if(pl.getJailStickManager().isUsingJailStick(attacker)) {
+			if(pl.getJailStickManager().isValidStick(attacker.getItemInHand().getType())) {
+				if(attacker.hasPermission("jail.usejailstick." + attacker.getItemInHand().getType().toString().toLowerCase())) {
+					//The person the attacker is trying to jail stick is already jailed, don't handle that
+					if(pl.getJailManager().isPlayerJailed(player.getName())) {
+						attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ALREADYJAILED, player.getName()));
+					}else {
+						if(player.hasPermission("jail.cantbejailed")) {
+							attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.CANTBEJAILED));
+						}else {
+							Stick s = pl.getJailStickManager().getStick(attacker.getItemInHand().getType());
+							
+							Prisoner p = new Prisoner(player.getName(),
+									pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
+									s.getTime(), attacker.getName(), s.getReason());
+							
+							PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
+									pl.getJailManager().getJail(s.getJail()), null, p, player, attacker.getName(), s);
+							
+							pl.getServer().getPluginManager().callEvent(jEvent);
+							
+							if(jEvent.isCancelled()) {
+								if(jEvent.getCancelledMessage().isEmpty())
+									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, player.getName()));
+								else
+									attacker.sendMessage(jEvent.getCancelledMessage());
+							}else {
+								//recall data from the event
+								Jail j = jEvent.getJail();
+								Cell c = jEvent.getCell();
+								p = jEvent.getPrisoner();
+								player = jEvent.getPlayer();
+								
+								//Player is not online
+								if(player == null) {
+									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.OFFLINEJAIL,
+											new String[] { p.getName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+								}else {
+									//Player *is* online
+									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ONLINEJAIL,
+											new String[] { p.getName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+								}
+								
+								try {
+									pl.getPrisonerManager().prepareJail(j, c, player, p);
+								} catch (Exception e) {
+									attacker.sendMessage(ChatColor.RED + e.getMessage());
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

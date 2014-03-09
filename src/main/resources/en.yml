@@ -19,6 +19,8 @@ language:
     jailing: '&9jailing'
     jailremovalunsuccessful: '&cThe removal of the jail %0% was unsuccessful because there are prisoners in there, please release or transfer them first.'
     jailremoved: '&9Jail %0% has been successfully deleted.'
+    jailstickdisabled: '&3Jail stick usage: &cdisabled'
+    jailstickenabled: '&3Jail stick usage: &aenabled'
     nocell: '&cNo cell found by the name of %0% in the jail %1%.'
     nocells: '&cNo cells found in the jail %0%.'
     nojail: '&cNo jail found by the name of %0%.'

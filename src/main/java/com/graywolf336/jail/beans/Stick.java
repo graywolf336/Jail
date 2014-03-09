@@ -22,11 +22,11 @@ public class Stick {
 		return this.jail;
 	}
 	
-	public String getJailReason() {
+	public String getReason() {
 		return this.reason;
 	}
 	
-	public long getJailTime() {
+	public long getTime() {
 		return this.time;
 	}
 }

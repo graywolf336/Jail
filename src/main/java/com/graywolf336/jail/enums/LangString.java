@@ -124,6 +124,10 @@ public enum LangString {
 	JAILREMOVALUNSUCCESSFUL ("general"),
 	/** The message sent whenever a jail is successfully removed. */
 	JAILREMOVED ("general"),
+	/** The message sent whenever a player toggles using jail stick to disabled. */
+	JAILSTICKDISABLED ("general"),
+	/** The message sent whenever a player toggles using jail stick to enabled. */
+	JAILSTICKENABLED ("general"),
 	/** Message sent when doing something that requires a cell but the given name of a cell doesn't exist. */
 	NOCELL ("general"),
 	/** Message sent when needing a cell or something and there are no cells. */
