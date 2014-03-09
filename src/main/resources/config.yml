@@ -11,6 +11,7 @@ storage:
     port: 3306
     username: 'root'
     password: 'password'
+    database: 'jailDatabase'
     prefix: 'j3_'
 jailing:
   during:
@@ -55,7 +56,6 @@ jailing:
     commands: []
     restorePreviousGameMode: false
     teleport: true
-    database: 'jailDatabase'
 jails:
   endermenProtection: true
   explosionProtection: true
