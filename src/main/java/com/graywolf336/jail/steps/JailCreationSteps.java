@@ -47,6 +47,7 @@ public class JailCreationSteps {
 	 * @param location The location, null if none, being set.
 	 */
 	public void step(JailManager jm, Player player, CreationPlayer cp, Location location) {
+		jm.getPlugin().debug("Stepping into step #" + cp.getStep());
 		switch(cp.getStep()) {
 			case 1:
 				firstStep(cp, player, location);

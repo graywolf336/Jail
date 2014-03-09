@@ -45,8 +45,10 @@ public class PlayerListener implements Listener {
 			if(p.getItemInHand().isSimilar(Util.getWand())) {
 				if(jm.isCreatingSomething(p.getName())) {
 					if(jm.isCreatingAJail(p.getName())) {
+						pl.debug("Stepping into creating a jail.");
 						jm.getJailCreationSteps().step(jm, p, jm.getJailCreationPlayer(p.getName()), loc);
 					}else if(jm.isCreatingACell(p.getName())) {
+						pl.debug("Stepping into creating a cell.");
 						jm.getCellCreationSteps().step(jm, p, jm.getCellCreationPlayer(p.getName()), loc);
 					}
 					
