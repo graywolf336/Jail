@@ -12,10 +12,6 @@ storage:
     username: 'root'
     password: 'password'
     prefix: 'j3_'
-    database: 'jailDatabase'
-jails:
-  endermenProtection: true
-  explosionProtection: true
 jailing:
   during:
     blockBreakPenalty: 5m
@@ -59,3 +55,8 @@ jailing:
     commands: []
     restorePreviousGameMode: false
     teleport: true
+    database: 'jailDatabase'
+jails:
+  endermenProtection: true
+  explosionProtection: true
+jailstick: ["stick,30,,Running away"]

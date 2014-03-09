@@ -30,6 +30,7 @@ public class JailMain extends JavaPlugin {
 	private JailHandler jh;
 	private JailIO io;
 	private JailManager jm;
+	private JailStickManager jsm;
 	private JailTimer jt;
 	private PrisonerManager pm;
 	private boolean debug = false;
@@ -57,6 +58,7 @@ public class JailMain extends JavaPlugin {
 		cmdHand = new CommandHandler(this);
 		jh = new JailHandler(this);
 		pm = new PrisonerManager(this);
+		jsm = new JailStickManager(this);
 		
 		PluginManager plm = this.getServer().getPluginManager();
 		plm.registerEvents(new BlockListener(this), this);
@@ -97,6 +99,7 @@ public class JailMain extends JavaPlugin {
 		cmdHand = null;
 		pm = null;
 		jm = null;
+		jsm = null;
 		io = null;
 		hcm = null;
 	}
@@ -155,6 +158,11 @@ public class JailMain extends JavaPlugin {
 	/** Gets the {@link PrisonerManager} instance. */
 	public PrisonerManager getPrisonerManager() {
 		return this.pm;
+	}
+	
+	/** Gets the {@link JailStickManager} instance. */
+	public JailStickManager getJailStickManager() {
+		return this.jsm;
 	}
 	
 	/** Returns if the plugin is in debug state or not. */
