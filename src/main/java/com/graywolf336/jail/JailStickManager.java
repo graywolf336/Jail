@@ -132,7 +132,7 @@ public class JailStickManager {
 	/**
 	 * Toggles whether the player is using a jail stick, returning the true if enabled false if disabled.
 	 * 
-	 * @param name of the person to toggle
+	 * @param player to toggle using a stick
 	 * @return true if we enabled it, false if we disabled it.
 	 */
 	public boolean toggleUsingStick(Player player) {

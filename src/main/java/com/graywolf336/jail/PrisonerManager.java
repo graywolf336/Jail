@@ -435,7 +435,7 @@ public class PrisonerManager {
 	/**
 	 * Transfers the prisoner from one jail, or cell, to another jail, and/or cell.
 	 * 
-	 * @param origin The jail where they are coming from.
+	 * @param originJail The jail where they are coming from.
 	 * @param originCell The cell where they are coming from.
 	 * @param targetJail The jail we're transferring them from.
 	 * @param targetCell The cell we're putting them into.

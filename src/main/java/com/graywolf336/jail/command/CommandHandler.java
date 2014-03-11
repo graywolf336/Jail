@@ -52,15 +52,15 @@ public class CommandHandler {
 	 * 
 	 * @param jailmanager The instance of {@link JailManager}.
 	 * @param sender The sender of the command.
-	 * @param command The name of the command.
+	 * @param commandLine The name of the command.
 	 * @param args The arguments passed to the command.
 	 */
-	public void handleCommand(JailManager jailmanager, CommandSender sender, String command, String[] args) {
-		List<Command> matches = getMatches(command);
+	public void handleCommand(JailManager jailmanager, CommandSender sender, String commandLine, String[] args) {
+		List<Command> matches = getMatches(commandLine);
 		
 		//If no matches were found, send them the unknown command message.
 		if(matches.size() == 0) {
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, command));
+			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, commandLine));
 			return;
 		}
 		

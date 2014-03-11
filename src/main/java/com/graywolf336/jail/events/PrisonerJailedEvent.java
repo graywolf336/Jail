@@ -35,8 +35,6 @@ public class PrisonerJailedEvent extends Event {
 	 * @param cell The cell we're going to be sending the prisoner to, can be null.
 	 * @param prisoner The prisoner data.
 	 * @param player The player being jailed.
-	 * @param online Whether the player is online or not.
-	 * @param jailer The name of what jailed this prisoner.
 	 */
 	public PrisonerJailedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player) {
 		this.jail = jail;
@@ -60,7 +58,7 @@ public class PrisonerJailedEvent extends Event {
 		return this.prisoner;
 	}
 	
-	/** Gets the instance of the player being jailed <strong>but will return null if {@link #isOnline()} returns false</strong>. */
+	/** Gets the instance of the player being jailed. */
 	public Player getPlayer() {
 		return this.player;
 	}

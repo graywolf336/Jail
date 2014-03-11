@@ -331,7 +331,7 @@ public class JailIO {
 	}
 	
 	/**
-	 * Loads the jails, this should <strong>only</strong> be called after {@link #prepareStorage()}.
+	 * Loads the jails, this should <strong>only</strong> be called after {@link #prepareStorage(boolean)}.
 	 */
 	public void loadJails() {
 		switch(storage) {

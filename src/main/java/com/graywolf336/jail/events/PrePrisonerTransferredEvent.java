@@ -38,7 +38,7 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
 	 * @param targetCell The cell the prisoner is going to, can be null.
 	 * @param prisoner The prisoner data.
 	 * @param player The player being jailed.
-	 * @param targetCell The name of what is transferring this prisoner.
+	 * @param transferor The name of what is transferring this prisoner.
 	 */
 	public PrePrisonerTransferredEvent(Jail originalJail, Cell originalCell, Jail targetJail, Cell targetCell, Prisoner prisoner, Player player, String transferor) {
 		this.originalJail = originalJail;
@@ -116,7 +116,7 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
 	/**
 	 * Sets the prisoner whom the data should say jailed this prisoner.
 	 * 
-	 * @param jailer The name to put who is the jailer for this prisoner.
+	 * @param transferor The name to put who is the jailer for this prisoner.
 	 */
 	public void setTransferor(String transferor) {
 		this.transferor = transferor;
