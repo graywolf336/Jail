@@ -60,7 +60,6 @@ public class JailHandler {
 	 * 
 	 * @param jailmanager The instance of {@link JailManager}.
 	 * @param sender The sender of the command.
-	 * @param command The name of the command.
 	 * @param args The arguments passed to the command.
 	 */
 	public boolean parseCommand(JailManager jailmanager, CommandSender sender, String[] args) {
