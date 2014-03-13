@@ -4,6 +4,11 @@ This plugins adds Jail to your Minecraft server. Admins can define several jails
 
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
 
+Beta 2 Changes
+===
+*Changes since Beta 1*
+* Fix the default Jail Stick not being loaded correctly, [#21](https://github.com/graywolf336/Jail/issues/21)
+
 Beta 1 Changes
 ===
 *Changes since alpha*

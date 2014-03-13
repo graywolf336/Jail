@@ -38,17 +38,24 @@ public class JailStickManager {
 			//Check if the jail given, if any, exists
 			if(!a[2].isEmpty()) {
 				if(!pl.getJailManager().isValidJail(a[2])) {
-					pl.getLogger().warning(s);
-					pl.getLogger().warning("The above jail stick configuration is invalid and references a jail that doesn't exist.");
+					pl.getLogger().severe(s);
+					pl.getLogger().severe("The above jail stick configuration is invalid and references a jail that doesn't exist.");
 					continue;
 				}
 			}
 			
+			Material m = Material.getMaterial(a[0]);
+			if(this.sticks.containsKey(m)) {
+				pl.getLogger().severe(s);
+				pl.getLogger().severe("You can not use the same item for two different Jail Sticks. This already exists as a Jail Stick: " + a[0]);
+				continue;
+			}
+			
 			try {
-				this.sticks.put(Material.getMaterial(a[0]), new Stick(a[2], a[1], Long.valueOf(a[3])));
+				this.sticks.put(m, new Stick(a[2], a[3], Long.valueOf(a[1])));
 			}catch (Exception e) {
 				e.printStackTrace();
-				pl.getLogger().info(s);
+				pl.getLogger().severe(s);
 				pl.getLogger().severe("Unable to create a new stick for " + a[0] + ", see the exception above for details.");
 				continue;
 			}
