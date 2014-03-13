@@ -65,6 +65,7 @@ public class ScoreBoardManager {
 		player.setScoreboard(man.getMainScoreboard());
 	}
 	
+	/** Removes all of the scoreboards from the prisoners. */
 	public void removeAllScoreboards() {
 		HashMap<String, Scoreboard> temp = new HashMap<String, Scoreboard>(boards);
 		
@@ -79,6 +80,7 @@ public class ScoreBoardManager {
 		}
 	}
 	
+	/** Updates the prisoners time on their scoreboard. */
 	private void updatePrisonersTime() {
 		for(Jail j : pl.getJailManager().getJails()) {
 			for(Prisoner p : j.getAllPrisoners()) {
