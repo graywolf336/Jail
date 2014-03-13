@@ -41,7 +41,7 @@ public class JailHandler {
 		commands = new LinkedHashMap<String, Command>();
 		loadCommands();
 		
-		plugin.getLogger().info("Loaded " + commands.size() + " sub-commands of /jail.");
+		plugin.debug("Loaded " + commands.size() + " sub-commands of /jail.");
 	}
 	
 	/**

@@ -31,7 +31,7 @@ public class CommandHandler {
 		commands = new LinkedHashMap<String, Command>();
 		loadCommands();
 		
-		plugin.getLogger().info("Loaded " + commands.size() + " commands.");
+		plugin.debug("Loaded " + commands.size() + " commands.");
 	}
 	
 	/**
