@@ -15,6 +15,8 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import com.graywolf336.jail.JailMain;
@@ -120,9 +122,34 @@ public class PlayerListener implements Listener {
 				}
 			}
 			
+			//Add the scoreboard to them if it is enabled
+			if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
+				pl.getScoreBoardManager().addScoreBoard(event.getPlayer(), p);
+			}
+			
 			//if we are ignoring a prisoner's sleeping state, then let's set that
 			if(pl.getConfig().getBoolean(Settings.IGNORESLEEPINGSTATE.getPath())) {
 				event.getPlayer().setSleepingIgnored(true);
+			}
+		}
+	}
+	
+	@EventHandler
+	public void handleGoingOffline(PlayerQuitEvent event) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			//Remove the scoreboard to them if it is enabled
+			if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
+				pl.getScoreBoardManager().removeScoreBoard(event.getPlayer());
+			}
+		}
+	}
+	
+	@EventHandler(ignoreCancelled=true)
+	public void handleGettingKicked(PlayerKickEvent event) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			//Remove the scoreboard to them if it is enabled
+			if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
+				pl.getScoreBoardManager().removeScoreBoard(event.getPlayer());
 			}
 		}
 	}

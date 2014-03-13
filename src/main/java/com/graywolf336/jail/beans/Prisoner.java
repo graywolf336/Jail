@@ -90,6 +90,11 @@ public class Prisoner {
 		return TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
 	}
 	
+	/** Gets the remaining time the prison has in minutes except only in int format. */
+	public int getRemainingTimeInMinutesInt() {
+		return (int) this.getRemainingTimeInMinutes();
+	}
+	
 	/**
 	 * Sets the remaining time the prisoner has left.
 	 * 

@@ -6,6 +6,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Settings;
@@ -33,6 +34,7 @@ public class JailMain extends JavaPlugin {
 	private JailStickManager jsm;
 	private JailTimer jt;
 	private PrisonerManager pm;
+	private ScoreBoardManager sbm;
 	private boolean debug = false;
 	
 	public void onEnable() {
@@ -79,6 +81,7 @@ public class JailMain extends JavaPlugin {
 		}
 		
 		jt = new JailTimer(this);
+		sbm = new ScoreBoardManager(this);
 		
 		getLogger().info("Completed enablement.");
 	}
@@ -96,6 +99,7 @@ public class JailMain extends JavaPlugin {
 			io.closeConnection();
 		
 		jt = null;
+		sbm = null;
 		cmdHand = null;
 		pm = null;
 		jm = null;
@@ -140,6 +144,23 @@ public class JailMain extends JavaPlugin {
 		return true;//Always return true here, that way we can handle the help and command usage ourself.
 	}
 	
+	/** Reloads the scoreboard manager class, useful when something is changed int he config about it. */
+	public void reloadScoreBoardManager() {
+		this.sbm.removeAllScoreboards();
+		this.sbm = null;
+		this.sbm = new ScoreBoardManager(this);
+		
+		if(getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
+			for(Jail j : jm.getJails()) {
+				for(Prisoner p : j.getAllPrisoners()) {
+					if(getServer().getPlayerExact(p.getName()) != null) {
+						this.sbm.addScoreBoard(getServer().getPlayerExact(p.getName()), p);
+					}
+				}
+			}
+		}
+	}
+	
 	/** Gets the {@link HandCuffManager} instance. */
 	public HandCuffManager getHandCuffManager() {
 		return this.hcm;
@@ -163,6 +184,11 @@ public class JailMain extends JavaPlugin {
 	/** Gets the {@link JailStickManager} instance. */
 	public JailStickManager getJailStickManager() {
 		return this.jsm;
+	}
+	
+	/** Gets the {@link ScoreBoardManager} instance. */
+	public ScoreBoardManager getScoreBoardManager() {
+		return this.sbm;
 	}
 	
 	/** Returns if the plugin is in debug state or not. */

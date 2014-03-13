@@ -267,6 +267,11 @@ public class PrisonerManager {
     		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
     	}
     	
+    	//Add the scoreboard to them if it is enabled
+		if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
+			pl.getScoreBoardManager().addScoreBoard(player, prisoner);
+		}
+    	
     	//Call our custom event for when a prisoner is actually jailed.
     	PrisonerJailedEvent event = new PrisonerJailedEvent(jail, cell, prisoner, player);
     	pl.getServer().getPluginManager().callEvent(event);
@@ -398,6 +403,11 @@ public class PrisonerManager {
     		command = command.replaceAll("%p%", player.getName());
     		pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
     	}
+    	
+    	//Remove the scoreboard to them if it is enabled
+		if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
+			pl.getScoreBoardManager().removeScoreBoard(player);
+		}
 		
     	//Call the prisoner released event as we have released them.
     	PrisonerReleasedEvent event = new PrisonerReleasedEvent(jail, cell, prisoner, player);

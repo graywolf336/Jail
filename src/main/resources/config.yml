@@ -40,6 +40,10 @@ jailing:
     preventInteractionItems: []
     preventInteractionItemsPenalty: 5m
     recieveMessages: true
+    scoreboard:
+      enabled: true
+      title: 'Jail Info'
+      time: '&aTime:'
   jail:
     automaticMute: true
     broadcastJailing: false

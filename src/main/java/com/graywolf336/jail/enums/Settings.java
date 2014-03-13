@@ -41,6 +41,9 @@ public enum Settings {
 	RECIEVEMESSAGES("jailing.during.recieveMessages"),
 	RELEASETOPREVIOUSPOSITION("jailing.release.backToPreviousPosition"),
 	RESTOREPREVIOUSGAMEMODE("jailing.release.restorePreviousGameMode"),
+	SCOREBOARDENABLED("jailing.during.scoreboard.enabled"),
+	SCOREBOARDTITLE("jailing.during.scoreboard.title"),
+	SCOREBOARDTIME("jailing.during.scoreboard.time"),
 	TELEPORTONRELEASE("jailing.release.teleport"),
 	UPDATENOTIFICATIONS("system.updateNotifications"),
 	USEBUKKITTIMER("system.useBukkitTimer");
