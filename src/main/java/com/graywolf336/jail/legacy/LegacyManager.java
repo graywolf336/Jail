@@ -375,6 +375,7 @@ public class LegacyManager {
 			}
 		}
 		
+		pl.saveConfig();
 		pl.getLogger().info("Converted " + count + " old config value" + (count == 1 ? "" : "s") + ".");
 	}
 }
