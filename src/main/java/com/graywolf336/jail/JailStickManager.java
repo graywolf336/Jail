@@ -2,7 +2,6 @@ package com.graywolf336.jail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,7 +14,7 @@ import com.graywolf336.jail.enums.Settings;
  * Manages the jail stick users.
  * 
  * @author graywolf336
- * @version 1.0.1
+ * @version 1.0.2
  * @since 3.0.0
  *
  */
@@ -33,12 +32,6 @@ public class JailStickManager {
 	private void loadJailSticks(JailMain pl) {
 		FileConfiguration config =  pl.getConfig();
 		
-		if(pl.inDebug()) {
-			for(Entry<Material, Stick> s : sticks.entrySet()) {
-				pl.debug(s.getKey().toString().toLowerCase() + "," +  s.getValue().toString());
-			}
-		}
-		
 		//item name,time,jail name,reason
 		for(String s : config.getStringList(Settings.JAILSTICKSTICKS.getPath())) {
 			pl.debug(s);
@@ -53,7 +46,7 @@ public class JailStickManager {
 				}
 			}
 			
-			Material m = Material.getMaterial(a[0]);
+			Material m = Material.getMaterial(a[0].toUpperCase());
 			if(this.sticks.containsKey(m)) {
 				pl.getLogger().severe(s);
 				pl.getLogger().severe("You can not use the same item for two different Jail Sticks. This already exists as a Jail Stick: " + a[0]);
