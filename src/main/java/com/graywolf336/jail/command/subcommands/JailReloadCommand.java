@@ -21,6 +21,7 @@ public class JailReloadCommand implements Command {
 		jm.getPlugin().getJailIO().loadLanguage();
 		jm.getPlugin().getJailIO().loadJails();
 		jm.getPlugin().reloadScoreBoardManager();
+		jm.getPlugin().reloadJailSticks();
 		
 		sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLUGINRELOADED));
 		return true;
