@@ -4,7 +4,7 @@ package com.graywolf336.jail.beans;
  * Represents a Jail Stick, contains all the information.
  * 
  * @author graywolf336
- * @version 1.0.0
+ * @version 1.0.1
  * @since 3.0.0
  *
  */
@@ -28,5 +28,10 @@ public class Stick {
 	
 	public long getTime() {
 		return this.time;
+	}
+	
+	@Override
+	public String toString() {
+		return time + "," + jail + "," + reason;
 	}
 }

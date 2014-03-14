@@ -62,12 +62,11 @@ public class LegacyManager {
 		
 		try {
 			loadOldConfig();
+			return true;
 		}catch (Exception e) {
 			pl.getLogger().severe("Failed to load the old configuration for some reason.");
 			return false;
 		}
-		
-		return false;
 	}
 
 	@SuppressWarnings("deprecation")

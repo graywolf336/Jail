@@ -2,6 +2,7 @@ package com.graywolf336.jail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,8 +33,15 @@ public class JailStickManager {
 	private void loadJailSticks(JailMain pl) {
 		FileConfiguration config =  pl.getConfig();
 		
+		if(pl.inDebug()) {
+			for(Entry<Material, Stick> s : sticks.entrySet()) {
+				pl.debug(s.getKey().toString().toLowerCase() + "," +  s.getValue().toString());
+			}
+		}
+		
 		//item name,time,jail name,reason
 		for(String s : config.getStringList(Settings.JAILSTICKSTICKS.getPath())) {
+			pl.debug(s);
 			String[] a = s.split(",");
 			
 			//Check if the jail given, if any, exists
