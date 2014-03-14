@@ -126,7 +126,7 @@ public class JailIO {
 				try {
 					Class.forName("org.sqlite.JDBC");
 					pl.getLogger().info("Connecting to the sqlite database.");
-					Connection sqliteConnection = DriverManager.getConnection("jdbc:sqlite:" +  new File(pl.getDataFolder().getPath(), "jail.sqlite").getPath());
+					Connection sqliteConnection = DriverManager.getConnection("jdbc:sqlite:" +  new File(pl.getDataFolder().getPath(), "jail3.sqlite").getPath());
 					sqliteConnection.setAutoCommit(true);
 					this.con = sqliteConnection;
 					pl.debug("Connection created for sqlite.");
@@ -235,6 +235,7 @@ public class JailIO {
 			Statement st = con.createStatement();
 			switch(storage){ 
 				case 1:
+					//TODO: yeah big time!
 					break;
 				case 2:
 					String jailCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "jails` ("
@@ -336,10 +337,8 @@ public class JailIO {
 	public void loadJails() {
 		switch(storage) {
 			case 1:
-				//load the jails from sqlite
-				break;
 			case 2:
-				//load the jails from mysql
+				//load the jails from mysql and sqlite
 				long st = System.currentTimeMillis();
 				
 				try {
@@ -649,7 +648,6 @@ public class JailIO {
 	public void saveJail(Jail j) {
 		switch(storage) {
 			case 1:
-				break;
 			case 2:
 				long st = System.currentTimeMillis();
 				
@@ -860,7 +858,6 @@ public class JailIO {
 	public void saveCell(Jail j, Cell c) {
 		switch(storage) {
 			case 1:
-				break;
 			case 2:
 				try {
 					if(con == null) this.prepareStorage(false);
@@ -944,7 +941,6 @@ public class JailIO {
 	public void removePrisoner(Jail j, Cell c, Prisoner p) {
 		switch(storage) {
 			case 1:
-				break;
 			case 2:
 				try {
 					PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where name = ? limit 1;");
@@ -993,7 +989,6 @@ public class JailIO {
 		
 		switch(storage) {
 			case 1:
-				break;
 			case 2:
 				try {
 					PreparedStatement p = con.prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
@@ -1034,7 +1029,6 @@ public class JailIO {
 		
 		switch(storage) {
 			case 1:
-				break;
 			case 2:
 				for(Cell c : j.getCells()) {
 					removeCell(j, c);

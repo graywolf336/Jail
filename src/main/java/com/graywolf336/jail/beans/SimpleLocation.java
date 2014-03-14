@@ -65,6 +65,21 @@ public class SimpleLocation {
 		this.yaw = 0;
 		this.pitch = 0;
 	}
+	
+	/**
+	 * Creates a new SimpleLocation with each detail provided separately.
+	 * 
+	 * @param world as a string
+	 * @param x coordinate as a double
+	 * @param y coordinate as a double
+	 * @param z coordinate as a double
+	 */
+	public SimpleLocation(String world, double x, double y, double z) {
+		this.world = world;
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
 
 	/** Returns the instance from Bukkit of the world this location is in. */
 	public World getWorld() {

@@ -50,7 +50,7 @@ public class JailMain extends JavaPlugin {
 		//Try to load the old stuff before we load anything, esp the storage stuff
 		LegacyManager lm = new LegacyManager(this);
 		if(lm.doWeNeedToConvert()) {
-			boolean converted = lm.loadOldData();
+			boolean converted = lm.convertOldData();
 			if(!converted) getLogger().severe("We was unable to convert some, or all, of the old data.");
 		}
 		

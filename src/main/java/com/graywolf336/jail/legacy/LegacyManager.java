@@ -3,8 +3,11 @@ package com.graywolf336.jail.legacy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+
+import net.minecraft.util.org.apache.commons.io.FileUtils;
 
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -31,12 +34,10 @@ public class LegacyManager {
 	
 	/** Returns true/false if the old config, global.yml, exists and needs to be converted. */
 	public boolean doWeNeedToConvert() {
-		File f = new File(pl.getDataFolder(), "global.yml");
-		
-		return f.exists();
+		return new File(pl.getDataFolder(), "global.yml").exists();
 	}
 	
-	public boolean loadOldData() {
+	public boolean convertOldData() {
 		File f = new File(pl.getDataFolder(), "global.yml");
 		
 		if(f.exists()) {
@@ -56,14 +57,21 @@ public class LegacyManager {
 				
 			}
 		}else {
-			pl.debug("The old config file, global.yml, was not found so not laoding anything.");
+			pl.debug("The old config file, global.yml, was not found so not loading anything.");
 			return false;
 		}
 		
 		try {
 			loadOldConfig();
+			loadOldData();
+			moveOldConfigs();
 			return true;
 		}catch (Exception e) {
+			if(pl.inDebug()) {
+				e.printStackTrace();
+			}
+			
+			pl.debug(e.getMessage());
 			pl.getLogger().severe("Failed to load the old configuration for some reason.");
 			return false;
 		}
@@ -379,5 +387,25 @@ public class LegacyManager {
 		
 		pl.saveConfig();
 		pl.getLogger().info("Converted " + count + " old config value" + (count == 1 ? "" : "s") + ".");
+	}
+	
+	private void loadOldData() throws SQLException {
+		OldInputOutput o = new OldInputOutput(pl, global);
+		
+		o.LoadJails();
+		o.LoadPrisoners();
+		o.LoadCells();
+		o.freeConnection();
+	}
+	
+	private void moveOldConfigs() throws IOException {
+		FileUtils.moveFileToDirectory(new File(pl.getDataFolder(), "global.yml"), new File(pl.getDataFolder() + File.separator + "preJail3Data"), true);
+		FileUtils.moveFileToDirectory(new File(pl.getDataFolder(), "jails.yml"), new File(pl.getDataFolder() + File.separator + "preJail3Data"), true);
+		FileUtils.moveFileToDirectory(new File(pl.getDataFolder(), "jailLog.txt"), new File(pl.getDataFolder() + File.separator + "preJail3Data"), true);
+		
+		File sqlite = new File(pl.getDataFolder(), "jail.sqlite");
+		if(sqlite.exists()) {
+			FileUtils.moveFileToDirectory(sqlite, new File(pl.getDataFolder() + File.separator + "oldData"), true);
+		}
 	}
 }

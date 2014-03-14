@@ -50,6 +50,8 @@ Notice
 * Old messages (language) will not be converted
 * MaximumAFKTime setting will not convert over, the format isn't clear and the old version didn't provide a way to get values with decimal places
 * EnableLogging has been removed, we are always going to be logging (unless major request to control this)
+* Prisoner's old inventory strings in the database are lost, we can not convert those
+* Prisoner's Previous Position is not converted.
 
 [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====
