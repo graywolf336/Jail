@@ -80,6 +80,9 @@ public class LegacyManager {
 				case Debug:
 					if(global.contains(s.getString())) {
 						c.set(Settings.DEBUG.getPath(), OldSettings.getGlobalBoolean(global, s));
+						//Only set it true if the old config had true, this way we can still hold the debuggin over
+						//if the old config had it set to false but the new one has it set to true (until a restart/reload)
+						if(c.getBoolean(Settings.DEBUG.getPath())) pl.setDebugging(true);
 						pl.debug(Settings.DEBUG.getPath() + " <-- " + s.getString());
 						count++;
 					}
