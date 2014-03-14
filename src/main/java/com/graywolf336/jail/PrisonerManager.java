@@ -96,7 +96,7 @@ public class PrisonerManager {
 		}
 		
 		//Log the message, if it is enabled
-		if(pl.getConfig().getBoolean(Settings.LOGJAILING.getPath(), true) && !broadcasted) {
+		if(pl.getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath(), true) && !broadcasted) {
 			pl.getServer().getConsoleSender().sendMessage(msg);
 		}
 	}

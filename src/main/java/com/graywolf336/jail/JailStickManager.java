@@ -8,12 +8,13 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.beans.Stick;
+import com.graywolf336.jail.enums.Settings;
 
 /**
  * Manages the jail stick users.
  * 
  * @author graywolf336
- * @version 1.0.0
+ * @version 1.0.1
  * @since 3.0.0
  *
  */
@@ -32,7 +33,7 @@ public class JailStickManager {
 		FileConfiguration config =  pl.getConfig();
 		
 		//item name,time,jail name,reason
-		for(String s : config.getStringList("jailstick")) {
+		for(String s : config.getStringList(Settings.JAILSTICKSTICKS.getPath())) {
 			String[] a = s.split(",");
 			
 			//Check if the jail given, if any, exists
@@ -159,6 +160,13 @@ public class JailStickManager {
 		}else {
 			this.stickers.add(name);
 			return true;
+		}
+	}
+	
+	/**  Removes all the users currently using the sticks. */
+	public void removeAllStickUsers() {
+		for(String s: stickers) {
+			this.removeUsingStick(s);
 		}
 	}
 }

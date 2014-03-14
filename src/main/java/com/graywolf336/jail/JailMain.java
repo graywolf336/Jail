@@ -161,6 +161,13 @@ public class JailMain extends JavaPlugin {
 		}
 	}
 	
+	/** Reloads the Jail Sticks, so the new ones can be loaded from the config. */
+	public void reloadJailSticks() {
+		this.jsm.removeAllStickUsers();
+		this.jsm = null;
+		this.jsm = new JailStickManager(this);
+	}
+	
 	/** Gets the {@link HandCuffManager} instance. */
 	public HandCuffManager getHandCuffManager() {
 		return this.hcm;

@@ -63,4 +63,6 @@ jailing:
 jails:
   endermenProtection: true
   explosionProtection: true
-jailstick: ["stick,30,,Running away"]
+jailstick:
+  enabled: true
+  sticks: ["stick,30,,Running away"]

@@ -21,6 +21,7 @@ language:
     jailremoved: '&9Jail %0% has been successfully deleted.'
     jailstickdisabled: '&3Jail stick usage: &cdisabled'
     jailstickenabled: '&3Jail stick usage: &aenabled'
+    jailstickusagedisabled: '&cThe usage of Jail Sticks has been disabled by the Administrator.'
     nocell: '&cNo cell found by the name of %0% in the jail %1%.'
     nocells: '&cNo cells found in the jail %0%.'
     nojail: '&cNo jail found by the name of %0%.'

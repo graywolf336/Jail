@@ -170,7 +170,7 @@ public class ProtectionListener implements Listener {
 			if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
 				//Let's get the cell the player is in, then check if it is null or not.
 				if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).isJailedInACell(event.getPlayer().getName())) {
-					if(pl.getConfig().getBoolean(Settings.OPENCHEST.getPath())) {
+					if(pl.getConfig().getBoolean(Settings.PRISONEROPENCHEST.getPath())) {
 						//The prisoner is in a cell, so let's check if it is a couple chest.
 						Material bpos1 = event.getClickedBlock().getLocation().add(-1, 0, 0).getBlock().getType();
 					    Material bpos2 = event.getClickedBlock().getLocation().add(+1, 0, 0).getBlock().getType();

@@ -128,6 +128,8 @@ public enum LangString {
 	JAILSTICKDISABLED ("general"),
 	/** The message sent whenever a player toggles using jail stick to enabled. */
 	JAILSTICKENABLED ("general"),
+	/** The message sent whenever a player tries to toggle using jail stick but the config has it disabled. */
+	JAILSTICKUSAGEDISABLED ("general"),
 	/** Message sent when doing something that requires a cell but the given name of a cell doesn't exist. */
 	NOCELL ("general"),
 	/** Message sent when needing a cell or something and there are no cells. */
