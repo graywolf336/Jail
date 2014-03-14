@@ -10,6 +10,7 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.legacy.LegacyManager;
 import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.HandCuffListener;
@@ -45,6 +46,14 @@ public class JailMain extends JavaPlugin {
 		
 		hcm = new HandCuffManager();
 		jm = new JailManager(this);
+		
+		//Try to load the old stuff before we load anything, esp the storage stuff
+		LegacyManager lm = new LegacyManager(this);
+		if(lm.doWeNeedToConvert()) {
+			boolean converted = lm.loadOldData();
+			if(!converted) getLogger().severe("We was unable to convert some, or all, of the old data.");
+		}
+		
 		io = new JailIO(this);
 		io.loadLanguage();
 		
