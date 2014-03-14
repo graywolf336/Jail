@@ -51,8 +51,8 @@ public class UnJailCommand implements Command {
 				}
 			}
 			
-			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {//TODO: Fix this setting, as this is wrong
-				jm.getPlugin().getLogger().info(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() }));
+			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {
+				jm.getPlugin().getLogger().info(ChatColor.stripColor(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() })));
 			}
 		}else {
 			//The player is not currently jailed

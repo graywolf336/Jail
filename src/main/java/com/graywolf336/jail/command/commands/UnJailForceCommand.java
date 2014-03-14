@@ -1,5 +1,6 @@
 package com.graywolf336.jail.command.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
@@ -24,8 +25,8 @@ public class UnJailForceCommand implements Command {
 			jm.getPlugin().getPrisonerManager().forceRelease(jm.getPrisoner(args[0]));
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.FORCEUNJAILED, args[0]));
 			
-			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {//TODO: Fix this setting being used wrongly
-				jm.getPlugin().getLogger().info(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() }));
+			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {
+				jm.getPlugin().getLogger().info(ChatColor.stripColor(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() })));
 			}
 		}else {
 			//The player is not currently jailed
