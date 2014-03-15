@@ -60,6 +60,8 @@ public enum LangString {
 	OFFLINEJAIL ("jailing"),
 	/** The message sent to the jailer when they jail someone who is online. */
 	ONLINEJAIL ("jailing"),
+	/** The message sent when finding out how much time a prisoner has. */
+	PRISONERSTIME ("jailing"),
 	/** The message sent to the prisoner when they try to do something but it is protected. */
 	PROTECTIONMESSAGE ("jailing"),
 	/** The message sent to the prisoner when they try to do something and it is protected, but no penalty. */

@@ -11,7 +11,7 @@ import org.bukkit.Location;
  * 
  * @author graywolf336
  * @since 2.x.x
- * @version 3.0.0
+ * @version 3.0.1
  */
 public class Prisoner {
 	private String name, jailer, reason, inventory, armor;
@@ -108,9 +108,22 @@ public class Prisoner {
 	 * Adds the given time to the remaining time the prisoner has left.
 	 * 
 	 * @param time to add to the prisoner's remaining time.
+	 * @return the new remaining time the prisoner has
 	 */
-	public void addTime(long time) {
+	public long addTime(long time) {
 		this.time += time;
+		return this.time;
+	}
+	
+	/**
+	 * Subtracts the given time from the remaining time the prisoner has left.
+	 * 
+	 * @param time to subtract from the prisoner's remaining time.
+	 * @return the new remaining time the prisoner has
+	 */
+	public long subtractTime(long time) {
+		this.time -= time;
+		return this.time;
 	}
 	
 	/** Gets whether the player is offline or not. */
