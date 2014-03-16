@@ -269,7 +269,7 @@ public class PrisonerManager {
     	
     	//Add the scoreboard to them if it is enabled
 		if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
-			pl.getScoreBoardManager().addScoreBoard(player, prisoner);
+			pl.getScoreBoardManager().addScoreBoard(player, jail, prisoner);
 		}
     	
     	//Call our custom event for when a prisoner is actually jailed.

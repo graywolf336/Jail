@@ -163,7 +163,7 @@ public class JailMain extends JavaPlugin {
 			for(Jail j : jm.getJails()) {
 				for(Prisoner p : j.getAllPrisoners()) {
 					if(getServer().getPlayerExact(p.getName()) != null) {
-						this.sbm.addScoreBoard(getServer().getPlayerExact(p.getName()), p);
+						this.sbm.addScoreBoard(getServer().getPlayerExact(p.getName()), j, p);
 					}
 				}
 			}
