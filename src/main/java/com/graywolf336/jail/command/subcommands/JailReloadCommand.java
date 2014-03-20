@@ -1,5 +1,6 @@
 package com.graywolf336.jail.command.subcommands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
@@ -17,13 +18,19 @@ import com.graywolf336.jail.enums.LangString;
 	)
 public class JailReloadCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
-		jm.getPlugin().reloadConfig();
-		jm.getPlugin().getJailIO().loadLanguage();
-		jm.getPlugin().getJailIO().loadJails();
-		jm.getPlugin().reloadScoreBoardManager();
-		jm.getPlugin().reloadJailSticks();
+		try {
+			jm.getPlugin().reloadConfig();
+			jm.getPlugin().getJailIO().loadLanguage();
+			jm.getPlugin().getJailIO().loadJails();
+			jm.getPlugin().reloadScoreBoardManager();
+			jm.getPlugin().reloadJailSticks();
+			jm.getPlugin().reloadJailPayManager();
+			
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLUGINRELOADED));
+		}catch (Exception e) {
+			sender.sendMessage(ChatColor.RED + e.getMessage());
+		}
 		
-		sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLUGINRELOADED));
 		return true;
 	}
 }

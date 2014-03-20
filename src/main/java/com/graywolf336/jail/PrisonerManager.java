@@ -269,7 +269,7 @@ public class PrisonerManager {
     	
     	//Add the scoreboard to them if it is enabled
 		if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
-			pl.getScoreBoardManager().addScoreBoard(player, jail, prisoner);
+			pl.getScoreBoardManager().addScoreBoard(player, prisoner);
 		}
     	
     	//Call our custom event for when a prisoner is actually jailed.
@@ -296,6 +296,10 @@ public class PrisonerManager {
 			try {
 				unJail(j, j.getCellPrisonerIsIn(player.getName()), player, prisoner);
 			}catch(Exception e) {
+				if(pl.inDebug()) {
+					e.printStackTrace();
+				}
+				
 				pl.getLogger().severe("Unable to unjail the prisoner " + player.getName() + " because '" + e.getMessage() + "'.");
 			}
 			
@@ -343,12 +347,17 @@ public class PrisonerManager {
 		//let's enable their sleeping state taking place again
 		player.setSleepingIgnored(false);
 		
-		//If the config has us teleporting them back to their previous position
-		//then let's do that, but if it doesn't yet it has the teleport on release
-		//then let's teleport them to the free teleport location
+		//If the config has us teleporting them back to their
+		//previous position then let's do that
+		boolean tpd = false;
 		if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
-			player.teleport(prisoner.getPreviousLocation());
-		}else if(pl.getConfig().getBoolean(Settings.TELEPORTONRELEASE.getPath(), true)) {
+			if(prisoner.getPreviousLocation() != null)
+				tpd = player.teleport(prisoner.getPreviousLocation());
+		}
+		
+		//If they haven't already been teleported and the config has us to teleport on release,
+		//then we teleport players to the jail's free spot
+		if(!tpd && pl.getConfig().getBoolean(Settings.TELEPORTONRELEASE.getPath(), true)) {
 			player.teleport(jail.getTeleportFree());
 		}
 		

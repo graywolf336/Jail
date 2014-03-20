@@ -2,7 +2,6 @@ package com.graywolf336.jail;
 
 import java.util.HashMap;
 
-import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -42,12 +41,12 @@ public class ScoreBoardManager {
 	 * @param player of whom to add the scoreboard to.
 	 * @param pris data for the provided prisoner
 	 */
-	public void addScoreBoard(Player player, Jail j, Prisoner pris) {
+	public void addScoreBoard(Player player, Prisoner pris) {
 		if(!boards.containsKey(player.getName())) {
 			boards.put(player.getName(), man.getNewScoreboard());
 			Objective o = boards.get(player.getName()).registerNewObjective("test", "dummy");
 			o.setDisplaySlot(DisplaySlot.SIDEBAR);
-			o.setDisplayName(Util.getColorfulMessage(pl.getConfig().getString(Settings.SCOREBOARDTITLE.getPath()) + ChatColor.WHITE + "" + ChatColor.ITALIC + "     (" + j.getName() + ")"));
+			o.setDisplayName(Util.getColorfulMessage(pl.getConfig().getString(Settings.SCOREBOARDTITLE.getPath())));
 			o.getScore(time).setScore(pris.getRemainingTimeInMinutesInt());
 			player.setScoreboard(boards.get(player.getName()));
 		}else {
@@ -86,7 +85,7 @@ public class ScoreBoardManager {
 		for(Jail j : pl.getJailManager().getJails()) {
 			for(Prisoner p : j.getAllPrisoners()) {
 				if(pl.getServer().getPlayerExact(p.getName()) != null) {
-					addScoreBoard(pl.getServer().getPlayerExact(p.getName()), j, p);
+					addScoreBoard(pl.getServer().getPlayerExact(p.getName()), p);
 				}
 			}
 		}

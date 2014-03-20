@@ -9,6 +9,7 @@ Beta 2 Changes
 *Changes since Beta 1*
 * Fix the default Jail Stick not being loaded correctly, [#21](https://github.com/graywolf336/Jail/issues/21)
 * Implement Scoreboards, with title and time configurable. ([#15](https://github.com/graywolf336/Jail/issues/15))
+* Implemented Jail Pay [#11](https://github.com/graywolf336/Jail/issues/11)
 * Convert old data and config values, only some are done and if you don't want the old data delete your `global.yml`
 * Add config option to disallow the usage of Jail Sticks
 
@@ -47,6 +48,7 @@ ToDo
 
 Notice
 ===
+* If you ran an alpha or beta, please delete the en.yml so that you get the additional messages added since your version (will update in the future)
 * Old messages (language) will not be converted
 * MaximumAFKTime setting will not convert over, the format isn't clear and the old version didn't provide a way to get values with decimal places
 * EnableLogging has been removed, we are always going to be logging (unless major request to control this)

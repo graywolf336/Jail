@@ -32,6 +32,7 @@ public class JailMain extends JavaPlugin {
 	private JailHandler jh;
 	private JailIO io;
 	private JailManager jm;
+	private JailPayManager jpm;
 	private JailStickManager jsm;
 	private JailTimer jt;
 	private PrisonerManager pm;
@@ -90,6 +91,14 @@ public class JailMain extends JavaPlugin {
 		}
 		
 		jt = new JailTimer(this);
+		
+		try {
+			jpm = new JailPayManager(this);
+		} catch (Exception e) {
+			getLogger().severe(e.getMessage());
+			jpm = null;
+		}
+		
 		sbm = new ScoreBoardManager(this);
 		
 		getLogger().info("Completed enablement.");
@@ -109,6 +118,7 @@ public class JailMain extends JavaPlugin {
 		
 		jt = null;
 		sbm = null;
+		jpm = null;
 		cmdHand = null;
 		pm = null;
 		jm = null;
@@ -163,7 +173,7 @@ public class JailMain extends JavaPlugin {
 			for(Jail j : jm.getJails()) {
 				for(Prisoner p : j.getAllPrisoners()) {
 					if(getServer().getPlayerExact(p.getName()) != null) {
-						this.sbm.addScoreBoard(getServer().getPlayerExact(p.getName()), j, p);
+						this.sbm.addScoreBoard(getServer().getPlayerExact(p.getName()), p);
 					}
 				}
 			}
@@ -175,6 +185,16 @@ public class JailMain extends JavaPlugin {
 		this.jsm.removeAllStickUsers();
 		this.jsm = null;
 		this.jsm = new JailStickManager(this);
+	}
+	
+	/** 
+	 * Reloads the {@link JailPayManager}.
+	 *  
+	 * @throws Exception If we couldn't successfully create a new Jail Pay Manager instance.
+	 */
+	public void reloadJailPayManager() throws Exception {
+		this.jpm = null;
+		this.jpm = new JailPayManager(this);
 	}
 	
 	/** Gets the {@link HandCuffManager} instance. */
@@ -190,6 +210,11 @@ public class JailMain extends JavaPlugin {
 	/** Gets the {@link JailManager} instance. */
 	public JailManager getJailManager() {
 		return this.jm;
+	}
+	
+	/** Gets the {@link JailPayManager} instance. */
+	public JailPayManager getJailPayManager() {
+		return this.jpm;
 	}
 	
 	/** Gets the {@link PrisonerManager} instance. */

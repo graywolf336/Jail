@@ -75,6 +75,18 @@ language:
     unjailed: '&2You have been released! Please respect the server rules.'
     willbeunjailed: '&2%0% will be released the next time they log on.'
     youarenotjailed: '&2You are not jailed.'
+  jailpay:
+    cantpayforotherswhilejailed: '&cYou are jailed and as a result you can not pay for others.'
+    cost: '&9You have to pay %0% %1% per minute which equates to %2% %1%.'
+    costinfinite: '&9Since you are jailed forever, you have to pay %0% %1%.'
+    nonegativeamounts: '&cYou can not pay negative amounts.'
+    notenabled: "&cSorry, money won't help this time."
+    notenoughmoney: "&cYou don't have that much money!"
+    notenoughmoneyprovided: "&cYou have not provided enough money to cover the sentence!"
+    paidreleased: "&2You have just payed %0% and released yourself from jail!"
+    paidreleasedelse: "&2You have just payed %0% and released %1% from jail!"
+    paidloweredtime: "&2You have just payed %0% and lowered your sentence to %1% minutes!"
+    paidloweredtimeelse: "&2You have just payed %0% and lowered %1%'s sentence to %2% minutes!"
   handcuffing:
     cantbehandcuffed: '&9%0% &ccan not be handcuffed.'
     currentlyjailed: '&9%0% &cis currently jailed, you can not handcuff a prisoner.'

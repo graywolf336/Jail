@@ -163,6 +163,30 @@ public enum LangString {
 	/** The message sent whenever someone does a command we don't know. */
 	UNKNOWNCOMMAND ("general"),
 	
+	//Jail pay
+	/** The message sent when the jail pay portion is not enabled. */
+	PAYNOTENABLED ("jailpay", "notenabled"),
+	/** The message sent when finding out how much it costs. */
+	PAYCOST ("jailpay", "cost"),
+	/** The message sent when finding out how much it costs and they are jailed forever. */
+	PAYCOSTINFINITE ("jailpay", "costinfinite"),
+	/** The message sent when someone tries to pay a negative amount. */
+	PAYNONEGATIVEAMOUNTS ("jailpay", "nonegativeamounts"),
+	/** The message sent when someone is jailed and tries to pay for someone else. */
+	PAYCANTPAYWHILEJAILED ("jailpay", "cantpayforotherswhilejailed"),
+	/** The message sent whenever someone tries to pay an amount they don't have. */
+	PAYNOTENOUGHMONEY ("jailpay", "notenoughmoney"),
+	/** The message sent when they try to pay an amount but it isn't enough for the jailing sentence. */
+	PAYNOTENOUGHMONEYPROVIDED ("jailpay", "notenoughmoneyprovided"),
+	/** The message sent when they pay and get released. */
+	PAYPAIDRELEASED ("jailpay", "paidreleased"),
+	/** The message sent when they pay for someone else and release them. */
+	PAYPAIDRELEASEDELSE ("jailpay", "PAYPAIDRELEASEDELSE"),
+	/** The message sent when they pay and lower their time. */
+	PAYPAIDLOWEREDTIME ("jailpay", "paidloweredtime"),
+	/** The message sent when they pay and lower someone else's time. */
+	PAYPAIDLOWEREDTIMEELSE ("jailpay", "paidloweredtimeelse"),
+	
 	//Confirming action messages.
 	
 	/** The message sent when the sender is already confirming something. */

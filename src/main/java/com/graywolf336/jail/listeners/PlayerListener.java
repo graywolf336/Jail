@@ -124,7 +124,7 @@ public class PlayerListener implements Listener {
 			
 			//Add the scoreboard to them if it is enabled
 			if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
-				pl.getScoreBoardManager().addScoreBoard(event.getPlayer(), j, p);
+				pl.getScoreBoardManager().addScoreBoard(event.getPlayer(), p);
 			}
 			
 			//if we are ignoring a prisoner's sleeping state, then let's set that

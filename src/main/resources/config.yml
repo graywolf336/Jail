@@ -23,7 +23,7 @@ jailing:
     blockPlaceWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
     commandPenalty: 5m
     commandProtection: true
-    commandWhitelist: ['/ping', '/list', '/jail status']
+    commandWhitelist: ['/ping', '/list', '/jail status', '/jail pay']
     countDownTimeWhileOffline: false
     cropTramplingPenalty: 5m
     cropTramplingProtection: true
@@ -63,6 +63,11 @@ jailing:
 jails:
   endermenProtection: true
   explosionProtection: true
+jailpay:
+  enabled: true
+  item: air
+  pricePerMinute: 1.5
+  priceInfinite: 10000
 jailstick:
   enabled: true
   sticks: ["stick,30,,Running away"]

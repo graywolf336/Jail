@@ -23,6 +23,7 @@ import com.graywolf336.jail.command.subcommands.JailDeleteCommand;
 import com.graywolf336.jail.command.subcommands.JailListCellsCommand;
 import com.graywolf336.jail.command.subcommands.JailListCommand;
 import com.graywolf336.jail.command.subcommands.JailMuteCommand;
+import com.graywolf336.jail.command.subcommands.JailPayCommand;
 import com.graywolf336.jail.command.subcommands.JailRecordCommand;
 import com.graywolf336.jail.command.subcommands.JailReloadCommand;
 import com.graywolf336.jail.command.subcommands.JailStatusCommand;
@@ -136,7 +137,10 @@ public class JailHandler {
 				return true;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			if(jailmanager.getPlugin().inDebug()) {
+				e.printStackTrace();
+			}
+			
 			jailmanager.getPlugin().getLogger().severe("An error occured while handling the command: " + i.usage());
 			showUsage(sender, c);
 			return true;
@@ -182,6 +186,7 @@ public class JailHandler {
 		load(JailListCellsCommand.class);
 		load(JailListCommand.class);
 		load(JailMuteCommand.class);
+		load(JailPayCommand.class);
 		load(JailRecordCommand.class);
 		load(JailReloadCommand.class);
 		load(JailStatusCommand.class);
