@@ -162,6 +162,7 @@ public class JailPayManager {
 	
 	private boolean setupEconomy(JailMain plugin) {
 		if (economy != null) return true;
+		else if(!plugin.getServer().getPluginManager().isPluginEnabled("Vault")) return false;
 		
         RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
