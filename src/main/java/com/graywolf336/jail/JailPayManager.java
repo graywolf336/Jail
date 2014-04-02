@@ -16,7 +16,7 @@ public class JailPayManager {
 	private Material item;
 	private boolean infinite, timed;
 	
-	public JailPayManager(JailMain plugin) throws Exception {
+	public JailPayManager(JailMain plugin) {
 		this.item = Material.getMaterial(plugin.getConfig().getString(Settings.JAILPAYITEM.getPath().toUpperCase()));
 		if(this.item == null) this.item = Material.AIR;
 		
@@ -25,7 +25,6 @@ public class JailPayManager {
 		if(!this.usingItemsForPayment()) {
 			if(!this.setupEconomy(plugin)) {
 				plugin.getConfig().set(Settings.JAILPAYENABLED.getPath(), false);
-				throw new Exception("Jail Pay couldn't find an economy, disabling Jail Pay.");
 			}
 		}
 		
@@ -162,7 +161,6 @@ public class JailPayManager {
 	
 	private boolean setupEconomy(JailMain plugin) {
 		if (economy != null) return true;
-		else if(!plugin.getServer().getPluginManager().isPluginEnabled("Vault")) return false;
 		
         RegisteredServiceProvider<Economy> economyProvider = plugin.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
