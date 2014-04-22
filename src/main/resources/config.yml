@@ -41,7 +41,7 @@ jailing:
     preventInteractionItemsPenalty: 5m
     recieveMessages: true
     scoreboard:
-      enabled: true
+      enabled: false
       title: 'Jail Info'
       time: '&aTime:'
   jail:
