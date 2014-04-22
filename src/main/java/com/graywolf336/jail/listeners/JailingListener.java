@@ -23,14 +23,16 @@ public class JailingListener implements Listener {
 	
 	@EventHandler(ignoreCancelled=true)
 	public void preJailingListener(PrePrisonerJailedEvent event) {
-		pl.getJailIO().addRecordEntry(event.getPrisoner().getName(),
+		pl.getJailIO().addRecordEntry(event.getPrisoner().getUUID().toString(),
+				event.getPrisoner().getName(),
 				event.getPrisoner().getJailer(), dateFormat.format(new Date()),
 				event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
 	}
 	
 	@EventHandler(ignoreCancelled=true)
 	public void preJailingListener(PrePrisonerJailedByJailStickEvent event) {
-		pl.getJailIO().addRecordEntry(event.getPrisoner().getName(),
+		pl.getJailIO().addRecordEntry(event.getPrisoner().getUUID().toString(),
+				event.getPrisoner().getName(),
 				event.getPrisoner().getJailer(), dateFormat.format(new Date()),
 				event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
 	}

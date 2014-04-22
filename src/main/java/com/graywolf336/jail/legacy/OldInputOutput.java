@@ -118,7 +118,7 @@ public class OldInputOutput {
 			
 			//Check if the jail exists, if not then we refuse to load it
 			if(j != null) {
-				Prisoner p = new Prisoner(name, set.getBoolean("muted"), (long) set.getInt("RemainTime"), set.getString("Jailer"), set.getString("reason"));
+				Prisoner p = new Prisoner(pl.getServer().getOfflinePlayer(name).getUniqueId().toString(), name, set.getBoolean("muted"), (long) set.getInt("RemainTime"), set.getString("Jailer"), set.getString("reason"));
 				p.setOfflinePending(set.getBoolean("Offline"));
 				p.setToBeTransferred(transfer);
 				

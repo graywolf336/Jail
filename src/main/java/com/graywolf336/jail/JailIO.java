@@ -286,6 +286,7 @@ public class JailIO {
 					st.executeUpdate(cellCreateCmd);
 					
 					String prisCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "prisoners` ("
+							  + "`uuid` VARCHAR(36) NOT NULL COMMENT 'The UUID of the prisoner.',"
 							  + "`name` VARCHAR(16) NOT NULL COMMENT 'The name of the prisoner.',"
 							  + "`jail` VARCHAR(250) NOT NULL COMMENT 'The jail the prisoner is in.',"
 							  + "`cell` VARCHAR(250) NULL COMMENT 'The cell the prisoner is in.',"
@@ -299,8 +300,8 @@ public class JailIO {
 							  + "`armor` BLOB NULL COMMENT 'The armor in base64.',"
 							  + "`previousLocation` VARCHAR(250) NULL COMMENT 'A string of their previous location.',"
 							  + "`previousGameMode` VARCHAR(16) NULL COMMENT 'Their previous gamemode before they were jailed.',"
-							  + "PRIMARY KEY (`name`),"
-							  + "UNIQUE INDEX `name_UNIQUE` (`name` ASC))"
+							  + "PRIMARY KEY (`uuid`),"
+							  + "UNIQUE INDEX `uuid_UNIQUE` (`uuid` ASC))"
 							  + "COMMENT = 'Contains all the prisoners, in cells and jails.';";
 					
 					//pl.debug(prisCreateCmd);
@@ -308,6 +309,7 @@ public class JailIO {
 					
 					String proCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "records` ("
 							  + "`recordid` INT NOT NULL AUTO_INCREMENT COMMENT 'Auto generated number for the records database.',"
+							  + "`uuid` VARCHAR(36) NOT NULL COMMENT 'The UUID of the prisoner.',"
 							  + "`username` VARCHAR(16) NOT NULL COMMENT 'The username of the prisoner.',"
 							  + "`jailer` VARCHAR(250) NOT NULL COMMENT 'The name of the person who jailed the prisoner.',"
 							  + "`date` VARCHAR(32) NOT NULL COMMENT 'A string of the date.',"
@@ -460,7 +462,7 @@ public class JailIO {
 							String cellname = set.getString("cell");
 							Cell c = j.getCell(cellname);
 							
-							Prisoner p = new Prisoner(set.getString("name"), set.getBoolean("muted"), set.getLong("time"), set.getString("jailer"), set.getString("reason"));
+							Prisoner p = new Prisoner(set.getString("uuid"), set.getString("name"), set.getBoolean("muted"), set.getLong("time"), set.getString("jailer"), set.getString("reason"));
 							p.setOfflinePending(set.getBoolean("offlinePending"));
 							p.setToBeTransferred(set.getBoolean("toBeTransferred"));
 							Blob inv = set.getBlob("inventory");
@@ -593,7 +595,8 @@ public class JailIO {
 					}
 					
 					if(flat.contains(cellNode + "prisoner")) {
-						Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.name"),
+						Prisoner p = new Prisoner(flat.getString(cellNode + "prisoner.uuid"),
+										flat.getString(cellNode + "prisoner.name"),
 										flat.getBoolean(cellNode + "prisoner.muted"),
 										flat.getLong(cellNode + "prisoner.time"),
 										flat.getString(cellNode + "prisoner.jailer"),
@@ -615,9 +618,10 @@ public class JailIO {
 		if(flat.isConfigurationSection(node + "prisoners")) {
 			Set<String> prisoners = flat.getConfigurationSection(node + "prisoners").getKeys(false);
 			if(!prisoners.isEmpty()) {
-				for(String prisoner : prisoners) {
-					String pNode = node + "prisoners." + prisoner + ".";
-					Prisoner pris = new Prisoner(prisoner,
+				for(String uuid : prisoners) {
+					String pNode = node + "prisoners." + uuid + ".";
+					Prisoner pris = new Prisoner(uuid,
+							flat.getString(pNode + "prisoner"),
 							flat.getBoolean(pNode + "muted"),
 							flat.getLong(pNode + "time"),
 							flat.getString(pNode + "jailer"),
@@ -693,22 +697,23 @@ public class JailIO {
 					for(Cell c : j.getCells()) {
 						if(c.hasPrisoner()) {
 							Prisoner p = c.getPrisoner();
-							PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
+							PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
 									+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`)"
-									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-							pPS.setString(1, p.getName());
-							pPS.setString(2, j.getName());
-							pPS.setString(3, c.getName());
-							pPS.setBoolean(4, p.isMuted());
-							pPS.setFloat(5, p.getRemainingTime());
-							pPS.setBoolean(6, p.isOfflinePending());
-							pPS.setBoolean(7, p.isToBeTransferred());
-							pPS.setString(8, p.getJailer());
-							pPS.setString(9, p.getReason());
-							pPS.setBytes(10, p.getInventory().getBytes());
-							pPS.setBytes(11, p.getArmor().getBytes());
-							pPS.setString(12, p.getPreviousLocationString());
-							pPS.setString(13, p.getPreviousGameMode().toString());
+									+ "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+							pPS.setString(1, p.getUUID().toString());
+							pPS.setString(2, p.getName());
+							pPS.setString(3, j.getName());
+							pPS.setString(4, c.getName());
+							pPS.setBoolean(5, p.isMuted());
+							pPS.setFloat(6, p.getRemainingTime());
+							pPS.setBoolean(7, p.isOfflinePending());
+							pPS.setBoolean(8, p.isToBeTransferred());
+							pPS.setString(9, p.getJailer());
+							pPS.setString(10, p.getReason());
+							pPS.setBytes(11, p.getInventory().getBytes());
+							pPS.setBytes(12, p.getArmor().getBytes());
+							pPS.setString(13, p.getPreviousLocationString());
+							pPS.setString(14, p.getPreviousGameMode().toString());
 							
 							pPS.executeUpdate();
 							pPS.close();
@@ -724,21 +729,22 @@ public class JailIO {
 					if(con == null) this.prepareStorage(false);
 					
 					for(Prisoner p : j.getPrisonersNotInCells()) {
-						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
-								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-						pPS.setString(1, p.getName());
-						pPS.setString(2, j.getName());
-						pPS.setString(3, "");
-						pPS.setBoolean(4, p.isMuted());
-						pPS.setFloat(5, p.getRemainingTime());
-						pPS.setBoolean(6, p.isOfflinePending());
-						pPS.setBoolean(7, p.isToBeTransferred());
-						pPS.setString(8, p.getJailer());
-						pPS.setString(9, p.getReason());
-						pPS.setBytes(10, p.getInventory().getBytes());
-						pPS.setBytes(11, p.getArmor().getBytes());
-						pPS.setString(12, p.getPreviousLocationString());
-						pPS.setString(13, p.getPreviousGameMode().toString());
+						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						pPS.setString(1, p.getUUID().toString());
+						pPS.setString(2, p.getName());
+						pPS.setString(3, j.getName());
+						pPS.setString(4, "");
+						pPS.setBoolean(5, p.isMuted());
+						pPS.setFloat(6, p.getRemainingTime());
+						pPS.setBoolean(7, p.isOfflinePending());
+						pPS.setBoolean(8, p.isToBeTransferred());
+						pPS.setString(9, p.getJailer());
+						pPS.setString(10, p.getReason());
+						pPS.setBytes(11, p.getInventory().getBytes());
+						pPS.setBytes(12, p.getArmor().getBytes());
+						pPS.setString(13, p.getPreviousLocationString());
+						pPS.setString(14, p.getPreviousGameMode().toString());
 						
 						pPS.executeUpdate();
 						pPS.close();
@@ -809,6 +815,7 @@ public class JailIO {
 						
 						if(c.getPrisoner() != null) {
 							Prisoner p = c.getPrisoner();
+							flat.set(cNode + "prisoner.uuid", p.getUUID().toString());
 							flat.set(cNode + "prisoner.name", p.getName());
 							flat.set(cNode + "prisoner.muted", p.isMuted());
 							flat.set(cNode + "prisoner.time", p.getRemainingTime());
@@ -828,7 +835,8 @@ public class JailIO {
 					//Null all the prisoners out before we save them again, this way no prisoners are left behind
 					flat.set(node + "prisoners", null);
 					for(Prisoner p : j.getPrisonersNotInCells()) {
-						String pNode = node + "prisoners." + p.getName() + ".";
+						String pNode = node + "prisoners." + p.getUUID().toString() + ".";
+						flat.set(pNode + "name", p.getName());
 						flat.set(pNode + "muted", p.isMuted());
 						flat.set(pNode + "time", p.getRemainingTime());
 						flat.set(pNode + "offlinePending", p.isOfflinePending());
@@ -890,20 +898,21 @@ public class JailIO {
 					
 					if(c.hasPrisoner()) {
 						Prisoner p = c.getPrisoner();
-						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`name`, `jail`, `cell`, `muted`, `time`,"
-								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)");
-						pPS.setString(1, p.getName());
-						pPS.setString(2, j.getName());
-						pPS.setString(3, c.getName());
-						pPS.setBoolean(4, p.isMuted());
-						pPS.setFloat(5, p.getRemainingTime());
-						pPS.setBoolean(6, p.isOfflinePending());
-						pPS.setBoolean(7, p.isToBeTransferred());
-						pPS.setString(8, p.getReason());
-						pPS.setBytes(9, p.getInventory().getBytes());
-						pPS.setBytes(10, p.getArmor().getBytes());
-						pPS.setString(11, p.getPreviousLocationString());
-						pPS.setString(12, p.getPreviousGameMode().toString());
+						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						pPS.setString(1, p.getUUID().toString());
+						pPS.setString(2, p.getName());
+						pPS.setString(3, j.getName());
+						pPS.setString(4, c.getName());
+						pPS.setBoolean(5, p.isMuted());
+						pPS.setFloat(6, p.getRemainingTime());
+						pPS.setBoolean(7, p.isOfflinePending());
+						pPS.setBoolean(8, p.isToBeTransferred());
+						pPS.setString(9, p.getReason());
+						pPS.setBytes(10, p.getInventory().getBytes());
+						pPS.setBytes(11, p.getArmor().getBytes());
+						pPS.setString(12, p.getPreviousLocationString());
+						pPS.setString(13, p.getPreviousGameMode().toString());
 						
 						pPS.executeUpdate();
 						pPS.close();
@@ -943,8 +952,8 @@ public class JailIO {
 			case 1:
 			case 2:
 				try {
-					PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where name = ? limit 1;");
-					pp.setString(1, p.getName());
+					PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where uuid = ? limit 1;");
+					pp.setString(1, p.getUUID().toString());
 					
 					pl.debug("Removing " + p.getName() + " from MySQL database.");
 					
@@ -958,7 +967,7 @@ public class JailIO {
 				break;
 			default:
 				if(c == null)
-					flat.set("jails." + j.getName() + ".prisoners." + p.getName(), null);
+					flat.set("jails." + j.getName() + ".prisoners." + p.getUUID().toString(), null);
 				else
 					flat.set("jails." + j.getName() + "." + c.getName() + ".prisoner", null);
 				
@@ -1063,24 +1072,26 @@ public class JailIO {
 	/**
 	 * Adds an entry to the database/file for the user, logging when they was jailed.
 	 * 
+	 * @param uuid of the player
 	 * @param username of the player
 	 * @param jailer who jailed them
 	 * @param date string of when they are jailed
 	 * @param time of the player's sentence
 	 * @param reason the player is jailed
 	 */
-	public void addRecordEntry(String username, String jailer, String date, long time, String reason) {
+	public void addRecordEntry(String uuid, String username, String jailer, String date, long time, String reason) {
 		switch(storage) {
 			case 1:
 				break;
 			case 2:
 				try {
-					PreparedStatement p = con.prepareStatement("insert into `" + prefix + "records` (`username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?);");
-					p.setString(1, username);
-					p.setString(2, jailer);
-					p.setString(3, date);
-					p.setLong(4, time);
-					p.setString(5, reason);
+					PreparedStatement p = con.prepareStatement("insert into `" + prefix + "records` (`uuid`, `username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?,?);");
+					p.setString(1, uuid);
+					p.setString(2, username);
+					p.setString(3, jailer);
+					p.setString(4, date);
+					p.setLong(5, time);
+					p.setString(6, reason);
 					
 					p.executeUpdate();
 					p.close();
@@ -1093,8 +1104,8 @@ public class JailIO {
 			default:
 				if(records == null) records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
 				
-				List<String> previous = records.getStringList("username");
-				previous.add(this.getLanguageString(LangString.RECORDENTRY, new String[] { date, username, jailer, String.valueOf(time), reason }));
+				List<String> previous = records.getStringList(uuid);
+				previous.add(this.getLanguageString(LangString.RECORDENTRY, new String[] { date, username, jailer, String.valueOf(time), reason, uuid }));
 				
 				records.set(username, previous);
 				
@@ -1115,7 +1126,7 @@ public class JailIO {
 	 * @param username of the prisoner to get.
 	 * @return A List of strings containing the record entries.
 	 */
-	public List<String> getRecordEntries(String username) {
+	public List<String> getRecordEntries(String uuid) {
 		List<String> entries = new ArrayList<String>();
 		
 		switch(storage) {
@@ -1123,13 +1134,13 @@ public class JailIO {
 				break;
 			case 2:
 				try {
-					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "records where username = ?");
-					ps.setString(1, username);
+					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "records where uuid = ?");
+					ps.setString(1, uuid);
 					ResultSet set = ps.executeQuery();
 					
 					while(set.next()) {
 						entries.add(this.getLanguageString(LangString.RECORDENTRY,
-								new String[] { set.getString("date"), username, set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason") }));
+								new String[] { set.getString("date"), set.getString("username"), set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason") }));
 					}
 					
 					set.close();
@@ -1137,13 +1148,13 @@ public class JailIO {
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
-					pl.getLogger().severe("Error while getting all the record entries for '" + username + "', please check the error and fix what is wrong.");
+					pl.getLogger().severe("Error while getting all the record entries for '" + uuid + "', please check the error and fix what is wrong.");
 				}
 				break;
 			default:
 				if(records == null) records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
 				
-				entries = records.getStringList(username);
+				entries = records.getStringList(uuid);
 				break;
 		}
 		

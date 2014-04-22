@@ -1,5 +1,6 @@
 package com.graywolf336.jail.beans;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Bukkit;
@@ -14,7 +15,7 @@ import org.bukkit.Location;
  * @version 3.0.1
  */
 public class Prisoner {
-	private String name, jailer, reason, inventory, armor;
+	private String uuid, name, jailer, reason, inventory, armor;
 	private boolean muted, offlinePending, teleporting, toBeTransferred;
 	private long time, afk;
 	private Location previousPosition;
@@ -23,13 +24,15 @@ public class Prisoner {
 	/**
 	 * Creates a new prisoner with a name and whether they are muted or not.
 	 * 
+	 * @param uuid The uuid of the prisoner
 	 * @param name The name of the prisoner
 	 * @param muted Whether the prisoner is muted or not
 	 * @param time The amount of remaining time the prisoner has
 	 * @param jailer The name of the person who jailed this prisoner
 	 * @param reason The reason why this prisoner is in jail
 	 */
-	public Prisoner(String name, boolean muted, long time, String jailer, String reason) {
+	public Prisoner(String uuid, String name, boolean muted, long time, String jailer, String reason) {
+		this.uuid = uuid;
 		this.name = name;
 		this.muted = muted;
 		this.time = time;
@@ -43,6 +46,11 @@ public class Prisoner {
 		this.inventory = "";
 		this.armor = "";
 		this.afk = 0;
+	}
+	
+	/** Returns the UUID of the prisoner. */
+	public UUID getUUID() {
+		return UUID.fromString(this.uuid);
 	}
 	
 	/** Gets the name of this player. */

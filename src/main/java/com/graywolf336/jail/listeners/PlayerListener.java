@@ -204,7 +204,7 @@ public class PlayerListener implements Listener {
 						}else {
 							Stick s = pl.getJailStickManager().getStick(attacker.getItemInHand().getType());
 							
-							Prisoner p = new Prisoner(player.getName(),
+							Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),
 									pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
 									s.getTime(), attacker.getName(), s.getReason());
 							

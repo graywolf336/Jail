@@ -164,10 +164,17 @@ public class JailCommand implements Command {
 			return true;
 		}
 		
+		String uuid = "";
+		if(p == null) {
+			uuid = jm.getPlugin().getServer().getOfflinePlayer(params.getPlayer()).getUniqueId().toString();
+		}else {
+			uuid = p.getUniqueId().toString();
+		}
+		
 		//Get the jail instance from the name of jail in the params.
 		Jail j = jm.getJail(jailName);
 		Cell c = j.getCell(params.getCell());
-		Prisoner pris = new Prisoner(params.getPlayer(), muted, time, sender.getName(), reason);
+		Prisoner pris = new Prisoner(uuid, params.getPlayer(), muted, time, sender.getName(), reason);
 		
 		//call the event
 		PrePrisonerJailedEvent event = new PrePrisonerJailedEvent(j, c, pris, p, p == null, pris.getJailer());
