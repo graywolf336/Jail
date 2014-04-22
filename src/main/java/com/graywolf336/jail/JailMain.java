@@ -92,12 +92,7 @@ public class JailMain extends JavaPlugin {
 		
 		jt = new JailTimer(this);
 		
-		try {
-			jpm = new JailPayManager(this);
-		} catch (Exception e) {
-			getLogger().severe(e.getMessage());
-			jpm = null;
-		}
+		reloadJailPayManager();
 		
 		sbm = new ScoreBoardManager(this);
 		
@@ -192,9 +187,17 @@ public class JailMain extends JavaPlugin {
 	 *  
 	 * @throws Exception If we couldn't successfully create a new Jail Pay Manager instance.
 	 */
-	public void reloadJailPayManager() throws Exception {
+	public void reloadJailPayManager() {
 		this.jpm = null;
-		this.jpm = new JailPayManager(this);
+		
+		if(getConfig().getBoolean(Settings.JAILPAYENABLED.getPath())) {
+			if(getServer().getPluginManager().isPluginEnabled("Vault")) {
+				this.jpm = new JailPayManager(this);
+			}else {
+				getConfig().set(Settings.JAILPAYENABLED.getPath(), false);
+				getLogger().severe("Jail Pay couldn't find an economy, disabling Jail Pay.");
+			}
+		}
 	}
 	
 	/** Gets the {@link HandCuffManager} instance. */
