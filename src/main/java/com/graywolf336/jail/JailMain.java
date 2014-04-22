@@ -233,8 +233,14 @@ public class JailMain extends JavaPlugin {
 	}
 	
 	/** Sets whether the plugin is in debugging or not. */
-	public void setDebugging(boolean debug) {
+	public boolean setDebugging(boolean debug) {
 		this.debug = debug;
+		
+		//Save whether we are debugging when we disable the plugin
+		getConfig().set(Settings.DEBUG.getPath(), this.debug);
+		saveConfig();
+		
+		return this.debug;
 	}
 	
 	/** Returns if the plugin is in debug state or not. */

@@ -70,6 +70,8 @@ commands:
         description: Allows the player to handcuff another player
     unhandcuff:
         description: Allows the player to unhandcuff someone
+    togglejaildebug:
+        description: Toggles whether the plugin is in debugging state or not.
 permissions:
     jail.*:
         children:
@@ -108,6 +110,7 @@ permissions:
             jail.command.jailreload: true
             jail.command.jailrecord: true
             jail.command.handcuff: true
+            jail.command.toggledebug: true
     jail.usercmd.*:
         description: access to all user commands
         children:
@@ -191,4 +194,6 @@ permissions:
     jail.canswear:
         default: op
     jail.cantbejailed:
+        default: op
+    jail.command.toggledebug:
         default: op

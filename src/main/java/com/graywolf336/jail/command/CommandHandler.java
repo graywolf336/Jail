@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.commands.HandCuffCommand;
+import com.graywolf336.jail.command.commands.ToggleJailDebugCommand;
 import com.graywolf336.jail.command.commands.UnHandCuffCommand;
 import com.graywolf336.jail.command.commands.UnJailForceCommand;
 import com.graywolf336.jail.command.commands.UnJailCommand;
@@ -140,6 +141,7 @@ public class CommandHandler {
 	/** Loads all the commands into the hashmap. */
 	private void loadCommands() {
 		load(HandCuffCommand.class);
+		load(ToggleJailDebugCommand.class);
 		load(UnHandCuffCommand.class);
 		load(UnJailCommand.class);
 		load(UnJailForceCommand.class);
