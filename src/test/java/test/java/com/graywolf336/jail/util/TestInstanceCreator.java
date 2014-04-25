@@ -34,6 +34,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.powermock.api.support.membermodification.MemberMatcher.constructor;
+import static org.powermock.api.support.membermodification.MemberModifier.suppress;
 
 import com.graywolf336.jail.JailMain;
 
@@ -66,6 +68,7 @@ public class TestInstanceCreator {
 			when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
 			when(mockServer.getItemFactory()).thenReturn(CraftItemFactory.instance());
 			
+			suppress(constructor(JailMain.class));
 			main = PowerMockito.spy(new JailMain());
 			
 			PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("Jail", "3.0.0-Test", "com.graywolf336.jail.JailMain"));
@@ -74,12 +77,13 @@ public class TestInstanceCreator {
 				authors.add("matejdro");
 				authors.add("multidude");
 				authors.add("graywolf336");
-			doReturn(authors).when(pdf).getAuthors();
-			doReturn(pdf).when(main).getDescription();
-			doReturn(true).when(main).isEnabled();
-			doReturn(Util.logger).when(main).getLogger();
-			doReturn(mockServer).when(main).getServer();
-			doReturn(pluginDirectory).when(main).getDataFolder();
+			when(pdf.getAuthors()).thenReturn(authors);
+			
+			when(main.getDescription()).thenReturn(pdf);
+			when(main.getDataFolder()).thenReturn(pluginDirectory);
+			when(main.isEnabled()).thenReturn(true);
+			when(main.getLogger()).thenReturn(Util.logger);
+			when(main.getServer()).thenReturn(mockServer);
 			
 			Field configFile = JavaPlugin.class.getDeclaredField("configFile");
 			configFile.setAccessible(true);
@@ -278,9 +282,9 @@ public class TestInstanceCreator {
 		
 		main.onDisable();
 		
-		
+		deleteFolder(pluginDirectory);
+		deleteFolder(worldsDirectory);
 		deleteFolder(serverDirectory);
-		
 		return true;
 	}
 	
