@@ -78,7 +78,6 @@ public class TestInstanceCreator {
 				authors.add("multidude");
 				authors.add("graywolf336");
 			when(pdf.getAuthors()).thenReturn(authors);
-			
 			when(main.getDescription()).thenReturn(pdf);
 			when(main.getDataFolder()).thenReturn(pluginDirectory);
 			when(main.isEnabled()).thenReturn(true);
