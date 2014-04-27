@@ -70,7 +70,8 @@ public class CommandHandler {
 					args2.add(s);
 				args2.add(a0);
 				
-				jailmanager.getPlugin().onCommand(sender, null, j, args2.toArray(new String[args2.size()]));
+				if(jailmanager.getPlugin().onCommand(sender, null, j, args2.toArray(new String[args2.size()])))
+					return;
 			}
 			
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, commandLine));
