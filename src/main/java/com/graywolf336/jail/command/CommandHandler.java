@@ -61,6 +61,18 @@ public class CommandHandler {
 		
 		//If no matches were found, send them the unknown command message.
 		if(matches.size() == 0) {
+			if(commandLine.startsWith("jail")) {
+				String j = commandLine.substring(0, 4);
+				String a0 = commandLine.substring(4, commandLine.length());
+				
+				ArrayList<String> args2 = new ArrayList<String>();
+				for(String s : args)
+					args2.add(s);
+				args2.add(a0);
+				
+				jailmanager.getPlugin().onCommand(sender, null, j, args2.toArray(new String[args2.size()]));
+			}
+			
 			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, commandLine));
 			return;
 		}
