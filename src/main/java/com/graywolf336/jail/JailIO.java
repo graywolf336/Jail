@@ -621,7 +621,7 @@ public class JailIO {
 				for(String uuid : prisoners) {
 					String pNode = node + "prisoners." + uuid + ".";
 					Prisoner pris = new Prisoner(uuid,
-							flat.getString(pNode + "prisoner"),
+							flat.getString(pNode + "name"),
 							flat.getBoolean(pNode + "muted"),
 							flat.getLong(pNode + "time"),
 							flat.getString(pNode + "jailer"),
