@@ -103,34 +103,38 @@ public class OldInputOutput {
     }
     
     public void LoadPrisoners() throws SQLException {
-		PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM jail_prisoners");
-		ResultSet set = ps.executeQuery();
-		while (set.next()) {
-			Jail j = pl.getJailManager().getJail(set.getString("JailName"));
-			String name = set.getString("PlayerName").toLowerCase();
-			
-			String transferDest = set.getString("TransferDest");
-			boolean transfer = false;
-			if(!transferDest.isEmpty()) {
-				j = pl.getJailManager().getJail(transferDest);
-				transfer = true;
-			}
-			
-			//Check if the jail exists, if not then we refuse to load it
-			if(j != null) {
-				Prisoner p = new Prisoner(pl.getServer().getOfflinePlayer(name).getUniqueId().toString(), name, set.getBoolean("muted"), (long) set.getInt("RemainTime"), set.getString("Jailer"), set.getString("reason"));
-				p.setOfflinePending(set.getBoolean("Offline"));
-				p.setToBeTransferred(transfer);
-				
-				j.addPrisoner(p);
-				//String permissions = set.getString("Permissions"); TODO
-			}else {
-				pl.getLogger().warning("Failed to load the prisoner " + name + " from the old database as the Jail doesn't exist.");
-			}
-		}
-		
-		set.close();
-		ps.close();
+    	if(pl.getJailManager().getJails().size() != 0) {
+    		PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM jail_prisoners");
+    		ResultSet set = ps.executeQuery();
+    		while (set.next()) {
+    			Jail j = pl.getJailManager().getJail(set.getString("JailName"));
+    			String name = set.getString("PlayerName").toLowerCase();
+    			
+    			String transferDest = set.getString("TransferDest");
+    			boolean transfer = false;
+    			if(!transferDest.isEmpty()) {
+    				j = pl.getJailManager().getJail(transferDest);
+    				transfer = true;
+    			}
+    			
+    			//In the event the jail is null (jail didn't transfer or the prisoner was jailed offline and no jail specified
+    			if(j == null) {
+    				j = pl.getJailManager().getJails().iterator().next();
+    			}
+    			
+    			Prisoner p = new Prisoner(pl.getServer().getOfflinePlayer(name).getUniqueId().toString(), name, set.getBoolean("muted"), (long) set.getInt("RemainTime"), set.getString("Jailer"), set.getString("reason"));
+    			p.setOfflinePending(set.getBoolean("Offline"));
+    			p.setToBeTransferred(transfer);
+    			
+    			j.addPrisoner(p);
+    			//String permissions = set.getString("Permissions"); TODO
+    		}
+    		
+    		set.close();
+    		ps.close();
+    	}else {
+    		pl.getLogger().warning("No prisoners were transferred from the old database since there aren't any jails defined.");
+    	}
     }
     
     public void LoadCells() throws SQLException {
