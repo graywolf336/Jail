@@ -155,6 +155,21 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets all the prisoners in the system, best for a system wide count of the prisoners or accessing all the prisoners at once.
+	 * 
+	 * @return HashSet of Prisoners.
+	 */
+	public HashSet<Prisoner> getAllPrisoners() {
+		HashSet<Prisoner> prisoners = new HashSet<Prisoner>();
+		
+		for(Jail j : jails.values()) {
+			prisoners.addAll(j.getAllPrisoners());
+		}
+		
+		return prisoners;
+	}
+	
+	/**
 	 * Gets the {@link Jail jail} the given prisoner is in.
 	 * 
 	 * @param prisoner The prisoner data for the prisoner we are checking

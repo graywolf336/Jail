@@ -450,7 +450,6 @@ public class JailIO {
 				//that doesn't exist anymore
 				List<String> prisonersToRemove = new LinkedList<String>();
 				
-				int pc = 0;
 				try {
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "prisoners");
@@ -481,8 +480,6 @@ public class JailIO {
 								//the prisoner is assigned to a cell which doesn't exist, so just put them into the jail
 								j.addPrisoner(p);
 							}
-							
-							pc++;
 						} else {
 							//if the jail doesn't exist, do the same as the cells
 							prisonersToRemove.add(set.getString("name"));
@@ -522,8 +519,6 @@ public class JailIO {
 					}
 				}
 				
-				pl.getLogger().info("Loaded " + pc + (pc == 1 ? " prisoner." : " prisoners."));
-				
 				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
 				break;
 			default:
@@ -541,6 +536,9 @@ public class JailIO {
 		
 		int js = pl.getJailManager().getJails().size();
 		pl.getLogger().info("Loaded " + js + (js == 1 ? " jail." : " jails."));
+		
+		int ps = pl.getJailManager().getAllPrisoners().size();
+		pl.getLogger().info("Loaded " + ps + (ps == 1 ? " prisoner." : " prisoners."));
 	}
 	
 	private void loadJailFromFlatFile(String name) {
