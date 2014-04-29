@@ -54,6 +54,7 @@ public class JailIO {
 		}
 		
 		pl.debug("The storage type " + st + " with the type being " + storage + ".");
+		if(!pl.inDebug()) pl.getLogger().info("Storage type selected: " + st);
 	}
 	
 	/** Loads the language file from disk, if there is none then we save the default one. */
