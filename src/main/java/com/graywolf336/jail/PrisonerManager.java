@@ -1,5 +1,7 @@
 package com.graywolf336.jail;
 
+import java.util.UUID;
+
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -99,6 +101,11 @@ public class PrisonerManager {
 		if(pl.getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath(), true) && !broadcasted) {
 			pl.getServer().getConsoleSender().sendMessage(msg);
 		}
+	}
+	
+	public void jailPlayer(UUID uuid) {
+		Jail j = pl.getJailManager().getJailPlayerIsIn(uuid);
+		jailPrisoner(j, j.getCellPrisonerIsIn(uuid), pl.getServer().getPlayer(uuid), j.getPrisoner(uuid));
 	}
 	
 	/**
@@ -283,7 +290,7 @@ public class PrisonerManager {
 			Jail j = pl.getJailManager().getJailPlayerIsIn(player.getUniqueId());
 			
 			try {
-				unJail(j, j.getCellPrisonerIsIn(player.getName()), player, prisoner);
+				unJail(j, j.getCellPrisonerIsIn(player.getUniqueId()), player, prisoner);
 			}catch(Exception e) {
 				if(pl.inDebug()) {
 					e.printStackTrace();
@@ -417,7 +424,7 @@ public class PrisonerManager {
 	/** Forcefully releases a {@link Prisoner prisoner} from {@link Jail}. */
 	public void forceRelease(Prisoner prisoner) {
 		Jail j = pl.getJailManager().getJailPrisonerIsIn(prisoner);
-		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getName()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner);
+		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getUUID()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner);
 	}
 	
 	/** Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}. */

@@ -68,7 +68,7 @@ public class MoveProtectionListener implements Listener {
 					
 					//If the prisoner is in a cell, then let's teleport them to the cell's in location
 					if(j.isJailedInACell(event.getPlayer().getUniqueId())) {
-						event.setTo(j.getCellPrisonerIsIn(event.getPlayer().getName()).getTeleport());
+						event.setTo(j.getCellPrisonerIsIn(event.getPlayer().getUniqueId()).getTeleport());
 					}else {
 						//Otherwise let's teleport them to the in location of the jail
 						event.setTo(j.getTeleportIn());

@@ -99,7 +99,7 @@ public class PlayerListener implements Listener {
 					//If their remaining time is 0, let's unjail them
 					pl.getPrisonerManager().releasePrisoner(event.getPlayer(), p);
 				}else if(p.isToBeTransferred()) {
-					Cell c = j.getCellPrisonerIsIn(event.getPlayer().getName());
+					Cell c = j.getCellPrisonerIsIn(event.getPlayer().getUniqueId());
 					
 					//If the player is not jailed in a cell, teleport them to the jail's in
 					if(c == null) {
@@ -116,7 +116,7 @@ public class PlayerListener implements Listener {
 					p.setToBeTransferred(false);
 				} else {
 					//Their remaining time isn't 0 so let's proceed with jailing of the prisoner
-					pl.getPrisonerManager().jailPrisoner(event.getPlayer().getUniqueId());//TODO
+					pl.getPrisonerManager().jailPlayer(event.getPlayer().getUniqueId());
 				}
 			}
 			
@@ -174,7 +174,7 @@ public class PlayerListener implements Listener {
 			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
 			
 			if(j.isJailedInACell(event.getPlayer().getUniqueId())) {
-				event.setRespawnLocation(j.getCellPrisonerIsIn(event.getPlayer().getName()).getTeleport());
+				event.setRespawnLocation(j.getCellPrisonerIsIn(event.getPlayer().getUniqueId()).getTeleport());
 			}else {
 				event.setRespawnLocation(j.getTeleportIn());
 			}

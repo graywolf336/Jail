@@ -184,10 +184,10 @@ public class Jail {
 	}
 	
 	/** Returns the cell which the given player name is jailed in, null if not. */
-	public Cell getCellPrisonerIsIn(String name) {
+	public Cell getCellPrisonerIsIn(UUID uuid) {
 		for(Cell c : cells.values())
-			if(c.getPrisoner() != null)
-				if(c.getPrisoner().getName().equalsIgnoreCase(name))
+			if(c.hasPrisoner())
+				if(c.getPrisoner().getUUID().equals(uuid))
 					return c;
 		
 		return null;
