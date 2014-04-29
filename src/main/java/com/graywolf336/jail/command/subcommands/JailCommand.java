@@ -74,7 +74,7 @@ public class JailCommand implements Command {
 		}
 		
 		//Check if the given player is already jailed or not
-		if(jm.isPlayerJailed(params.getPlayer())) {
+		if(jm.isPlayerJailedByLastKnownUsername(params.getPlayer())) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED, params.getPlayer()));
 			return true;
 		}
@@ -166,6 +166,7 @@ public class JailCommand implements Command {
 		
 		String uuid = "";
 		if(p == null) {
+			//TODO: Make this whole jail command non-blocking
 			uuid = jm.getPlugin().getServer().getOfflinePlayer(params.getPlayer()).getUniqueId().toString();
 		}else {
 			uuid = p.getUniqueId().toString();
@@ -198,10 +199,10 @@ public class JailCommand implements Command {
 		
 		//Player is not online
 		if(p == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.OFFLINEJAIL, new String[] { pris.getName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.OFFLINEJAIL, new String[] { pris.getLastKnownName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
 		}else {
 			//Player *is* online
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ONLINEJAIL, new String[] { pris.getName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ONLINEJAIL, new String[] { pris.getLastKnownName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
 		}
 		
 		try {

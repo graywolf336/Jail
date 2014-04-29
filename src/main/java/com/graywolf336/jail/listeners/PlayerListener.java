@@ -92,6 +92,8 @@ public class PlayerListener implements Listener {
 			//Get the prisoner object
 			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
 			Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
+			//update their last known username when they login
+			p.setLastKnownName(event.getPlayer().getName());
 			
 			//Check if they're offline pending, as if this is true then they were jailed offline
 			if(p.isOfflinePending()) {
@@ -226,11 +228,11 @@ public class PlayerListener implements Listener {
 								//Player is not online
 								if(player == null) {
 									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.OFFLINEJAIL,
-											new String[] { p.getName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+											new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 								}else {
 									//Player *is* online
 									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ONLINEJAIL,
-											new String[] { p.getName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+											new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 								}
 								
 								try {

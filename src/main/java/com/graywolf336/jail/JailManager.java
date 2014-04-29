@@ -223,6 +223,45 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets the {@link Jail} the player is in from their last known username, null if not jailed.
+	 * 
+	 * @param username Last known username to search by
+	 * @return {@link Jail jail} player is in
+	 */
+	public Jail getJailPlayerIsInByLastKnownName(String username) {
+		for(Jail j : jails.values())
+			for(Prisoner p : j.getAllPrisoners())
+				if(p.getLastKnownName().equalsIgnoreCase(username))
+					return j;
+		
+		return null;
+	}
+	
+	/**
+	 * Gets the {@link Prisoner}'s data from the last known username, returning null if no prisoner has that name.
+	 * 
+	 * @param username Last known username to go by
+	 * @return {@link Prisoner prisoner} data
+	 */
+	public Prisoner getPrisonerByLastKnownName(String username) {
+		for(Prisoner p : this.getAllPrisoners())
+			if(p.getLastKnownName().equalsIgnoreCase(username))
+				return p;
+		
+		return null;
+	}
+	
+	/**
+	 * Checks if the provided username is jailed, using last known username.
+	 * 
+	 * @param username Last known username to go by
+	 * @return true if they are jailed, false if not
+	 */
+	public boolean isPlayerJailedByLastKnownUsername(String username) {
+		return this.getPrisonerByLastKnownName(username) != null;
+	}
+	
+	/**
 	 * Clears a {@link Jail} of all its prisoners if the jail is provided, otherwise it releases all the prisoners in all the jails.
 	 * 
 	 * @param jail The name of the jail to release the prisoners in, null if wanting to clear all.

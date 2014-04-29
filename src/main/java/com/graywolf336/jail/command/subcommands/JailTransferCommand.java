@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.commands.jewels.Transfer;
@@ -52,7 +53,7 @@ public class JailTransferCommand implements Command {
 		if(params.getPlayer() == null) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.TRANSFERRING));
 			return true;
-		}else if(!jm.isPlayerJailed(params.getPlayer())) {
+		}else if(!jm.isPlayerJailedByLastKnownUsername(params.getPlayer())) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, params.getPlayer()));
 			return true;
 		}
@@ -102,11 +103,12 @@ public class JailTransferCommand implements Command {
 		}
 		
 		jm.getPlugin().debug("Calling the PrePrisonerTransferredEvent, jail and cell check all came out clean.");
+		Prisoner p = jm.getPrisonerByLastKnownName(params.getPlayer());
 		
 		//Throw the custom event before transferring them, allowing another plugin to cancel it.
-		PrePrisonerTransferredEvent event = new PrePrisonerTransferredEvent(jm.getJailPlayerIsIn(params.getPlayer()),
-				jm.getJailPlayerIsIn(params.getPlayer()).getCellPrisonerIsIn(params.getPlayer()),
-				target, targetCell, jm.getPrisoner(params.getPlayer()), jm.getPlugin().getServer().getPlayer(params.getPlayer()), sender.getName());
+		PrePrisonerTransferredEvent event = new PrePrisonerTransferredEvent(jm.getJailPlayerIsIn(p.getUUID()),
+				jm.getJailPlayerIsIn(p.getUUID()).getCellPrisonerIsIn(p.getUUID()),
+				target, targetCell, p, jm.getPlugin().getServer().getPlayer(p.getUUID()), sender.getName());
 		jm.getPlugin().getServer().getPluginManager().callEvent(event);
 		
 		if(event.isCancelled()) {
@@ -121,9 +123,9 @@ public class JailTransferCommand implements Command {
 		}
 		
 		//Start the transferring of the prisoner
-		jm.getPlugin().getPrisonerManager().transferPrisoner(jm.getJailPlayerIsIn(params.getPlayer()),
-				jm.getJailPlayerIsIn(params.getPlayer()).getCellPrisonerIsIn(params.getPlayer()),
-				target, targetCell, jm.getPrisoner(params.getPlayer()));
+		jm.getPlugin().getPrisonerManager().transferPrisoner(jm.getJailPlayerIsIn(p.getUUID()),
+				jm.getJailPlayerIsIn(p.getUUID()).getCellPrisonerIsIn(p.getUUID()),
+				target, targetCell, p);
 		
 		//Send the messages to the sender, if no cell then say that but if cell send that as well
 		if(targetCell == null) {

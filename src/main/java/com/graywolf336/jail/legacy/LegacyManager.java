@@ -53,8 +53,6 @@ public class LegacyManager {
 			} catch (InvalidConfigurationException e) {
 				//e.printStackTrace();
 				pl.getLogger().severe("Unable to load the old global config: " + e.getMessage());
-			}finally {
-				
 			}
 		}else {
 			pl.debug("The old config file, global.yml, was not found so not loading anything.");
@@ -62,9 +60,11 @@ public class LegacyManager {
 		}
 		
 		try {
+			pl.getLogger().info("Starting to convert Jail 2.x data to Jail 3.0, this does use a blocking call (getOfflinePlayer) so expect the server to be held up until we are finished...");
 			loadOldConfig();
 			loadOldData();
 			moveOldConfigs();
+			pl.getLogger().info("...finished converting configs and data.");
 			return true;
 		}catch (Exception e) {
 			if(pl.inDebug()) {

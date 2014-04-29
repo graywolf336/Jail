@@ -53,8 +53,14 @@ public class Prisoner {
 		return UUID.fromString(this.uuid);
 	}
 	
-	/** Gets the name of this player. */
-	public String getName() {
+	/** Gets the name of this prisoner. */
+	public String getLastKnownName() {
+		return this.name;
+	}
+	
+	/** Sets the name of this prisoner. */
+	public String setLastKnownName(String username) {
+		this.name = username;
 		return this.name;
 	}
 	

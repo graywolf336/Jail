@@ -334,11 +334,10 @@ public class Jail {
 	 * 
 	 * @param name The name of the prisoner to get.
 	 * @return the prisoner instance, can be null
-	 * @deprecated Use {@link #getPrisoner(UUID)}
 	 */
-	public Prisoner getPrisoner(String name) {
+	public Prisoner getPrisonerByLastKnownName(String name) {
 		for(Prisoner p : this.getAllPrisoners())
-			if(p.getName().equalsIgnoreCase(name))
+			if(p.getLastKnownName().equalsIgnoreCase(name))
 				return p;
 		
 		return null;

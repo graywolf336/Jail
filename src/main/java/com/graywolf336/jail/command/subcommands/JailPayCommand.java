@@ -31,8 +31,8 @@ public class JailPayCommand implements Command {
 				case 1:
 					// `/jail pay`
 					//send how much it costs to get out
-					if(jm.isPlayerJailed(sender.getName())) {
-						Prisoner p = jm.getPrisoner(sender.getName());
+					if(jm.isPlayerJailedByLastKnownUsername(sender.getName())) {
+						Prisoner p = jm.getPrisonerByLastKnownName(sender.getName());
 						String amt = "";
 						
 						if(pm.usingItemsForPayment()) {
@@ -64,8 +64,8 @@ public class JailPayCommand implements Command {
 				case 2:
 					// `/jail pay <amount>`
 					//They are trying to pay for their self
-					if(jm.isPlayerJailed(sender.getName())) {
-						Prisoner p = jm.getPrisoner(sender.getName());
+					if(jm.isPlayerJailedByLastKnownUsername(sender.getName())) {
+						Prisoner p = jm.getPrisonerByLastKnownName(sender.getName());
 						
 						if(p.getRemainingTime() > 0) {
 							if(!pm.isTimedEnabled()) {
@@ -129,12 +129,12 @@ public class JailPayCommand implements Command {
 				case 3:
 					// `/jail pay <amount> <person>
 					//they are trying to pay for someone else
-					if(jm.isPlayerJailed(sender.getName())) {
+					if(jm.isPlayerJailedByLastKnownUsername(sender.getName())) {
 						//When they are jailed they can not pay for someone else
 						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYCANTPAYWHILEJAILED));
 					}else {
-						if(jm.isPlayerJailed(args[2])) {
-							Prisoner p = jm.getPrisoner(args[2]);
+						if(jm.isPlayerJailedByLastKnownUsername(args[2])) {
+							Prisoner p = jm.getPrisonerByLastKnownName(args[2]);
 							
 							if(p.getRemainingTime() > 0) {
 								if(!pm.isTimedEnabled()) {
@@ -168,21 +168,21 @@ public class JailPayCommand implements Command {
 										//timed sentence
 										if(amt >= bill) {
 											pm.pay((Player) sender, bill);
-											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getName() }));
-											jm.getPlugin().getPrisonerManager().releasePrisoner(jm.getPlugin().getServer().getPlayerExact(p.getName()), p);
+											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getLastKnownName() }));
+											jm.getPlugin().getPrisonerManager().releasePrisoner(jm.getPlugin().getServer().getPlayer(p.getUUID()), p);
 										}else {
 											long minutes = pm.getMinutesPayingFor(amt);
 											pm.pay((Player) sender, amt);
 											long remain = p.subtractTime(TimeUnit.MILLISECONDS.convert(minutes, TimeUnit.MINUTES));
 											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDLOWEREDTIMEELSE, 
-													new String[] { String.valueOf(amt), p.getName(), String.valueOf(TimeUnit.MINUTES.convert(remain, TimeUnit.MILLISECONDS)) }));
+													new String[] { String.valueOf(amt), p.getLastKnownName(), String.valueOf(TimeUnit.MINUTES.convert(remain, TimeUnit.MILLISECONDS)) }));
 										}
 									}else {
 										//infinite jailing
 										if(amt >= bill) {
 											pm.pay((Player) sender, bill);
-											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getName() }));
-											jm.getPlugin().getPrisonerManager().releasePrisoner(jm.getPlugin().getServer().getPlayerExact(p.getName()), p);
+											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getLastKnownName() }));
+											jm.getPlugin().getPrisonerManager().releasePrisoner(jm.getPlugin().getServer().getPlayer(p.getUUID()), p);
 										}else {
 											//You haven't provided enough money to get them out
 											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEYPROVIDED));

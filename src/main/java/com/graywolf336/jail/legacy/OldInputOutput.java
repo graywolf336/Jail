@@ -162,7 +162,7 @@ public class OldInputOutput {
 				
 				if(j == null) {
 					pl.getLogger().warning("Refusing to load a cell (" + name + ") as it references a Jail which doesn't exist.");
-				}else if(j.getCell(name) != null) {
+				}else if(j.isValidCell(name)) {
 					pl.getLogger().warning("Refusing to load a duplicate named cell, " + name + ", as another one exists with that same name.");
 				} else {
 					Cell c = new Cell(name);
@@ -187,7 +187,7 @@ public class OldInputOutput {
 					
 					//Load the prisoner if he is a valid prisoner
 					if(!player.isEmpty()) {
-						Prisoner p = j.getPrisoner(name);
+						Prisoner p = j.getPrisonerByLastKnownName(name);
 						
 						if(p != null) {
 							c.setPrisoner(p);

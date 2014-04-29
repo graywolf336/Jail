@@ -13,7 +13,7 @@ import com.graywolf336.jail.enums.LangString;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = true,
-		pattern = "status|time",
+		pattern = "status|s",
 		permission = "jail.usercmd.jailstatus",
 		usage = "/jail status"
 	)

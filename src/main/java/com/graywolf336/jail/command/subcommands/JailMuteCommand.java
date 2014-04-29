@@ -18,10 +18,10 @@ import com.graywolf336.jail.enums.LangString;
 public class JailMuteCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
 		//Let's check if the player they're sending us is jailed
-		if(jm.isPlayerJailed(args[1])) {
+		if(jm.isPlayerJailedByLastKnownUsername(args[1])) {
 			//They are, so let's toggle whether they are muted or not
-			boolean muted = !jm.getPrisoner(args[1]).isMuted();
-			jm.getPrisoner(args[1]).setMuted(muted);
+			boolean muted = !jm.getPrisonerByLastKnownName(args[1]).isMuted();
+			jm.getPrisonerByLastKnownName(args[1]).setMuted(muted);
 			
 			//Send the message to the sender based upon whether they are muted or unmuted
 			if(muted)

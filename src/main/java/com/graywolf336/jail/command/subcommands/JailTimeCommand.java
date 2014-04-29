@@ -19,14 +19,14 @@ import com.graywolf336.jail.enums.LangString;
 	)
 public class JailTimeCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
-		if(jm.isPlayerJailed(args[2])) {
-			Prisoner p = jm.getPrisoner(args[2]);
+		if(jm.isPlayerJailedByLastKnownUsername(args[2])) {
+			Prisoner p = jm.getPrisonerByLastKnownName(args[2]);
 			
 			switch(args.length) {
 				case 3:
 					if(args[1].equalsIgnoreCase("show")) {
 						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSTIME,
-								new String[] { p.getName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+								new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 					}else {
 						return false;
 					}
@@ -41,7 +41,7 @@ public class JailTimeCommand implements Command {
 					}
 					
 					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSTIME,
-							new String[] { p.getName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+							new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 					break;
 				default:
 					return false;

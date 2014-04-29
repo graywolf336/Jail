@@ -11,7 +11,7 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = true,
-		pattern = "stop|s",
+		pattern = "stop",
 		permission = "jail.command.jailstop",
 		usage = "/jail stop"
 	)

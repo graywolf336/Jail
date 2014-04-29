@@ -21,8 +21,8 @@ public class UnJailForceCommand implements Command {
 	
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		//Check if the player is jailed
-		if(jm.isPlayerJailed(args[0])) {
-			jm.getPlugin().getPrisonerManager().forceRelease(jm.getPrisoner(args[0]));
+		if(jm.isPlayerJailedByLastKnownUsername(args[0])) {
+			jm.getPlugin().getPrisonerManager().forceRelease(jm.getPrisonerByLastKnownName(args[0]));
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.FORCEUNJAILED, args[0]));
 			
 			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {

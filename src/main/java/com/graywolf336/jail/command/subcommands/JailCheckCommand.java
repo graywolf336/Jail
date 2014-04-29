@@ -22,12 +22,12 @@ public class JailCheckCommand implements Command{
 	// Checks the status of the specified prisoner
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		//Otherwise let's check the first argument
-		if(jm.isPlayerJailed(args[1])) {
-			Prisoner p = jm.getPrisoner(args[1]);
+		if(jm.isPlayerJailedByLastKnownUsername(args[1])) {
+			Prisoner p = jm.getPrisonerByLastKnownName(args[1]);
 			
 			//graywolf663: Being gray's evil twin; CONSOLE (10)
 			//prisoner: reason; jailer (time in minutes)
-			sender.sendMessage(ChatColor.BLUE + " " + p.getName() + ": " + p.getReason() + "; " + p.getJailer() + " (" + p.getRemainingTimeInMinutes() + " mins)");
+			sender.sendMessage(ChatColor.BLUE + " " + p.getLastKnownName() + ": " + p.getReason() + "; " + p.getJailer() + " (" + p.getRemainingTimeInMinutes() + " mins)");
 		}else {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[1]));
 		}

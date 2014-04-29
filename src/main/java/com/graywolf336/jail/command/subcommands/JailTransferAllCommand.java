@@ -45,7 +45,7 @@ public class JailTransferAllCommand implements Command {
 		
 		//Transfer all the prisoners
 		for(Prisoner p : oldPrisoners) {
-			jm.getPlugin().getPrisonerManager().transferPrisoner(old, old.getCellPrisonerIsIn(p.getName()), jm.getJail(args[2]), null, p);
+			jm.getPlugin().getPrisonerManager().transferPrisoner(old, old.getCellPrisonerIsIn(p.getUUID()), jm.getJail(args[2]), null, p);
 		}
 		
 		//Send the messages to the sender when completed
