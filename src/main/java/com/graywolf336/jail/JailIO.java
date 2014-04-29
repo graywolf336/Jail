@@ -1122,7 +1122,7 @@ public class JailIO {
 	/**
 	 * Gets all the record entries for the given player.
 	 * 
-	 * @param username of the prisoner to get.
+	 * @param uuid of the prisoner to get.
 	 * @return A List of strings containing the record entries.
 	 */
 	public List<String> getRecordEntries(String uuid) {
