@@ -2,6 +2,7 @@ package com.graywolf336.jail.beans;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -282,52 +283,47 @@ public class Jail {
 	 * @return true if is jailed, false if not.
 	 */
 	public boolean isPlayerJailed(Player player) {
-		return this.isPlayerAPrisoner(player.getName());
+		return this.isPlayerAPrisoner(player.getUniqueId());
 	}
 	
 	/**
-	 * Returns whether the name of a player is a prisoner in the system, whether in a cell or no cell.
+	 * Returns whether the uuid of a player is a prisoner in the system, whether in a cell or no cell.
 	 * 
-	 * @param name The name of the person we're checking.
+	 * @param uuid The uuid of the person we're checking.
 	 * @return true if is jailed, false if not.
 	 */
-	public boolean isPlayerJailed(String name) {
-		return this.isPlayerAPrisoner(name);
+	public boolean isPlayerJailed(UUID uuid) {
+		return this.isPlayerAPrisoner(uuid);
 	}
 	
 	/**
-	 * Returns whether the name of a player is a prisoner in the system, whether in a cell or no cell.
+	 * Returns whether the uuid of a player is a prisoner in this jail, no matter if they're in a cell or not.
 	 * 
-	 * @param name The name of the person we're checking.
+	 * @param uuid The name of the person we're checking.
 	 * @return true if is a prisoner, false if not.
 	 */
-	public boolean isPlayerAPrisoner(String name) {
-		boolean is = false;
+	private boolean isPlayerAPrisoner(UUID uuid) {
+		for(Prisoner p : this.getAllPrisoners())
+			if(p.getUUID().equals(uuid))
+				return true;
 		
-		for(Prisoner p : this.getAllPrisoners()) {
-			if(p.getName().equalsIgnoreCase(name)) {
-				is = true;
-				break;
-			}
-		}
-		
-		return is;
+		return false;
 	}
 	
 	/**
-	 * Checks if the given name is a prisoner in a cell.
+	 * Checks if the given uuid of a player is a prisoner in a cell.
 	 * 
-	 * @param name of the prisoner to check.
+	 * @param uuid of the prisoner to check.
 	 * @return true if is jailed in a cell, false if not.
 	 */
-	public boolean isJailedInACell(String name) {
+	public boolean isJailedInACell(UUID uuid) {
 		for(Prisoner p : nocellPrisoners)
-			if(p.getName().equalsIgnoreCase(name))
+			if(p.getUUID().equals(uuid))
 				return false;
 		
 		for(Cell c : cells.values())
 			if(c.getPrisoner() != null)
-				if(c.getPrisoner().getName().equalsIgnoreCase(name))
+				if(c.getPrisoner().getUUID().equals(uuid))
 					return true;
 		
 		return false;
@@ -338,18 +334,28 @@ public class Jail {
 	 * 
 	 * @param name The name of the prisoner to get.
 	 * @return the prisoner instance, can be null
+	 * @deprecated Use {@link #getPrisoner(UUID)}
 	 */
 	public Prisoner getPrisoner(String name) {
-		Prisoner r = null;
+		for(Prisoner p : this.getAllPrisoners())
+			if(p.getName().equalsIgnoreCase(name))
+				return p;
 		
-		for(Prisoner p : this.getAllPrisoners()) {
-			if(p.getName().equalsIgnoreCase(name)) {
-				r = p;
-				break;
-			}
-		}
-		
-		return r;
+		return null;
+	}
+	
+	/**
+	 * Gets the {@link Prisoner prisoner} instance for the given uuid.
+	 * 
+	 * @param uuid The uuid of the prisoner to get.
+	 * @return the prisoner instance, can be null
+	 */
+	public Prisoner getPrisoner(UUID uuid) {
+		for(Prisoner p : this.getAllPrisoners())
+			if(p.getUUID().equals(uuid))
+				return p;
+			
+		return null;
 	}
 	
 	/**

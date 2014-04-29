@@ -167,8 +167,8 @@ public class JailMain extends JavaPlugin {
 		if(getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
 			for(Jail j : jm.getJails()) {
 				for(Prisoner p : j.getAllPrisoners()) {
-					if(getServer().getPlayerExact(p.getName()) != null) {
-						this.sbm.addScoreBoard(getServer().getPlayerExact(p.getName()), p);
+					if(getServer().getPlayer(p.getUUID()) != null) {
+						this.sbm.addScoreBoard(getServer().getPlayer(p.getUUID()), p);
 					}
 				}
 			}

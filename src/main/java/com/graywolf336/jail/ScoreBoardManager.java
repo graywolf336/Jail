@@ -1,6 +1,7 @@
 package com.graywolf336.jail;
 
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -16,13 +17,13 @@ import com.graywolf336.jail.enums.Settings;
 public class ScoreBoardManager {
 	private JailMain pl;
 	private ScoreboardManager man;
-	private HashMap<String, Scoreboard> boards;
+	private HashMap<UUID, Scoreboard> boards;
 	private OfflinePlayer time;
 	
 	public ScoreBoardManager(JailMain plugin) {
 		this.pl = plugin;
 		this.man = plugin.getServer().getScoreboardManager();
-		this.boards = new HashMap<String, Scoreboard>();
+		this.boards = new HashMap<UUID, Scoreboard>();
 		this.time = plugin.getServer().getOfflinePlayer(Util.getColorfulMessage(pl.getConfig().getString(Settings.SCOREBOARDTIME.getPath())));
 		
 		//Start the task if it is enabled
@@ -43,7 +44,7 @@ public class ScoreBoardManager {
 	 */
 	public void addScoreBoard(Player player, Prisoner pris) {
 		if(!boards.containsKey(player.getName())) {
-			boards.put(player.getName(), man.getNewScoreboard());
+			boards.put(player.getUniqueId(), man.getNewScoreboard());
 			Objective o = boards.get(player.getName()).registerNewObjective("test", "dummy");
 			o.setDisplaySlot(DisplaySlot.SIDEBAR);
 			o.setDisplayName(Util.getColorfulMessage(pl.getConfig().getString(Settings.SCOREBOARDTITLE.getPath())));
@@ -60,23 +61,23 @@ public class ScoreBoardManager {
 	 * @param player of whom to remove the scoreboard for.
 	 */
 	public void removeScoreBoard(Player player) {
-		boards.remove(player.getName());
+		boards.remove(player.getUniqueId());
 		//TODO: See if this works or if we need to set it to a new one
 		player.setScoreboard(man.getMainScoreboard());
 	}
 	
 	/** Removes all of the scoreboards from the prisoners. */
 	public void removeAllScoreboards() {
-		HashMap<String, Scoreboard> temp = new HashMap<String, Scoreboard>(boards);
+		HashMap<UUID, Scoreboard> temp = new HashMap<UUID, Scoreboard>(boards);
 		
-		for(String s : temp.keySet()) {
-			Player p = pl.getServer().getPlayerExact(s);
+		for(UUID id : temp.keySet()) {
+			Player p = pl.getServer().getPlayer(id);
 			
 			if(p != null) {
 				p.setScoreboard(man.getMainScoreboard());
 			}
 			
-			boards.remove(s);
+			boards.remove(id);
 		}
 	}
 	
@@ -84,8 +85,8 @@ public class ScoreBoardManager {
 	private void updatePrisonersTime() {
 		for(Jail j : pl.getJailManager().getJails()) {
 			for(Prisoner p : j.getAllPrisoners()) {
-				if(pl.getServer().getPlayerExact(p.getName()) != null) {
-					addScoreBoard(pl.getServer().getPlayerExact(p.getName()), p);
+				if(pl.getServer().getPlayer(p.getUUID()) != null) {
+					addScoreBoard(pl.getServer().getPlayer(p.getUUID()), p);
 				}
 			}
 		}

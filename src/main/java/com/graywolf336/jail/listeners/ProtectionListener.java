@@ -32,7 +32,7 @@ public class ProtectionListener implements Listener {
 			//Let's check if the player is jailed, otherwise the other listener
 			//in the BlockListener class will take care of protecting inside
 			//of the jails.
-			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 				//Get the breaking whitelist, check if the current item is in there
 				if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKBREAKWHITELIST.getPath()),
 						event.getBlock().getType().toString().toLowerCase())) {
@@ -41,7 +41,7 @@ public class ProtectionListener implements Listener {
 					//as a fail safe, don't want us to go crazy adding tons of time.
 					try {
 						long add = Util.getTime(pl.getConfig().getString(Settings.BLOCKBREAKPENALTY.getPath()));
-						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+						pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 						
 						String msg = "";
 						if(add == 0L) {
@@ -77,7 +77,7 @@ public class ProtectionListener implements Listener {
 			//Let's check if the player is jailed, otherwise the other listener
 			//in the BlockListener class will take care of protecting inside
 			//of the jails.
-			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 				//Get the placing whitelist, check if the current item is in there
 				if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKPLACEWHITELIST.getPath()),
 						event.getBlock().getType().toString().toLowerCase())) {
@@ -86,7 +86,7 @@ public class ProtectionListener implements Listener {
 					//as a fail safe, don't want us to go crazy adding tons of time.
 					try {
 						long add = Util.getTime(pl.getConfig().getString(Settings.BLOCKPLACEPENALTY.getPath()));
-						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+						pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 						
 						String msg = "";
 						if(add == 0L) {
@@ -121,7 +121,7 @@ public class ProtectionListener implements Listener {
 		if(pl.getConfig().getBoolean(Settings.COMMANDPROTECTION.getPath())) {
 			//Let's check if this player is jailed, if so then we continue
 			//otherwise we don't care about commands in here
-			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 				boolean match = false;
 				
 				for(String whited : pl.getConfig().getStringList(Settings.COMMANDWHITELIST.getPath()))
@@ -132,7 +132,7 @@ public class ProtectionListener implements Listener {
 				if(!match) {
 					try {
 						long add = Util.getTime(pl.getConfig().getString(Settings.COMMANDPENALTY.getPath()));
-						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+						pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 						
 						String msg = "";
 						if(add == 0L) {
@@ -163,13 +163,13 @@ public class ProtectionListener implements Listener {
 	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void chestProtection(PlayerInteractEvent event) {
 		//First thing is first, let's be sure the player we're dealing with is in jail
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Next, let's check if it is a chest and if they're in a cell
 			//If they are in a cell and are opening a chest, then we check
 			//the config to see if they can open the chests
 			if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock().getType() == Material.CHEST) {
 				//Let's get the cell the player is in, then check if it is null or not.
-				if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName()).isJailedInACell(event.getPlayer().getName())) {
+				if(pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId()).isJailedInACell(event.getPlayer().getUniqueId())) {
 					if(pl.getConfig().getBoolean(Settings.PRISONEROPENCHEST.getPath())) {
 						//The prisoner is in a cell, so let's check if it is a couple chest.
 						Material bpos1 = event.getClickedBlock().getLocation().add(-1, 0, 0).getBlock().getType();
@@ -208,14 +208,14 @@ public class ProtectionListener implements Listener {
 	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOWEST)
 	public void cropTramplingProtection(PlayerInteractEvent event) {
 		//First thing is first, let's be sure the player we're dealing with is in jail
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Next, check if crap trampling protection is enabled
 			if(pl.getConfig().getBoolean(Settings.CROPTRAMPLINGPROTECTION.getPath())) {
 				if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL) {
 					if(pl.getJailManager().getJailFromLocation(event.getClickedBlock().getLocation()) != null) {
 						try {
 							long add = Util.getTime(pl.getConfig().getString(Settings.CROPTRAMPLINGPENALTY.getPath()));
-							pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+							pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 							
 							String msg = "";
 							if(add == 0L) {
@@ -248,7 +248,7 @@ public class ProtectionListener implements Listener {
 		//As the old version didn't do anything with Physical interactions, we won't either
 		if (event.getAction() != Action.PHYSICAL) {
 			//First thing is first, let's be sure the player we're dealing with is in jail
-			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 				
 				//Let's check if they've interacted with a block
 				if (event.getClickedBlock() != null) {
@@ -258,7 +258,7 @@ public class ProtectionListener implements Listener {
 							event.getClickedBlock().getType().toString().toLowerCase())) {
 						try {
 							long add = Util.getTime(pl.getConfig().getString(Settings.PREVENTINTERACTIONBLOCKSPENALTY.getPath()));
-							pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+							pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 							
 							String msg = "";
 							if(add == 0L) {
@@ -289,7 +289,7 @@ public class ProtectionListener implements Listener {
 							event.getClickedBlock().getType().toString().toLowerCase())) {
 						try {
 							long add = Util.getTime(pl.getConfig().getString(Settings.PREVENTINTERACTIONITEMSPENALTY.getPath()));
-							pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+							pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 							
 							String msg = "";
 							if(add == 0L) {

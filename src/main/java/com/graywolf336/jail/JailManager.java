@@ -3,6 +3,7 @@ package com.graywolf336.jail;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -178,58 +179,44 @@ public class JailManager {
 	public Jail getJailPrisonerIsIn(Prisoner prisoner) {
 		if(prisoner == null) return null;
 		
-		return getJailPlayerIsIn(prisoner.getName());
+		return getJailPlayerIsIn(prisoner.getUUID());
 	}
 	
 	/**
 	 * Gets the {@link Jail jail} the given player is in.
 	 * 
-	 * @param name The name of the player whos jail we are getting.
+	 * @param uuid The uuid of the player who's jail we are getting.
 	 * @return The jail the player is in, <strong>CAN BE NULL</strong>.
 	 */
-	public Jail getJailPlayerIsIn(String name) {
-		Jail re = null;
+	public Jail getJailPlayerIsIn(UUID uuid) {
+		for(Jail j : jails.values())
+			if(j.isPlayerJailed(uuid))
+				return j;
 		
-		for(Jail j : jails.values()) {
-			if(j.isPlayerAPrisoner(name)) {
-				re = j;
-				break;
-			}
-		}
-		
-		return re;
+		return null;
 	}
 	
 	/**
-	 * Gets if the given player is jailed or not, in all the jails and cells.
+	 * Gets if the given uuid of a player is jailed or not, in all the jails and cells.
 	 * 
-	 * @param name The name of the player to check.
+	 * @param uuid The uuid of the player to check.
 	 * @return true if they are jailed, false if not.
 	 */
-	public boolean isPlayerJailed(String name) {
-		boolean r = false;
-		
-		for(Jail j : jails.values()) {
-			if(j.isPlayerAPrisoner(name)) {
-				r = true;
-				break;
-			}
-		}
-		
-		return r;
+	public boolean isPlayerJailed(UUID uuid) {
+		return getJailPlayerIsIn(uuid) != null;
 	}
 	
 	/** 
 	 * Gets the {@link Prisoner} data from for this user, if they are jailed.
 	 * 
-	 * @param name The name of prisoner who's data to get
+	 * @param uuid The uuid of prisoner who's data to get
 	 * @return {@link Prisoner prisoner} data.
 	 */
-	public Prisoner getPrisoner(String name) {
-		Jail j = getJailPlayerIsIn(name);
+	public Prisoner getPrisoner(UUID uuid) {
+		Jail j = getJailPlayerIsIn(uuid);
 		
 		if(j != null) {
-			return j.getPrisoner(name);
+			return j.getPrisoner(uuid);
 		}else {
 			return null;
 		}
@@ -248,7 +235,7 @@ public class JailManager {
 			
 			if(j != null) {
 				for(Prisoner p : j.getAllPrisoners()) {
-					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayerExact(p.getName()), p);
+					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
 				}
 				
 				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName());
@@ -272,7 +259,7 @@ public class JailManager {
 		}else {
 			for(Jail j : getJails()) {
 				for(Prisoner p : j.getAllPrisoners()) {
-					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayerExact(p.getName()), p);
+					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
 				}
 			}
 			

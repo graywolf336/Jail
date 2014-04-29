@@ -62,8 +62,8 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler(ignoreCancelled=true, priority = EventPriority.LOW)
 	public void chatting(AsyncPlayerChatEvent event) {
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
-			if(pl.getJailManager().getPrisoner(event.getPlayer().getName()).isMuted()) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
+			if(pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).isMuted()) {
 				event.setCancelled(true);
 				event.getPlayer().sendMessage(pl.getJailIO().getLanguageString(LangString.MUTED));
 			}
@@ -75,11 +75,9 @@ public class PlayerListener implements Listener {
 			if(pl.inDebug()) pl.getLogger().info("Debug - There are " + event.getRecipients().size() + " players getting the message before.");
 			Set<Player> rec = new HashSet<Player>(event.getRecipients());
 			
-			for(Jail j : pl.getJailManager().getJails()) {
-				for(Prisoner p : j.getAllPrisoners()) {
-					rec.remove(pl.getServer().getPlayerExact(p.getName()));
-				}
-			}
+			for(Jail j : pl.getJailManager().getJails())
+				for(Prisoner p : j.getAllPrisoners())
+					rec.remove(pl.getServer().getPlayer(p.getUUID()));
 			
 			event.getRecipients().clear();
 			event.getRecipients().addAll(rec);
@@ -90,10 +88,10 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void checkForOfflineJailStuff(PlayerJoinEvent event) {
 		//Let's check if the player is jailed
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Get the prisoner object
-			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName());
-			Prisoner p = j.getPrisoner(event.getPlayer().getName());
+			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
+			Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
 			
 			//Check if they're offline pending, as if this is true then they were jailed offline
 			if(p.isOfflinePending()) {
@@ -118,7 +116,7 @@ public class PlayerListener implements Listener {
 					p.setToBeTransferred(false);
 				} else {
 					//Their remaining time isn't 0 so let's proceed with jailing of the prisoner
-					pl.getPrisonerManager().jailPrisoner(event.getPlayer().getName());
+					pl.getPrisonerManager().jailPrisoner(event.getPlayer().getUniqueId());//TODO
 				}
 			}
 			
@@ -136,7 +134,7 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler
 	public void handleGoingOffline(PlayerQuitEvent event) {
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Remove the scoreboard to them if it is enabled
 			if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
 				pl.getScoreBoardManager().removeScoreBoard(event.getPlayer());
@@ -146,7 +144,7 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler(ignoreCancelled=true)
 	public void handleGettingKicked(PlayerKickEvent event) {
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Remove the scoreboard to them if it is enabled
 			if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
 				pl.getScoreBoardManager().removeScoreBoard(event.getPlayer());
@@ -157,7 +155,7 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void foodControl(FoodLevelChangeEvent event) {
 		if(pl.getConfig().getBoolean(Settings.FOODCONTROL.getPath())) {
-			if(pl.getJailManager().isPlayerJailed(event.getEntity().getName())) {
+			if(pl.getJailManager().isPlayerJailed(event.getEntity().getUniqueId())) {
 				int min = pl.getConfig().getInt(Settings.FOODCONTROLMIN.getPath());
 				int max = pl.getConfig().getInt(Settings.FOODCONTROLMAX.getPath());
 				
@@ -172,10 +170,10 @@ public class PlayerListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent event) {
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
-			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName());
+		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
+			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
 			
-			if(j.isJailedInACell(event.getPlayer().getName())) {
+			if(j.isJailedInACell(event.getPlayer().getUniqueId())) {
 				event.setRespawnLocation(j.getCellPrisonerIsIn(event.getPlayer().getName()).getTeleport());
 			}else {
 				event.setRespawnLocation(j.getTeleportIn());
@@ -196,7 +194,7 @@ public class PlayerListener implements Listener {
 			if(pl.getJailStickManager().isValidStick(attacker.getItemInHand().getType())) {
 				if(attacker.hasPermission("jail.usejailstick." + attacker.getItemInHand().getType().toString().toLowerCase())) {
 					//The person the attacker is trying to jail stick is already jailed, don't handle that
-					if(pl.getJailManager().isPlayerJailed(player.getName())) {
+					if(pl.getJailManager().isPlayerJailed(player.getUniqueId())) {
 						attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ALREADYJAILED, player.getName()));
 					}else {
 						if(player.hasPermission("jail.cantbejailed")) {

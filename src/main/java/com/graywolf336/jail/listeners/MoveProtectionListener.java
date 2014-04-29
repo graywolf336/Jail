@@ -27,9 +27,9 @@ public class MoveProtectionListener implements Listener {
 		//Other wise we don't need to deal with it.
 		if(pl.getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
 			//Let's be sure the player we're dealing with is in jail
-			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getName())) {
-				Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getName());
-				Prisoner p = j.getPrisoner(event.getPlayer().getName());
+			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
+				Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
+				Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
 				
 				//If the player is being teleported, let's ignore it
 				if(p.isTeleporting()) {
@@ -45,7 +45,7 @@ public class MoveProtectionListener implements Listener {
 				if (!j.isInside(event.getTo())) {
 					try {
 						long add = Util.getTime(pl.getConfig().getString(Settings.MOVEPENALTY.getPath()));
-						pl.getJailManager().getPrisoner(event.getPlayer().getName()).addTime(add);
+						pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
 						
 						String msg = "";
 						if(add == 0L) {
@@ -67,7 +67,7 @@ public class MoveProtectionListener implements Listener {
 					}
 					
 					//If the prisoner is in a cell, then let's teleport them to the cell's in location
-					if(j.isJailedInACell(event.getPlayer().getName())) {
+					if(j.isJailedInACell(event.getPlayer().getUniqueId())) {
 						event.setTo(j.getCellPrisonerIsIn(event.getPlayer().getName()).getTeleport());
 					}else {
 						//Otherwise let's teleport them to the in location of the jail

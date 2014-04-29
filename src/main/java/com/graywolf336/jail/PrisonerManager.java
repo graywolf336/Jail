@@ -102,17 +102,6 @@ public class PrisonerManager {
 	}
 	
 	/**
-	 * Jails the prisoner with the given name.
-	 * 
-	 * @param name of the prisoner to jail.
-	 */
-	public void jailPrisoner(String name) {
-		Jail j = pl.getJailManager().getJailPlayerIsIn(name);
-		
-		jailPrisoner(j, j.getCellPrisonerIsIn(name), pl.getServer().getPlayerExact(name), j.getPrisoner(name));
-	}
-	
-	/**
 	 * Jails the prisoner with the proper information given.
 	 * 
 	 * @param jail where they are going
@@ -291,7 +280,7 @@ public class PrisonerManager {
 			prisoner.setOfflinePending(true);
 			prisoner.setRemainingTime(0);
 		}else {
-			Jail j = pl.getJailManager().getJailPlayerIsIn(player.getName());
+			Jail j = pl.getJailManager().getJailPlayerIsIn(player.getUniqueId());
 			
 			try {
 				unJail(j, j.getCellPrisonerIsIn(player.getName()), player, prisoner);
@@ -428,7 +417,7 @@ public class PrisonerManager {
 	/** Forcefully releases a {@link Prisoner prisoner} from {@link Jail}. */
 	public void forceRelease(Prisoner prisoner) {
 		Jail j = pl.getJailManager().getJailPrisonerIsIn(prisoner);
-		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getName()), pl.getServer().getPlayerExact(prisoner.getName()), prisoner);
+		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getName()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner);
 	}
 	
 	/** Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}. */
@@ -461,7 +450,7 @@ public class PrisonerManager {
 	 * @param prisoner The prisoner data we're handling.
 	 */
 	public void transferPrisoner(Jail originJail, Cell originCell, Jail targetJail, Cell targetCell, Prisoner prisoner) {
-		Player player = pl.getServer().getPlayer(prisoner.getName());
+		Player player = pl.getServer().getPlayer(prisoner.getUUID());
 		
 		//If there is no origin cell, then we need to basically just put them to their targetJail
 		if(originCell == null) {

@@ -69,7 +69,7 @@ public class JailTimer {
 				for(Prisoner p : j.getAllPrisoners()) {
 					//only execute this code if the prisoner's time is more than 0 milliseconds
 					if(p.getRemainingTime() > 0) {
-						Player player = pl.getServer().getPlayerExact(p.getName());
+						Player player = pl.getServer().getPlayer(p.getUUID());
 						
 						//Check if the player is offline
 						if(player == null) {
