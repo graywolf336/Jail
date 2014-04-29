@@ -149,7 +149,7 @@ public class JailMain extends JavaPlugin {
 	 * Send the command off to the CommandHandler class, that way this main class doesn't get clogged up.
 	 */
 	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-		if(command.getName().equalsIgnoreCase("jail")) {
+		if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
 			jh.parseCommand(jm, sender, args);
 		}else {
 			cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
