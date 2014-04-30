@@ -9,6 +9,7 @@ This plugins adds Jail to your Minecraft server. Admins can define several jails
 Beta 2 Changes
 ===
 *Changes since Beta 1*
+* Uses UUID as the primary means of knowing if someone is jailed or not.
 * Fix the default Jail Stick not being loaded correctly, [#21](https://github.com/graywolf336/Jail/issues/21)
 * Implement Scoreboards, with title and time configurable. ([#15](https://github.com/graywolf336/Jail/issues/15))
 * Implemented Jail Pay [#11](https://github.com/graywolf336/Jail/issues/11)
