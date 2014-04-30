@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -1122,10 +1123,12 @@ public class JailIO {
 	/**
 	 * Gets all the record entries for the given player.
 	 * 
-	 * @param uuid of the prisoner to get.
+	 * @param username the of the prisoner's records to get.
 	 * @return A List of strings containing the record entries.
+	 * @deprecated This calls getOfflinePlayer which is a blocking call from Bukkit
 	 */
-	public List<String> getRecordEntries(String uuid) {
+	public List<String> getRecordEntries(String username) {
+		UUID uuid = pl.getServer().getOfflinePlayer(username).getUniqueId();
 		List<String> entries = new ArrayList<String>();
 		
 		switch(storage) {
@@ -1134,7 +1137,7 @@ public class JailIO {
 			case 2:
 				try {
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "records where uuid = ?");
-					ps.setString(1, uuid);
+					ps.setString(1, uuid.toString());
 					ResultSet set = ps.executeQuery();
 					
 					while(set.next()) {
@@ -1153,7 +1156,7 @@ public class JailIO {
 			default:
 				if(records == null) records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
 				
-				entries = records.getStringList(uuid);
+				entries = records.getStringList(uuid.toString());
 				break;
 		}
 		

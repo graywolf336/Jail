@@ -2,6 +2,8 @@
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people or jail them on time basis. Plugin also offers wide variety of protections, so players won't escape out of your jail.
 
+**All mysql queries and actions are done sync, meaning if the connection to the mysql server is slow/down this will probably end up blocking the server. This has plans to be changed, as we don't want to slow down anyone's servers.**
+
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
 
 Beta 2 Changes

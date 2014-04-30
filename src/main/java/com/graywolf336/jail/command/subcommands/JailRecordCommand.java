@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.LangString;
 		needsPlayer = false,
 		pattern = "reload|r",
 		permission = "jail.command.jailrecord",
-		usage = "/jail record"
+		usage = "/jail record <username> <display>"
 	)
 public class JailRecordCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
