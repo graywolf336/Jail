@@ -170,11 +170,15 @@ public class OldInputOutput {
 					if(!teleport.isEmpty()) {
 						String[] l = teleport.split(",");
 						c.setTeleport(new SimpleLocation(j.getWorldName(), l[0], l[1], l[2]));
+					}else {
+						pl.getLogger().warning("Cell " + c.getName() + " in " + j.getName() + " has an empty teleport spot, might be buggy.");
 					}
 					
 					if(!chest.isEmpty()) {
 						String[] ch = chest.split(",");
 						c.setChestLocation(new Location(j.getWorld(), Double.valueOf(ch[0]), Double.valueOf(ch[1]), Double.valueOf(ch[2])));
+					}else {
+						pl.getLogger().warning("Cell " + c.getName() + " in " + j.getName() + " has no chest.");
 					}
 					
 					if(!sign.isEmpty()) {
@@ -190,6 +194,7 @@ public class OldInputOutput {
 						Prisoner p = j.getPrisonerByLastKnownName(name);
 						
 						if(p != null) {
+							j.removePrisoner(p);
 							c.setPrisoner(p);
 						}
 					}
