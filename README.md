@@ -2,19 +2,23 @@
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people or jail them on time basis. Plugin also offers wide variety of protections, so players won't escape out of your jail.
 
-**All mysql queries and actions are done sync, meaning if the connection to the mysql server is slow/down this will probably end up blocking the server. This has plans to be changed, as we don't want to slow down anyone's servers.**
+**All mysql queries and actions are done sync, meaning if the connection to the mysql server is slow/down this will probably end up blocking the server. There are plans to change this, as we don't want to slow down anyone's servers.**
 
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
 
 Beta 2 Changes
 ===
 *Changes since Beta 1*
-* Uses UUID as the primary means of knowing if someone is jailed or not.
+* Using UUID as the only means of knowing if someone is jailed or not, last known username is stored for commands
+* Jailings via jail sticks are now recorded, [#20](https://github.com/graywolf336/Jail/issues/20)
 * Fix the default Jail Stick not being loaded correctly, [#21](https://github.com/graywolf336/Jail/issues/21)
 * Implement Scoreboards, with title and time configurable. ([#15](https://github.com/graywolf336/Jail/issues/15))
 * Implemented Jail Pay [#11](https://github.com/graywolf336/Jail/issues/11)
 * Convert old data and config values, only some are done and if you don't want the old data delete your `global.yml`
 * Add config option to disallow the usage of Jail Sticks
+* Added `/jail time` for easy access to adding/subtracting time - [Bukkit Dev Ticket #432](http://dev.bukkit.org/bukkit-plugins/jail/tickets/432/)
+* Added `/togglejaildebug` for easily toggling the debugging state, enable if you have a problem and want to send me information
+* 
 
 Beta 1 Changes
 ===
