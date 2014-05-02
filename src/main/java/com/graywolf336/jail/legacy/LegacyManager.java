@@ -380,6 +380,24 @@ public class LegacyManager {
 						count++;
 					}
 					break;
+				case PricePerMinute:
+					if(global.contains(s.getString())) {
+						c.set(Settings.JAILPAYPRICEPERMINUTE.getPath(), OldSettings.getGlobalInt(global, s));
+						pl.debug(Settings.JAILPAYPRICEPERMINUTE.getPath() + " <-- " + s.getString());
+						count++;
+					}
+				case PriceForInfiniteJail:
+					if(global.contains(s.getString())) {
+						c.set(Settings.JAILPAYPRICEINFINITE.getPath(), OldSettings.getGlobalInt(global, s));
+						pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
+						count++;
+					}
+				case JailPayCurrency:
+					if(global.contains(s.getString())) {
+						c.set(Settings.JAILPAYITEM.getPath(), Material.getMaterial(OldSettings.getGlobalInt(global, s)).toString().toLowerCase());
+						pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
+						count++;
+					}
 				default:
 					break;
 			}

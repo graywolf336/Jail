@@ -50,9 +50,9 @@ public enum OldSetting {
 	PrisonersRecieveMessages("Protections.PlayerRecievesMessages", true), //done
 	
 	//JailPay
-	PricePerMinute("JailPay.PricePerMinute", 10),//TODO
-	PriceForInfiniteJail("JailPay.PriceForInfiniteJail", 9999),//TODO
-	JailPayCurrency("JailPay.Currency", 0),//TODO
+	PricePerMinute("JailPay.PricePerMinute", 10),//done
+	PriceForInfiniteJail("JailPay.PriceForInfiniteJail", 9999),//done
+	JailPayCurrency("JailPay.Currency", 0),//done
 	
 	//Guards
 	GuardHealth("Guards.GuardHealth", 8),//TODO
