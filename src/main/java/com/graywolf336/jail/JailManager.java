@@ -156,6 +156,20 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets all the {@link Cell cells} in the jail system, best for system wide count of the cells or touching each cell.
+	 * 
+	 * @return HashSet of all the Cells.
+	 */
+	public HashSet<Cell> getAllCells() {
+		HashSet<Cell> cells = new HashSet<Cell>();
+		
+		for(Jail j : jails.values())
+			cells.addAll(j.getCells());
+		
+		return cells;
+	}
+	
+	/**
 	 * Gets all the prisoners in the system, best for a system wide count of the prisoners or accessing all the prisoners at once.
 	 * 
 	 * @return HashSet of Prisoners.
@@ -163,9 +177,8 @@ public class JailManager {
 	public HashSet<Prisoner> getAllPrisoners() {
 		HashSet<Prisoner> prisoners = new HashSet<Prisoner>();
 		
-		for(Jail j : jails.values()) {
+		for(Jail j : jails.values())
 			prisoners.addAll(j.getAllPrisoners());
-		}
 		
 		return prisoners;
 	}

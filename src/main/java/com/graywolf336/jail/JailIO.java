@@ -378,7 +378,6 @@ public class JailIO {
 				//that doesn't exist anymore
 				List<Integer> cellsToRemove = new LinkedList<Integer>();
 				
-				int cs = 0;
 				try {
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
@@ -405,7 +404,6 @@ public class JailIO {
 							
 							
 							j.addCell(c, false);
-							cs++;
 						}else {
 							cellsToRemove.add(set.getInt("cellid"));
 						}
@@ -443,8 +441,6 @@ public class JailIO {
 						pl.getLogger().severe("Error while deleting the old cells which don't have a valid jail, please check the error and fix what is wrong.");
 					}
 				}
-				
-				pl.getLogger().info("Loaded " + cs + (cs == 1 ? " cell." : " cells."));
 				
 				//This list contains a string which refers to the name of the prisoner in sql
 				//this list only gets populated if there are prisoners which reference a jail
@@ -537,6 +533,9 @@ public class JailIO {
 		
 		int js = pl.getJailManager().getJails().size();
 		pl.getLogger().info("Loaded " + js + (js == 1 ? " jail." : " jails."));
+		
+		int cs = pl.getJailManager().getAllCells().size();
+		pl.getLogger().info("Loaded " + cs + (cs == 1 ? " cell." : " cells."));
 		
 		int ps = pl.getJailManager().getAllPrisoners().size();
 		pl.getLogger().info("Loaded " + ps + (ps == 1 ? " prisoner." : " prisoners."));
