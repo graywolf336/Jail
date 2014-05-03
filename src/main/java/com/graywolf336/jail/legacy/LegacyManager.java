@@ -406,9 +406,12 @@ public class LegacyManager {
 					}
 				case JailPayCurrency:
 					if(global.contains(s.getString())) {
-						c.set(Settings.JAILPAYITEM.getPath(), Material.getMaterial(OldSettings.getGlobalInt(global, s)).toString().toLowerCase());
-						pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
-						count++;
+						Material mat = Material.getMaterial(OldSettings.getGlobalInt(global, s));
+						if(mat != null) {
+							c.set(Settings.JAILPAYITEM.getPath(), mat.toString().toLowerCase());
+							pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
+							count++;
+						}
 					}
 				default:
 					break;
