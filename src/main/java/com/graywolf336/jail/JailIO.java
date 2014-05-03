@@ -922,11 +922,12 @@ public class JailIO {
 						pPS.setFloat(6, p.getRemainingTime());
 						pPS.setBoolean(7, p.isOfflinePending());
 						pPS.setBoolean(8, p.isToBeTransferred());
-						pPS.setString(9, p.getReason());
-						pPS.setBytes(10, p.getInventory().getBytes());
-						pPS.setBytes(11, p.getArmor().getBytes());
-						pPS.setString(12, p.getPreviousLocationString());
-						pPS.setString(13, p.getPreviousGameMode().toString());
+						pPS.setString(9, p.getJailer());
+						pPS.setString(10, p.getReason());
+						pPS.setBytes(11, p.getInventory().getBytes());
+						pPS.setBytes(12, p.getArmor().getBytes());
+						pPS.setString(13, p.getPreviousLocationString());
+						pPS.setString(14, p.getPreviousGameMode().toString());
 						
 						pPS.executeUpdate();
 						pPS.close();
