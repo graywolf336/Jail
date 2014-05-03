@@ -643,6 +643,21 @@ public class JailIO {
 			pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
 	}
 	
+	/** Saves everything about a jail, don't usually call this. */
+	public void saveEverything() {
+		long st = System.currentTimeMillis();
+		
+		for(Jail j : pl.getJailManager().getJails()) {
+			saveJail(j);
+			
+			for(Cell c : j.getCells()) {
+				saveCell(j, c);
+			}
+		}
+		
+		pl.debug("Saving everything took " + (System.currentTimeMillis() - st) + " millis.");
+	}
+	
 	/**
 	 * Saves the provided {@link Jail jail} to the storage system we are using.
 	 * 
