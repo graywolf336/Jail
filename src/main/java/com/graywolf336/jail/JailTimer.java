@@ -66,7 +66,7 @@ public class JailTimer {
 			}
 			
 			for(Jail j : pl.getJailManager().getJails()) {
-				for(Prisoner p : j.getAllPrisoners()) {
+				for(Prisoner p : j.getAllPrisoners().values()) {
 					//only execute this code if the prisoner's time is more than 0 milliseconds
 					if(p.getRemainingTime() > 0) {
 						Player player = pl.getServer().getPlayer(p.getUUID());

@@ -742,7 +742,7 @@ public class JailIO {
 				try {
 					if(con == null) this.prepareStorage(false);
 					
-					for(Prisoner p : j.getPrisonersNotInCells()) {
+					for(Prisoner p : j.getPrisonersNotInCells().values()) {
 						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
 								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 						pPS.setString(1, p.getUUID().toString());
@@ -848,7 +848,7 @@ public class JailIO {
 					
 					//Null all the prisoners out before we save them again, this way no prisoners are left behind
 					flat.set(node + "prisoners", null);
-					for(Prisoner p : j.getPrisonersNotInCells()) {
+					for(Prisoner p : j.getPrisonersNotInCells().values()) {
 						String pNode = node + "prisoners." + p.getUUID().toString() + ".";
 						flat.set(pNode + "name", p.getLastKnownName());
 						flat.set(pNode + "muted", p.isMuted());

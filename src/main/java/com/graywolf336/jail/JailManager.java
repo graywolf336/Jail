@@ -174,11 +174,11 @@ public class JailManager {
 	 * 
 	 * @return HashSet of Prisoners.
 	 */
-	public HashSet<Prisoner> getAllPrisoners() {
-		HashSet<Prisoner> prisoners = new HashSet<Prisoner>();
+	public HashMap<UUID, Prisoner> getAllPrisoners() {
+		HashMap<UUID, Prisoner> prisoners = new HashMap<UUID, Prisoner>();
 		
 		for(Jail j : jails.values())
-			prisoners.addAll(j.getAllPrisoners());
+			prisoners.putAll(j.getAllPrisoners());
 		
 		return prisoners;
 	}
@@ -243,7 +243,7 @@ public class JailManager {
 	 */
 	public Jail getJailPlayerIsInByLastKnownName(String username) {
 		for(Jail j : jails.values())
-			for(Prisoner p : j.getAllPrisoners())
+			for(Prisoner p : j.getAllPrisoners().values())
 				if(p.getLastKnownName().equalsIgnoreCase(username))
 					return j;
 		
@@ -257,7 +257,7 @@ public class JailManager {
 	 * @return {@link Prisoner prisoner} data
 	 */
 	public Prisoner getPrisonerByLastKnownName(String username) {
-		for(Prisoner p : this.getAllPrisoners())
+		for(Prisoner p : this.getAllPrisoners().values())
 			if(p.getLastKnownName().equalsIgnoreCase(username))
 				return p;
 		
@@ -286,7 +286,7 @@ public class JailManager {
 			Jail j = getJail(jail);
 			
 			if(j != null) {
-				for(Prisoner p : j.getAllPrisoners()) {
+				for(Prisoner p : j.getAllPrisoners().values()) {
 					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
 				}
 				
@@ -310,7 +310,7 @@ public class JailManager {
 			return getPlugin().getJailIO().getLanguageString(LangString.NOJAILS);
 		}else {
 			for(Jail j : getJails()) {
-				for(Prisoner p : j.getAllPrisoners()) {
+				for(Prisoner p : j.getAllPrisoners().values()) {
 					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
 				}
 			}

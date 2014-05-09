@@ -84,7 +84,7 @@ public class ScoreBoardManager {
 	/** Updates the prisoners time on their scoreboard. */
 	private void updatePrisonersTime() {
 		for(Jail j : pl.getJailManager().getJails()) {
-			for(Prisoner p : j.getAllPrisoners()) {
+			for(Prisoner p : j.getAllPrisoners().values()) {
 				if(pl.getServer().getPlayer(p.getUUID()) != null) {
 					addScoreBoard(pl.getServer().getPlayer(p.getUUID()), p);
 				}
