@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.UUID;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
@@ -70,7 +69,7 @@ public class Jail {
 	
 	/** Gets the minimum point as a Bukkit Location class. */
 	public Location getMinPoint() {
-		return new Location(Bukkit.getServer().getWorld(world), minX, minY, minZ);
+		return new Location(plugin.getServer().getWorld(world), minX, minY, minZ);
 	}
 	
 	/** Sets the location of the <b>maximum</b> point to the given location's coordinates. */
@@ -84,7 +83,7 @@ public class Jail {
 	
 	/** Gets the minimum point as a Bukkit Location class. */
 	public Location getMaxPoint() {
-		return new Location(Bukkit.getServer().getWorld(world), maxX, maxY, maxZ);
+		return new Location(plugin.getServer().getWorld(world), maxX, maxY, maxZ);
 	}
 	
 	/** Accepts an array of ints as the coord, where <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong>. */
