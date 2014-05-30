@@ -2,6 +2,7 @@ package com.graywolf336.jail;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -72,13 +73,13 @@ public class JailIO {
 			}else {
 				pl.getLogger().severe("The language file can not be a folder.");
 				pl.getLogger().severe("As a result, we are reverting back to English as the language.");
-				lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
+				lang = YamlConfiguration.loadConfiguration(new InputStreamReader(pl.getResource("en.yml")));
 				save = true;
 			}
 		}else {
 			pl.getLogger().warning("Loading the default language of: en");
 			pl.getLogger().warning("If you wish to change this, please rename 'en.yml' to whatever you wish and set the config value to the name of the file.");
-			lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
+			lang = YamlConfiguration.loadConfiguration(new InputStreamReader(pl.getResource("en.yml")));
 			save = true;
 		}
 		
