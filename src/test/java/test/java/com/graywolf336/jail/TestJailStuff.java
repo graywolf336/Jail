@@ -4,8 +4,8 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.is;
 
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -18,19 +18,22 @@ import com.graywolf336.jail.JailMain;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JailMain.class, PluginDescriptionFile.class })
 public class TestJailStuff {
-	private TestInstanceCreator creator;
-	private JailMain main;
+	private static TestInstanceCreator creator;
+	private static JailMain main;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		creator = new TestInstanceCreator();
-		creator.setup();
+		assertNotNull("The instance creator is null.", creator);
+		assertTrue(creator.setup());
 		main = creator.getMain();
+		assertNotNull("The JailMain class is null.", main);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		creator.tearDown();
+		main = null;
 	}
 
 	@Test
@@ -45,7 +48,8 @@ public class TestJailStuff {
 	@Test
 	public void testDefaultConfig() {
 		assertEquals("The config version is not 3.", 3, main.getConfig().getInt("system.configVersion"));
-		assertFalse("Default debugging is on.", main.getConfig().getBoolean("system.debug"));
+		//This is enabled by default in testing.
+		//assertFalse("Default debugging is on.", main.getConfig().getBoolean("system.debug"));
 		assertTrue("Default updating notifications is false.", main.getConfig().getBoolean("system.updateNotifications"));
 		
 		//Storage system

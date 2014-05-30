@@ -12,6 +12,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.World;
+import org.bukkit.WorldType;
+import org.bukkit.World.Environment;
 import org.bukkit.WorldCreator;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -24,10 +26,13 @@ import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+
 import org.junit.Assert;
+
 import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.MockGateway;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -67,6 +72,8 @@ public class TestInstanceCreator {
 			when(mockServer.getLogger()).thenReturn(Util.logger);
 			when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
 			when(mockServer.getItemFactory()).thenReturn(CraftItemFactory.instance());
+			
+			MockWorldFactory.makeNewMockWorld("world", Environment.NORMAL, WorldType.NORMAL);
 			
 			suppress(constructor(JailMain.class));
 			main = PowerMockito.spy(new JailMain());
@@ -231,6 +238,7 @@ public class TestInstanceCreator {
 			
 			// Init our player, who is op and who has all permissions (with name of graywolf336)
 			mockPlayer = mock(Player.class);
+			when(mockPlayer.getUniqueId()).thenReturn(UUID.fromString("062c14ba-4c47-4757-911b-bbf9a60dab7b"));
 			when(mockPlayer.getName()).thenReturn("graywolf336");
 			when(mockPlayer.getDisplayName()).thenReturn("TheGrayWolf");
 			when(mockPlayer.isPermissionSet(anyString())).thenReturn(true);
@@ -256,8 +264,9 @@ public class TestInstanceCreator {
 			// Load Jail
 			main.onLoad();
 			
-			// Enable it
+			// Enable it and turn on debugging
 			main.onEnable();
+			main.setDebugging(true);
 			
 			return true;
 		} catch (Exception e) {
@@ -280,6 +289,8 @@ public class TestInstanceCreator {
 		}
 		
 		main.onDisable();
+		
+		MockWorldFactory.clearWorlds();
 		
 		deleteFolder(pluginDirectory);
 		deleteFolder(worldsDirectory);

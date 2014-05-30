@@ -1,6 +1,7 @@
 package test.java.com.graywolf336.jail;
 
-import junit.framework.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
@@ -14,8 +15,8 @@ public class TestJewelCommands {
 		String[] args = { "--player", "graywolf336", "-c", "testing", "-r", "This", "is", "a", "reason" };
 		Jailing j = CliFactory.parseArguments(Jailing.class, args);
 		
-		Assert.assertEquals("graywolf336", j.getPlayer());
-		Assert.assertEquals("testing", j.getCell());
+		assertEquals("graywolf336", j.getPlayer());
+		assertEquals("testing", j.getCell());
 		
 		StringBuilder sb = new StringBuilder();
 		for(String s : j.getReason()) {
@@ -24,7 +25,7 @@ public class TestJewelCommands {
 		
 		sb.deleteCharAt(sb.length() - 1);
 		
-		Assert.assertEquals("This is a reason", sb.toString());
+		assertEquals("This is a reason", sb.toString());
 	}
 	
 	@Test
@@ -32,9 +33,9 @@ public class TestJewelCommands {
 		String[] args = { "-p", "graywolf336", "-j", "hardcore", "-c", "cell_n01" };
 		Transfer t = CliFactory.parseArguments(Transfer.class, args);
 		
-		Assert.assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
-		Assert.assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
-		Assert.assertEquals("The cell parsed is not what we expected.", "cell_n01", t.getCell());
+		assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
+		assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
+		assertEquals("The cell parsed is not what we expected.", "cell_n01", t.getCell());
 	}
 	
 	@Test
@@ -42,8 +43,8 @@ public class TestJewelCommands {
 		String[] args = { "-p", "graywolf336", "-j", "hardcore" };
 		Transfer t = CliFactory.parseArguments(Transfer.class, args);
 		
-		Assert.assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
-		Assert.assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
-		Assert.assertNull("The cell is not null?", t.getCell());
+		assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
+		assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
+		assertNull("The cell is not null?", t.getCell());
 	}
 }

@@ -7,19 +7,19 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.graywolf336.jail.Util;
 
 public class TestUtilClass {
-	private List<String> list;
-	private Vector bottomCorner;
-	private Vector topCorner;
+	private static List<String> list;
+	private static Vector bottomCorner;
+	private static Vector topCorner;
 	
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		list = new ArrayList<String>();
 		list.add(Material.SEEDS.toString());
 		list.add("coal_ore");
@@ -28,8 +28,8 @@ public class TestUtilClass {
 		topCorner = new Vector(50, 100, 250);
 	}
 	
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		bottomCorner = null;
 		topCorner = null;
 		list = null;

@@ -134,8 +134,8 @@ public class JailCreationSteps {
 		
 		jail.setMinPoint(cp.getCornerOne());
 		jail.setMaxPoint(cp.getCornerTwo());
-		jail.setTeleportIn(cp.getTeleportInSL());
-		jail.setTeleportFree(cp.getTeleportFreeSL());
+		jail.setTeleportIn(cp.getTeleportInSL().getLocation());
+		jail.setTeleportFree(cp.getTeleportFreeSL().getLocation());
 		
 		jm.addJail(jail, true);
 		

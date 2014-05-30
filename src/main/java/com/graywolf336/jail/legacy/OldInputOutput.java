@@ -92,8 +92,8 @@ public class OldInputOutput {
 			j.setWorld(teleWorld);
 			j.setMaxPoint(new Location(pl.getServer().getWorld(teleWorld), X1, Y1, Z1));
 			j.setMinPoint(new Location(pl.getServer().getWorld(teleWorld), X2, Y2, Z2));
-			j.setTeleportIn(new SimpleLocation(teleWorld, teleX, teleY, teleZ));
-			j.setTeleportFree(new SimpleLocation(freeWorld, freeX, freeY, freeZ));
+			j.setTeleportIn(new Location(pl.getServer().getWorld(teleWorld), teleX, teleY, teleZ));
+			j.setTeleportFree(new Location(pl.getServer().getWorld(freeWorld), freeX, freeY, freeZ));
 			
 			pl.getJailManager().addJail(j, false);
 		}

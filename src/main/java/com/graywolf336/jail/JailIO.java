@@ -357,10 +357,10 @@ public class JailIO {
 						j.setWorld(set.getString("world"));
 						j.setMaxPoint(new int[] { set.getInt("top.x"), set.getInt("top.y"), set.getInt("top.z") });
 						j.setMinPoint(new int[] { set.getInt("bottom.x"), set.getInt("bottom.y"), set.getInt("bottom.z") });
-						j.setTeleportIn(new SimpleLocation(j.getWorldName(), set.getDouble("tps.in.x"),
+						j.setTeleportIn(new Location(pl.getServer().getWorld(j.getWorldName()), set.getDouble("tps.in.x"),
 								set.getDouble("tps.in.y"), set.getDouble("tps.in.z"),
 								set.getFloat("tps.in.yaw"), set.getFloat("tps.in.pitch")));
-						j.setTeleportFree(new SimpleLocation(set.getString("tps.free.world"), set.getDouble("tps.free.x"),
+						j.setTeleportFree(new Location(pl.getServer().getWorld(j.getWorldName()), set.getDouble("tps.free.x"),
 								set.getDouble("tps.free.y"), set.getDouble("tps.free.z"),
 								set.getFloat("tps.free.yaw"), set.getFloat("tps.free.pitch")));
 						pl.getJailManager().addJail(j, false);
@@ -551,15 +551,15 @@ public class JailIO {
 		j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
 		j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
 		
-		j.setTeleportIn(new SimpleLocation(
-				flat.getString(node + "world"),
+		j.setTeleportIn(new Location(
+				pl.getServer().getWorld(flat.getString(node + "world")),
 				flat.getDouble(node + "tps.in.x"),
 				flat.getDouble(node + "tps.in.y"),
 				flat.getDouble(node + "tps.in.z"),
 				(float) flat.getDouble(node + "tps.in.yaw"),
 				(float) flat.getDouble(node + "tps.in.pitch")));
-		j.setTeleportFree(new SimpleLocation(
-				flat.getString(node + "tps.free.world"),
+		j.setTeleportFree(new Location(
+				pl.getServer().getWorld(flat.getString(node + "world")),
 				flat.getDouble(node + "tps.free.x"),
 				flat.getDouble(node + "tps.free.y"),
 				flat.getDouble(node + "tps.free.z"),

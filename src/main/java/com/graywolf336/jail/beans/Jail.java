@@ -25,7 +25,7 @@ public class Jail {
 	private HashMap<UUID, Prisoner> nocellPrisoners;//prisoners who aren't in a cell
 	private String name = "", world = "";
 	private int minX, minY, minZ, maxX, maxY, maxZ;
-	private SimpleLocation in, free;
+	private Location in, free;
 	
 	public Jail(JailMain plugin, String name) {
 		this.plugin = plugin;
@@ -110,26 +110,26 @@ public class Jail {
 		return plugin.getServer().getWorld(world);
 	}
 	
-	/** Sets the {@link SimpleLocation location} of the teleport <strong>in</strong>. */
-	public void setTeleportIn(SimpleLocation location) {
-		if(this.world.isEmpty()) this.world = location.getWorldName();
+	/** Sets the {@link Location location} of the teleport <strong>in</strong>. */
+	public void setTeleportIn(Location location) {
+		if(this.world.isEmpty()) this.world = location.getWorld().getName();
 		
 		this.in = location;
 	}
 	
 	/** Gets the {@link Location location} of the teleport in. */
 	public Location getTeleportIn() {
-		return this.in.getLocation();
+		return this.in;
 	}
 	
-	/** Sets the {@link SimpleLocation location} of the teleport for the <strong>free</strong> spot. */
-	public void setTeleportFree(SimpleLocation location) {
+	/** Sets the {@link Location location} of the teleport for the <strong>free</strong> spot. */
+	public void setTeleportFree(Location location) {
 		this.free = location;
 	}
 	
 	/** Gets the {@link Location location} of the teleport free spot.*/
 	public Location getTeleportFree() {
-		return this.free.getLocation();
+		return this.free;
 	}
 	
 	/** Add a prisoner to this jail. */

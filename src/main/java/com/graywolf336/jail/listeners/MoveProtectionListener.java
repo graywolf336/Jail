@@ -46,7 +46,7 @@ public class MoveProtectionListener implements Listener {
 				if (!j.isInside(event.getTo())) {
 					try {
 						long add = Util.getTime(pl.getConfig().getString(Settings.MOVEPENALTY.getPath()));
-						pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
+						p.addTime(add);
 						
 						String msg = "";
 						if(add == 0L) {

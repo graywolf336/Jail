@@ -38,6 +38,7 @@ public class JailMain extends JavaPlugin {
 	private JailTimer jt;
 	private PrisonerManager pm;
 	private ScoreBoardManager sbm;
+	private MoveProtectionListener mpl;
 	private boolean debug = false;
 	
 	public void onEnable() {
@@ -94,7 +95,8 @@ public class JailMain extends JavaPlugin {
 		//But doing this also forces people to restart their server if they to
 		//enable it after disabling it.
 		if(getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
-			plm.registerEvents(new MoveProtectionListener(this), this);
+			this.mpl = new MoveProtectionListener(this);
+			plm.registerEvents(this.mpl, this);
 		}
 		
 		jt = new JailTimer(this);
@@ -261,5 +263,9 @@ public class JailMain extends JavaPlugin {
 	/** Logs a debugging message to the console if debugging is enabled. */
 	public void debug(String message) {
 		if(inDebug()) getLogger().info("[Debug]: " + message);
+	}
+	
+	public MoveProtectionListener getPlayerMoveListener() {
+		return this.mpl;
 	}
 }

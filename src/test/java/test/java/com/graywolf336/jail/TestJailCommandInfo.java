@@ -1,6 +1,7 @@
 package test.java.com.graywolf336.jail;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -9,8 +10,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginDescriptionFile;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -23,19 +24,22 @@ import com.graywolf336.jail.JailMain;
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JailMain.class, PluginDescriptionFile.class })
 public class TestJailCommandInfo {
-	private TestInstanceCreator creator;
-	private JailMain main;
+	private static TestInstanceCreator creator;
+	private static JailMain main;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		creator = new TestInstanceCreator();
+		assertNotNull("The instance creator is null.", creator);
 		assertTrue(creator.setup());
 		main = creator.getMain();
+		assertNotNull("The JailMain class is null.", main);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		creator.tearDown();
+		main = null;
 	}
 
 	@Test
@@ -71,7 +75,7 @@ public class TestJailCommandInfo {
 		CommandSender sender = creator.getPlayerCommandSender();
 		
 		assertTrue(main.onCommand(sender, command, "jail", args));
-		verify(sender).sendMessage("/jail create [name]"); // If you change which command we test against, then change this
+		verify(sender, atLeast(1)).sendMessage("/jail create [name]"); // If you change which command we test against, then change this
 	}
 	
 	@Test
@@ -83,7 +87,7 @@ public class TestJailCommandInfo {
 		CommandSender sender = creator.getPlayerCommandSender();
 		
 		assertTrue(main.onCommand(sender, command, "jail", args));
-		verify(sender).sendMessage("/jail create [name]"); // If you change which command we test against, then change this
+		verify(sender, atLeast(1)).sendMessage("/jail create [name]"); // If you change which command we test against, then change this
 	}
 	
 	@Test

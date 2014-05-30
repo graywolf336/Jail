@@ -74,9 +74,6 @@ public class PrisonerManager {
 			cell.setPrisoner(prisoner);
 		}
 		
-		//Save the jail after adding them to the jail
-		pl.getJailIO().saveJail(jail);
-		
 		//If they are NOT offline, jail them
 		if(!prisoner.isOfflinePending()) {
 			jailPrisoner(jail, cell, player, prisoner);
