@@ -191,7 +191,7 @@ public class OldInputOutput {
 					
 					//Load the prisoner if he is a valid prisoner
 					if(!player.isEmpty()) {
-						Prisoner p = j.getPrisonerByLastKnownName(name);
+						Prisoner p = j.getPrisonerByLastKnownName(player);
 						
 						if(p != null) {
 							j.removePrisoner(p);

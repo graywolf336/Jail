@@ -43,13 +43,13 @@ public class ScoreBoardManager {
 	 * @param pris data for the provided prisoner
 	 */
 	public void addScoreBoard(Player player, Prisoner pris) {
-		if(!boards.containsKey(player.getName())) {
+		if(!boards.containsKey(player.getUniqueId())) {
 			boards.put(player.getUniqueId(), man.getNewScoreboard());
-			Objective o = boards.get(player.getName()).registerNewObjective("test", "dummy");
+			Objective o = boards.get(player.getUniqueId()).registerNewObjective("test", "dummy");
 			o.setDisplaySlot(DisplaySlot.SIDEBAR);
 			o.setDisplayName(Util.getColorfulMessage(pl.getConfig().getString(Settings.SCOREBOARDTITLE.getPath())));
 			o.getScore(time).setScore(pris.getRemainingTimeInMinutesInt());
-			player.setScoreboard(boards.get(player.getName()));
+			player.setScoreboard(boards.get(player.getUniqueId()));
 		}else {
 			updatePrisonersBoard(player, pris);
 		}
@@ -84,7 +84,7 @@ public class ScoreBoardManager {
 	/** Updates the prisoners time on their scoreboard. */
 	private void updatePrisonersTime() {
 		for(Jail j : pl.getJailManager().getJails()) {
-			for(Prisoner p : j.getAllPrisoners()) {
+			for(Prisoner p : j.getAllPrisoners().values()) {
 				if(pl.getServer().getPlayer(p.getUUID()) != null) {
 					addScoreBoard(pl.getServer().getPlayer(p.getUUID()), p);
 				}
@@ -99,6 +99,6 @@ public class ScoreBoardManager {
 	 * @param pris data for the player
 	 */
 	private void updatePrisonersBoard(Player player, Prisoner pris) {
-		boards.get(player.getName()).getObjective("test").getScore(time).setScore(pris.getRemainingTimeInMinutesInt());
+		boards.get(player.getUniqueId()).getObjective("test").getScore(time).setScore(pris.getRemainingTimeInMinutesInt());
 	}
 }

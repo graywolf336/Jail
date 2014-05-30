@@ -51,8 +51,8 @@ public class JailMain extends JavaPlugin {
 		//Try to load the old stuff before we load anything, esp the storage stuff
 		LegacyManager lm = new LegacyManager(this);
 		if(lm.doWeNeedToConvert()) {
-			boolean converted = lm.convertOldData();
-			if(!converted) getLogger().severe("We was unable to convert some, or all, of the old data.");
+			lm.convertOldData();
+			if(!lm.wasAnythingConverted()) getLogger().severe("We was unable to convert some, or all, of the old data.");
 		}
 		
 		io = new JailIO(this);
@@ -66,6 +66,11 @@ public class JailMain extends JavaPlugin {
 		}
 		
 		io.loadJails();
+		
+		//If we converted something, let's save EVERYTHING including the cells
+		if(lm.wasAnythingConverted()) {
+			io.saveEverything();
+		}
 		
 		cmdHand = new CommandHandler(this);
 		jh = new JailHandler(this);
@@ -166,7 +171,7 @@ public class JailMain extends JavaPlugin {
 		
 		if(getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
 			for(Jail j : jm.getJails()) {
-				for(Prisoner p : j.getAllPrisoners()) {
+				for(Prisoner p : j.getAllPrisoners().values()) {
 					if(getServer().getPlayer(p.getUUID()) != null) {
 						this.sbm.addScoreBoard(getServer().getPlayer(p.getUUID()), p);
 					}

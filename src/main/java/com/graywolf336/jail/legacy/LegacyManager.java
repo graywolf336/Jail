@@ -27,14 +27,25 @@ import com.graywolf336.jail.enums.Settings;
 public class LegacyManager {
 	private JailMain pl;
 	private YamlConfiguration global;
+	private boolean wasConverted;
 	
 	public LegacyManager(JailMain plugin) {
 		this.pl = plugin;
+		this.wasConverted = false;
 	}
 	
 	/** Returns true/false if the old config, global.yml, exists and needs to be converted. */
 	public boolean doWeNeedToConvert() {
 		return new File(pl.getDataFolder(), "global.yml").exists();
+	}
+	
+	/**
+	 * Returns true if we converted anything and it was successful.
+	 * 
+	 * @return true if everything converted successfully, was if not.
+	 */
+	public boolean wasAnythingConverted() {
+		return this.wasConverted;
 	}
 	
 	public boolean convertOldData() {
@@ -64,6 +75,7 @@ public class LegacyManager {
 			loadOldConfig();
 			loadOldData();
 			moveOldConfigs();
+			this.wasConverted = true;
 			pl.getLogger().info("...finished converting configs and data.");
 			return true;
 		}catch (Exception e) {
@@ -380,6 +392,27 @@ public class LegacyManager {
 						count++;
 					}
 					break;
+				case PricePerMinute:
+					if(global.contains(s.getString())) {
+						c.set(Settings.JAILPAYPRICEPERMINUTE.getPath(), OldSettings.getGlobalInt(global, s));
+						pl.debug(Settings.JAILPAYPRICEPERMINUTE.getPath() + " <-- " + s.getString());
+						count++;
+					}
+				case PriceForInfiniteJail:
+					if(global.contains(s.getString())) {
+						c.set(Settings.JAILPAYPRICEINFINITE.getPath(), OldSettings.getGlobalInt(global, s));
+						pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
+						count++;
+					}
+				case JailPayCurrency:
+					if(global.contains(s.getString())) {
+						Material mat = Material.getMaterial(OldSettings.getGlobalInt(global, s));
+						if(mat != null) {
+							c.set(Settings.JAILPAYITEM.getPath(), mat.toString().toLowerCase());
+							pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
+							count++;
+						}
+					}
 				default:
 					break;
 			}

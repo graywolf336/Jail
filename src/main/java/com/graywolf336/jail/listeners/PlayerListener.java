@@ -76,7 +76,7 @@ public class PlayerListener implements Listener {
 			Set<Player> rec = new HashSet<Player>(event.getRecipients());
 			
 			for(Jail j : pl.getJailManager().getJails())
-				for(Prisoner p : j.getAllPrisoners())
+				for(Prisoner p : j.getAllPrisoners().values())
 					rec.remove(pl.getServer().getPlayer(p.getUUID()));
 			
 			event.getRecipients().clear();

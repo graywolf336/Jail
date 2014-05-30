@@ -378,7 +378,6 @@ public class JailIO {
 				//that doesn't exist anymore
 				List<Integer> cellsToRemove = new LinkedList<Integer>();
 				
-				int cs = 0;
 				try {
 					if(con == null) this.prepareStorage(false);
 					PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
@@ -405,7 +404,6 @@ public class JailIO {
 							
 							
 							j.addCell(c, false);
-							cs++;
 						}else {
 							cellsToRemove.add(set.getInt("cellid"));
 						}
@@ -443,8 +441,6 @@ public class JailIO {
 						pl.getLogger().severe("Error while deleting the old cells which don't have a valid jail, please check the error and fix what is wrong.");
 					}
 				}
-				
-				pl.getLogger().info("Loaded " + cs + (cs == 1 ? " cell." : " cells."));
 				
 				//This list contains a string which refers to the name of the prisoner in sql
 				//this list only gets populated if there are prisoners which reference a jail
@@ -537,6 +533,9 @@ public class JailIO {
 		
 		int js = pl.getJailManager().getJails().size();
 		pl.getLogger().info("Loaded " + js + (js == 1 ? " jail." : " jails."));
+		
+		int cs = pl.getJailManager().getAllCells().size();
+		pl.getLogger().info("Loaded " + cs + (cs == 1 ? " cell." : " cells."));
 		
 		int ps = pl.getJailManager().getAllPrisoners().size();
 		pl.getLogger().info("Loaded " + ps + (ps == 1 ? " prisoner." : " prisoners."));
@@ -644,6 +643,21 @@ public class JailIO {
 			pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
 	}
 	
+	/** Saves everything about a jail, don't usually call this. */
+	public void saveEverything() {
+		long st = System.currentTimeMillis();
+		
+		for(Jail j : pl.getJailManager().getJails()) {
+			saveJail(j);
+			
+			for(Cell c : j.getCells()) {
+				saveCell(j, c);
+			}
+		}
+		
+		pl.debug("Saving everything took " + (System.currentTimeMillis() - st) + " millis.");
+	}
+	
 	/**
 	 * Saves the provided {@link Jail jail} to the storage system we are using.
 	 * 
@@ -728,7 +742,7 @@ public class JailIO {
 				try {
 					if(con == null) this.prepareStorage(false);
 					
-					for(Prisoner p : j.getPrisonersNotInCells()) {
+					for(Prisoner p : j.getPrisonersNotInCells().values()) {
 						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
 								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 						pPS.setString(1, p.getUUID().toString());
@@ -834,7 +848,7 @@ public class JailIO {
 					
 					//Null all the prisoners out before we save them again, this way no prisoners are left behind
 					flat.set(node + "prisoners", null);
-					for(Prisoner p : j.getPrisonersNotInCells()) {
+					for(Prisoner p : j.getPrisonersNotInCells().values()) {
 						String pNode = node + "prisoners." + p.getUUID().toString() + ".";
 						flat.set(pNode + "name", p.getLastKnownName());
 						flat.set(pNode + "muted", p.isMuted());
@@ -908,11 +922,12 @@ public class JailIO {
 						pPS.setFloat(6, p.getRemainingTime());
 						pPS.setBoolean(7, p.isOfflinePending());
 						pPS.setBoolean(8, p.isToBeTransferred());
-						pPS.setString(9, p.getReason());
-						pPS.setBytes(10, p.getInventory().getBytes());
-						pPS.setBytes(11, p.getArmor().getBytes());
-						pPS.setString(12, p.getPreviousLocationString());
-						pPS.setString(13, p.getPreviousGameMode().toString());
+						pPS.setString(9, p.getJailer());
+						pPS.setString(10, p.getReason());
+						pPS.setBytes(11, p.getInventory().getBytes());
+						pPS.setBytes(12, p.getArmor().getBytes());
+						pPS.setString(13, p.getPreviousLocationString());
+						pPS.setString(14, p.getPreviousGameMode().toString());
 						
 						pPS.executeUpdate();
 						pPS.close();

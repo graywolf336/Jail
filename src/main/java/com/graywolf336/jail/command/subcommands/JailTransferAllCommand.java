@@ -41,7 +41,7 @@ public class JailTransferAllCommand implements Command {
 		jm.getPlugin().debug("Sending the transferring off, jail checks all came clean.");
 		
 		Jail old = jm.getJail(args[1]);
-		HashSet<Prisoner> oldPrisoners = new HashSet<Prisoner>(old.getAllPrisoners());
+		HashSet<Prisoner> oldPrisoners = new HashSet<Prisoner>(old.getAllPrisoners().values());
 		
 		//Transfer all the prisoners
 		for(Prisoner p : oldPrisoners) {

@@ -156,16 +156,29 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets all the {@link Cell cells} in the jail system, best for system wide count of the cells or touching each cell.
+	 * 
+	 * @return HashSet of all the Cells.
+	 */
+	public HashSet<Cell> getAllCells() {
+		HashSet<Cell> cells = new HashSet<Cell>();
+		
+		for(Jail j : jails.values())
+			cells.addAll(j.getCells());
+		
+		return cells;
+	}
+	
+	/**
 	 * Gets all the prisoners in the system, best for a system wide count of the prisoners or accessing all the prisoners at once.
 	 * 
 	 * @return HashSet of Prisoners.
 	 */
-	public HashSet<Prisoner> getAllPrisoners() {
-		HashSet<Prisoner> prisoners = new HashSet<Prisoner>();
+	public HashMap<UUID, Prisoner> getAllPrisoners() {
+		HashMap<UUID, Prisoner> prisoners = new HashMap<UUID, Prisoner>();
 		
-		for(Jail j : jails.values()) {
-			prisoners.addAll(j.getAllPrisoners());
-		}
+		for(Jail j : jails.values())
+			prisoners.putAll(j.getAllPrisoners());
 		
 		return prisoners;
 	}
@@ -230,7 +243,7 @@ public class JailManager {
 	 */
 	public Jail getJailPlayerIsInByLastKnownName(String username) {
 		for(Jail j : jails.values())
-			for(Prisoner p : j.getAllPrisoners())
+			for(Prisoner p : j.getAllPrisoners().values())
 				if(p.getLastKnownName().equalsIgnoreCase(username))
 					return j;
 		
@@ -244,7 +257,7 @@ public class JailManager {
 	 * @return {@link Prisoner prisoner} data
 	 */
 	public Prisoner getPrisonerByLastKnownName(String username) {
-		for(Prisoner p : this.getAllPrisoners())
+		for(Prisoner p : this.getAllPrisoners().values())
 			if(p.getLastKnownName().equalsIgnoreCase(username))
 				return p;
 		
@@ -273,7 +286,7 @@ public class JailManager {
 			Jail j = getJail(jail);
 			
 			if(j != null) {
-				for(Prisoner p : j.getAllPrisoners()) {
+				for(Prisoner p : j.getAllPrisoners().values()) {
 					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
 				}
 				
@@ -297,7 +310,7 @@ public class JailManager {
 			return getPlugin().getJailIO().getLanguageString(LangString.NOJAILS);
 		}else {
 			for(Jail j : getJails()) {
-				for(Prisoner p : j.getAllPrisoners()) {
+				for(Prisoner p : j.getAllPrisoners().values()) {
 					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
 				}
 			}

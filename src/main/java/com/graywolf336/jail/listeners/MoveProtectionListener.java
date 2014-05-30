@@ -27,8 +27,9 @@ public class MoveProtectionListener implements Listener {
 		//Other wise we don't need to deal with it.
 		if(pl.getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
 			//Let's be sure the player we're dealing with is in jail
-			if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
-				Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
+			
+			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
+			if(j != null) {
 				Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
 				
 				//If the player is being teleported, let's ignore it

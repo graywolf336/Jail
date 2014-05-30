@@ -23,7 +23,7 @@ import com.graywolf336.jail.Util;
 public class Jail {
 	private JailMain plugin;
 	private HashMap<String, Cell> cells;
-	private HashSet<Prisoner> nocellPrisoners;//prisoners who aren't in a cell
+	private HashMap<UUID, Prisoner> nocellPrisoners;//prisoners who aren't in a cell
 	private String name = "", world = "";
 	private int minX, minY, minZ, maxX, maxY, maxZ;
 	private SimpleLocation in, free;
@@ -32,7 +32,7 @@ public class Jail {
 		this.plugin = plugin;
 		this.name = name;
 		cells = new HashMap<String, Cell>();
-		nocellPrisoners = new HashSet<Prisoner>();
+		nocellPrisoners = new HashMap<UUID, Prisoner>();
 	}
 	
 	/** Gets the instance of the plugin's main class. */
@@ -135,7 +135,7 @@ public class Jail {
 	
 	/** Add a prisoner to this jail. */
 	public void addPrisoner(Prisoner p) {
-		this.nocellPrisoners.add(p);
+		this.nocellPrisoners.put(p.getUUID(), p);
 	}
 	
 	/** Removes a prisoner from this jail, doesn't remove it from the cell. */
@@ -246,16 +246,16 @@ public class Jail {
 		
 		//Replace all the current no cell prisoners with
 		//a new hashset of prisoners.
-		this.nocellPrisoners = new HashSet<Prisoner>();
+		this.nocellPrisoners = new HashMap<UUID, Prisoner>();
 	}
 	
-	/** Gets a HashSet of <b>all</b> the prisoners, the ones in cells and ones who aren't. */
-	public HashSet<Prisoner> getAllPrisoners() {
-		HashSet<Prisoner> all = new HashSet<Prisoner>(nocellPrisoners); //initalize the temp one to return with the prisoners not in any cells
+	/** Gets a HashMap of <b>all</b> the prisoners, the ones in cells and ones who aren't. */
+	public HashMap<UUID, Prisoner> getAllPrisoners() {
+		HashMap<UUID, Prisoner> all = new HashMap<UUID, Prisoner>(nocellPrisoners); //initalize the temp one to return with the prisoners not in any cells
 		
 		for(Cell c : cells.values())
 			if(c.hasPrisoner())
-				all.add(c.getPrisoner());
+				all.put(c.getPrisoner().getUUID(), c.getPrisoner());
 		
 		return all;
 	}
@@ -272,7 +272,7 @@ public class Jail {
 	}
 	
 	/** Gets a HashSet of the prisoners <b>not</b> in cells.*/
-	public HashSet<Prisoner> getPrisonersNotInCells() {
+	public HashMap<UUID, Prisoner> getPrisonersNotInCells() {
 		return this.nocellPrisoners;
 	}
 	
@@ -303,11 +303,7 @@ public class Jail {
 	 * @return true if is a prisoner, false if not.
 	 */
 	private boolean isPlayerAPrisoner(UUID uuid) {
-		for(Prisoner p : this.getAllPrisoners())
-			if(p.getUUID().equals(uuid))
-				return true;
-		
-		return false;
+		return this.getAllPrisoners().containsKey(uuid);
 	}
 	
 	/**
@@ -317,9 +313,7 @@ public class Jail {
 	 * @return true if is jailed in a cell, false if not.
 	 */
 	public boolean isJailedInACell(UUID uuid) {
-		for(Prisoner p : nocellPrisoners)
-			if(p.getUUID().equals(uuid))
-				return false;
+		if(this.nocellPrisoners.containsKey(uuid)) return false;
 		
 		for(Cell c : cells.values())
 			if(c.getPrisoner() != null)
@@ -336,7 +330,7 @@ public class Jail {
 	 * @return the prisoner instance, can be null
 	 */
 	public Prisoner getPrisonerByLastKnownName(String name) {
-		for(Prisoner p : this.getAllPrisoners())
+		for(Prisoner p : this.getAllPrisoners().values())
 			if(p.getLastKnownName().equalsIgnoreCase(name))
 				return p;
 		
@@ -350,9 +344,12 @@ public class Jail {
 	 * @return the prisoner instance, can be null
 	 */
 	public Prisoner getPrisoner(UUID uuid) {
-		for(Prisoner p : this.getAllPrisoners())
-			if(p.getUUID().equals(uuid))
-				return p;
+		if(this.nocellPrisoners.containsKey(uuid)) return this.nocellPrisoners.get(uuid);
+		
+		for(Cell c : cells.values())
+			if(c.hasPrisoner())
+				if(c.getPrisoner().getUUID().equals(uuid))
+					return c.getPrisoner();
 			
 		return null;
 	}
