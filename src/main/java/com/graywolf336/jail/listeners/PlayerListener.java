@@ -85,7 +85,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void checkForOfflineJailStuff(PlayerJoinEvent event) {
 		//Let's check if the player is jailed
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {

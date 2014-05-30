@@ -9,6 +9,7 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import com.graywolf336.jail.beans.CachePrisoner;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.beans.CreationPlayer;
@@ -42,6 +43,7 @@ public class JailManager {
 	private HashMap<String, CreationPlayer> jailCreators;
 	private HashMap<String, CreationPlayer> cellCreators;
 	private HashMap<String, ConfirmPlayer> confirms;
+	private HashMap<UUID, CachePrisoner> cache;
 	private JailCreationSteps jcs;
 	private CellCreationSteps ccs;
 	
@@ -51,6 +53,7 @@ public class JailManager {
 		this.jailCreators = new HashMap<String, CreationPlayer>();
 		this.cellCreators = new HashMap<String, CreationPlayer>();
 		this.confirms = new HashMap<String, ConfirmPlayer>();
+		this.cache = new HashMap<UUID, CachePrisoner>();
 		this.jcs = new JailCreationSteps();
 		this.ccs = new CellCreationSteps();
 	}
@@ -170,6 +173,36 @@ public class JailManager {
 	}
 	
 	/**
+	 * Adds a prisoner to the cache.
+	 * 
+	 * @param cache object to store
+	 * @return The same object given
+	 */
+	public CachePrisoner addCacheObject(CachePrisoner cache) {
+		this.cache.put(cache.getPrisoner().getUUID(), cache);
+		return cache;
+	}
+	
+	/**
+	 * Checks if the given uuid is in the cache.
+	 * 
+	 * @param uuid of the player
+	 * @return true if in cache, false if not
+	 */
+	public boolean inCache(UUID uuid) {
+		return this.cache.containsKey(uuid);
+	}
+	
+	/**
+	 * Removes the cache object stored for this uuid.
+	 * 
+	 * @param uuid of the prisoner to remove
+	 */
+	public void removeCacheObject(UUID uuid) {
+		this.cache.remove(uuid);
+	}
+	
+	/**
 	 * Gets all the prisoners in the system, best for a system wide count of the prisoners or accessing all the prisoners at once.
 	 * 
 	 * @return HashSet of Prisoners.
@@ -191,17 +224,22 @@ public class JailManager {
 	 */
 	public Jail getJailPrisonerIsIn(Prisoner prisoner) {
 		if(prisoner == null) return null;
-		
-		return getJailPlayerIsIn(prisoner.getUUID());
+		else return getJailPlayerIsIn(prisoner.getUUID());
 	}
 	
 	/**
 	 * Gets the {@link Jail jail} the given player is in.
 	 * 
+	 * <p />
+	 * 
+	 * Checks the cache first.
+	 * 
 	 * @param uuid The uuid of the player who's jail we are getting.
 	 * @return The jail the player is in, <strong>CAN BE NULL</strong>.
 	 */
 	public Jail getJailPlayerIsIn(UUID uuid) {
+		if(this.cache.containsKey(uuid)) return this.cache.get(uuid).getJail();
+		
 		for(Jail j : jails.values())
 			if(j.isPlayerJailed(uuid))
 				return j;

@@ -12,6 +12,7 @@ import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.legacy.LegacyManager;
 import com.graywolf336.jail.listeners.BlockListener;
+import com.graywolf336.jail.listeners.CacheListener;
 import com.graywolf336.jail.listeners.EntityListener;
 import com.graywolf336.jail.listeners.HandCuffListener;
 import com.graywolf336.jail.listeners.JailingListener;
@@ -79,6 +80,7 @@ public class JailMain extends JavaPlugin {
 		
 		PluginManager plm = this.getServer().getPluginManager();
 		plm.registerEvents(new BlockListener(this), this);
+		plm.registerEvents(new CacheListener(this), this);
 		plm.registerEvents(new EntityListener(this), this);
 		plm.registerEvents(new HandCuffListener(this), this);
 		plm.registerEvents(new JailingListener(this), this);
