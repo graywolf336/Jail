@@ -22,9 +22,9 @@ public class UnHandCuffCommand implements Command {
 		
 		if(player == null) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE));
-		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getName())) {
+		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getUniqueId())) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSRELEASED, new String[] { player.getName() }));
-			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getName());
+			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getUniqueId());
 			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.UNHANDCUFFED));
 		}else {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHANDCUFFED, new String[] { player.getName() }));

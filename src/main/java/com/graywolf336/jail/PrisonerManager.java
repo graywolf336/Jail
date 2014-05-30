@@ -119,8 +119,8 @@ public class PrisonerManager {
 	public void jailPrisoner(Jail jail, Cell cell, Player player, Prisoner prisoner) {
 		//If they have handcuffs on them, then let's remove them before we continue
 		//this way the handcuff listeners and this aren't battleing each other
-		if(pl.getHandCuffManager().isHandCuffed(player.getName())) {
-			pl.getHandCuffManager().removeHandCuffs(player.getName());
+		if(pl.getHandCuffManager().isHandCuffed(player.getUniqueId())) {
+			pl.getHandCuffManager().removeHandCuffs(player.getUniqueId());
 		}
 		
 		//They are no longer offline, so set that.

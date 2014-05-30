@@ -26,12 +26,12 @@ public class HandCuffCommand implements Command {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANTBEHANDCUFFED, new String[] { player.getName() }));
 		}else if(jm.isPlayerJailed(player.getUniqueId())) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CURRENTLYJAILEDHANDCUFF, new String[] { player.getName() }));
-		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getName())) {
+		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getUniqueId())) {
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSRELEASED, new String[] { player.getName() }));
-			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getName());
+			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getUniqueId());
 			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.UNHANDCUFFED));
 		}else {
-			jm.getPlugin().getHandCuffManager().addHandCuffs(player.getName(), player.getLocation());
+			jm.getPlugin().getHandCuffManager().addHandCuffs(player.getUniqueId(), player.getLocation());
 			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSON, new String[] { player.getName() }));
 			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFED));
 		}
