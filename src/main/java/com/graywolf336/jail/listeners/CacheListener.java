@@ -16,6 +16,20 @@ import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
 
+/**
+ * The listen for all events which need to add/remove to the prisoner cache.
+ * 
+ * <p />
+ * 
+ * These listeners add and remove prisoner cache objects to the cache,
+ * this way we gain performance for servers which have a high amount
+ * of prisoners jailed. (500+)
+ * 
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.0.0
+ *
+ */
 public class CacheListener implements Listener {
 	private JailMain pl;
 	
