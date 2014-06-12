@@ -18,7 +18,7 @@ Beta 2 Changes
 * Add config option to disallow the usage of Jail Sticks
 * Added `/jail time` for easy access to adding/subtracting time - [Bukkit Dev Ticket #432](http://dev.bukkit.org/bukkit-plugins/jail/tickets/432/)
 * Added `/togglejaildebug` for easily toggling the debugging state, enable if you have a problem and want to send me information
-* 
+* Added some caching of online prisoners and where they're located at, this improves performance on servers with 500+ prisoners jailed
 
 Beta 1 Changes
 ===
