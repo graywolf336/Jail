@@ -24,6 +24,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.graywolf336.jail.JailMain;
+import com.graywolf336.jail.beans.CachePrisoner;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 
@@ -61,6 +62,7 @@ public class BenchmarkTest extends AbstractBenchmark {
 			main.getPrisonerManager().prepareJail(main.getJailManager().getJail("testingJail"), null, null, new Prisoner(i == 555 ? use.toString() : UUID.randomUUID().toString(), "mockPlayer" + i, true, 100000L, "testJailer", "Test jailing " + i));
 		}
 		
+		main.getJailManager().addCacheObject(new CachePrisoner(main.getJailManager().getJailPlayerIsIn(use), main.getJailManager().getPrisoner(use)));
 		r = new Random();
 	}
 

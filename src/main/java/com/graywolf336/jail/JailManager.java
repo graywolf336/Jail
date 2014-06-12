@@ -194,6 +194,16 @@ public class JailManager {
 	}
 	
 	/**
+	 * Gets a cached prisoner object.
+	 * 
+	 * @param uuid of the prisoner to get
+	 * @return the cahced prisoner object, will be null if it doesn't exist
+	 */
+	public CachePrisoner getCacheObject(UUID uuid) {
+		return this.cache.get(uuid);
+	}
+	
+	/**
 	 * Removes the cache object stored for this uuid.
 	 * 
 	 * @param uuid of the prisoner to remove

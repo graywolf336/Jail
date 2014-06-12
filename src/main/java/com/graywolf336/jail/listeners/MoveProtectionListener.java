@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.Util;
+import com.graywolf336.jail.beans.CachePrisoner;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.LangString;
@@ -28,9 +29,10 @@ public class MoveProtectionListener implements Listener {
 		if(pl.getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
 			//Let's be sure the player we're dealing with is in jail
 			
-			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
-			if(j != null) {
-				Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
+			CachePrisoner cp = pl.getJailManager().getCacheObject(event.getPlayer().getUniqueId());
+			if(cp != null) {
+				Jail j = cp.getJail();
+				Prisoner p = cp.getPrisoner();
 				
 				//If the player is being teleported, let's ignore it
 				if(p.isTeleporting()) {
