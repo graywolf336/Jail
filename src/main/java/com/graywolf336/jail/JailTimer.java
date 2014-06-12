@@ -42,6 +42,15 @@ public class JailTimer {
 			
 			timer.start();
 		}
+		
+		//Save all the jail information every minute, not every 10 seconds
+		pl.getServer().getScheduler().runTaskTimerAsynchronously(pl, new Runnable() {
+			public void run() {
+				for(Jail j : pl.getJailManager().getJails()) {
+					pl.getJailIO().saveJail(j);
+				}
+			}
+		}, 1200L, 1200L);
 	}
 	
 	/** Returns the instance of this timer. */
@@ -103,9 +112,6 @@ public class JailTimer {
 						}
 					}
 				}
-				
-				//Save all the prisoners and jails after we're done
-				pl.getJailIO().saveJail(j);
 			}
 		}
 	}
