@@ -62,6 +62,7 @@ public class BenchmarkTest extends AbstractBenchmark {
 			main.getPrisonerManager().prepareJail(main.getJailManager().getJail("testingJail"), null, null, new Prisoner(i == 555 ? use.toString() : UUID.randomUUID().toString(), "mockPlayer" + i, true, 100000L, "testJailer", "Test jailing " + i));
 		}
 		
+		//This puts the cache object into the cache for the move event and others to use (move in this test)
 		main.getJailManager().addCacheObject(new CachePrisoner(main.getJailManager().getJailPlayerIsIn(use), main.getJailManager().getPrisoner(use)));
 		r = new Random();
 	}
