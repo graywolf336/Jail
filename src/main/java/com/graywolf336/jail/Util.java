@@ -247,7 +247,7 @@ public class Util {
      * @throws IOException
      */
     public static Inventory fromBase64(String data) throws IOException {
-    	if(data.isEmpty()) Bukkit.getServer().createInventory(null, 0);
+    	if(data.isEmpty()) return Bukkit.getServer().createInventory(null, 0);
     	
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
