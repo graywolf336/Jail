@@ -117,7 +117,8 @@ public class OldInputOutput {
     				transfer = true;
     			}
     			
-    			//In the event the jail is null (jail didn't transfer or the prisoner was jailed offline and no jail specified
+    			//In the event the jail is null (jail didn't transfer or the prisoner was jailed offline and no jail specified)
+    			//set their jail to the first one we have
     			if(j == null) {
     				j = pl.getJailManager().getJails().iterator().next();
     			}
@@ -125,6 +126,12 @@ public class OldInputOutput {
     			Prisoner p = new Prisoner(pl.getServer().getOfflinePlayer(name).getUniqueId().toString(), name, set.getBoolean("muted"), (long) set.getInt("RemainTime"), set.getString("Jailer"), set.getString("reason"));
     			p.setOfflinePending(set.getBoolean("Offline"));
     			p.setToBeTransferred(transfer);
+    			
+    			String previousLoc = set.getString("PreviousPosition");
+    			if(!previousLoc.isEmpty()) {
+    				String[] l = previousLoc.split(",");
+    				p.setPreviousPosition(new Location(pl.getServer().getWorld(l[0]), Integer.parseInt(l[1]), Integer.parseInt(l[2]), Integer.parseInt(l[3])));
+    			}
     			
     			j.addPrisoner(p);
     			//String permissions = set.getString("Permissions"); TODO
