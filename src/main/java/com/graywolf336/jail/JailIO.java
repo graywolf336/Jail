@@ -470,6 +470,7 @@ public class JailIO {
 							p.setArmor(new String(ar.getBytes(1, (int)ar.length())));
 							p.setPreviousPosition(set.getString("previousLocation"));
 							p.setPreviousGameMode(set.getString("previousGameMode"));
+							p.setChanged(false);//Since we just loaded the prisoner, we really don't need to save them.
 							
 							if(cellname == null || cellname.isEmpty()) {
 								j.addPrisoner(p);
@@ -608,6 +609,7 @@ public class JailIO {
 						p.setPreviousGameMode(flat.getString(cellNode + "prisoner.previousGameMode"));
 						p.setInventory(flat.getString(cellNode + "prisoner.inventory", ""));
 						p.setArmor(flat.getString(cellNode + "prisoner.armor", ""));
+						p.setChanged(false);//Since we just loaded the prisoner, we really don't need to save them.
 						c.setPrisoner(p);
 					}
 					
@@ -633,6 +635,7 @@ public class JailIO {
 					pris.setPreviousGameMode(flat.getString(pNode + "previousGameMode"));
 					pris.setInventory(flat.getString(pNode + "inventory", ""));
 					pris.setArmor(flat.getString(pNode + "armor", ""));
+					pris.setChanged(false);//Since we just loaded the prisoner, we really don't need to save them.
 					j.addPrisoner(pris);
 				}
 			}
@@ -711,7 +714,7 @@ public class JailIO {
 					if(con == null) this.prepareStorage(false);
 					
 					for(Cell c : j.getCells()) {
-						if(c.hasPrisoner()) {
+						if(c.hasPrisoner() && c.getPrisoner().wasChanged()) {
 							Prisoner p = c.getPrisoner();
 							PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
 									+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`)"
@@ -733,6 +736,8 @@ public class JailIO {
 							
 							pPS.executeUpdate();
 							pPS.close();
+							
+							p.setChanged(false);//Since we just saved the prisoner
 						}
 					}
 				} catch (SQLException e) {
@@ -745,25 +750,28 @@ public class JailIO {
 					if(con == null) this.prepareStorage(false);
 					
 					for(Prisoner p : j.getPrisonersNotInCells().values()) {
-						PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
-								+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-						pPS.setString(1, p.getUUID().toString());
-						pPS.setString(2, p.getLastKnownName());
-						pPS.setString(3, j.getName());
-						pPS.setString(4, "");
-						pPS.setBoolean(5, p.isMuted());
-						pPS.setFloat(6, p.getRemainingTime());
-						pPS.setBoolean(7, p.isOfflinePending());
-						pPS.setBoolean(8, p.isToBeTransferred());
-						pPS.setString(9, p.getJailer());
-						pPS.setString(10, p.getReason());
-						pPS.setBytes(11, p.getInventory().getBytes());
-						pPS.setBytes(12, p.getArmor().getBytes());
-						pPS.setString(13, p.getPreviousLocationString());
-						pPS.setString(14, p.getPreviousGameMode().toString());
-						
-						pPS.executeUpdate();
-						pPS.close();
+						if(p.wasChanged()) {
+							PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+									+ "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+							pPS.setString(1, p.getUUID().toString());
+							pPS.setString(2, p.getLastKnownName());
+							pPS.setString(3, j.getName());
+							pPS.setString(4, "");
+							pPS.setBoolean(5, p.isMuted());
+							pPS.setFloat(6, p.getRemainingTime());
+							pPS.setBoolean(7, p.isOfflinePending());
+							pPS.setBoolean(8, p.isToBeTransferred());
+							pPS.setString(9, p.getJailer());
+							pPS.setString(10, p.getReason());
+							pPS.setBytes(11, p.getInventory().getBytes());
+							pPS.setBytes(12, p.getArmor().getBytes());
+							pPS.setString(13, p.getPreviousLocationString());
+							pPS.setString(14, p.getPreviousGameMode().toString());
+							
+							pPS.executeUpdate();
+							pPS.close();
+							p.setChanged(false);//Since we just saved the prisoner
+						}
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();

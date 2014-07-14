@@ -19,6 +19,7 @@ Beta 2 Changes
 * Added `/jail time` for easy access to adding/subtracting time - [Bukkit Dev Ticket #432](http://dev.bukkit.org/bukkit-plugins/jail/tickets/432/)
 * Added `/togglejaildebug` for easily toggling the debugging state, enable if you have a problem and want to send me information
 * Added some caching of online prisoners and where they're located at, this improves performance on servers with 500+ prisoners jailed
+* Only updating prisoners in the database if they were changed, this should help improve saving speed
 
 Beta 1 Changes
 ===
@@ -44,7 +45,6 @@ Changes
 
 ToDo
 ===
-* Only save prisoners that have been edited, aka a flag on the prisoners which is "have they changed" and change that when a function is called that changes the prisoner so we don't save prisoners that haven't changed
 * When calculating the reducing of time, make it async and all the calls it does be scheduled
 * Jail set
 * Jail vote

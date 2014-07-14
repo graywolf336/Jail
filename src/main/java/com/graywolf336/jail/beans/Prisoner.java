@@ -12,11 +12,11 @@ import org.bukkit.Location;
  * 
  * @author graywolf336
  * @since 2.x.x
- * @version 3.0.1
+ * @version 3.0.2
  */
 public class Prisoner {
 	private String uuid, name, jailer, reason, inventory, armor;
-	private boolean muted, offlinePending, teleporting, toBeTransferred;
+	private boolean muted, offlinePending, teleporting, toBeTransferred, changed;
 	private long time, afk;
 	private Location previousPosition;
 	private GameMode previousGameMode;
@@ -46,6 +46,7 @@ public class Prisoner {
 		this.inventory = "";
 		this.armor = "";
 		this.afk = 0;
+		this.changed = false;
 	}
 	
 	/** Returns the UUID of the prisoner. */
@@ -61,6 +62,7 @@ public class Prisoner {
 	/** Sets the name of this prisoner. */
 	public String setLastKnownName(String username) {
 		this.name = username;
+		this.changed = true;
 		return this.name;
 	}
 	
@@ -69,9 +71,16 @@ public class Prisoner {
 		return this.reason;
 	}
 	
-	/** Sets the reason this player was jailed for. */
-	public void setReason(String reason) {
+	/**
+	 * Sets the reason this player was jailed for.
+	 * 
+	 * @param reason the player was jailed.
+	 * @return the reason the player was jailed, what we have stored about them.
+	 */
+	public String setReason(String reason) {
 		this.reason = reason;
+		this.changed = true;
+		return this.reason;
 	}
 	
 	/** Gets the person who jailed this prisoner. */
@@ -82,6 +91,7 @@ public class Prisoner {
 	/** Sets the person who jailed this prisoner. */
 	public void setJailer(String jailer) {
 		this.jailer = jailer;
+		this.changed = true;
 	}
 	
 	/** Gets whether the prisoner is muted or not. */
@@ -92,6 +102,7 @@ public class Prisoner {
 	/** Sets whether the prisoner is muted or not. */
 	public void setMuted(boolean muted) {
 		this.muted = muted;
+		this.changed = true;
 	}
 	
 	/** Gets the remaining time the prisoner has. */
@@ -116,6 +127,7 @@ public class Prisoner {
 	 */
 	public void setRemainingTime(long time) {
 		this.time = time;
+		this.changed = true;
 	}
 	
 	/**
@@ -126,6 +138,7 @@ public class Prisoner {
 	 */
 	public long addTime(long time) {
 		this.time += time;
+		this.changed = true;
 		return this.time;
 	}
 	
@@ -137,6 +150,7 @@ public class Prisoner {
 	 */
 	public long subtractTime(long time) {
 		this.time -= time;
+		this.changed = true;
 		return this.time;
 	}
 	
@@ -148,6 +162,7 @@ public class Prisoner {
 	/** Sets whether the player is offline or not. */
 	public void setOfflinePending(boolean offline) {
 		this.offlinePending = offline;
+		this.changed = true;
 	}
 	
 	/** Gets whether the player is being teleported or not. */
@@ -168,6 +183,7 @@ public class Prisoner {
 	/** Sets whether the prisoner is going to be transferred or not, mainly for teleporting on join purposes. */
 	public void setToBeTransferred(boolean transferred) {
 		this.toBeTransferred = transferred;
+		this.changed = true;
 	}
 	
 	/** Gets the previous location of this player, can be null. */
@@ -197,6 +213,7 @@ public class Prisoner {
 		if(location == null) return;
 		if(location.isEmpty()) return;
 		
+		this.changed = true;
 		String[] s = location.split(",");
 		this.previousPosition = new Location(Bukkit.getWorld(s[0]),
 				Double.valueOf(s[1]),
@@ -214,6 +231,7 @@ public class Prisoner {
 	/** Sets the previous gamemode of this player. */
 	public void setPreviousGameMode(GameMode previous) {
 		this.previousGameMode = previous;
+		this.changed = true;
 	}
 	
 	/** Sets the previous gamemode of this player based upon the provided string. */
@@ -221,6 +239,7 @@ public class Prisoner {
 		if(previous == null) return;
 		else if(previous.isEmpty()) return;
 		else this.previousGameMode = GameMode.valueOf(previous);
+		this.changed = true;
 	}
 	
 	/** Gets the inventory string for this player, it is encoded in Base64 string. */
@@ -231,6 +250,7 @@ public class Prisoner {
 	/** Sets the inventory Base64 string. */
 	public void setInventory(String inventory) {
 		this.inventory = inventory;
+		this.changed = true;
 	}
 	
 	/** Gets the armor content, encoded in Base64 string. */
@@ -241,6 +261,7 @@ public class Prisoner {
 	/** Sets the armor inventory Base64 string. */
 	public void setArmor(String armor) {
 		this.armor = armor;
+		this.changed = true;
 	}
 	
 	/** Gets the time, in milliseconds, this prisoner has been afk. */
@@ -251,5 +272,16 @@ public class Prisoner {
 	/** Sets the time, in milliseconds, this prisoner has been afk. */
 	public void setAFKTime(long time) {
 		this.afk = time;
+	}
+	
+	/** Checks if the prisoner was changed or not. */
+	public boolean wasChanged() {
+		return this.changed;
+	}
+	
+	/** Sets whether the prisoner was changed or not. */
+	public boolean setChanged(boolean change) {
+		this.changed = change;
+		return this.changed;
 	}
 }
