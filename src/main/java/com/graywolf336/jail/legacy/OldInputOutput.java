@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -123,7 +124,7 @@ public class OldInputOutput {
     				j = pl.getJailManager().getJails().iterator().next();
     			}
     			
-    			Prisoner p = new Prisoner(pl.getServer().getOfflinePlayer(name).getUniqueId().toString(), name, set.getBoolean("muted"), (long) set.getInt("RemainTime"), set.getString("Jailer"), set.getString("reason"));
+    			Prisoner p = new Prisoner(pl.getServer().getOfflinePlayer(name).getUniqueId().toString(), name, set.getBoolean("muted"), TimeUnit.MILLISECONDS.convert(set.getInt("RemainTime") / 6, TimeUnit.MINUTES), set.getString("Jailer"), set.getString("reason"));
     			p.setOfflinePending(set.getBoolean("Offline"));
     			p.setToBeTransferred(transfer);
     			
