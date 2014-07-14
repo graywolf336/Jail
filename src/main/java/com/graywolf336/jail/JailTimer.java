@@ -31,10 +31,10 @@ public class JailTimer {
 		this.lastTime = System.currentTimeMillis();
 		if(pl.getConfig().getBoolean(Settings.USEBUKKITTIMER.getPath())) {
 			pl.getLogger().info("Using the Bukkit Scheduler.");
-			pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new TimeEvent(), 20, 20);
+			pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new TimeEvent(), 200, 200);
 		}else {
 			pl.getLogger().info("Using the Java Timer.");
-			timer = new Timer(1000, new ActionListener () {
+			timer = new Timer(10000, new ActionListener () {
 				public void actionPerformed (ActionEvent event) {
 					pl.getServer().getScheduler().scheduleSyncDelayedTask(pl, new TimeEvent());
 				};
@@ -60,19 +60,8 @@ public class JailTimer {
 	
 	class TimeEvent implements Runnable {
 		public void run() {
-			long timePassed;
-			
-			//Let's check if more than 10 seconds has passed since the
-			//last time we checked
-			if (System.currentTimeMillis() - lastTime >= 10000) {
-				//set the time passed to the current time minus the last time we checked
-				timePassed = System.currentTimeMillis() - lastTime;
-				lastTime = System.currentTimeMillis();
-			}else {
-				//Less than 10 seconds has past when we last ran this
-				//so let's wait till the next round before we do this
-				return;
-			}
+			long timePassed = System.currentTimeMillis() - lastTime;
+			lastTime = System.currentTimeMillis();
 			
 			for(Jail j : pl.getJailManager().getJails()) {
 				for(Prisoner p : j.getAllPrisoners().values()) {
