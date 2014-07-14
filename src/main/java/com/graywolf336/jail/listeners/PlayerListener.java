@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -29,6 +30,7 @@ import com.graywolf336.jail.beans.Stick;
 import com.graywolf336.jail.enums.LangString;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedByJailStickEvent;
+import com.graywolf336.jail.events.PrisonerDeathEvent;
 
 public class PlayerListener implements Listener {
 	private JailMain pl;
@@ -167,6 +169,16 @@ public class PlayerListener implements Listener {
 					event.setFoodLevel(max);
 				}
 			}
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent event) {
+		if(pl.getJailManager().isPlayerJailed(event.getEntity().getUniqueId())) {
+			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getEntity().getUniqueId());
+			
+			PrisonerDeathEvent prisonerEvent = new PrisonerDeathEvent(event, j, j.getCellPrisonerIsIn(event.getEntity().getUniqueId()), j.getPrisoner(event.getEntity().getUniqueId()), event.getEntity());
+			pl.getServer().getPluginManager().callEvent(prisonerEvent);
 		}
 	}
 	
