@@ -178,6 +178,7 @@ public class Prisoner {
 	/** Gets the previous location of this player, separated by a comma. */
 	public String getPreviousLocationString() {
 		if(previousPosition == null) return "";
+		else if(previousPosition.getWorld() == null) return "";
 		else return previousPosition.getWorld().getName() + "," + 
 				previousPosition.getX() + "," + 
 				previousPosition.getY() + "," +
