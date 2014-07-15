@@ -29,8 +29,8 @@ public class MoveProtectionListener implements Listener {
 		if(pl.getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
 			//Let's be sure the player we're dealing with is in jail
 			
-			CachePrisoner cp = pl.getJailManager().getCacheObject(event.getPlayer().getUniqueId());
-			if(cp != null) {
+			if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
+				CachePrisoner cp = pl.getJailManager().getCacheObject(event.getPlayer().getUniqueId());
 				Jail j = cp.getJail();
 				Prisoner p = cp.getPrisoner();
 				

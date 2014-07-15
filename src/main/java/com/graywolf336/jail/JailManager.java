@@ -179,6 +179,7 @@ public class JailManager {
 	 * @return The same object given
 	 */
 	public CachePrisoner addCacheObject(CachePrisoner cache) {
+		plugin.debug("Adding " + cache.getPrisoner().getUUID().toString() + " to the cache.");
 		this.cache.put(cache.getPrisoner().getUUID(), cache);
 		return cache;
 	}
@@ -209,6 +210,7 @@ public class JailManager {
 	 * @param uuid of the prisoner to remove
 	 */
 	public void removeCacheObject(UUID uuid) {
+		plugin.debug("Removing " + uuid.toString() + " from the cache.");
 		this.cache.remove(uuid);
 	}
 	

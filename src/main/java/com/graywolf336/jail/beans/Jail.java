@@ -139,7 +139,7 @@ public class Jail {
 	
 	/** Removes a prisoner from this jail, doesn't remove it from the cell. */
 	public void removePrisoner(Prisoner p) {
-		this.nocellPrisoners.remove(p);
+		this.nocellPrisoners.remove(p.getUUID());
 	}
 	
 	/** Adds a cell to the Jail. */
