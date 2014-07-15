@@ -84,12 +84,11 @@ public class Util {
      * @return true if the list contains the provided value, false if it doesn't
      */
     public static boolean isStringInsideList(List<String> list, String value) {
-    	boolean r = false;
     	for(String s : list)
     		if(s.equalsIgnoreCase(value))
     			return true;
     	
-    	return r;
+    	return false;
     }
     
     /** Returns a colorful message from the color codes. */

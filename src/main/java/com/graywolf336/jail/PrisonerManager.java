@@ -198,19 +198,23 @@ public class PrisonerManager {
     				ItemStack[] armor = player.getInventory().getArmorContents();
     				
     				for(ItemStack item : inventory) {
-    					if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
-    						int i = chest.firstEmpty();
-        					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-        						chest.setItem(i, item);
+    					if(item != null) {
+        					if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
+        						int i = chest.firstEmpty();
+            					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+            						chest.setItem(i, item);
+            					}
         					}
     					}
     				}
     				
     				for(ItemStack item : armor) {
-    					if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
-    						int i = chest.firstEmpty();
-        					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-        						chest.setItem(i, item);
+    					if(item != null) {
+    						if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
+        						int i = chest.firstEmpty();
+            					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+            						chest.setItem(i, item);
+            					}
         					}
     					}
     				}
@@ -222,19 +226,15 @@ public class PrisonerManager {
     				//Updates the cell's signs
     				cell.update();
     			}else {
-    				for(ItemStack item : player.getInventory().getContents()) {
-    					if(Util.isStringInsideList(blacklist, item.getType().toString())) {
-    						pl.debug("Removing " + item.getType() + " from " + player.getName() +  "'s ("  + player.getUniqueId().toString() + ") inventory.");
-    						player.getInventory().remove(item.getType());
-    					}
-    				}
+    				for(ItemStack item : player.getInventory().getContents())
+    					if(item != null)
+    						if(Util.isStringInsideList(blacklist, item.getType().toString()))
+    							player.getInventory().remove(item);
     				
-    				for(ItemStack item : player.getInventory().getArmorContents()) {
-    					if(Util.isStringInsideList(blacklist, item.getType().toString())) {
-    						pl.debug("Removing " + item.getType() + " from " + player.getName() +  "'s ("  + player.getUniqueId().toString() + ") inventory.");
-    						player.getInventory().remove(item.getType());
-    					}
-    				}
+    				for(ItemStack item : player.getInventory().getArmorContents())
+    					if(item != null)
+    						if(Util.isStringInsideList(blacklist, item.getType().toString()))
+    							player.getInventory().remove(item);
     				
     				String[] inv = Util.playerInventoryToBase64(player.getInventory());
     				prisoner.setInventory(inv[0]);
@@ -252,6 +252,18 @@ public class PrisonerManager {
     	}else {
     		//There is no cell we're jailing them to, so stick them in the jail
     		if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
+    			List<String> blacklist = pl.getConfig().getStringList(Settings.JAILEDINVENTORYBLACKLIST.getPath());
+    			
+				for(ItemStack item : player.getInventory().getContents())
+					if(item != null)
+						if(Util.isStringInsideList(blacklist, item.getType().toString()))
+							player.getInventory().remove(item);
+				
+				for(ItemStack item : player.getInventory().getArmorContents())
+					if(item != null)
+						if(Util.isStringInsideList(blacklist, item.getType().toString()))
+							player.getInventory().remove(item);
+				
     			String[] inv = Util.playerInventoryToBase64(player.getInventory());
 				prisoner.setInventory(inv[0]);
 				prisoner.setArmor(inv[1]);
