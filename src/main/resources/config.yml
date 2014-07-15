@@ -47,12 +47,12 @@ jailing:
   jail:
     automaticMute: true
     broadcastJailing: false
-	clothing:
-	  set: true
-	  helmet: leather_boots~255,102,0
-	  chest: leather_chestplate~255,102,0
-	  legs: leather_leggings~255,102,0
-	  boots: leather_boots~255,102,0
+    clothing:
+      enabled: true
+      helmet: leather_boots~255,102,0
+      chest: leather_chestplate~255,102,0
+      legs: leather_leggings~255,102,0
+      boots: leather_boots~255,102,0
     commands: []
     defaultJail: nearest #the jail nearest to the player
     defaultTime: 30m #default the time to 30 minutes, if no time
