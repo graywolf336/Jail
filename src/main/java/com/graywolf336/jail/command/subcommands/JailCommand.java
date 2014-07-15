@@ -174,6 +174,11 @@ public class JailCommand implements Command {
 		
 		//Get the jail instance from the name of jail in the params.
 		Jail j = jm.getJail(jailName);
+		if(!j.isEnabled()) {
+			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.WORLDUNLOADED, j.getName()));
+			return true;
+		}
+		
 		Cell c = j.getCell(params.getCell());
 		Prisoner pris = new Prisoner(uuid, params.getPlayer(), muted, time, sender.getName(), reason);
 		

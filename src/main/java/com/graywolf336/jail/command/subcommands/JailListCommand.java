@@ -32,7 +32,8 @@ public class JailListCommand implements Command {
 			if(args.length == 1) {
 				//No jail provided, so give them a list of the jails
 				for(Jail j : jm.getJails()) {
-					sender.sendMessage(ChatColor.BLUE + "    " + j.getName() + " (" + j.getAllPrisoners().size() + ")");
+					if(j.isEnabled()) sender.sendMessage(ChatColor.BLUE + "    " + j.getName() + " (" + j.getAllPrisoners().size() + ")");
+					else sender.sendMessage(ChatColor.RED + "    " + j.getName() + " (" + j.getAllPrisoners().size() + ") - WORLD UNLOADED");
 				}
 			}else {
 				Jail j = jm.getJail(args[1]);

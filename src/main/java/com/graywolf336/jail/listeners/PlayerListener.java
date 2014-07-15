@@ -93,6 +93,13 @@ public class PlayerListener implements Listener {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Get the prisoner object
 			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
+			
+			if(!j.isEnabled()) {
+				event.getPlayer().kickPlayer(pl.getJailIO().getLanguageString(LangString.WORLDUNLOADEDKICK));
+				pl.getLogger().warning(j.getName() + " is located in a world which is unloaded and " + event.getPlayer().getName() + " (" + event.getPlayer().getUniqueId() + ") tried to join while jailed in it.");
+				return;
+			}
+			
 			Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
 			//update their last known username when they login
 			p.setLastKnownName(event.getPlayer().getName());

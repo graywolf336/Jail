@@ -75,6 +75,8 @@ language:
     unjailed: '&2You have been released! Please respect the server rules.'
     unjailsuccess: '&2%0% has been released from jail.'
     willbeunjailed: '&2%0% will be released the next time they log on.'
+    worldunloaded: '&4%0% is located in a world that is not loaded, jailing to it is disabled.'
+    worldunloadedkick: '&4You are jailed in a jail that is located in a world which is currently unloaded, try again later.'
     youarenotjailed: '&2You are not jailed.'
   jailpay:
     cantpayforotherswhilejailed: '&cYou are jailed and as a result you can not pay for others.'

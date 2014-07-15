@@ -21,6 +21,7 @@ import com.graywolf336.jail.Util;
  */
 public class Jail {
 	private JailMain plugin;
+	private boolean enabled;
 	private HashMap<String, Cell> cells;
 	private HashMap<UUID, Prisoner> nocellPrisoners;//prisoners who aren't in a cell
 	private String name = "", world = "";
@@ -29,6 +30,7 @@ public class Jail {
 	
 	public Jail(JailMain plugin, String name) {
 		this.plugin = plugin;
+		this.enabled = true;
 		this.name = name;
 		cells = new HashMap<String, Cell>();
 		nocellPrisoners = new HashMap<UUID, Prisoner>();
@@ -37,6 +39,16 @@ public class Jail {
 	/** Gets the instance of the plugin's main class. */
 	public JailMain getPlugin() {
 		return this.plugin;
+	}
+	
+	/** Sets whether this jail can be used or not. */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
+	/** Gets whether this jail is enabled or not. */
+	public boolean isEnabled() {
+		return this.enabled;
 	}
 	
 	/** Sets the name of the jail. */

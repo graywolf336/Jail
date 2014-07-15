@@ -19,6 +19,7 @@ import com.graywolf336.jail.listeners.JailingListener;
 import com.graywolf336.jail.listeners.MoveProtectionListener;
 import com.graywolf336.jail.listeners.PlayerListener;
 import com.graywolf336.jail.listeners.ProtectionListener;
+import com.graywolf336.jail.listeners.WorldListener;
 
 /**
  * The main class for this Jail plugin, holds instances of vital classes.
@@ -87,6 +88,7 @@ public class JailMain extends JavaPlugin {
 		plm.registerEvents(new JailingListener(this), this);
 		plm.registerEvents(new PlayerListener(this), this);
 		plm.registerEvents(new ProtectionListener(this), this);
+		plm.registerEvents(new WorldListener(this), this);
 		
 		//Only register the move protection listener if this is enabled in the
 		//config when we first start the plugin. The reason for this change is

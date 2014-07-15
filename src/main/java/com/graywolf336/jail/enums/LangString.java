@@ -94,6 +94,10 @@ public enum LangString {
 	UNJAILSUCCESS ("jailing"),
 	/** The message went when an offline player is unjailed. */
 	WILLBEUNJAILED ("jailing"),
+	/** The message sent when trying to jail a player in an unloaded world. */
+	WORLDUNLOADED ("jailing"),
+	/** The message sent when a player joins and is jailed in a world that is unloaded. */
+	WORLDUNLOADEDKICK ("jailing"),
 	/** The message sent to the sender when they check their jail status and they aren't jailed. */
 	YOUARENOTJAILED ("jailing"),
 	
