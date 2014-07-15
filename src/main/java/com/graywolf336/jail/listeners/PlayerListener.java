@@ -223,42 +223,47 @@ public class PlayerListener implements Listener {
 						}else {
 							Stick s = pl.getJailStickManager().getStick(attacker.getItemInHand().getType());
 							
-							Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),
-									pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
-									s.getTime(), attacker.getName(), s.getReason());
-							
-							PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
-									pl.getJailManager().getJail(s.getJail()), null, p, player, attacker.getName(), s);
-							
-							pl.getServer().getPluginManager().callEvent(jEvent);
-							
-							if(jEvent.isCancelled()) {
-								if(jEvent.getCancelledMessage().isEmpty())
-									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, player.getName()));
-								else
-									attacker.sendMessage(jEvent.getCancelledMessage());
-							}else {
-								//recall data from the event
-								Jail j = jEvent.getJail();
-								Cell c = jEvent.getCell();
-								p = jEvent.getPrisoner();
-								player = jEvent.getPlayer();
+							if(player.getHealth() <= s.getHealth() || s.getHealth() == -1) {
+								Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),
+										pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
+										s.getTime(), attacker.getName(), s.getReason());
 								
-								//Player is not online
-								if(player == null) {
-									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.OFFLINEJAIL,
-											new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+								PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
+										pl.getJailManager().getJail(s.getJail()), null, p, player, attacker.getName(), s);
+								
+								pl.getServer().getPluginManager().callEvent(jEvent);
+								
+								if(jEvent.isCancelled()) {
+									if(jEvent.getCancelledMessage().isEmpty())
+										attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, player.getName()));
+									else
+										attacker.sendMessage(jEvent.getCancelledMessage());
 								}else {
-									//Player *is* online
-									attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ONLINEJAIL,
-											new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+									//recall data from the event
+									Jail j = jEvent.getJail();
+									Cell c = jEvent.getCell();
+									p = jEvent.getPrisoner();
+									player = jEvent.getPlayer();
+									
+									//Player is not online
+									if(player == null) {
+										attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.OFFLINEJAIL,
+												new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+									}else {
+										//Player *is* online
+										attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ONLINEJAIL,
+												new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+									}
+									
+									try {
+										pl.getPrisonerManager().prepareJail(j, c, player, p);
+									} catch (Exception e) {
+										attacker.sendMessage(ChatColor.RED + e.getMessage());
+									}
 								}
-								
-								try {
-									pl.getPrisonerManager().prepareJail(j, c, player, p);
-								} catch (Exception e) {
-									attacker.sendMessage(ChatColor.RED + e.getMessage());
-								}
+							}else {
+								attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.RESISTEDARRESTJAILER, player.getName()));
+								player.sendMessage(pl.getJailIO().getLanguageString(LangString.RESISTEDARRESTPLAYER, attacker.getName()));
 							}
 						}
 					}

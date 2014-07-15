@@ -54,7 +54,7 @@ public class JailStickManager {
 			}
 			
 			try {
-				this.sticks.put(m, new Stick(a[2], a[3], Long.valueOf(a[1])));
+				this.sticks.put(m, new Stick(a[2], a[3], Long.valueOf(a[1]), Double.valueOf(a[4])));
 			}catch (Exception e) {
 				e.printStackTrace();
 				pl.getLogger().severe(s);

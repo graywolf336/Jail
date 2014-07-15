@@ -70,6 +70,10 @@ public enum LangString {
 	PROVIDEAPLAYER ("jailing"),
 	/** The message sent to the sender when they need to provide a jail. */
 	PROVIDEAJAIL ("jailing"),
+	/** The message sent to someone trying to jail someone else with a jail stick that requires health below a certain amount. */
+	RESISTEDARRESTJAILER ("jailing"),
+	/** The message sent to the person someone else is trying to jail that requires their health below a certain amount. */
+	RESISTEDARRESTPLAYER ("jailing"),
 	/** The message sent when to a prisoner about their status in jail. */
 	STATUS ("jailing"),
 	/** The message sent to the sender of a command when suggesting a cell. */

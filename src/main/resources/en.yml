@@ -63,6 +63,8 @@ language:
     protectionmessagenopenalty: '&cProtection enabled for %0%, do not do it again.'
     provideaplayer: '&cPlease provide a player when %0% &cthem.'
     provideajail: '&cPlease provide a jail to %0% &cthem to.'
+    resistedarrestjailer: '&c%0% has resisted arrest thanks to having more health than you can jail at.'
+    resistedarrestplayer: '&cYou have resisted arrest due to having more health than %0% can jail at.'
     status: "&2You have been jailed with a reason of '%0%' by %1% and have %2% minutes remaining."
     suggestedcell: '&cAn empty cell in the same jail, %0%, was found: %1%'
     telein: "&9Teleported %0% to %1%'s teleport in location."

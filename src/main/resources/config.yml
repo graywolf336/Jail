@@ -77,4 +77,4 @@ jailpay:
   priceInfinite: 10000
 jailstick:
   enabled: true
-  sticks: ["stick,30,,Running away"]
+  sticks: ["stick,30,,Running away,-1", "blaze_rod,15,,Having too much fun,6"]
