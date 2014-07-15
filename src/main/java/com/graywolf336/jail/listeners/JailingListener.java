@@ -55,7 +55,7 @@ public class JailingListener implements Listener {
 					ItemStack item = new ItemStack(Material.valueOf(helmet[0]));
 					LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
 					String[] colors = helmet[1].split(",");
-					meta.setColor(Color.fromBGR(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2])));
+					meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
 					item.setItemMeta(meta);
 					event.getPlayer().getInventory().setHelmet(item);
 				default:
@@ -71,7 +71,7 @@ public class JailingListener implements Listener {
 					ItemStack item = new ItemStack(Material.valueOf(chest[0]));
 					LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
 					String[] colors = chest[1].split(",");
-					meta.setColor(Color.fromBGR(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2])));
+					meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
 					item.setItemMeta(meta);
 					event.getPlayer().getInventory().setChestplate(item);
 				default:
@@ -87,7 +87,7 @@ public class JailingListener implements Listener {
 					ItemStack item = new ItemStack(Material.valueOf(legs[0]));
 					LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
 					String[] colors = legs[1].split(",");
-					meta.setColor(Color.fromBGR(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2])));
+					meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
 					item.setItemMeta(meta);
 					event.getPlayer().getInventory().setLeggings(item);
 				default:
@@ -103,7 +103,7 @@ public class JailingListener implements Listener {
 					ItemStack item = new ItemStack(Material.valueOf(boots[0]));
 					LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
 					String[] colors = boots[1].split(",");
-					meta.setColor(Color.fromBGR(Integer.parseInt(colors[0]), Integer.parseInt(colors[1]), Integer.parseInt(colors[2])));
+					meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
 					item.setItemMeta(meta);
 					event.getPlayer().getInventory().setBoots(item);
 				default:
