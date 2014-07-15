@@ -279,11 +279,7 @@ public class JailManager {
 	public Prisoner getPrisoner(UUID uuid) {
 		Jail j = getJailPlayerIsIn(uuid);
 		
-		if(j != null) {
-			return j.getPrisoner(uuid);
-		}else {
-			return null;
-		}
+		return j == null ? null : j.getPrisoner(uuid);
 	}
 	
 	/**
