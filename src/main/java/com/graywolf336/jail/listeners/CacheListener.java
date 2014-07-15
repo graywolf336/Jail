@@ -11,9 +11,9 @@ import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.beans.CachePrisoner;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrePrisonerTransferredEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
-import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
 
 /**
@@ -67,7 +67,7 @@ public class CacheListener implements Listener {
 	}
 	
 	@EventHandler(priority = EventPriority.LOWEST)
-	public void releaseListener(PrisonerReleasedEvent event) {
+	public void beforeReleaseListener(PrePrisonerReleasedEvent event) {
 		if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
 			pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
 		}
