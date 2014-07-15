@@ -46,7 +46,7 @@ public class JailingListener implements Listener {
 	@EventHandler
 	public void setInmatesClothing(PrisonerJailedEvent event) {
 		if(pl.getConfig().getBoolean(Settings.CLOTHINGENABLED.getPath())) {
-			String[] helmet = pl.getConfig().getString(Settings.CLOTHINGHELMET.getPath()).split("~");
+			String[] helmet = pl.getConfig().getString(Settings.CLOTHINGHELMET.getPath()).toUpperCase().split("~");
 			switch(helmet.length) {
 				case 1:
 					event.getPlayer().getInventory().setHelmet(new ItemStack(Material.valueOf(helmet[0])));
@@ -62,7 +62,7 @@ public class JailingListener implements Listener {
 					break;
 			}
 			
-			String[] chest = pl.getConfig().getString(Settings.CLOTHINGCHEST.getPath()).split("~");
+			String[] chest = pl.getConfig().getString(Settings.CLOTHINGCHEST.getPath()).toUpperCase().split("~");
 			switch(chest.length) {
 				case 1:
 					event.getPlayer().getInventory().setChestplate(new ItemStack(Material.valueOf(chest[0])));
@@ -78,7 +78,7 @@ public class JailingListener implements Listener {
 					break;
 			}
 			
-			String[] legs = pl.getConfig().getString(Settings.CLOTHINGLEGS.getPath()).split("~");
+			String[] legs = pl.getConfig().getString(Settings.CLOTHINGLEGS.getPath()).toUpperCase().split("~");
 			switch(legs.length) {
 				case 1:
 					event.getPlayer().getInventory().setLeggings(new ItemStack(Material.valueOf(legs[0])));
@@ -94,7 +94,7 @@ public class JailingListener implements Listener {
 					break;
 			}
 			
-			String[] boots = pl.getConfig().getString(Settings.CLOTHINGBOOTS.getPath()).split("~");
+			String[] boots = pl.getConfig().getString(Settings.CLOTHINGBOOTS.getPath()).toUpperCase().split("~");
 			switch(boots.length) {
 				case 1:
 					event.getPlayer().getInventory().setBoots(new ItemStack(Material.valueOf(boots[0])));
