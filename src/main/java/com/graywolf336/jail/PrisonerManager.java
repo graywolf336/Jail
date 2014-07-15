@@ -1,5 +1,6 @@
 package com.graywolf336.jail;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.GameMode;
@@ -135,12 +136,6 @@ public class PrisonerManager {
 			player.sendMessage(pl.getJailIO().getLanguageString(LangString.JAILEDWITHREASON, new String[] { prisoner.getReason() }));
 		}
 		
-		//If the config has inventory deletion, then let's delete it
-		if(pl.getConfig().getBoolean(Settings.DELETEINVENTORY.getPath(), false)) {
-			player.getInventory().setArmorContents(null);
-			player.getInventory().clear();
-		}
-		
 		//If the config has releasing them back to their previous position,
 		//then let's set it in the prisoner data.
 		if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
@@ -191,6 +186,7 @@ public class PrisonerManager {
     	if(cell != null) {
     		//check if we store the inventory
     		if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
+    			List<String> blacklist = pl.getConfig().getStringList(Settings.JAILEDINVENTORYBLACKLIST.getPath());
     			//Check if there is a chest to store our items to and if it is a double chest, if not we will then serialize it
     			if(cell.hasChest()) {
     				//Get the chest's inventory and then clear it
@@ -202,16 +198,20 @@ public class PrisonerManager {
     				ItemStack[] armor = player.getInventory().getArmorContents();
     				
     				for(ItemStack item : inventory) {
-    					int i = chest.firstEmpty();
-    					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-    						chest.setItem(i, item);
+    					if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
+    						int i = chest.firstEmpty();
+        					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+        						chest.setItem(i, item);
+        					}
     					}
     				}
     				
     				for(ItemStack item : armor) {
-    					int i = chest.firstEmpty();
-    					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-    						chest.setItem(i, item);
+    					if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
+    						int i = chest.firstEmpty();
+        					if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+        						chest.setItem(i, item);
+        					}
     					}
     				}
     				
@@ -222,6 +222,18 @@ public class PrisonerManager {
     				//Updates the cell's signs
     				cell.update();
     			}else {
+    				for(ItemStack item : player.getInventory().getContents()) {
+    					if(Util.isStringInsideList(blacklist, item.getType().toString())) {
+    						player.getInventory().remove(item);
+    					}
+    				}
+    				
+    				for(ItemStack item : player.getInventory().getArmorContents()) {
+    					if(Util.isStringInsideList(blacklist, item.getType().toString())) {
+    						player.getInventory().remove(item);
+    					}
+    				}
+    				
     				String[] inv = Util.playerInventoryToBase64(player.getInventory());
     				prisoner.setInventory(inv[0]);
     				prisoner.setArmor(inv[1]);
