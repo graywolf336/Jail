@@ -248,7 +248,10 @@ public class JailManager {
 	 * @return The jail the player is in, <strong>CAN BE NULL</strong>.
 	 */
 	public Jail getJailPlayerIsIn(UUID uuid) {
-		if(this.cache.containsKey(uuid)) return this.cache.get(uuid).getJail();
+		if(this.cache.containsKey(uuid)) {
+			plugin.debug(uuid.toString() + " is in the cache (getJailPlayerIsIn).");
+			return this.cache.get(uuid).getJail();
+		}
 		
 		for(Jail j : jails.values())
 			if(j.isPlayerJailed(uuid))

@@ -2,7 +2,6 @@ package com.graywolf336.jail;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -519,7 +518,7 @@ public class JailIO {
 					}
 				}
 				
-				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
+				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis to load the jails and all the data.");
 				break;
 			default:
 				//load the jails from flatfile
@@ -779,7 +778,7 @@ public class JailIO {
 					pl.getLogger().severe("Error while saving the prisoners of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
 				}
 				
-				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis.");
+				pl.debug("Took " + (System.currentTimeMillis() - st) + " millis to save the jail " + j.getName() + ".");
 				break;
 			default:
 				if(flat != null) {
@@ -987,7 +986,7 @@ public class JailIO {
 				} catch (SQLException e) {
 					e.printStackTrace();
 					pl.getLogger().severe("---------- Jail Error!!! ----------");
-					pl.getLogger().severe("Error while removing the prisoner '" + p.getLastKnownName() + "' from the database, please check the error and fix what is wrong.");
+					pl.getLogger().severe("Error while removing the prisoner '" + p.getLastKnownName() + "' (" + p.getUUID().toString() + ") from the database, please check the error and fix what is wrong.");
 				}
 				break;
 			default:
