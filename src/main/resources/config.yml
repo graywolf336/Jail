@@ -58,7 +58,7 @@ jailing:
     defaultTime: 30m #default the time to 30 minutes, if no time
     gameMode: adventure
     inventory:
-      blacklist: ['diamond_block', 'gold_block', 'emerald_block'] #items they aren't allowed to keep
+      blacklist: [] #items they aren't allowed to keep
       store: true
     logToConsole: true
     logToProfile: false
