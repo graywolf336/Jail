@@ -211,7 +211,7 @@ public class PlayerListener implements Listener {
 		Player attacker = (Player) event.getDamager();
 		Player player = (Player) event.getEntity();
 		
-		if(pl.getJailStickManager().isUsingJailStick(attacker)) {
+		if(pl.getJailStickManager().isUsingJailStick(attacker.getUniqueId())) {
 			if(pl.getJailStickManager().isValidStick(attacker.getItemInHand().getType())) {
 				if(attacker.hasPermission("jail.usejailstick." + attacker.getItemInHand().getType().toString().toLowerCase())) {
 					//The person the attacker is trying to jail stick is already jailed, don't handle that

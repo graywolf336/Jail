@@ -2,10 +2,9 @@ package com.graywolf336.jail;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.beans.Stick;
 import com.graywolf336.jail.enums.Settings;
@@ -19,47 +18,61 @@ import com.graywolf336.jail.enums.Settings;
  *
  */
 public class JailStickManager {
-	private ArrayList<String> stickers;
+	private ArrayList<UUID> stickers;
 	private HashMap<Material, Stick> sticks;
 	
 	public JailStickManager(JailMain plugin) {
-		this.stickers = new ArrayList<String>();
+		this.stickers = new ArrayList<UUID>();
 		this.sticks = new HashMap<Material, Stick>();
 		
 		this.loadJailSticks(plugin);
 	}
 	
 	private void loadJailSticks(JailMain pl) {
-		FileConfiguration config =  pl.getConfig();
-		
 		//item name,time,jail name,reason
-		for(String s : config.getStringList(Settings.JAILSTICKSTICKS.getPath())) {
-			pl.debug(s);
-			String[] a = s.split(",");
-			
-			//Check if the jail given, if any, exists
-			if(!a[2].isEmpty()) {
-				if(!pl.getJailManager().isValidJail(a[2])) {
+		if(pl.getJailManager().getJails().size() == 0) {
+			pl.getLogger().warning("Can't have jail sticks without any jails.");
+		}else {
+			for(String s : pl.getConfig().getStringList(Settings.JAILSTICKSTICKS.getPath())) {
+				pl.debug(s);
+				String[] a = s.split(",");
+				String jail = a[2];
+				
+				//Check if the jail given, if any, exists
+				if(jail.isEmpty()) {
+					jail = pl.getJailManager().getJail("").getName();
+				}else {
+					if(!pl.getJailManager().isValidJail(jail)) {
+						pl.getLogger().severe(s);
+						pl.getLogger().severe("The above jail stick configuration is invalid and references a jail that doesn't exist.");
+						continue;
+					}
+				}
+				
+				Material m = Material.getMaterial(a[0].toUpperCase());
+				if(this.sticks.containsKey(m)) {
 					pl.getLogger().severe(s);
-					pl.getLogger().severe("The above jail stick configuration is invalid and references a jail that doesn't exist.");
+					pl.getLogger().severe("You can not use the same item for two different Jail Sticks. This already exists as a Jail Stick: " + a[0]);
 					continue;
 				}
-			}
-			
-			Material m = Material.getMaterial(a[0].toUpperCase());
-			if(this.sticks.containsKey(m)) {
-				pl.getLogger().severe(s);
-				pl.getLogger().severe("You can not use the same item for two different Jail Sticks. This already exists as a Jail Stick: " + a[0]);
-				continue;
-			}
-			
-			try {
-				this.sticks.put(m, new Stick(a[2], a[3], Long.valueOf(a[1]), Double.valueOf(a[4])));
-			}catch (Exception e) {
-				e.printStackTrace();
-				pl.getLogger().severe(s);
-				pl.getLogger().severe("Unable to create a new stick for " + a[0] + ", see the exception above for details.");
-				continue;
+				
+				long time = 5;
+				try {
+					 time = Util.getTime(a[1]);
+				} catch (Exception e) {
+					pl.getLogger().severe(s);
+					pl.getLogger().severe("The time format on the above jail stick configuration is incorrect.");
+					continue;
+				}
+				
+				try {
+					this.sticks.put(m, new Stick(jail, a[3], time, Double.valueOf(a[4])));
+				}catch (Exception e) {
+					e.printStackTrace();
+					pl.getLogger().severe(s);
+					pl.getLogger().severe("Unable to create a new stick for " + a[0] + ", see the exception above for details.");
+					continue;
+				}
 			}
 		}
 		
@@ -83,91 +96,53 @@ public class JailStickManager {
 	}
 	
 	/**
-	 * Adds a player to be using a jail stick, with the player instance.
+	 * Adds a player to be using a jail stick, with the uuid of the player.
 	 * 
-	 * @param player to add
+	 * @param id of the player to add
 	 */
-	public void addUsingStick(Player player) {
-		this.stickers.add(player.getName());
+	public void addUsingStick(UUID id) {
+		this.stickers.add(id);
 	}
 	
 	/**
-	 * Adds a player to be using a jail stick, with their username.
+	 * Removes a player from using a jail stick, with the uuid of the player.
 	 * 
-	 * @param name of the player to add
+	 * @param id of the player to remove using a jail stick
 	 */
-	public void addUsingStick(String name) {
-		this.stickers.add(name);
-	}
-	
-	/**
-	 * Removes a player from using a jail stick, with the player instance.
-	 * 
-	 * @param player to remove using a jail stick
-	 */
-	public void removeUsingStick(Player player) {
-		this.stickers.remove(player.getName());
-	}
-	
-	/**
-	 * Removes a player from using a jail stick, with their username.
-	 * 
-	 * @param name of the player to remove using a jail stick
-	 */
-	public void removeUsingStick(String name) {
-		this.stickers.remove(name);
+	public void removeUsingStick(UUID id) {
+		this.stickers.remove(id);
 	}
 	
 	/**
 	 * Returns whether or not the player is using a jail stick.
 	 * 
-	 * @param player to check if using one
+	 * @param id of the player to check if using one
 	 * @return true if the player is using a jail stick, false if not
 	 */
-	public boolean isUsingJailStick(Player player) {
-		return this.stickers.contains(player.getName());
-	}
-	
-	/**
-	 * Returns whether or not the player is using a jail stick.
-	 * 
-	 * @param name of the player to check if using one
-	 * @return true if the player is using a jail stick, false if not
-	 */
-	public boolean isUsingJailStick(String name) {
-		return this.stickers.contains(name);
+	public boolean isUsingJailStick(UUID id) {
+		return this.stickers.contains(id);
 	}
 	
 	/**
 	 * Toggles whether the player is using a jail stick, returning the true if enabled false if disabled.
 	 * 
-	 * @param player to toggle using a stick
+	 * @param id of the player to toggle using a stick
 	 * @return true if we enabled it, false if we disabled it.
 	 */
-	public boolean toggleUsingStick(Player player) {
-		return this.toggleUsingStick(player.getName());
-	}
-	
-	/**
-	 * Toggles whether the player is using a jail stick, returning the true if enabled false if disabled.
-	 * 
-	 * @param name of the person to toggle
-	 * @return true if we enabled it, false if we disabled it.
-	 */
-	public boolean toggleUsingStick(String name) {
-		if(this.stickers.contains(name)) {
-			this.stickers.remove(name);
+	public boolean toggleUsingStick(UUID id) {
+		if(this.stickers.contains(id)) {
+			this.stickers.remove(id);
 			return false;
 		}else {
-			this.stickers.add(name);
+			this.stickers.add(id);
 			return true;
 		}
 	}
 	
 	/**  Removes all the users currently using the sticks. */
 	public void removeAllStickUsers() {
-		for(String s: stickers) {
-			this.removeUsingStick(s);
+		for(UUID id : stickers) {
+			this.removeUsingStick(id);
 		}
 	}
 }

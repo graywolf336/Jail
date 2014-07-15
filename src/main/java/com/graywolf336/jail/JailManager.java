@@ -101,7 +101,7 @@ public class JailManager {
 	 * @return The {@link Jail} with the given name, if no jail found this <strong>will</strong> return null.
 	 */
 	public Jail getJail(String name) {
-		return this.jails.get(name);
+		return name.isEmpty() ? this.jails.values().iterator().next() : this.jails.get(name);
 	}
 	
 	/**

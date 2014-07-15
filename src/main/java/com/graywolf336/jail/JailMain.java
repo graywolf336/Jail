@@ -78,7 +78,6 @@ public class JailMain extends JavaPlugin {
 		cmdHand = new CommandHandler(this);
 		jh = new JailHandler(this);
 		pm = new PrisonerManager(this);
-		jsm = new JailStickManager(this);
 		
 		PluginManager plm = this.getServer().getPluginManager();
 		plm.registerEvents(new BlockListener(this), this);
@@ -99,6 +98,10 @@ public class JailMain extends JavaPlugin {
 		if(getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
 			this.mpl = new MoveProtectionListener(this);
 			plm.registerEvents(this.mpl, this);
+		}
+		
+		if(getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
+			jsm = new JailStickManager(this);
 		}
 		
 		jt = new JailTimer(this);
@@ -188,9 +191,11 @@ public class JailMain extends JavaPlugin {
 	
 	/** Reloads the Jail Sticks, so the new ones can be loaded from the config. */
 	public void reloadJailSticks() {
-		this.jsm.removeAllStickUsers();
-		this.jsm = null;
-		this.jsm = new JailStickManager(this);
+		if(getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
+			this.jsm.removeAllStickUsers();
+			this.jsm = null;
+			this.jsm = new JailStickManager(this);
+		}
 	}
 	
 	/** 

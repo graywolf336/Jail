@@ -1,6 +1,7 @@
 package com.graywolf336.jail.command.subcommands;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
@@ -19,7 +20,7 @@ import com.graywolf336.jail.enums.Settings;
 public class JailStickCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
 		if(jm.getPlugin().getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
-			boolean using = jm.getPlugin().getJailStickManager().toggleUsingStick(sender.getName());
+			boolean using = jm.getPlugin().getJailStickManager().toggleUsingStick(((Player) sender).getUniqueId());
 			
 			if(using) {
 				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILSTICKENABLED));
