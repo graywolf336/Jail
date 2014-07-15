@@ -233,6 +233,7 @@ public class PrisonerManager {
     		
     		//Teleport them to the cell's teleport location
     		//they will now be placed in jail.
+    		pl.debug("Teleporting " + player.getName() + " to " + jail.getName() + " in the cell " + cell.getName() + "'s in: " + jail.getTeleportIn().toString());
     		player.teleport(cell.getTeleport());
     	}else {
     		//There is no cell we're jailing them to, so stick them in the jail
@@ -247,6 +248,7 @@ public class PrisonerManager {
     		
     		//Teleport them to the jail's teleport in location
     		//They will now be placed in jail.
+    		pl.debug("Teleporting " + player.getName() + " to " + jail.getName() + "'s in: " + jail.getTeleportIn().toString());
     		player.teleport(jail.getTeleportIn());
     	}
     	
@@ -265,13 +267,13 @@ public class PrisonerManager {
 		if(pl.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath())) {
 			pl.getScoreBoardManager().addScoreBoard(player, prisoner);
 		}
+		
+		//Save the data, as we have changed it
+    	pl.getJailIO().saveJail(jail);
     	
     	//Call our custom event for when a prisoner is actually jailed.
     	PrisonerJailedEvent event = new PrisonerJailedEvent(jail, cell, prisoner, player);
     	pl.getServer().getPluginManager().callEvent(event);
-    	
-    	//Save the data, as we have changed it
-    	pl.getJailIO().saveJail(jail);
 	}
 	
 	/**
