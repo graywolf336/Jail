@@ -49,7 +49,7 @@ jailing:
     broadcastJailing: false
     clothing:
       enabled: true
-      helmet: leather_boots~175,105,33
+      helmet: leather_helmet~175,105,33
       chest: leather_chestplate~175,105,33
       legs: leather_leggings~175,105,33
       boots: leather_boots~175,105,33
