@@ -374,7 +374,7 @@ public class Jail {
 	 * @return Distance between the location provided and the teleport in location.
 	 */
 	public double getDistance(Location loc) {
-		if (loc.getWorld().getName().equalsIgnoreCase(getTeleportIn().getWorld().getName())) return (double) Integer.MAX_VALUE;
+		if (!loc.getWorld().getName().equalsIgnoreCase(getTeleportIn().getWorld().getName())) return (double) Integer.MAX_VALUE;
 		else return loc.distance(getTeleportIn());
 	}
 	
