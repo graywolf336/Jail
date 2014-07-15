@@ -73,7 +73,7 @@ public class TestJailStuff {
 		assertFalse("Default setting for deleting inventory is true.", main.getConfig().getBoolean("jailing.jail.deleteInventory"));
 		assertTrue("Default setting for logging to console when someone is jailed is false.", main.getConfig().getBoolean("jailing.jail.logToConsole"));
 		assertFalse("Default setting for logging to prisoner's profile is true.", main.getConfig().getBoolean("jailing.jail.logToProfile"));
-		assertTrue("Default setting for storing prisoner's inventory upon jailing is false.", main.getConfig().getBoolean("jailing.jail.storeInventory"));
+		assertTrue("Default setting for storing prisoner's inventory upon jailing is false.", main.getConfig().getBoolean("jailing.jail.inventory.store"));
 		
 		//Settings pertaining to after a prisoner is released
 		assertFalse("Default setting for releasing back to previous position is true.", main.getConfig().getBoolean("jailing.release.backToPreviousPosition"));
