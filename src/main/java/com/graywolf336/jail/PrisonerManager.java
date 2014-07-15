@@ -224,13 +224,15 @@ public class PrisonerManager {
     			}else {
     				for(ItemStack item : player.getInventory().getContents()) {
     					if(Util.isStringInsideList(blacklist, item.getType().toString())) {
-    						player.getInventory().remove(item);
+    						pl.debug("Removing " + item.getType() + " from " + player.getName() +  "'s ("  + player.getUniqueId().toString() + ") inventory.");
+    						player.getInventory().remove(item.getType());
     					}
     				}
     				
     				for(ItemStack item : player.getInventory().getArmorContents()) {
     					if(Util.isStringInsideList(blacklist, item.getType().toString())) {
-    						player.getInventory().remove(item);
+    						pl.debug("Removing " + item.getType() + " from " + player.getName() +  "'s ("  + player.getUniqueId().toString() + ") inventory.");
+    						player.getInventory().remove(item.getType());
     					}
     				}
     				
