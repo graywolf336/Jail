@@ -90,6 +90,8 @@ public enum LangString {
 	TRANSFERRED ("jailing"),
 	/** The message sent when players are released from jail. */
 	UNJAILED ("jailing"),
+	/** The message sent to the person who released a prisoner from jail. */
+	UNJAILSUCCESS ("jailing"),
 	/** The message went when an offline player is unjailed. */
 	WILLBEUNJAILED ("jailing"),
 	/** The message sent to the sender when they check their jail status and they aren't jailed. */

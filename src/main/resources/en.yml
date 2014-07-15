@@ -73,6 +73,7 @@ language:
     transfercompletenocell: '&2Successfully transferred %0% to %1%.'
     transferred: '&9You have been transferred to %0%.'
     unjailed: '&2You have been released! Please respect the server rules.'
+    unjailsuccess: '&2%0% has been released from jail.'
     willbeunjailed: '&2%0% will be released the next time they log on.'
     youarenotjailed: '&2You are not jailed.'
   jailpay:

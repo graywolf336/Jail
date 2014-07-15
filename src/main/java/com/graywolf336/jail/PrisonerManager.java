@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -287,7 +288,7 @@ public class PrisonerManager {
 			Jail j = pl.getJailManager().getJailPlayerIsIn(player.getUniqueId());
 			
 			try {
-				unJail(j, j.getCellPrisonerIsIn(player.getUniqueId()), player, prisoner);
+				unJail(j, j.getCellPrisonerIsIn(player.getUniqueId()), player, prisoner, null);
 			}catch(Exception e) {
 				if(pl.inDebug()) {
 					e.printStackTrace();
@@ -310,9 +311,10 @@ public class PrisonerManager {
 	 * @param cell which the prisoner is in, can be null
 	 * @param player instance for the prisoner we're unjailing
 	 * @param prisoner data where everything resides
+	 * @param sender The {@link CommandSender} who unjailed this player, can be null.
 	 * @throws Exception
 	 */
-	public void unJail(Jail jail, Cell cell, Player player, Prisoner prisoner) throws Exception {
+	public void unJail(Jail jail, Cell cell, Player player, Prisoner prisoner, CommandSender sender) throws Exception {
 		//Do some checks of whether the passed params are null.
 		if(jail == null)
 			throw new Exception("The jail can not be null.");
@@ -416,16 +418,17 @@ public class PrisonerManager {
     	pl.getServer().getPluginManager().callEvent(event);
     	
 		player.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILED));
+		if(sender != null) sender.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILSUCCESS, player.getName()));
 	}
 	
 	/** Forcefully releases a {@link Prisoner prisoner} from {@link Jail}. */
-	public void forceRelease(Prisoner prisoner) {
+	public void forceRelease(Prisoner prisoner, CommandSender sender) {
 		Jail j = pl.getJailManager().getJailPrisonerIsIn(prisoner);
-		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getUUID()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner);
+		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getUUID()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner, sender);
 	}
 	
 	/** Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}. */
-	public void forceUnJail(Jail jail, Cell cell, Player player, Prisoner prisoner) {
+	public void forceUnJail(Jail jail, Cell cell, Player player, Prisoner prisoner, CommandSender sender) {
 		if(player == null) {
 			//Player is offline, we just forcefully remove them from the database
 			pl.getJailIO().removePrisoner(jail, cell, prisoner);
@@ -435,9 +438,11 @@ public class PrisonerManager {
 			}else {
 				cell.removePrisoner();
 			}
+			
+			if(sender != null) sender.sendMessage(pl.getJailIO().getLanguageString(LangString.FORCEUNJAILED, prisoner.getLastKnownName()));
 		}else {
 			try {
-				unJail(jail, cell, player, prisoner);
+				unJail(jail, cell, player, prisoner, sender);
 			} catch (Exception e) {
 				releasePrisoner(player, prisoner);
 			}

@@ -34,8 +34,7 @@ public class UnJailCommand implements Command {
 				//Check if the player has offline pending and their remaining time is above 0, if so then
 				//forceably unjail them
 				if(pris.isOfflinePending() && pris.getRemainingTime() != 0L) {
-					jm.getPlugin().getPrisonerManager().forceUnJail(j, j.getCellPrisonerIsIn(pris.getUUID()), p, pris);
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.FORCEUNJAILED, args[0]));
+					jm.getPlugin().getPrisonerManager().forceUnJail(j, j.getCellPrisonerIsIn(pris.getUUID()), p, pris, sender);
 				}else {
 					//The player is not, so we'll set the remaining time to zero and do it when they login next
 					pris.setRemainingTime(0L);
@@ -45,7 +44,7 @@ public class UnJailCommand implements Command {
 			}else {
 				//Player is online, so let's try unjailing them
 				try {
-					jm.getPlugin().getPrisonerManager().unJail(j, j.getCellPrisonerIsIn(pris.getUUID()), p, pris);
+					jm.getPlugin().getPrisonerManager().unJail(j, j.getCellPrisonerIsIn(pris.getUUID()), p, pris, sender);
 				} catch (Exception e) {
 					sender.sendMessage(ChatColor.RED + e.getMessage());
 				}
