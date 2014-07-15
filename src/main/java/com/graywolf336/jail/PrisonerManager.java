@@ -377,6 +377,11 @@ public class PrisonerManager {
 		}
 		
 		//Now, let's restore their inventory
+		//First up, clear their inventory
+		player.closeInventory();
+		player.getInventory().setArmorContents(null);
+		player.getInventory().clear();
+		
 		//if the cell isn't null, let's check if the cell has a chest and if so then try out best to restore
 		//the prisoner's inventory from that
 		if(cell != null) {
