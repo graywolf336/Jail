@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.command.subcommands.JailCellCreateCommand;
+import com.graywolf336.jail.command.subcommands.JailCreateCellCommand;
 import com.graywolf336.jail.command.subcommands.JailCheckCommand;
 import com.graywolf336.jail.command.subcommands.JailClearCommand;
 import com.graywolf336.jail.command.subcommands.JailClearForceCommand;
@@ -174,7 +174,7 @@ public class JailHandler {
 	}
 	
 	private void loadCommands() {
-		load(JailCellCreateCommand.class);
+		load(JailCreateCellCommand.class);
 		load(JailCheckCommand.class);
 		load(JailClearCommand.class);
 		load(JailClearForceCommand.class);

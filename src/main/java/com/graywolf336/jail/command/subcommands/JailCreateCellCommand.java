@@ -13,11 +13,11 @@ import com.graywolf336.jail.command.CommandInfo;
 		maxArgs = 2,
 		minimumArgs = 1,
 		needsPlayer = true,
-		pattern = "createcell|cc",
+		pattern = "createcell|createcells|cellcreate|cellscreate|cc",
 		permission = "jail.command.jailcreatecells",
-		usage = "/jail cellcreate [jail] (cellname)"
+		usage = "/jail createcell [jail] (cellname)"
 	)
-public class JailCellCreateCommand implements Command {
+public class JailCreateCellCommand implements Command {
 
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		Player player = (Player) sender;
