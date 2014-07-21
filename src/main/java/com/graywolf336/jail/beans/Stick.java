@@ -13,6 +13,13 @@ public class Stick {
 	private long time;
 	private double health;
 	
+	/**
+	 * 
+	 * @param jail the player will be jailed in.
+	 * @param reason the player will be jailed for.
+	 * @param time the player will be jailed for.
+	 * @param health a player must have, at the least, before being able to be jailed with this stick, -1 disables this feature
+	 */
 	public Stick(String jail, String reason, long time, double health) {
 		this.jail = jail;
 		this.reason = reason;
