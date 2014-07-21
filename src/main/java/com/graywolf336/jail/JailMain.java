@@ -127,6 +127,8 @@ public class JailMain extends JavaPlugin {
 		if(io != null)
 			io.closeConnection();
 		
+		getServer().getScheduler().cancelTasks(this);
+		
 		update = null;
 		jt = null;
 		sbm = null;
