@@ -105,10 +105,8 @@ public class JailMain extends JavaPlugin {
 		}
 		
 		jt = new JailTimer(this);
-		
-		reloadJailPayManager();
-		
 		sbm = new ScoreBoardManager(this);
+		reloadJailPayManager();
 		
 		getLogger().info("Completed enablement.");
 	}
