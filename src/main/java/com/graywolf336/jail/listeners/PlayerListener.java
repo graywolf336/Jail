@@ -144,6 +144,16 @@ public class PlayerListener implements Listener {
 	}
 	
 	@EventHandler
+	public void notifyUpdate(PlayerJoinEvent event) {
+		if(pl.getConfig().getBoolean(Settings.UPDATENOTIFICATIONS.getPath())) {
+			if(event.getPlayer().isOp() && pl.getUpdate().isAvailable()) {
+				event.getPlayer().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + "An update for Jail is available: " + pl.getUpdate().getNewVersion());
+				event.getPlayer().sendMessage(ChatColor.BLUE + "" + ChatColor.BOLD + pl.getUpdate().getFileUrl());
+			}
+		}
+	}
+	
+	@EventHandler
 	public void handleGoingOffline(PlayerQuitEvent event) {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			//Remove the scoreboard to them if it is enabled

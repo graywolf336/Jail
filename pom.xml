@@ -6,21 +6,28 @@
 	<artifactId>Jail</artifactId>
 	<version>3.0.0-SNAPSHOT</version>
 	<name>Jail</name>
-	<description>Ban too harsh? Mute too weak? Kicking not enough? Jail them!	</description>
+	<description>Ban too harsh? Mute too weak? Kicking not enough? Jail them!</description>
 	<url>http://dev.bukkit.org/bukkit-plugins/jail/</url>
+
 	<ciManagement>
 		<url>http://ci.graywolf336.com/job/Jail/</url>
 		<system>jenkins</system>
 	</ciManagement>
+
 	<issueManagement>
 		<url>http://dev.bukkit.org/bukkit-plugins/jail/tickets/</url>
 		<system>Dev Bukkit</system>
 	</issueManagement>
+
 	<scm>
 		<url>https://github.com/graywolf336/Jail</url>
 		<connection>scm:git:git://github.com/graywolf336/Jail.git</connection>
 		<developerConnection>scm:git:git:@github.com/graywolf336/Jail.git</developerConnection>
 	</scm>
+
+	<properties>
+		<project.build.number>0</project.build.number>
+	</properties>
 
 	<repositories>
 		<repository>
@@ -112,6 +119,20 @@
 		<!-- End of Test Dependencies -->
 	</dependencies>
 
+	<profiles>
+		<profile>
+			<id>jenkins</id>
+			<activation>
+				<property>
+					<name>env.BUILD_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<project.build.number>${env.BUILD_NUMBER}</project.build.number>
+			</properties>
+		</profile>
+	</profiles>
+
 	<build>
 		<directory>target</directory>
 		<outputDirectory>target/classes</outputDirectory>
@@ -148,7 +169,31 @@
 				</configuration>
 			</plugin>
 
-			<!-- Jar Plugin -->
+			<!-- Token replacement plugin -->
+			<plugin>
+				<groupId>com.google.code.maven-replacer-plugin</groupId>
+				<artifactId>maven-replacer-plugin</artifactId>
+				<version>1.3.8</version>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>replace</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<file>target/classes/plugin.yml</file>
+					<replacements>
+						<replacement>
+							<token>maven-version-number</token>
+							<value>${project.version}-b${project.build.number}</value>
+						</replacement>
+					</replacements>
+				</configuration>
+			</plugin>
+
+			<!-- Jar plugin -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

@@ -51,7 +51,6 @@ ToDo
 * Jailing for swearing
 * Guards (PlayerMoveProtectionAction - when they try to move do we teleport them back, let the guards get them, or nothing)
 * Storing permissions
-* Update Notifications
 * Pages on jail list
 
 Notice

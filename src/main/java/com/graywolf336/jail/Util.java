@@ -111,9 +111,22 @@ public class Util {
     }
     
     /**
+     * 
+     * Converts a string like '20minutes' into the appropriate amount of the given unit.
+     * 
+     * @param time in a string to convert.
+     * @param unit which to convert to.
+     * @return The time in the unit given that is converted.
+     * @throws Exception if there are no matches
+     */
+    public static Long getTime(String time, TimeUnit unit) throws Exception {
+    	return unit.convert(getTime(time), TimeUnit.MILLISECONDS);
+    }
+    
+    /**
      * Converts a string like '20minutes' into the appropriate amount of milliseconds.
      * 
-     * @param time The string to convert.
+     * @param time in a string to convert.
      * @return The time in milliseconds that is converted.
      * @throws Exception if there are no matches
      */
@@ -144,7 +157,7 @@ public class Util {
     		throw new Exception("Invalid format.");
     	}
     	
-    	return Long.valueOf(t);
+    	return t;
     }
     
     /**

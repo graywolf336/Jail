@@ -2,7 +2,10 @@ system:
   configVersion: 3
   debug: false
   language: 'en'
-  updateNotifications: true
+  updates:
+    channel: 'bukkit' #can be dev, stable-dev, bukkit
+    notification: true
+    time: 1h #the amount of time between checks for an update, while we are in betas it will be low but when out of beta it will be every 11 hours
   useBukkitTimer: true
 storage:
   type: 'flatfile' #can be flatfile, sqlite, or mysql

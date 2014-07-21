@@ -1,5 +1,7 @@
 package com.graywolf336.jail;
 
+import java.util.concurrent.TimeUnit;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.PluginManager;
@@ -40,6 +42,7 @@ public class JailMain extends JavaPlugin {
 	private PrisonerManager pm;
 	private ScoreBoardManager sbm;
 	private MoveProtectionListener mpl;
+	private Update update;
 	private boolean debug = false;
 	
 	public void onEnable() {
@@ -107,6 +110,7 @@ public class JailMain extends JavaPlugin {
 		jt = new JailTimer(this);
 		sbm = new ScoreBoardManager(this);
 		reloadJailPayManager();
+		reloadUpdateCheck();
 		
 		getLogger().info("Completed enablement.");
 	}
@@ -123,6 +127,7 @@ public class JailMain extends JavaPlugin {
 		if(io != null)
 			io.closeConnection();
 		
+		update = null;
 		jt = null;
 		sbm = null;
 		jpm = null;
@@ -214,6 +219,22 @@ public class JailMain extends JavaPlugin {
 		}
 	}
 	
+	public void reloadUpdateCheck() {
+		update = new Update(this);
+		if(getConfig().getBoolean(Settings.UPDATENOTIFICATIONS.getPath())) {
+			try {
+				getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+					public void run() {
+						update.query();
+					}
+				}, 80L, Util.getTime(getConfig().getString(Settings.UPDATETIME.getPath()), TimeUnit.SECONDS) * 20);
+			} catch (Exception e) {
+				e.printStackTrace();
+				getLogger().severe("Was unable to schedule the update checking, please check your time format is correct.");
+			}
+		}
+	}
+	
 	/** Gets the {@link HandCuffManager} instance. */
 	public HandCuffManager getHandCuffManager() {
 		return this.hcm;
@@ -247,6 +268,11 @@ public class JailMain extends JavaPlugin {
 	/** Gets the {@link ScoreBoardManager} instance. */
 	public ScoreBoardManager getScoreBoardManager() {
 		return this.sbm;
+	}
+	
+	/** Gets the {@link Update} instance.  */
+	public Update getUpdate() {
+		return this.update;
 	}
 	
 	/** Sets whether the plugin is in debugging or not. */

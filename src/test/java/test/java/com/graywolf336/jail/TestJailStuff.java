@@ -50,7 +50,9 @@ public class TestJailStuff {
 		assertEquals("The config version is not 3.", 3, main.getConfig().getInt("system.configVersion"));
 		//This is enabled by default in testing.
 		//assertFalse("Default debugging is on.", main.getConfig().getBoolean("system.debug"));
-		assertTrue("Default updating notifications is false.", main.getConfig().getBoolean("system.updateNotifications"));
+		assertEquals("Default updating channel is not bukkit.", "bukkit", main.getConfig().getString("system.updates.channel"));
+		assertTrue("Default updating notifications is false.", main.getConfig().getBoolean("system.updates.notification"));
+		assertEquals("Default updating time checking is not 1h.", "1h", main.getConfig().getString("system.updates.time"));
 		
 		//Storage system
 		assertEquals("The default storage system is not flatfile.", "flatfile", main.getConfig().getString("storage.type"));

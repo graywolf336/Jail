@@ -1,6 +1,6 @@
 name: Jail
 main: com.graywolf336.jail.JailMain
-version: ${project.version}-b${BUILD_NUMBER}
+version: maven-version-number
 description: Ban too harsh? Kick/mute/whatever not enough? Jail bad players!
 authors: [graywolf336]
 website: dev.bukkit.org/server-mods/jail/
