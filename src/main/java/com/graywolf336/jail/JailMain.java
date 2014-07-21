@@ -44,6 +44,7 @@ public class JailMain extends JavaPlugin {
 	private MoveProtectionListener mpl;
 	private Update update;
 	private boolean debug = false;
+	private int updateCheckTask = -1;
 	
 	public void onEnable() {
 		loadConfig();
@@ -222,14 +223,15 @@ public class JailMain extends JavaPlugin {
 	}
 	
 	public void reloadUpdateCheck() {
+		getServer().getScheduler().cancelTask(updateCheckTask);
 		update = new Update(this);
 		if(getConfig().getBoolean(Settings.UPDATENOTIFICATIONS.getPath())) {
 			try {
-				getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
+				updateCheckTask = getServer().getScheduler().runTaskTimerAsynchronously(this, new Runnable() {
 					public void run() {
 						update.query();
 					}
-				}, 80L, Util.getTime(getConfig().getString(Settings.UPDATETIME.getPath()), TimeUnit.SECONDS) * 20);
+				}, 80L, Util.getTime(getConfig().getString(Settings.UPDATETIME.getPath()), TimeUnit.SECONDS) * 20).getTaskId();
 			} catch (Exception e) {
 				e.printStackTrace();
 				getLogger().severe("Was unable to schedule the update checking, please check your time format is correct.");
