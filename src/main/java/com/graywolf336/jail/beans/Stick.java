@@ -14,6 +14,7 @@ public class Stick {
 	private double health;
 	
 	/**
+	 * Creates a new Jail Stick instance.
 	 * 
 	 * @param jail the player will be jailed in.
 	 * @param reason the player will be jailed for.
