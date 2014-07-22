@@ -336,7 +336,7 @@ public class JailManager {
 			
 			if(j != null) {
 				for(Prisoner p : j.getAllPrisoners().values()) {
-					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
+					getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 				}
 				
 				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName());
@@ -360,7 +360,7 @@ public class JailManager {
 		}else {
 			for(Jail j : getJails()) {
 				for(Prisoner p : j.getAllPrisoners().values()) {
-					getPlugin().getPrisonerManager().releasePrisoner(getPlugin().getServer().getPlayer(p.getUUID()), p);
+					getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 				}
 			}
 			

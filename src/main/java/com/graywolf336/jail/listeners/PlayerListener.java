@@ -108,7 +108,7 @@ public class PlayerListener implements Listener {
 			if(p.isOfflinePending()) {
 				if(p.getRemainingTime() == 0L) {
 					//If their remaining time is 0, let's unjail them
-					pl.getPrisonerManager().releasePrisoner(event.getPlayer(), p);
+					pl.getPrisonerManager().schedulePrisonerRelease(p);
 				}else if(p.isToBeTransferred()) {
 					Cell c = j.getCellPrisonerIsIn(event.getPlayer().getUniqueId());
 					

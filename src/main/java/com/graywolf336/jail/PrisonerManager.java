@@ -1,5 +1,6 @@
 package com.graywolf336.jail;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -29,9 +30,18 @@ import com.graywolf336.jail.events.PrisonerTransferredEvent;
  */
 public class PrisonerManager {
 	private JailMain pl;
+	private ArrayList<Prisoner> releases;
 	
 	public PrisonerManager(JailMain plugin) {
 		this.pl = plugin;
+		this.releases = new ArrayList<Prisoner>();
+		
+		// Schedule the releasing of prisoners
+		plugin.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
+			public void run() {
+				releaseScheduledPrisoners();
+			}
+		}, 100L, 20L);
 	}
 	
 	/**
@@ -303,12 +313,29 @@ public class PrisonerManager {
 	}
 	
 	/**
+	 * Schedules a prisoner to be released.
+	 * 
+	 * @param prisoner to be released.
+	 */
+	public void schedulePrisonerRelease(Prisoner prisoner) {
+		releases.add(prisoner);
+	}
+	
+	private void releaseScheduledPrisoners() {
+		ArrayList<Prisoner> lettingGo = new ArrayList<Prisoner>(releases);
+		for(Prisoner p : lettingGo) {
+			releases.remove(p);
+			releasePrisoner(pl.getServer().getPlayer(p.getUUID()), p);
+		}
+	}
+	
+	/**
 	 * Release the given prisoner from jailing, does the checks if they are offline or not.
 	 * 
 	 * @param player we are releasing, can be null and if so they'll be treated as offline.
 	 * @param prisoner data to handle.
 	 */
-	public void releasePrisoner(Player player, Prisoner prisoner) {
+	private void releasePrisoner(Player player, Prisoner prisoner) {
 		if(player == null) {
 			prisoner.setOfflinePending(true);
 			prisoner.setRemainingTime(0);

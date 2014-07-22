@@ -99,7 +99,7 @@ public class JailPayCommand implements Command {
 									if(amt >= bill) {
 										pm.pay((Player) sender, bill);
 										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASED, String.valueOf(bill)));
-										jm.getPlugin().getPrisonerManager().releasePrisoner((Player) sender, p);
+										jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 									}else {
 										long minutes = pm.getMinutesPayingFor(amt);
 										pm.pay((Player) sender, amt);
@@ -112,7 +112,7 @@ public class JailPayCommand implements Command {
 									if(amt >= bill) {
 										pm.pay((Player) sender, bill);
 										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASED, String.valueOf(bill)));
-										jm.getPlugin().getPrisonerManager().releasePrisoner((Player) sender, p);
+										jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 									}else {
 										//You haven't provided enough money to get them out
 										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEYPROVIDED));
@@ -169,7 +169,7 @@ public class JailPayCommand implements Command {
 										if(amt >= bill) {
 											pm.pay((Player) sender, bill);
 											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getLastKnownName() }));
-											jm.getPlugin().getPrisonerManager().releasePrisoner(jm.getPlugin().getServer().getPlayer(p.getUUID()), p);
+											jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 										}else {
 											long minutes = pm.getMinutesPayingFor(amt);
 											pm.pay((Player) sender, amt);
@@ -182,7 +182,7 @@ public class JailPayCommand implements Command {
 										if(amt >= bill) {
 											pm.pay((Player) sender, bill);
 											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getLastKnownName() }));
-											jm.getPlugin().getPrisonerManager().releasePrisoner(jm.getPlugin().getServer().getPlayer(p.getUUID()), p);
+											jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 										}else {
 											//You haven't provided enough money to get them out
 											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEYPROVIDED));

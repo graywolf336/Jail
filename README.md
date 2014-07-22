@@ -45,7 +45,6 @@ Changes
 
 ToDo
 ===
-* When calculating the reducing of time, make it async and all the calls it does be scheduled
 * Jail set
 * Jail vote
 * Jailing for swearing

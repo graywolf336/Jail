@@ -24,14 +24,20 @@ public class JailTimer {
 	private JailMain pl;
 	private Timer timer;
 	private Long lastTime;
+	private Long afkTime = 0L;
 	
 	public JailTimer(JailMain plugin) {
 		this.pl = plugin;
+		try {
+			afkTime = Util.getTime(pl.getConfig().getString(Settings.MAXAFKTIME.getPath()));
+		} catch (Exception e) {
+			pl.getLogger().severe("Error while processing the max afk time: " + e.getMessage());
+		}
 		
 		this.lastTime = System.currentTimeMillis();
 		if(pl.getConfig().getBoolean(Settings.USEBUKKITTIMER.getPath())) {
 			pl.getLogger().info("Using the Bukkit Scheduler.");
-			pl.getServer().getScheduler().scheduleSyncRepeatingTask(pl, new TimeEvent(), 200, 200);
+			pl.getServer().getScheduler().runTaskTimerAsynchronously(pl, new TimeEvent(), 200, 200);
 		}else {
 			pl.getLogger().info("Using the Java Timer.");
 			timer = new Timer(10000, new ActionListener () {
@@ -66,7 +72,8 @@ public class JailTimer {
 			for(Jail j : pl.getJailManager().getJails()) {
 				for(Prisoner p : j.getAllPrisoners().values()) {
 					//only execute this code if the prisoner's time is more than 0 milliseconds
-					if(p.getRemainingTime() > 0) {
+					//and they don't have any offline pending things
+					if(p.getRemainingTime() > 0 && !p.isOfflinePending()) {
 						Player player = pl.getServer().getPlayer(p.getUUID());
 						
 						//Check if the player is offline
@@ -76,28 +83,21 @@ public class JailTimer {
 							if(pl.getConfig().getBoolean(Settings.COUNTDOWNTIMEOFFLINE.getPath())) {
 								//Set their remaining time but if it is less than zero, set it to zero
 								p.setRemainingTime(Math.max(0, p.getRemainingTime() - timePassed));
-								if(p.getRemainingTime() == 0) pl.getPrisonerManager().releasePrisoner(player, p);
+								if(p.getRemainingTime() == 0) pl.getPrisonerManager().schedulePrisonerRelease(p);
 							}
 						}else {
+							if(afkTime > 0) {
+								p.setAFKTime(p.getAFKTime() + timePassed);
+								if(p.getAFKTime() > afkTime) {
+									p.setAFKTime(0);
+									player.kickPlayer(pl.getJailIO().getLanguageString(LangString.AFKKICKMESSAGE));
+								}
+							}
+							
 							//The prisoner isn't offline, so let's count down
 							//Set their remaining time but if it is less than zero, set it to zero
 							p.setRemainingTime(Math.max(0, p.getRemainingTime() - timePassed));
-							if(p.getRemainingTime() == 0) pl.getPrisonerManager().releasePrisoner(player, p);
-							
-							//Now, let's set and check their afk time
-							//add the time passed to their current afk time
-							try {
-								long afk = Util.getTime(pl.getConfig().getString(Settings.MAXAFKTIME.getPath()));
-								if(afk > 0) {
-									p.setAFKTime(p.getAFKTime() + timePassed);
-									if(p.getAFKTime() > afk) {
-										p.setAFKTime(0);
-										player.kickPlayer(pl.getJailIO().getLanguageString(LangString.AFKKICKMESSAGE));
-									}
-								}
-							} catch (Exception e) {
-								pl.getLogger().severe("Error while processing the max afk time: " + e.getMessage());
-							}
+							if(p.getRemainingTime() == 0) pl.getPrisonerManager().schedulePrisonerRelease(p);
 						}
 					}
 				}
