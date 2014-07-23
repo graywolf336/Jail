@@ -2,9 +2,17 @@
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people or jail them on time basis. Plugin also offers wide variety of protections, so players won't escape out of your jail.
 
-**All mysql queries and actions are done sync, meaning if the connection to the mysql server is slow/down this will probably end up blocking the server. There are plans to change this, as we don't want to slow down anyone's servers.**
-
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
+
+Beta 3 Changes
+===
+*Changes since Beta 2*
+* Add advanced update notifications, even for beta builds
+* Move cellcreate command to createcell
+* Fix an out of bounds exception when using old jail stick configurations
+* Make the timer async, this helps performance when you have a ton of prisoners
+* Lots of work on unit testing
+* Changed the encoding of the project in maven to utf8
 
 Beta 2 Changes
 ===
