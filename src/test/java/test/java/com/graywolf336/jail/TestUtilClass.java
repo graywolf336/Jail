@@ -66,4 +66,36 @@ public class TestUtilClass {
 		assertFalse(Util.isStringInsideList(list, "SAND"));
 		assertFalse(Util.isStringInsideList(list, Material.BEDROCK.toString()));
 	}
+	
+	@Test
+	public void testNoFormat() throws Exception {
+		assertEquals(60000L, Util.getTime("1"), 0);
+		assertEquals(360000L, Util.getTime("6"), 0);
+	}
+	
+	@Test
+	public void testSeconds() throws Exception {
+		assertEquals(2000L, Util.getTime("2s"), 0);
+		assertEquals(2000L, Util.getTime("2second"), 0);
+		assertEquals(2000L, Util.getTime("2seconds"), 0);
+	}
+	
+	@Test
+	public void testMinutes() throws Exception {
+		assertEquals(60000L, Util.getTime("1m"), 0);
+		assertEquals(60000L, Util.getTime("1minute"), 0);
+		assertEquals(60000L, Util.getTime("1minutes"), 0);
+	}
+	
+	@Test
+	public void testHours() throws Exception {
+		assertEquals(3600000L, Util.getTime("1h"), 0);
+		assertEquals(3600000L, Util.getTime("1hours"), 0);
+	}
+	
+	@Test
+	public void testDays() throws Exception {
+		assertEquals(86400000L, Util.getTime("1d"), 0);
+		assertEquals(86400000L, Util.getTime("1days"), 0);
+	}
 }
