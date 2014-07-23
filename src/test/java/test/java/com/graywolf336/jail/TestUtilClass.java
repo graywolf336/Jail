@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
@@ -74,28 +75,36 @@ public class TestUtilClass {
 	}
 	
 	@Test
-	public void testSeconds() throws Exception {
+	public void testTimeSeconds() throws Exception {
 		assertEquals(2000L, Util.getTime("2s"), 0);
 		assertEquals(2000L, Util.getTime("2second"), 0);
 		assertEquals(2000L, Util.getTime("2seconds"), 0);
 	}
 	
 	@Test
-	public void testMinutes() throws Exception {
+	public void testTimeMinutes() throws Exception {
 		assertEquals(60000L, Util.getTime("1m"), 0);
 		assertEquals(60000L, Util.getTime("1minute"), 0);
 		assertEquals(60000L, Util.getTime("1minutes"), 0);
 	}
 	
 	@Test
-	public void testHours() throws Exception {
+	public void testTimeHours() throws Exception {
 		assertEquals(3600000L, Util.getTime("1h"), 0);
 		assertEquals(3600000L, Util.getTime("1hours"), 0);
 	}
 	
 	@Test
-	public void testDays() throws Exception {
+	public void testTimeDays() throws Exception {
 		assertEquals(86400000L, Util.getTime("1d"), 0);
 		assertEquals(86400000L, Util.getTime("1days"), 0);
+	}
+	
+	@Test
+	public void testTimeSecondsPassed() throws Exception {
+		assertEquals(60L, Util.getTime("60", TimeUnit.MINUTES), 0);
+		assertEquals(1L, Util.getTime("60s", TimeUnit.MINUTES), 0);
+		assertEquals(1L, Util.getTime("60m", TimeUnit.HOURS), 0);
+		assertEquals(6L, Util.getTime("6d", TimeUnit.DAYS), 0);
 	}
 }
