@@ -113,6 +113,7 @@ public class JailMain extends JavaPlugin {
 		reloadJailPayManager();
 		reloadUpdateCheck();
 		
+		new JailsAPI(this);
 		getLogger().info("Completed enablement.");
 	}
 
@@ -300,6 +301,12 @@ public class JailMain extends JavaPlugin {
 		if(inDebug()) getLogger().info("[Debug]: " + message);
 	}
 	
+	/**
+	 * This method is only for testing, there is no need to use this.
+	 * 
+	 * @return the move protection listener
+	 * @deprecated
+	 */
 	public MoveProtectionListener getPlayerMoveListener() {
 		return this.mpl;
 	}

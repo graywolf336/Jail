@@ -81,6 +81,7 @@ public class BenchmarkTest extends AbstractBenchmark {
 		assertTrue("Prisoner 555 is not jailed", main.getJailManager().isPlayerJailed(use));
 	}
 	
+	@SuppressWarnings("deprecation")
 	@BenchmarkOptions(benchmarkRounds = 5000, warmupRounds = 0)
 	@Test
 	public void testPlayerMoveEvent() {

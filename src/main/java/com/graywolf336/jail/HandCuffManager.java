@@ -6,6 +6,20 @@ import java.util.UUID;
 import org.bukkit.Location;
 
 /**
+ * Manages the handcuffing of players.
+ * 
+ * <p />
+ * 
+ * Provides easy to use methods for adding,
+ * removing, and checking if someone has
+ * handcuffs.
+ * 
+ * <ul>
+ * 	<li>{@link #addHandCuffs(UUID, Location) addHandCuffs}</li>
+ * 	<li>{@link #removeHandCuffs(UUID) removeHandCuffs}</li>
+ * 	<li>{@link #isHandCuffed(UUID) isHandCuffed}</li>
+ * 	<li>{@link #getLocation(UUID) getLocation}</li>
+ * </ul>
  * 
  * @author graywolf336
  * @since 2.6.3

@@ -22,7 +22,19 @@ import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
 
 /**
- * Provides methods, non-statically, that do the preparing of jails and handle all the good stuff like that.
+ * Provides methods, non-statically, that do the preparing of jails, jailing, etc.
+ * 
+ * <p />
+ * 
+ * <ul>
+ * 	<li>{@link #prepareJail(Jail, Cell, Player, Prisoner) preparejail}</li>
+ * 	<li>{@link #jailPrisoner(Jail, Cell, Player, Prisoner) jailPrisoner}</li>
+ * 	<li>{@link #schedulePrisonerRelease(Prisoner) schedulePrisonerRelease}</li>
+ * 	<li>{@link #unJail(Jail, Cell, Player, Prisoner, CommandSender) unJail}</li>
+ * 	<li>{@link #forceRelease(Prisoner, CommandSender) forceRelease}</li>
+ *  <li>{@link #forceUnJail(Jail, Cell, Player, Prisoner, CommandSender) forceUnJail}</li>
+ *  <li>{@link #transferPrisoner(Jail, Cell, Jail, Cell, Prisoner) transferPrisoner}</li>
+ * </ul>
  * 
  * @author graywolf336
  * @since 2.x.x
@@ -112,6 +124,11 @@ public class PrisonerManager {
 		}
 	}
 	
+	/**
+	 * Jails the given player, <strong>only</strong> use when that player has offline data pending.
+	 * 
+	 * @param uuid of the player to jail.
+	 */
 	public void jailPlayer(UUID uuid) {
 		Jail j = pl.getJailManager().getJailPlayerIsIn(uuid);
 		jailPrisoner(j, j.getCellPrisonerIsIn(uuid), pl.getServer().getPlayer(uuid), j.getPrisoner(uuid));
@@ -313,9 +330,10 @@ public class PrisonerManager {
 	}
 	
 	/**
-	 * Schedules a prisoner to be released.
+	 * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
 	 * 
 	 * @param prisoner to be released.
+	 * @see {@link #unJail(Jail, Cell, Player, Prisoner, CommandSender)} - If you're wanting to unjail a prisoner.
 	 */
 	public void schedulePrisonerRelease(Prisoner prisoner) {
 		releases.add(prisoner);
@@ -481,13 +499,55 @@ public class PrisonerManager {
 		if(sender != null) sender.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILSUCCESS, player.getName()));
 	}
 	
-	/** Forcefully releases a {@link Prisoner prisoner} from {@link Jail}. */
+	/**
+	 * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
+	 * 
+	 * <p />
+	 * 
+	 * This method forcefully removes all the references to this prisoner,
+	 * meaning if they're offline the following won't happened:
+	 * <ul>
+	 * 	<li>Inventory restored</li>
+	 * 	<li>Teleported anywhere</li>
+	 *  <li>No messages sent, they'll be clueless.</li>
+	 * </ul>
+	 * 
+	 * But if they're online, it goes through the regular unjailing methods.
+	 * 
+	 * <p />
+	 * 
+	 * @param prisoner to release
+	 * @param sender who is releasing the prisoner, <em>can be null</em>
+	 */
 	public void forceRelease(Prisoner prisoner, CommandSender sender) {
 		Jail j = pl.getJailManager().getJailPrisonerIsIn(prisoner);
 		forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getUUID()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner, sender);
 	}
 	
-	/** Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}. */
+	/**
+	 * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
+	 * 
+	 * 
+	 * <p />
+	 * 
+	 * This method forcefully removes all the references to this prisoner,
+	 * meaning if they're offline the following won't happened:
+	 * <ul>
+	 * 	<li>Inventory restored</li>
+	 * 	<li>Teleported anywhere</li>
+	 *  <li>No messages sent, they'll be clueless.</li>
+	 * </ul>
+	 * 
+	 * But if they're online, it goes through the regular unjailing methods.
+	 * 
+	 * <p />
+	 * 
+	 * @param jail the prisoner is in
+	 * @param cell the prisoner is in, <em>can be null</em>
+	 * @param player of the prisoner, if this is null then the player won't be teleported when they come back on.
+	 * @param prisoner to release and remove data
+	 * @param sender who is releasing the prisoner, <em>can be null</em>
+	 */
 	public void forceUnJail(Jail jail, Cell cell, Player player, Prisoner prisoner, CommandSender sender) {
 		if(player == null) {
 			//Player is offline, we just forcefully remove them from the database
