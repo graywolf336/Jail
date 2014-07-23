@@ -84,7 +84,7 @@ public class JailCommand implements Command {
 		Long time = 10L;
 		try {
 			if(params.getTime() == null) {
-				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.JAILDEFAULTTIME.getPath(), "30m"));
+				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.DEFAULTTIME.getPath(), "30m"));
 			}else if(params.getTime() == String.valueOf(-1)) {
 				time = -1L;
 			}else {

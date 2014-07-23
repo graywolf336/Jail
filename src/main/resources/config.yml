@@ -1,5 +1,5 @@
 system:
-  configVersion: 3
+  version: 3
   debug: false
   language: 'en'
   updates:
@@ -30,9 +30,10 @@ jailing:
     countDownTimeWhileOffline: false
     cropTramplingPenalty: 5m
     cropTramplingProtection: true
-    foodControl: true
-    foodControlMax: 20
-    foodControlMin: 10
+    foodControl:
+      enabled: true
+      max: 20
+      min: 10
     ignoreSleeping: true
     maxAFKTime: 10m #in minutes
     movePenalty: 10m
@@ -57,14 +58,16 @@ jailing:
       legs: leather_leggings~175,105,33
       boots: leather_boots~175,105,33
     commands: []
-    defaultJail: nearest #the jail nearest to the player
-    defaultTime: 30m #default the time to 30 minutes, if no time
+    default:
+      jail: nearest #the jail nearest to the player
+      time: 30m #default the time to 30 minutes, if no time
     gameMode: adventure
     inventory:
       blacklist: [] #items they aren't allowed to keep
       store: true
-    logToConsole: true
-    logToProfile: false
+    log:
+      console: true
+      profile: true
   release:
     backToPreviousPosition: false
     commands: []

@@ -192,8 +192,8 @@ public class LegacyManager {
 					break;
 				case DefaultJailTime:
 					if(global.contains(s.getString())) {
-						c.set(Settings.JAILDEFAULTTIME.getPath(), OldSettings.getGlobalInt(global, s));
-						pl.debug(Settings.JAILDEFAULTTIME.getPath() + " <-- " + s.getString());
+						c.set(Settings.DEFAULTTIME.getPath(), OldSettings.getGlobalInt(global, s));
+						pl.debug(Settings.DEFAULTTIME.getPath() + " <-- " + s.getString());
 						count++;
 					}
 					break;

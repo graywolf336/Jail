@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.LangString;
 		needsPlayer = false,
 		pattern = "time|t",
 		permission = "jail.command.jailtime",
-		usage = "/jail time <add|remove|show> <player> <time>"
+		usage = "/jail time [add|remove|show] [player] <time>"
 	)
 public class JailTimeCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

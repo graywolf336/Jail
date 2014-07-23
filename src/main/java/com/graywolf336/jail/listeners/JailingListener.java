@@ -29,18 +29,22 @@ public class JailingListener implements Listener {
 	
 	@EventHandler(ignoreCancelled=true)
 	public void preJailingListener(PrePrisonerJailedEvent event) {
-		pl.getJailIO().addRecordEntry(event.getPrisoner().getUUID().toString(),
-				event.getPrisoner().getLastKnownName(),
-				event.getPrisoner().getJailer(), dateFormat.format(new Date()),
-				event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
+		if(pl.getConfig().getBoolean(Settings.LOGJAILINGTOPROFILE.getPath())) {
+			pl.getJailIO().addRecordEntry(event.getPrisoner().getUUID().toString(),
+					event.getPrisoner().getLastKnownName(),
+					event.getPrisoner().getJailer(), dateFormat.format(new Date()),
+					event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
+		}
 	}
 	
 	@EventHandler(ignoreCancelled=true)
 	public void preJailingListener(PrePrisonerJailedByJailStickEvent event) {
-		pl.getJailIO().addRecordEntry(event.getPrisoner().getUUID().toString(),
-				event.getPrisoner().getLastKnownName(),
-				event.getPrisoner().getJailer(), dateFormat.format(new Date()),
-				event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
+		if(pl.getConfig().getBoolean(Settings.LOGJAILINGTOPROFILE.getPath())) {
+			pl.getJailIO().addRecordEntry(event.getPrisoner().getUUID().toString(),
+					event.getPrisoner().getLastKnownName(),
+					event.getPrisoner().getJailer(), dateFormat.format(new Date()),
+					event.getPrisoner().getRemainingTimeInMinutes(), event.getPrisoner().getReason());
+		}
 	}
 	
 	@EventHandler

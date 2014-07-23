@@ -24,6 +24,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.SimpleLocation;
 import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Settings;
 
 /**
  * Handles all the saving and loading of the plugin's data.
@@ -61,7 +62,7 @@ public class JailIO {
 	/** Loads the language file from disk, if there is none then we save the default one. */
 	@SuppressWarnings("deprecation")
 	public void loadLanguage() {
-		String language = pl.getConfig().getString("system.language");
+		String language = pl.getConfig().getString(Settings.LANGUAGE.getPath());
 		boolean save = false;
 		File langFile = new File(pl.getDataFolder(), language + ".yml");
 		
