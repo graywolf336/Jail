@@ -1,7 +1,9 @@
 package test.java.com.graywolf336.jail;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 
 import java.util.List;
 
@@ -20,7 +22,7 @@ import com.graywolf336.jail.enums.Settings;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JailMain.class, PluginDescriptionFile.class })
-public class TestJailStuff {
+public class TestJailDefaultConfig {
 	private static TestInstanceCreator creator;
 	private static JailMain main;
 
@@ -37,15 +39,6 @@ public class TestJailStuff {
 	public static void tearDown() throws Exception {
 		creator.tearDown();
 		main = null;
-	}
-
-	@Test
-	public void testForJails() {
-		assertNotNull("The HandCuffManager is null.", main.getHandCuffManager());
-		assertNotNull("The JailIO is null.", main.getJailIO());
-		assertNotNull("The JailManager is null.", main.getJailManager());
-		assertNotNull("The HashSet for jails return is null.", main.getJailManager().getJails());
-		assertThat(main, is(main.getJailManager().getPlugin()));
 	}
 	
 	@Test
