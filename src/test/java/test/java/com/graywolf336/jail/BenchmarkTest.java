@@ -3,6 +3,7 @@ package test.java.com.graywolf336.jail;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.mockito.Matchers.any;
@@ -54,7 +55,7 @@ public class BenchmarkTest extends AbstractBenchmark {
 		j.setTeleportFree(new Location(main.getServer().getWorld("world"), 27.947015843504765, 65.0, -218.8108042076112, Float.valueOf("90.54981"), Float.valueOf("12.500043")));
 		main.getJailManager().addJail(j, false);
 		
-		assertEquals("There is no jail.", 1, main.getJailManager().getJails().size());
+		assertFalse("There are no jails.", main.getJailManager().getJails().isEmpty());
 		
 		for(int i = 0; i < 1000; i++) {
 			if(i == 555)
@@ -89,7 +90,6 @@ public class BenchmarkTest extends AbstractBenchmark {
 		when(p.teleport(any(Location.class))).thenReturn(true);
 		
 		Location from = new Location(main.getServer().getWorld("world"), 15, 64, -239);
-		
 		Location to = new Location(main.getServer().getWorld("world"), r.nextInt(), r.nextInt(), r.nextInt());
 		PlayerMoveEvent e = new PlayerMoveEvent(p, from, to);
 		
