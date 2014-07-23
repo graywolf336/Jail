@@ -20,6 +20,9 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import test.java.com.graywolf336.jail.util.TestInstanceCreator;
 
 import com.graywolf336.jail.JailMain;
+import com.graywolf336.jail.command.commands.jewels.Jailing;
+import com.graywolf336.jail.command.commands.jewels.Transfer;
+import com.lexicalscope.jewel.cli.CliFactory;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ JailMain.class, PluginDescriptionFile.class })
@@ -113,5 +116,43 @@ public class TestJailCommandInfo {
 		CommandSender sender = creator.getPlayerCommandSender();
 		assertTrue(main.onCommand(sender, command, "jail", args));
 		verify(sender).sendMessage(ChatColor.RED + "There are currently no jails.");
+	}
+	
+	@Test
+	public void testJailJewel() {
+		String[] args = { "--player", "graywolf336", "-c", "testing", "-r", "This", "is", "a", "reason" };
+		Jailing j = CliFactory.parseArguments(Jailing.class, args);
+		
+		assertEquals("graywolf336", j.getPlayer());
+		assertEquals("testing", j.getCell());
+		
+		StringBuilder sb = new StringBuilder();
+		for(String s : j.getReason()) {
+			sb.append(s).append(' ');
+		}
+		
+		sb.deleteCharAt(sb.length() - 1);
+		
+		assertEquals("This is a reason", sb.toString());
+	}
+	
+	@Test
+	public void testTransferForJailAndCell() {
+		String[] args = { "-p", "graywolf336", "-j", "hardcore", "-c", "cell_n01" };
+		Transfer t = CliFactory.parseArguments(Transfer.class, args);
+		
+		assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
+		assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
+		assertEquals("The cell parsed is not what we expected.", "cell_n01", t.getCell());
+	}
+	
+	@Test
+	public void testTransferForNoCell() {
+		String[] args = { "-p", "graywolf336", "-j", "hardcore" };
+		Transfer t = CliFactory.parseArguments(Transfer.class, args);
+		
+		assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
+		assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
+		assertNull("The cell is not null?", t.getCell());
 	}
 }
