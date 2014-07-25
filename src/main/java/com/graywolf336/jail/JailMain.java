@@ -47,6 +47,7 @@ public class JailMain extends JavaPlugin {
 	private int updateCheckTask = -1;
 	
 	public void onEnable() {
+	    long st = System.currentTimeMillis();
 		loadConfig();
 		
 		debug = getConfig().getBoolean(Settings.DEBUG.getPath());
@@ -114,6 +115,7 @@ public class JailMain extends JavaPlugin {
 		reloadUpdateCheck();
 		
 		new JailsAPI(this);
+		debug("Took " + (System.currentTimeMillis() - st) + " to enable the plugin.");
 		getLogger().info("Completed enablement.");
 	}
 
@@ -223,6 +225,7 @@ public class JailMain extends JavaPlugin {
 		}
 	}
 	
+	/** Reloads the update checker, in case they changed a setting about it. */
 	public void reloadUpdateCheck() {
 		getServer().getScheduler().cancelTask(updateCheckTask);
 		update = new Update(this);
