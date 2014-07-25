@@ -75,6 +75,7 @@ public class Update {
             	
             	// Parse the current build number to a number
             	long curr = Long.parseLong(ver[ver.length - 1]);
+            	plugin.debug(number + " verus " + curr);
             	// Check if the build on the CI server is higher than the one we're running
             	needed = number > curr;
             	
