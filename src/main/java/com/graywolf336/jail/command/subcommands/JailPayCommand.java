@@ -20,7 +20,7 @@ import com.graywolf336.jail.enums.Settings;
 		needsPlayer = true,
 		pattern = "pay",
 		permission = "jail.usercmd.jailpay",
-		usage = "/jail pay <amount> <player>"
+		usage = "/jail pay (amount) (name)"
 	)
 public class JailPayCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

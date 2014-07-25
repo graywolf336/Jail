@@ -12,7 +12,7 @@ import com.graywolf336.jail.enums.Lang;
 		maxArgs = 0,
 		minimumArgs = 0,
 		needsPlayer = false,
-		pattern = "reload|r",
+		pattern = "reload",
 		permission = "jail.command.jailreload",
 		usage = "/jail reload"
 	)
@@ -29,7 +29,7 @@ public class JailReloadCommand implements Command {
 			
 			sender.sendMessage(Lang.PLUGINRELOADED.get());
 		}catch (Exception e) {
-			sender.sendMessage(ChatColor.RED + e.getMessage());
+			sender.sendMessage(ChatColor.RED + "Failed to reload due to: " + e.getMessage());
 		}
 		
 		return true;

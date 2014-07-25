@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "teleout|teleportout",
 		permission = "jail.command.jailteleout",
-		usage = "/jail teleout <jailname> (player)"
+		usage = "/jail teleout [jail] (name)"
 	)
 public class JailTeleOutCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

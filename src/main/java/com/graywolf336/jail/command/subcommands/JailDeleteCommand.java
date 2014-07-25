@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "delete|d",
 		permission = "jail.command.jaildelete",
-		usage = "/jail delete <jail>"
+		usage = "/jail delete [jail]"
 	)
 public class JailDeleteCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

@@ -18,7 +18,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "list|l",
 		permission = "jail.command.jaillist",
-		usage = "/jail list <jail>"
+		usage = "/jail list (jail)"
 	)
 public class JailListCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {

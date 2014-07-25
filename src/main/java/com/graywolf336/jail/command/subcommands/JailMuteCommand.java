@@ -13,7 +13,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "mute|m",
 		permission = "jail.command.jailmute",
-		usage = "/jail mute <player>"
+		usage = "/jail mute [name]"
 	)
 public class JailMuteCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

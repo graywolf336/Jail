@@ -17,7 +17,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "transferall|transall",
 		permission = "jail.command.jailtransferall",
-		usage = "/jail transferall oldjail targetjail"
+		usage = "/jail transferall [current] [target]"
 	)
 public class JailTransferAllCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

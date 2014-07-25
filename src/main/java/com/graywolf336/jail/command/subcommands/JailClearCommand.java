@@ -10,7 +10,7 @@ import com.graywolf336.jail.enums.Confirmation;
 import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
-		maxArgs = 1,
+		maxArgs = 2,
 		minimumArgs = 0,
 		needsPlayer = false,
 		pattern = "clear|clearforce",

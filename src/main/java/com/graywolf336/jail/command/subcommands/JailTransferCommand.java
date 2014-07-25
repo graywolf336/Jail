@@ -25,7 +25,7 @@ import com.lexicalscope.jewel.cli.CliFactory;
 		needsPlayer = false,
 		pattern = "transfer|trans",
 		permission = "jail.command.jailtransfer",
-		usage = "/jail transfer -p player -j jail -c cell"
+		usage = "/jail transfer [-p player] (-j jail) (-c cell)"
 	)
 public class JailTransferCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {

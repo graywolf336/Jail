@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "check",
 		permission = "jail.command.jailcheck",
-		usage = "/jail check <playername>"
+		usage = "/jail check [name]"
 	)
 public class JailCheckCommand implements Command{
 

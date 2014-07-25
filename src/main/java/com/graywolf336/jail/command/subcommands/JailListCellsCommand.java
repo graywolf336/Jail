@@ -16,7 +16,7 @@ import com.graywolf336.jail.enums.Lang;
 		needsPlayer = false,
 		pattern = "listcells|lc",
 		permission = "jail.command.jaillistcell",
-		usage = "/jail listcells <jail>"
+		usage = "/jail listcells [jail]"
 	)
 public class JailListCellsCommand implements Command {
 	@Override
