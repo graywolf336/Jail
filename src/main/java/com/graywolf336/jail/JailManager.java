@@ -653,7 +653,8 @@ public class JailManager {
 	
 	/** Returns true if the confirmation has expired, false if it is still valid. */
 	public boolean confirmingHasExpired(String name) {
-		return this.confirms.get(name).getExpiryTime() >= (System.currentTimeMillis() + 5000L);
+	    //If the expiry time is LESS than the current time, it has expired
+		return this.confirms.get(name).getExpiryTime() < System.currentTimeMillis();
 	}
 	
 	/** Returns the original arguments for what we are confirming. */
