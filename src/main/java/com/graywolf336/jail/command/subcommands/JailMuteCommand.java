@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -25,12 +25,12 @@ public class JailMuteCommand implements Command {
 			
 			//Send the message to the sender based upon whether they are muted or unmuted
 			if(muted)
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOWMUTED, args[1]));
+				sender.sendMessage(Lang.NOWMUTED.get(args[1]));
 			else
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOWUNMUTED, args[1]));
+				sender.sendMessage(Lang.NOWUNMUTED.get(args[1]));
 		}else {
 			//The player provided is not jailed, so let's tell the sender that
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[1]));
+			sender.sendMessage(Lang.NOTJAILED.get(args[1]));
 		}
 		
 		return true;

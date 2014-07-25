@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
@@ -107,9 +107,9 @@ public class PrisonerManager {
 		String msg = "";
 		
 		if(prisoner.getRemainingTime() < 0L)
-			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFOREVER, new String[] { prisoner.getLastKnownName() });
+			msg = Lang.BROADCASTMESSAGEFOREVER.get(prisoner.getLastKnownName());
 		else
-			msg = pl.getJailIO().getLanguageString(LangString.BROADCASTMESSAGEFORMINUTES, new String[] { prisoner.getLastKnownName(), String.valueOf(prisoner.getRemainingTimeInMinutes()) });
+			msg = Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { prisoner.getLastKnownName(), String.valueOf(prisoner.getRemainingTimeInMinutes()) });
 		
 		boolean broadcasted = false;
 		//Broadcast the message, if it is enabled
@@ -158,9 +158,9 @@ public class PrisonerManager {
 		
 		//If their reason is empty send proper message, else send other proper message
 		if(prisoner.getReason().isEmpty()) {
-			player.sendMessage(pl.getJailIO().getLanguageString(LangString.JAILED));
+			player.sendMessage(Lang.JAILED.get());
 		}else {
-			player.sendMessage(pl.getJailIO().getLanguageString(LangString.JAILEDWITHREASON, new String[] { prisoner.getReason() }));
+			player.sendMessage(Lang.JAILEDWITHREASON.get(prisoner.getReason()));
 		}
 		
 		//If the config has releasing them back to their previous position,
@@ -495,8 +495,8 @@ public class PrisonerManager {
     	PrisonerReleasedEvent event = new PrisonerReleasedEvent(jail, cell, prisoner, player);
     	pl.getServer().getPluginManager().callEvent(event);
     	
-		player.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILED));
-		if(sender != null) sender.sendMessage(pl.getJailIO().getLanguageString(LangString.UNJAILSUCCESS, player.getName()));
+		player.sendMessage(Lang.UNJAILED.get());
+		if(sender != null) sender.sendMessage(Lang.UNJAILSUCCESS.get(player.getName()));
 	}
 	
 	/**
@@ -559,7 +559,7 @@ public class PrisonerManager {
 				cell.removePrisoner();
 			}
 			
-			if(sender != null) sender.sendMessage(pl.getJailIO().getLanguageString(LangString.FORCEUNJAILED, prisoner.getLastKnownName()));
+			if(sender != null) sender.sendMessage(Lang.FORCEUNJAILED.get(prisoner.getLastKnownName()));
 		}else {
 			try {
 				unJail(jail, cell, player, prisoner, sender);
@@ -602,7 +602,7 @@ public class PrisonerManager {
 					prisoner.setTeleporting(true);
 					player.teleport(targetJail.getTeleportIn());
 					prisoner.setTeleporting(false);
-					player.sendMessage(pl.getJailIO().getLanguageString(LangString.TRANSFERRED, targetJail.getName()));
+					player.sendMessage(Lang.TRANSFERRED.get(targetJail.getName()));
 				}
 			}else {
 				//They are set to go to the targetCell, so handle accordingly
@@ -619,7 +619,7 @@ public class PrisonerManager {
 					prisoner.setTeleporting(true);
 					player.teleport(targetCell.getTeleport());
 					prisoner.setTeleporting(false);
-					player.sendMessage(pl.getJailIO().getLanguageString(LangString.TRANSFERRED, targetJail.getName()));
+					player.sendMessage(Lang.TRANSFERRED.get(targetJail.getName()));
 				}
 			}
 		}else {

@@ -2,7 +2,7 @@
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people or jail them on time basis. Plugin also offers wide variety of protections, so players won't escape out of your jail.
 
-[![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
+[![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/) **|** [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 
 Beta 3 Changes
 ===
@@ -13,6 +13,7 @@ Beta 3 Changes
 * Make the timer async, this helps performance when you have a ton of prisoners
 * Lots of work on unit testing
 * Changed the encoding of the project in maven to utf8
+* Fixed the language system not copying over new values
 
 Beta 2 Changes
 ===
@@ -66,6 +67,3 @@ Notice
 * MaximumAFKTime setting will not convert over, the format isn't clear and the old version didn't provide a way to get values with decimal places
 * EnableLogging has been removed, we are always going to be logging (unless major request to control this)
 * Prisoner's old inventory strings in the database are lost, we can not convert those
-
-[Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
-====

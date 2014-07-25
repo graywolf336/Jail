@@ -8,7 +8,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -37,15 +37,15 @@ public class JailListCellsCommand implements Command {
 				}
 				
 				if(message.isEmpty()) {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELLS, j.getName()));
+					sender.sendMessage(Lang.NOCELLS.get(j.getName()));
 				}else {
 					sender.sendMessage(ChatColor.GREEN + message);
 				}
 			}else {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
+				sender.sendMessage(Lang.NOJAIL.get(args[1]));
 			}
 		}else {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
+			sender.sendMessage(Lang.NOJAILS.get());
 		}
 		
 		sender.sendMessage(ChatColor.AQUA + "-------------------------");

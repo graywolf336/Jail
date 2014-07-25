@@ -10,7 +10,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -26,7 +26,7 @@ public class JailListCommand implements Command {
 		
 		//Check if there are any jails
 		if(jm.getJails().isEmpty()) {
-			sender.sendMessage(" " + jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
+			sender.sendMessage(" " + Lang.NOJAILS.get());
 		}else {
 			//Check if they have provided a jail to list or not
 			if(args.length == 1) {
@@ -40,13 +40,13 @@ public class JailListCommand implements Command {
 				
 				if(j == null) {
 					//No jail was found
-					sender.sendMessage(" " + jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
+					sender.sendMessage(" " + Lang.NOJAIL.get(args[1]));
 				}else {
 					Collection<Prisoner> pris = j.getAllPrisoners().values();
 					
 					if(pris.isEmpty()) {
 						//If there are no prisoners, then send that message
-						sender.sendMessage(" " + jm.getPlugin().getJailIO().getLanguageString(LangString.NOPRISONERS, j.getName()));
+						sender.sendMessage(" " + Lang.NOPRISONERS.get(j.getName()));
 					}else {
 						for(Prisoner p : pris) {
 							//graywolf663: Being gray's evil twin; CONSOLE (10)

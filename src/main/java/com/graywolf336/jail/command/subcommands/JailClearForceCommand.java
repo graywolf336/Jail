@@ -7,7 +7,7 @@ import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.Confirmation;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -22,10 +22,10 @@ public class JailClearForceCommand implements Command {
 	// If Jail is specified clear all prisoners from that Jail (new feature) else, clear all players from all jails
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		if(jm.isConfirming(sender.getName())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADY));
+			sender.sendMessage(Lang.ALREADY.get());
 		}else {
 			jm.addConfirming(sender.getName(), new ConfirmPlayer(sender.getName(), args, Confirmation.CLEARFORCE));
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.START));
+			sender.sendMessage(Lang.START.get());
 		}
 		
 		return true; //If they made it this far, the command is intact and ready to be processed. :)

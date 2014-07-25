@@ -7,7 +7,7 @@ import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -29,7 +29,7 @@ public class JailCheckCommand implements Command{
 			//prisoner: reason; jailer (time in minutes)
 			sender.sendMessage(ChatColor.BLUE + " " + p.getLastKnownName() + ": " + p.getReason() + "; " + p.getJailer() + " (" + p.getRemainingTimeInMinutes() + " mins)");
 		}else {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[1]));
+			sender.sendMessage(Lang.NOTJAILED.get(args[1]));
 		}
 		
 		return true;

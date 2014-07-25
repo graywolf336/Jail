@@ -9,7 +9,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 @CommandInfo(
@@ -39,7 +39,7 @@ public class UnJailCommand implements Command {
 					//The player is not, so we'll set the remaining time to zero and do it when they login next
 					pris.setRemainingTime(0L);
 					pris.setOfflinePending(true);
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.WILLBEUNJAILED, args[0]));
+					sender.sendMessage(Lang.WILLBEUNJAILED.get(args[0]));
 				}
 			}else {
 				//Player is online, so let's try unjailing them
@@ -51,11 +51,11 @@ public class UnJailCommand implements Command {
 			}
 			
 			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {
-				jm.getPlugin().getLogger().info(ChatColor.stripColor(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() })));
+				jm.getPlugin().getLogger().info(ChatColor.stripColor(Lang.BROADCASTUNJAILING.get(new String[] { args[0], sender.getName() })));
 			}
 		}else {
 			//The player is not currently jailed
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[0]));
+			sender.sendMessage(Lang.NOTJAILED.get(args[0]));
 		}
 		
 		return true;

@@ -7,7 +7,7 @@ import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.Confirmation;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -20,10 +20,10 @@ import com.graywolf336.jail.enums.LangString;
 public class JailDeleteCellsCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
 		if(jm.isConfirming(sender.getName())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADY));
+			sender.sendMessage(Lang.ALREADY.get());
 		}else {
 			jm.addConfirming(sender.getName(), new ConfirmPlayer(sender.getName(), args, Confirmation.DELETECELLS));
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.START));
+			sender.sendMessage(Lang.START.get());
 		}
 		
 		return true;

@@ -27,7 +27,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.Stick;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedByJailStickEvent;
 import com.graywolf336.jail.events.PrisonerDeathEvent;
@@ -67,7 +67,7 @@ public class PlayerListener implements Listener {
 		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
 			if(pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).isMuted()) {
 				event.setCancelled(true);
-				event.getPlayer().sendMessage(pl.getJailIO().getLanguageString(LangString.MUTED));
+				event.getPlayer().sendMessage(Lang.MUTED.get());
 			}
 		}
 		
@@ -95,7 +95,7 @@ public class PlayerListener implements Listener {
 			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
 			
 			if(!j.isEnabled()) {
-				event.getPlayer().kickPlayer(pl.getJailIO().getLanguageString(LangString.WORLDUNLOADEDKICK));
+				event.getPlayer().kickPlayer(Lang.WORLDUNLOADEDKICK.get());
 				pl.getLogger().warning(j.getName() + " is located in a world which is unloaded and " + event.getPlayer().getName() + " (" + event.getPlayer().getUniqueId() + ") tried to join while jailed in it.");
 				return;
 			}
@@ -226,10 +226,10 @@ public class PlayerListener implements Listener {
 				if(attacker.hasPermission("jail.usejailstick." + attacker.getItemInHand().getType().toString().toLowerCase())) {
 					//The person the attacker is trying to jail stick is already jailed, don't handle that
 					if(pl.getJailManager().isPlayerJailed(player.getUniqueId())) {
-						attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ALREADYJAILED, player.getName()));
+						attacker.sendMessage(Lang.ALREADYJAILED.get(player.getName()));
 					}else {
 						if(player.hasPermission("jail.cantbejailed")) {
-							attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.CANTBEJAILED));
+							attacker.sendMessage(Lang.CANTBEJAILED.get());
 						}else {
 							Stick s = pl.getJailStickManager().getStick(attacker.getItemInHand().getType());
 							
@@ -245,7 +245,7 @@ public class PlayerListener implements Listener {
 								
 								if(jEvent.isCancelled()) {
 									if(jEvent.getCancelledMessage().isEmpty())
-										attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, player.getName()));
+										attacker.sendMessage(Lang.CANCELLEDBYANOTHERPLUGIN.get(player.getName()));
 									else
 										attacker.sendMessage(jEvent.getCancelledMessage());
 								}else {
@@ -257,12 +257,10 @@ public class PlayerListener implements Listener {
 									
 									//Player is not online
 									if(player == null) {
-										attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.OFFLINEJAIL,
-												new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+										attacker.sendMessage(Lang.OFFLINEJAIL.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 									}else {
 										//Player *is* online
-										attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.ONLINEJAIL,
-												new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+										attacker.sendMessage(Lang.ONLINEJAIL.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 									}
 									
 									try {
@@ -272,8 +270,8 @@ public class PlayerListener implements Listener {
 									}
 								}
 							}else {
-								attacker.sendMessage(pl.getJailIO().getLanguageString(LangString.RESISTEDARRESTJAILER, player.getName()));
-								player.sendMessage(pl.getJailIO().getLanguageString(LangString.RESISTEDARRESTPLAYER, attacker.getName()));
+								attacker.sendMessage(Lang.RESISTEDARRESTJAILER.get(player.getName()));
+								player.sendMessage(Lang.RESISTEDARRESTPLAYER.get(attacker.getName()));
 							}
 						}
 					}

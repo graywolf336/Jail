@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -21,13 +21,13 @@ public class UnHandCuffCommand implements Command {
 		Player player = jm.getPlugin().getServer().getPlayerExact(args[0]);
 		
 		if(player == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE));
+			sender.sendMessage(Lang.PLAYERNOTONLINE.get());
 		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getUniqueId())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSRELEASED, new String[] { player.getName() }));
+			sender.sendMessage(Lang.HANDCUFFSRELEASED.get(player.getName()));
 			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getUniqueId());
-			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.UNHANDCUFFED));
+			player.sendMessage(Lang.UNHANDCUFFED.get());
 		}else {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHANDCUFFED, new String[] { player.getName() }));
+			sender.sendMessage(Lang.NOTHANDCUFFED.get(player.getName()));
 		}
 		
 		return true;

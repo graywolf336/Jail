@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 2,
@@ -23,7 +23,7 @@ public class JailRecordCommand implements Command {
 			// /jail record <username>
 			List<String> entries = jm.getPlugin().getJailIO().getRecordEntries(args[1]);
 			
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.RECORDTIMESJAILED, new String[] { args[1], String.valueOf(entries.size()) }));
+			sender.sendMessage(Lang.RECORDTIMESJAILED.get(new String[] { args[1], String.valueOf(entries.size()) }));
 		}else if(args.length == 3) {
 			// /jail record <username> something
 			List<String> entries = jm.getPlugin().getJailIO().getRecordEntries(args[1]);
@@ -33,7 +33,7 @@ public class JailRecordCommand implements Command {
 				sender.sendMessage(s);
 			}
 			
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.RECORDTIMESJAILED, new String[] { args[1], String.valueOf(entries.size()) }));
+			sender.sendMessage(Lang.RECORDTIMESJAILED.get(new String[] { args[1], String.valueOf(entries.size()) }));
 		}else {
 			//They didn't do the command right
 			//send them back to get the usage

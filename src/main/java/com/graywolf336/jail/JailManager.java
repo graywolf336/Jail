@@ -16,7 +16,7 @@ import com.graywolf336.jail.beans.CreationPlayer;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.Confirmation;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.steps.CellCreationSteps;
 import com.graywolf336.jail.steps.JailCreationSteps;
 
@@ -339,9 +339,9 @@ public class JailManager {
 					getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 				}
 				
-				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName());
+				return Lang.PRISONERSCLEARED.get(j.getName());
 			}else {
-				return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail);
+				return Lang.NOJAIL.get(jail);
 			}
 		}else {
 			return clearAllJailsOfAllPrisoners();
@@ -356,7 +356,7 @@ public class JailManager {
 	public String clearAllJailsOfAllPrisoners() {
 		//No name of a jail has been passed, so release all of the prisoners in all the jails
 		if(getJails().size() == 0) {
-			return getPlugin().getJailIO().getLanguageString(LangString.NOJAILS);
+			return Lang.NOJAILS.get();
 		}else {
 			for(Jail j : getJails()) {
 				for(Prisoner p : j.getAllPrisoners().values()) {
@@ -364,7 +364,7 @@ public class JailManager {
 				}
 			}
 			
-			return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, getPlugin().getJailIO().getLanguageString(LangString.ALLJAILS));
+			return Lang.PRISONERSCLEARED.get(Lang.ALLJAILS);
 		}
 	}
 	
@@ -381,22 +381,22 @@ public class JailManager {
 	public String forcefullyClearJailOrJails(String name) {
 		if(name == null) {
 			if(getJails().size() == 0) {
-				return getPlugin().getJailIO().getLanguageString(LangString.NOJAILS);
+				return Lang.NOJAILS.get();
 			}else {
 				for(Jail j : getJails()) {
 					j.clearPrisoners();
 				}
 				
-				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, getPlugin().getJailIO().getLanguageString(LangString.ALLJAILS));
+				return Lang.PRISONERSCLEARED.get(Lang.ALLJAILS);
 			}
 		}else {
 			Jail j = getJail(name);
 			
 			if(j != null) {
 				j.clearPrisoners();
-				return getPlugin().getJailIO().getLanguageString(LangString.PRISONERSCLEARED, j.getName());
+				return Lang.PRISONERSCLEARED.get(j.getName());
 			}else {
-				return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, name);
+				return Lang.NOJAIL.get(name);
 			}
 		}
 	}
@@ -418,18 +418,18 @@ public class JailManager {
 				if(j.getCell(cell).hasPrisoner()) {
 					//The cell has a prisoner, so tell them to first transfer the prisoner
 					//or release the prisoner
-					return getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVALUNSUCCESSFUL, new String[] { cell, jail });
+					return Lang.CELLREMOVALUNSUCCESSFUL.get(new String[] { cell, jail });
 				}else {
 					j.removeCell(cell);
-					return getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVED, new String[] { cell, jail });
+					return Lang.CELLREMOVED.get(new String[] { cell, jail });
 				}
 			}else {
 				//No cell found by the provided name in the stated jail
-				return getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { cell, jail });
+				return Lang.NOCELL.get(new String[] { cell, jail });
 			}
 		}else {
 			//No jail found by the provided name
-			return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail);
+			return Lang.NOJAIL.get(jail);
 		}
 	}
 	
@@ -448,7 +448,7 @@ public class JailManager {
 			
 			if(j.getCellCount() == 0) {
 				//There are no cells in this jail, thus we can't delete them.
-				msgs.add(getPlugin().getJailIO().getLanguageString(LangString.NOCELLS, j.getName()));
+				msgs.add(Lang.NOCELLS.get(j.getName()));
 			}else {
 				//Keep a local copy of the hashset so that we don't get any CMEs.
 				HashSet<Cell> cells = new HashSet<Cell>(j.getCells());
@@ -457,16 +457,16 @@ public class JailManager {
 					if(c.hasPrisoner()) {
 						//The cell has a prisoner, so tell them to first transfer the prisoner
 						//or release the prisoner
-						msgs.add(getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVALUNSUCCESSFUL, new String[] { c.getName(), j.getName() }));
+						msgs.add(Lang.CELLREMOVALUNSUCCESSFUL.get(new String[] { c.getName(), j.getName() }));
 					}else {
 						j.removeCell(c.getName());
-						msgs.add(getPlugin().getJailIO().getLanguageString(LangString.CELLREMOVED, new String[] { c.getName(), j.getName() }));
+						msgs.add(Lang.CELLREMOVED.get(new String[] { c.getName(), j.getName() }));
 					}
 				}
 			}
 		}else {
 			//No jail found by the provided name
-			msgs.add(getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail));
+			msgs.add(Lang.NOJAIL.get(jail));
 		}
 		
 		return msgs.toArray(new String[msgs.size()]);
@@ -485,14 +485,14 @@ public class JailManager {
 			if(getJail(jail).getAllPrisoners().size() == 0) {
 				//There are no prisoners, so we can delete it
 				removeJail(jail);
-				return getPlugin().getJailIO().getLanguageString(LangString.JAILREMOVED, jail);
+				return Lang.JAILREMOVED.get(jail);
 			}else {
 				//The jail has prisoners, they need to release them first
-				return getPlugin().getJailIO().getLanguageString(LangString.JAILREMOVALUNSUCCESSFUL, jail);
+				return Lang.JAILREMOVALUNSUCCESSFUL.get(jail);
 			}
 		}else {
 			//No jail found by the provided name
-			return getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, jail);
+			return Lang.NOJAIL.get(jail);
 		}
 	}
 	

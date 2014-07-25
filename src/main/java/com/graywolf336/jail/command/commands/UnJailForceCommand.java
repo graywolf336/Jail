@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 @CommandInfo(
@@ -25,11 +25,11 @@ public class UnJailForceCommand implements Command {
 			jm.getPlugin().getPrisonerManager().forceRelease(jm.getPrisonerByLastKnownName(args[0]), sender);
 			
 			if(jm.getPlugin().getConfig().getBoolean(Settings.LOGJAILINGTOCONSOLE.getPath())) {
-				jm.getPlugin().getLogger().info(ChatColor.stripColor(jm.getPlugin().getJailIO().getLanguageString(LangString.BROADCASTUNJAILING, new String[] { args[0], sender.getName() })));
+				jm.getPlugin().getLogger().info(ChatColor.stripColor(Lang.BROADCASTUNJAILING.get(new String[] { args[0], sender.getName() })));
 			}
 		}else {
 			//The player is not currently jailed
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[0]));
+			sender.sendMessage(Lang.NOTJAILED.get(args[0]));
 		}
 		
 		return true;

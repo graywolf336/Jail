@@ -23,7 +23,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.SimpleLocation;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 /**
@@ -36,7 +36,7 @@ import com.graywolf336.jail.enums.Settings;
  */
 public class JailIO {
 	private JailMain pl;
-	private FileConfiguration flat, lang, records;
+	private FileConfiguration flat, records;
 	private Connection con;
 	private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
 	private String prefix;
@@ -69,58 +69,32 @@ public class JailIO {
 		//File or folder already exists, let's check
 		if(langFile.exists()) {
 			if(langFile.isFile()) {
-				lang = YamlConfiguration.loadConfiguration(langFile);
+				Lang.setFile(YamlConfiguration.loadConfiguration(langFile));
 				pl.getLogger().info("Loaded the language: " + language);
 			}else {
 				pl.getLogger().severe("The language file can not be a folder.");
 				pl.getLogger().severe("As a result, we are reverting back to English as the language.");
-				lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
+				Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("en.yml")));
 				save = true;
 			}
 		}else {
 			pl.getLogger().warning("Loading the default language of: en");
 			pl.getLogger().warning("If you wish to change this, please rename 'en.yml' to whatever you wish and set the config value to the name of the file.");
-			lang = YamlConfiguration.loadConfiguration(pl.getResource("en.yml"));
+			Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("en.yml")));
 			save = true;
 		}
+		
+		//Make sure we have all the new language settings loaded
+		if(!save) save = Lang.writeNewLanguage(YamlConfiguration.loadConfiguration(pl.getResource("en.yml")));
 		
 		//If we have flagged to save the language file, let's save it as en.yml as this flag usually means they didn't have it loaded.
 		if(save) {
 			try {
-				lang.save(new File(pl.getDataFolder(), "en.yml"));
+				Lang.getFile().save(new File(pl.getDataFolder(), "en.yml"));
 			} catch (IOException e) {
 				pl.getLogger().severe("Unable to save the language file: " + e.getMessage());
 			}
 		}
-	}
-	
-	/** Returns the message in the language, no variables are replaced.*/
-	public String getLanguageString(LangString langString) {
-		return getLanguageString(langString, new String[] {});
-	}
-	
-	/** Returns the message in the language, no variables are replaced.*/
-	public String getLanguageString(LangString langString, LangString langString2) {
-		return getLanguageString(langString, getLanguageString(langString2, new String[] {}));
-	}
-	
-	/**
-	 * Returns the message in the language, with the provided variables being replaced.
-	 * 
-	 * @param langString Which {@link LangString} we should be getting to send.
-	 * @param variables All the variables to replace, in order from 0 to however many.
-	 * @return The message as a colorful message or an empty message if that isn't defined in the language file.
-	 */
-	public String getLanguageString(LangString langString, String... variables) {
-		String message = lang.getString("language." + langString.getSection() + "." + langString.getName());
-		
-		if(message == null) return "";
-		
-		for (int i = 0; i < variables.length; i++) {
-			message = message.replaceAll("%" + i + "%", variables[i]);
-		}
-		
-		return Util.getColorfulMessage(message);
 	}
 	
 	/** Prepares the storage engine to be used, returns true if everything went good. */
@@ -1130,7 +1104,7 @@ public class JailIO {
 				if(records == null) records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
 				
 				List<String> previous = records.getStringList(uuid);
-				previous.add(this.getLanguageString(LangString.RECORDENTRY, new String[] { date, username, jailer, String.valueOf(time), reason, uuid }));
+				previous.add(Lang.RECORDENTRY.get(new String[] { date, username, jailer, String.valueOf(time), reason, uuid }));
 				
 				records.set(username, previous);
 				
@@ -1166,8 +1140,7 @@ public class JailIO {
 					ResultSet set = ps.executeQuery();
 					
 					while(set.next()) {
-						entries.add(this.getLanguageString(LangString.RECORDENTRY,
-								new String[] { set.getString("date"), set.getString("username"), set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason") }));
+						entries.add(Lang.RECORDENTRY.get(new String[] { set.getString("date"), set.getString("username"), set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason") }));
 					}
 					
 					set.close();

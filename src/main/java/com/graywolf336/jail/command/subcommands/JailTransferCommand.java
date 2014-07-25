@@ -14,7 +14,7 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.commands.jewels.Transfer;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.events.PrePrisonerTransferredEvent;
 import com.lexicalscope.jewel.cli.ArgumentValidationException;
 import com.lexicalscope.jewel.cli.CliFactory;
@@ -30,7 +30,7 @@ import com.lexicalscope.jewel.cli.CliFactory;
 public class JailTransferCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
 		if(jm.getJails().isEmpty()) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
+			sender.sendMessage(Lang.NOJAILS.get());
 			return true;
 		}
 		
@@ -51,10 +51,10 @@ public class JailTransferCommand implements Command {
 		
 		//Verify they gave us a player and if so check if they're jailed
 		if(params.getPlayer() == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.TRANSFERRING));
+			sender.sendMessage(Lang.PROVIDEAPLAYER.get(Lang.TRANSFERRING));
 			return true;
 		}else if(!jm.isPlayerJailedByLastKnownUsername(params.getPlayer())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, params.getPlayer()));
+			sender.sendMessage(Lang.NOTJAILED.get(params.getPlayer()));
 			return true;
 		}
 		
@@ -62,12 +62,12 @@ public class JailTransferCommand implements Command {
 		
 		//If they didn't provide a jail, tell them we need one
 		if(params.getJail() == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAJAIL, LangString.TRANSFERRING));
+			sender.sendMessage(Lang.PROVIDEAJAIL.get(Lang.TRANSFERRING));
 			return true;
 		}else {
 			//Check if the jail they did provided is not a valid jail
 			if(!jm.isValidJail(params.getJail())) {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, params.getJail()));
+				sender.sendMessage(Lang.NOJAIL.get(params.getJail()));
 				return true;
 			}
 		}
@@ -80,21 +80,21 @@ public class JailTransferCommand implements Command {
 		//Check if they provided a cell and if so does it exist
 		if(params.getCell() != null) {
 			if(target.getCell(params.getCell()) == null) {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.getCell(), params.getJail() }));
+				sender.sendMessage(Lang.NOCELL.get(new String[] { params.getCell(), params.getJail() }));
 				return true;
 			}else {
 				//Store the cell for easy of access and also check if it already is full
 				targetCell = target.getCell(params.getCell());
 				if(targetCell.hasPrisoner()) {
 					//If the cell has a prisoner, don't allow jailing them to that particular cell
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CELLNOTEMPTY, params.getCell()));
+					sender.sendMessage(Lang.CELLNOTEMPTY.get(params.getCell()));
 					
 					//But suggest the first empty cell we find
 					Cell suggestedCell = jm.getJail(params.getCell()).getFirstEmptyCell();
 					if(suggestedCell != null) {
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.SUGGESTEDCELL, new String[] { params.getCell(), suggestedCell.getName() }));
+						sender.sendMessage(Lang.SUGGESTEDCELL.get(new String[] { params.getCell(), suggestedCell.getName() }));
 					}else {
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOEMPTYCELLS, params.getCell()));
+						sender.sendMessage(Lang.NOEMPTYCELLS.get(params.getCell()));
 					}
 					
 					return true;
@@ -114,7 +114,7 @@ public class JailTransferCommand implements Command {
 		if(event.isCancelled()) {
 			if(event.getCancelledMessage().isEmpty()) {
 				//The plugin didn't provide a cancel message/reason so send the default one
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERCANCELLEDBYANOTHERPLUGIN, params.getPlayer()));
+				sender.sendMessage(Lang.TRANSFERCANCELLEDBYANOTHERPLUGIN.get(params.getPlayer()));
 			}else {
 				sender.sendMessage(event.getCancelledMessage());
 			}
@@ -129,9 +129,9 @@ public class JailTransferCommand implements Command {
 		
 		//Send the messages to the sender, if no cell then say that but if cell send that as well
 		if(targetCell == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERCOMPLETENOCELL, new String[] { params.getPlayer(), target.getName() }));
+			sender.sendMessage(Lang.TRANSFERCOMPLETENOCELL.get(new String[] { params.getPlayer(), target.getName() }));
 		}else {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERCOMPLETECELL, new String[] { params.getPlayer(), target.getName(), targetCell.getName() }));
+			sender.sendMessage(Lang.TRANSFERCOMPLETECELL.get(new String[] { params.getPlayer(), target.getName(), targetCell.getName() }));
 		}
 		
 		return true;

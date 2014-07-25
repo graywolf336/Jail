@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 /**
@@ -90,7 +90,7 @@ public class JailTimer {
 								p.setAFKTime(p.getAFKTime() + timePassed);
 								if(p.getAFKTime() > afkTime) {
 									p.setAFKTime(0);
-									player.kickPlayer(pl.getJailIO().getLanguageString(LangString.AFKKICKMESSAGE));
+									player.kickPlayer(Lang.AFKKICKMESSAGE.get());
 								}
 							}
 							

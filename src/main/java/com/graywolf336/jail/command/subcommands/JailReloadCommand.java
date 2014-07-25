@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 0,
@@ -27,7 +27,7 @@ public class JailReloadCommand implements Command {
 			jm.getPlugin().reloadJailPayManager();
 			jm.getPlugin().reloadUpdateCheck();
 			
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLUGINRELOADED));
+			sender.sendMessage(Lang.PLUGINRELOADED.get());
 		}catch (Exception e) {
 			sender.sendMessage(ChatColor.RED + e.getMessage());
 		}

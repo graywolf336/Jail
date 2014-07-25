@@ -7,7 +7,7 @@ import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 2,
@@ -23,7 +23,7 @@ public class JailTeleInCommand implements Command {
 		
 		//The jail doesn't exist
 		if(j == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
+			sender.sendMessage(Lang.NOJAIL.get(args[1]));
 		}else {
 			//The jail does exist
 			//now let's check the size of the command
@@ -34,17 +34,17 @@ public class JailTeleInCommand implements Command {
 				
 				//If the player they're trying to send is offline, don't do anything
 				if(p == null) {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE, args[2]));
+					sender.sendMessage(Lang.PLAYERNOTONLINE.get(args[2]));
 				}else {
 					p.teleport(j.getTeleportIn());
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TELEIN, new String[] { args[2], args[1] }));
+					sender.sendMessage(Lang.TELEIN.get(new String[] { args[2], args[1] }));
 				}
 			}else {
 				if(sender instanceof Player) {
 					((Player) sender).teleport(j.getTeleportIn());
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TELEIN, new String[] { sender.getName(), args[1] }));
+					sender.sendMessage(Lang.TELEIN.get(new String[] { sender.getName(), args[1] }));
 				}else {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
+					sender.sendMessage(Lang.PLAYERCONTEXTREQUIRED.get());
 				}
 			}
 		}

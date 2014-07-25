@@ -12,7 +12,7 @@ import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.CachePrisoner;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 public class MoveProtectionListener implements Listener {
@@ -54,13 +54,11 @@ public class MoveProtectionListener implements Listener {
 						if(add == 0L) {
 							//Generate the protection message, provide the method with one argument
 							//which is the thing we are protecting against
-							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGENOPENALTY, pl.getJailIO().getLanguageString(LangString.MOVING));
+							msg = Lang.PROTECTIONMESSAGENOPENALTY.get(Lang.MOVING);
 						}else {
 							//Generate the protection message, provide the method with two arguments
 							//First is the time in minutes and second is the thing we are protecting against
-							msg = pl.getJailIO().getLanguageString(LangString.PROTECTIONMESSAGE,
-									new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)),
-									pl.getJailIO().getLanguageString(LangString.MOVING) });
+							msg = Lang.PROTECTIONMESSAGE.get(new String[] { String.valueOf(TimeUnit.MINUTES.convert(add, TimeUnit.MILLISECONDS)), Lang.MOVING.get() });
 						}
 						
 						//Send the message

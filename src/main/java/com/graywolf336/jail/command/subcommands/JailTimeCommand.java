@@ -7,7 +7,7 @@ import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 3,
@@ -25,8 +25,7 @@ public class JailTimeCommand implements Command {
 			switch(args.length) {
 				case 3:
 					if(args[1].equalsIgnoreCase("show")) {
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSTIME,
-								new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+						sender.sendMessage(Lang.PRISONERSTIME.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 					}else {
 						return false;
 					}
@@ -40,14 +39,13 @@ public class JailTimeCommand implements Command {
 						return false;
 					}
 					
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PRISONERSTIME,
-							new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+					sender.sendMessage(Lang.PRISONERSTIME.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
 					break;
 				default:
 					return false;
 			}
 		}else {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[2]));
+			sender.sendMessage(Lang.NOTJAILED.get(args[2]));
 		}
 		
 		return true;

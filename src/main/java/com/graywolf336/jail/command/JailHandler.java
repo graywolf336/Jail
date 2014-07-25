@@ -35,7 +35,7 @@ import com.graywolf336.jail.command.subcommands.JailTimeCommand;
 import com.graywolf336.jail.command.subcommands.JailTransferAllCommand;
 import com.graywolf336.jail.command.subcommands.JailTransferCommand;
 import com.graywolf336.jail.command.subcommands.JailVersionCommand;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 public class JailHandler {
 	private LinkedHashMap<String, Command> commands;
@@ -100,7 +100,7 @@ public class JailHandler {
 		if(!i.permission().isEmpty()) {
 			if(!sender.hasPermission(i.permission())) {
 				jailmanager.getPlugin().debug("Sender has no permission.");
-				sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
+				sender.sendMessage(Lang.NOPERMISSION.get());
 				return true;
 			}
 		}
@@ -108,7 +108,7 @@ public class JailHandler {
 		// Next, let's check if we need a player and then if the sender is actually a player
 		if(i.needsPlayer() && !(sender instanceof Player)) {
 			jailmanager.getPlugin().debug("Sender is not a player.");
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
+			sender.sendMessage(Lang.PLAYERCONTEXTREQUIRED.get());
 			return true;
 		}
 		

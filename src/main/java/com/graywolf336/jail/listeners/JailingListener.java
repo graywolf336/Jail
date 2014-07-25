@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
 import com.graywolf336.jail.JailMain;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedByJailStickEvent;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
@@ -24,7 +24,7 @@ public class JailingListener implements Listener {
 	
 	public JailingListener(JailMain plugin) {
 		this.pl = plugin;
-		this.dateFormat = new SimpleDateFormat(pl.getJailIO().getLanguageString(LangString.TIMEFORMAT));
+		this.dateFormat = new SimpleDateFormat(Lang.TIMEFORMAT.get());
 	}
 	
 	@EventHandler(ignoreCancelled=true)

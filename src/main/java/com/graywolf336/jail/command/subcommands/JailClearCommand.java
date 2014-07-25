@@ -7,7 +7,7 @@ import com.graywolf336.jail.beans.ConfirmPlayer;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.Confirmation;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -22,10 +22,10 @@ public class JailClearCommand implements Command {
 	// If Jail is specified unjails all the prisoners from that Jail (new feature) otherwise it unjails all the prisoners from all the jails
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		if(jm.isConfirming(sender.getName())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADY));
+			sender.sendMessage(Lang.ALREADY.get());
 		}else {
 			jm.addConfirming(sender.getName(), new ConfirmPlayer(sender.getName(), args, Confirmation.CLEAR));
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.START));
+			sender.sendMessage(Lang.START.get());
 		}
 		
 		return true;

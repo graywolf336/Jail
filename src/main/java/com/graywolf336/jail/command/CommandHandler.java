@@ -15,7 +15,7 @@ import com.graywolf336.jail.command.commands.ToggleJailDebugCommand;
 import com.graywolf336.jail.command.commands.UnHandCuffCommand;
 import com.graywolf336.jail.command.commands.UnJailForceCommand;
 import com.graywolf336.jail.command.commands.UnJailCommand;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 /**
  * Where all the commands are registered at and handled, processed, at.
@@ -74,7 +74,7 @@ public class CommandHandler {
 					return;
 			}
 			
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.UNKNOWNCOMMAND, commandLine));
+			sender.sendMessage(Lang.UNKNOWNCOMMAND.get(commandLine));
 			return;
 		}
 		
@@ -90,13 +90,13 @@ public class CommandHandler {
 		
 		// First, let's check if the sender has permission for the command.
 		if(!sender.hasPermission(i.permission())) {
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.NOPERMISSION));
+			sender.sendMessage(Lang.NOPERMISSION.get());
 			return;
 		}
 		
 		// Next, let's check if we need a player and then if the sender is actually a player
 		if(i.needsPlayer() && !(sender instanceof Player)) {
-			sender.sendMessage(jailmanager.getPlugin().getJailIO().getLanguageString(LangString.PLAYERCONTEXTREQUIRED));
+			sender.sendMessage(Lang.PLAYERCONTEXTREQUIRED.get());
 			return;
 		}
 		

@@ -190,6 +190,18 @@ public class TestInstanceCreator {
                     arg.run();
                     return null;
                 }});
+            when(mockScheduler.runTaskTimerAsynchronously(any(Plugin.class), any(Runnable.class), anyLong(), anyLong())).
+            thenAnswer(new Answer<Integer>() {
+                public Integer answer(InvocationOnMock invocation) throws Throwable {
+                    Runnable arg;
+                    try {
+                        arg = (Runnable) invocation.getArguments()[1];
+                    } catch (Exception e) {
+                        return null;
+                    }
+                    arg.run();
+                    return null;
+                }});
             when(mockServer.getScheduler()).thenReturn(mockScheduler);
             
 			// Set server

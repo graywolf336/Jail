@@ -5,7 +5,7 @@ import org.bukkit.command.CommandSender;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 0,
@@ -22,7 +22,7 @@ public class JailConfirmCommand implements Command{
 		if(jm.isConfirming(sender.getName())) {
 			if(jm.confirmingHasExpired(sender.getName())) {
 				//Their confirmation time frame has closed
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.EXPIRED));
+				sender.sendMessage(Lang.EXPIRED.get());
 			}else {
 				switch(jm.getWhatIsConfirming(sender.getName())) {
 					case CLEAR:
@@ -75,14 +75,14 @@ public class JailConfirmCommand implements Command{
 						jm.removeConfirming(sender.getName());
 						break;
 					default:
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHING));
+						sender.sendMessage(Lang.NOTHING.get());
 						jm.removeConfirming(sender.getName());
 						break;
 				}
 			}
 		}else {
 			//They aren't confirming anything right now.
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTHING));
+			sender.sendMessage(Lang.NOTHING.get());
 		}
 		
 		return true;

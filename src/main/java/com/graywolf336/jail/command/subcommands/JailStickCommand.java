@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 @CommandInfo(
@@ -23,12 +23,12 @@ public class JailStickCommand implements Command {
 			boolean using = jm.getPlugin().getJailStickManager().toggleUsingStick(((Player) sender).getUniqueId());
 			
 			if(using) {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILSTICKENABLED));
+				sender.sendMessage(Lang.JAILSTICKENABLED.get());
 			}else {
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILSTICKDISABLED));
+				sender.sendMessage(Lang.JAILSTICKDISABLED.get());
 			}
 		}else {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.JAILSTICKUSAGEDISABLED));
+			sender.sendMessage(Lang.JAILSTICKUSAGEDISABLED.get());
 		}
 		
 		return true;

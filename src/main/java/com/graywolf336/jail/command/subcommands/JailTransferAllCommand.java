@@ -9,7 +9,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 2,
@@ -22,7 +22,7 @@ import com.graywolf336.jail.enums.LangString;
 public class JailTransferAllCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
 		if(jm.getJails().isEmpty()) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
+			sender.sendMessage(Lang.NOJAILS.get());
 			return true;
 		}
 		
@@ -30,11 +30,11 @@ public class JailTransferAllCommand implements Command {
 		
 		//Check if the oldjail is not a valid jail
 		if(!jm.isValidJail(args[1])) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[1]));
+			sender.sendMessage(Lang.NOJAIL.get(args[1]));
 			return true;
 		}else if(!jm.isValidJail(args[2])) {
 			//Check if the targetjail is a valid jail as well
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, args[2]));
+			sender.sendMessage(Lang.NOJAIL.get(args[2]));
 			return true;
 		}
 		
@@ -49,7 +49,7 @@ public class JailTransferAllCommand implements Command {
 		}
 		
 		//Send the messages to the sender when completed
-		sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.TRANSFERALLCOMPLETE, new String[] { old.getName(), args[2] }));
+		sender.sendMessage(Lang.TRANSFERALLCOMPLETE.get(new String[] { old.getName(), args[2] }));
 		
 		return true;
 	}

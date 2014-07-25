@@ -11,7 +11,7 @@ import com.graywolf336.jail.JailPayManager;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 @CommandInfo(
@@ -43,21 +43,21 @@ public class JailPayCommand implements Command {
 						
 						if(p.getRemainingTime() > 0) {
 							if(pm.isTimedEnabled()) {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYCOST, new String[] { pm.getCostPerMinute(), pm.getCurrencyName(), amt }));
+								sender.sendMessage(Lang.PAYCOST.get(new String[] { pm.getCostPerMinute(), pm.getCurrencyName(), amt }));
 							}else {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+								sender.sendMessage(Lang.PAYNOTENABLED.get());
 								jm.getPlugin().debug("Jail pay 'timed' paying is not enabled (config has 0 as the cost).");
 							}
 						}else {
 							if(pm.isInfiniteEnabled()) {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYCOST, new String[] { amt, pm.getCurrencyName() }));
+								sender.sendMessage(Lang.PAYCOST.get(new String[] { amt, pm.getCurrencyName() }));
 							}else {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+								sender.sendMessage(Lang.PAYNOTENABLED.get());
 								jm.getPlugin().debug("Jail pay 'infinite' paying is not enabled (config has 0 as the cost).");
 							}
 						}
 					}else {
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.YOUARENOTJAILED));
+						sender.sendMessage(Lang.YOUARENOTJAILED.get());
 					}
 					
 					break;
@@ -69,18 +69,18 @@ public class JailPayCommand implements Command {
 						
 						if(p.getRemainingTime() > 0) {
 							if(!pm.isTimedEnabled()) {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+								sender.sendMessage(Lang.PAYNOTENABLED.get());
 								return true;
 							}
 						}else {
 							if(!pm.isInfiniteEnabled()) {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+								sender.sendMessage(Lang.PAYNOTENABLED.get());
 								return true;
 							}
 						}
 						
 						if(args[1].startsWith("-")) {
-							sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNONEGATIVEAMOUNTS));
+							sender.sendMessage(Lang.PAYNONEGATIVEAMOUNTS.get());
 						}else {
 							double amt = 0;
 							
@@ -98,32 +98,31 @@ public class JailPayCommand implements Command {
 									//timed sentence
 									if(amt >= bill) {
 										pm.pay((Player) sender, bill);
-										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASED, String.valueOf(bill)));
+										sender.sendMessage(Lang.PAYPAIDRELEASED.get(String.valueOf(bill)));
 										jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 									}else {
 										long minutes = pm.getMinutesPayingFor(amt);
 										pm.pay((Player) sender, amt);
 										long remain = p.subtractTime(TimeUnit.MILLISECONDS.convert(minutes, TimeUnit.MINUTES));
-										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDLOWEREDTIME, 
-												new String[] { String.valueOf(amt), String.valueOf(TimeUnit.MINUTES.convert(remain, TimeUnit.MILLISECONDS)) }));
+										sender.sendMessage(Lang.PAYPAIDLOWEREDTIME.get(new String[] { String.valueOf(amt), String.valueOf(TimeUnit.MINUTES.convert(remain, TimeUnit.MILLISECONDS)) }));
 									}
 								}else {
 									//infinite jailing
 									if(amt >= bill) {
 										pm.pay((Player) sender, bill);
-										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASED, String.valueOf(bill)));
+										sender.sendMessage(Lang.PAYPAIDRELEASED.get(String.valueOf(bill)));
 										jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 									}else {
 										//You haven't provided enough money to get them out
-										sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEYPROVIDED));
+										sender.sendMessage(Lang.PAYNOTENOUGHMONEYPROVIDED.get());
 									}
 								}
 							}else {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEY));
+								sender.sendMessage(Lang.PAYNOTENOUGHMONEY.get());
 							}
 						}
 					}else {
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.YOUARENOTJAILED));
+						sender.sendMessage(Lang.YOUARENOTJAILED.get());
 					}
 					break;
 				case 3:
@@ -131,25 +130,25 @@ public class JailPayCommand implements Command {
 					//they are trying to pay for someone else
 					if(jm.isPlayerJailedByLastKnownUsername(sender.getName())) {
 						//When they are jailed they can not pay for someone else
-						sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYCANTPAYWHILEJAILED));
+						sender.sendMessage(Lang.PAYCANTPAYWHILEJAILED.get());
 					}else {
 						if(jm.isPlayerJailedByLastKnownUsername(args[2])) {
 							Prisoner p = jm.getPrisonerByLastKnownName(args[2]);
 							
 							if(p.getRemainingTime() > 0) {
 								if(!pm.isTimedEnabled()) {
-									sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+									sender.sendMessage(Lang.PAYNOTENABLED.get());
 									return true;
 								}
 							}else {
 								if(!pm.isInfiniteEnabled()) {
-									sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+									sender.sendMessage(Lang.PAYNOTENABLED.get());
 									return true;
 								}
 							}
 							
 							if(args[1].startsWith("-")) {
-								sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNONEGATIVEAMOUNTS));
+								sender.sendMessage(Lang.PAYNONEGATIVEAMOUNTS.get());
 							}else {
 								double amt = 0;
 								
@@ -168,33 +167,32 @@ public class JailPayCommand implements Command {
 										//timed sentence
 										if(amt >= bill) {
 											pm.pay((Player) sender, bill);
-											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getLastKnownName() }));
+											sender.sendMessage(Lang.PAYPAIDRELEASEDELSE.get(new String[] { String.valueOf(bill), p.getLastKnownName() }));
 											jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 										}else {
 											long minutes = pm.getMinutesPayingFor(amt);
 											pm.pay((Player) sender, amt);
 											long remain = p.subtractTime(TimeUnit.MILLISECONDS.convert(minutes, TimeUnit.MINUTES));
-											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDLOWEREDTIMEELSE, 
-													new String[] { String.valueOf(amt), p.getLastKnownName(), String.valueOf(TimeUnit.MINUTES.convert(remain, TimeUnit.MILLISECONDS)) }));
+											sender.sendMessage(Lang.PAYPAIDLOWEREDTIMEELSE.get(new String[] { String.valueOf(amt), p.getLastKnownName(), String.valueOf(TimeUnit.MINUTES.convert(remain, TimeUnit.MILLISECONDS)) }));
 										}
 									}else {
 										//infinite jailing
 										if(amt >= bill) {
 											pm.pay((Player) sender, bill);
-											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYPAIDRELEASEDELSE, new String[] { String.valueOf(bill), p.getLastKnownName() }));
+											sender.sendMessage(Lang.PAYPAIDRELEASEDELSE.get(new String[] { String.valueOf(bill), p.getLastKnownName() }));
 											jm.getPlugin().getPrisonerManager().schedulePrisonerRelease(p);
 										}else {
 											//You haven't provided enough money to get them out
-											sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEYPROVIDED));
+											sender.sendMessage(Lang.PAYNOTENOUGHMONEYPROVIDED.get());
 										}
 									}
 								}else {
-									sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENOUGHMONEY));
+									sender.sendMessage(Lang.PAYNOTENOUGHMONEY.get());
 								}
 							}
 						}else {
 							//Person they're trying to pay for is not jailed
-							sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOTJAILED, args[2]));
+							sender.sendMessage(Lang.NOTJAILED.get(args[2]));
 						}
 					}
 					break;
@@ -203,27 +201,9 @@ public class JailPayCommand implements Command {
 			}
 		}else {
 			jm.getPlugin().debug("Jail pay not enabled.");
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PAYNOTENABLED));
+			sender.sendMessage(Lang.PAYNOTENABLED.get());
 		}
 		
 		return true;
 	}
 }
-
-/*
- * 
-Messages:
-  MessageJailPayAmountForever: To get out of this mess, you will have to pay <Amount>.
-  JailPayCannotPay: Sorry, money won't help you this time.
-  JailPayCannotPayHim: Sorry, money won't help him this time.
-  JailPayNotEnoughMoney: You don't have that much money!
-  JailPayCost: 1 minute of your sentence will cost you <MinutePrice>. That means that cost for releasing you out of the jail is <WholePrice>.
-  JailPayPaidReleased: You have just payed <Amount> and saved yourself from the jail!
-  JailPayPaidReleasedHim: You have just payed <Amount> and saved <Prisoner> from the jail!
-  JailPayLoweredTime: You have just payed <Amount> and lowered your sentence to <NewTime> minutes!
-  JailPayLoweredTimeHim: You have just payed <Amount> and lowered <Prisoner>'s sentence to <NewTime> minutes!
-JailPay:
-  PricePerMinute: 10
-  PriceForInfiniteJail: 9999
-  Currency: 0
- */

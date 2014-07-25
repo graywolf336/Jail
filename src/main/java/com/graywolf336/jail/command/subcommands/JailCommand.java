@@ -16,7 +16,7 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.command.commands.jewels.Jailing;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
 import com.lexicalscope.jewel.cli.ArgumentValidationException;
@@ -46,7 +46,7 @@ public class JailCommand implements Command {
 	public boolean execute(JailManager jm, CommandSender sender, String... args) {
 		
 		if(jm.getJails().isEmpty()) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAILS));
+			sender.sendMessage(Lang.NOJAILS.get());
 			return true;
 		}
 		
@@ -67,7 +67,7 @@ public class JailCommand implements Command {
 		
 		//Check if they've actually given us a player to jail
 		if(params.getPlayer() == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PROVIDEAPLAYER, LangString.JAILING));
+			sender.sendMessage(Lang.PROVIDEAPLAYER.get(Lang.JAILING));
 			return true;
 		}else {
 			jm.getPlugin().debug("We are getting ready to handle jailing: " + params.getPlayer());
@@ -75,7 +75,7 @@ public class JailCommand implements Command {
 		
 		//Check if the given player is already jailed or not
 		if(jm.isPlayerJailedByLastKnownUsername(params.getPlayer())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ALREADYJAILED, params.getPlayer()));
+			sender.sendMessage(Lang.ALREADYJAILED.get(params.getPlayer()));
 			return true;
 		}
 		
@@ -91,7 +91,7 @@ public class JailCommand implements Command {
 				time = Util.getTime(params.getTime());
 			}
 		}catch(Exception e) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NUMBERFORMATINCORRECT));
+			sender.sendMessage(Lang.NUMBERFORMATINCORRECT.get());
 			return true;
 		}
 		
@@ -109,7 +109,7 @@ public class JailCommand implements Command {
 				jailName = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
 			}
 		}else if(jm.getJail(params.getJail()) == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOJAIL, params.getJail()));
+			sender.sendMessage(Lang.NOJAIL.get(params.getJail()));
 			return true;
 		}else {
 			jailName = params.getJail();
@@ -119,16 +119,16 @@ public class JailCommand implements Command {
 		if(params.getCell() != null) {
 			if(jm.getJail(params.getJail()).getCell(params.getCell()) == null) {
 				//There is no cell by that name
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOCELL, new String[] { params.getCell(), params.getJail() }));
+				sender.sendMessage(Lang.NOCELL.get(new String[] { params.getCell(), params.getJail() }));
 				return true;
 			}else if(jm.getJail(params.getJail()).getCell(params.getCell()).hasPrisoner()) {
 				//If the cell has a prisoner, don't allow jailing them to that particular cell
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CELLNOTEMPTY, params.getCell()));
+				sender.sendMessage(Lang.CELLNOTEMPTY.get(params.getCell()));
 				Cell suggestedCell = jm.getJail(params.getJail()).getFirstEmptyCell();
 				if(suggestedCell != null) {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.SUGGESTEDCELL, new String[] { params.getJail(), suggestedCell.getName() }));
+					sender.sendMessage(Lang.SUGGESTEDCELL.get(new String[] { params.getJail(), suggestedCell.getName() }));
 				}else {
-					sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.NOEMPTYCELLS, params.getJail()));
+					sender.sendMessage(Lang.NOEMPTYCELLS.get(params.getJail()));
 				}
 				
 				return true;
@@ -138,7 +138,7 @@ public class JailCommand implements Command {
 		//If the jailer gave no reason, then let's get the default reason
 		String reason = "";
 		if(params.getReason() == null) {
-			reason = jm.getPlugin().getJailIO().getLanguageString(LangString.DEFAULTJAILEDREASON);
+			reason = Lang.DEFAULTJAILEDREASON.get();
 		}else {
 			StringBuilder sb = new StringBuilder();
 			for(String s : params.getReason()) {
@@ -160,7 +160,7 @@ public class JailCommand implements Command {
 		//If the player instance is not null and the player has the permission
 		//'jail.cantbejailed' then don't allow this to happen
 		if(p != null && p.hasPermission("jail.cantbejailed")) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANTBEJAILED));
+			sender.sendMessage(Lang.CANTBEJAILED.get());
 			return true;
 		}
 		
@@ -175,7 +175,7 @@ public class JailCommand implements Command {
 		//Get the jail instance from the name of jail in the params.
 		Jail j = jm.getJail(jailName);
 		if(!j.isEnabled()) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.WORLDUNLOADED, j.getName()));
+			sender.sendMessage(Lang.WORLDUNLOADED.get(j.getName()));
 			return true;
 		}
 		
@@ -189,7 +189,7 @@ public class JailCommand implements Command {
 		//check if the event is cancelled
 		if(event.isCancelled()) {
 			if(event.getCancelledMessage().isEmpty())
-				sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANCELLEDBYANOTHERPLUGIN, params.getPlayer()));
+				sender.sendMessage(Lang.CANCELLEDBYANOTHERPLUGIN.get(params.getPlayer()));
 			else
 				sender.sendMessage(event.getCancelledMessage());
 				
@@ -204,10 +204,10 @@ public class JailCommand implements Command {
 		
 		//Player is not online
 		if(p == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.OFFLINEJAIL, new String[] { pris.getLastKnownName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
+			sender.sendMessage(Lang.OFFLINEJAIL.get(new String[] { pris.getLastKnownName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
 		}else {
 			//Player *is* online
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.ONLINEJAIL, new String[] { pris.getLastKnownName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
+			sender.sendMessage(Lang.ONLINEJAIL.get(new String[] { pris.getLastKnownName(), String.valueOf(pris.getRemainingTimeInMinutes()) }));
 		}
 		
 		try {

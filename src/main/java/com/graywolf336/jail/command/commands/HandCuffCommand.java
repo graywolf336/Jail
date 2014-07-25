@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
-import com.graywolf336.jail.enums.LangString;
+import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
 		maxArgs = 1,
@@ -21,19 +21,19 @@ public class HandCuffCommand implements Command {
 		Player player = jm.getPlugin().getServer().getPlayer(args[0]);
 		
 		if(player == null) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.PLAYERNOTONLINE));
+			sender.sendMessage(Lang.PLAYERNOTONLINE.get());
 		}else if(player.hasPermission("jail.cantbehandcuffed")) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CANTBEHANDCUFFED, new String[] { player.getName() }));
+			sender.sendMessage(Lang.CANTBEHANDCUFFED.get(player.getName()));
 		}else if(jm.isPlayerJailed(player.getUniqueId())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.CURRENTLYJAILEDHANDCUFF, new String[] { player.getName() }));
+			sender.sendMessage(Lang.CURRENTLYJAILEDHANDCUFF.get(player.getName()));
 		}else if(jm.getPlugin().getHandCuffManager().isHandCuffed(player.getUniqueId())) {
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSRELEASED, new String[] { player.getName() }));
+			sender.sendMessage(Lang.HANDCUFFSRELEASED.get(player.getName()));
 			jm.getPlugin().getHandCuffManager().removeHandCuffs(player.getUniqueId());
-			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.UNHANDCUFFED));
+			player.sendMessage(Lang.UNHANDCUFFED.get());
 		}else {
 			jm.getPlugin().getHandCuffManager().addHandCuffs(player.getUniqueId(), player.getLocation());
-			sender.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFSON, new String[] { player.getName() }));
-			player.sendMessage(jm.getPlugin().getJailIO().getLanguageString(LangString.HANDCUFFED));
+			sender.sendMessage(Lang.HANDCUFFSON.get(player.getName()));
+			player.sendMessage(Lang.HANDCUFFED.get());
 		}
 		
 		return true;
