@@ -1,8 +1,8 @@
-[Jail 3.0](http://ci.graywolf336.com/job/Jail/)
+[Jail 3.0](http://ci.graywolf336.com/job/Jail/) - [JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
 ====
-This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people or jail them on time basis. Plugin also offers wide variety of protections, so players won't escape out of your jail.
+This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people, can be on a time basis. This plugin also offers wide variety of protections, this way players won't escape out of jail.
 
-[![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/) **|** [Jail 3.0 JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc)
+[![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
 
 Beta 3 Changes
 ===
@@ -15,6 +15,7 @@ Beta 3 Changes
 * Changed the encoding of the project in maven to utf8
 * Fixed the language system not copying over new values
 * Fixed confirmations not expiring, ever
+* Commands clear and clear force have been combined, use -f (-force) if you want to forcefully clear
 
 Beta 2 Changes
 ===
