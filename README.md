@@ -14,6 +14,7 @@ Beta 3 Changes
 * Lots of work on unit testing
 * Changed the encoding of the project in maven to utf8
 * Fixed the language system not copying over new values
+* Fixed confirmations not expiring, ever
 
 Beta 2 Changes
 ===
