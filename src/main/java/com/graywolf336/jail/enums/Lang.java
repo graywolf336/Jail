@@ -230,24 +230,24 @@ public enum Lang {
     public static void setFile(YamlConfiguration file) {
         lang = file;
     }
-    
+
     /** Gets the {@link YamlConfiguration} instance. */
     public static YamlConfiguration getFile() {
         return lang;
     }
-    
+
     /** Writes any new language settings to the language file in storage. */
     public static boolean writeNewLanguage(YamlConfiguration newLang) {
         boolean anything = false;
-        
+
         for(Lang l : values()) {
             if(!lang.contains(l.path)) {
                 lang.set(l.path, newLang.getString(l.path));
                 anything = true;
             }
         }
-        
-        return anything; 
+
+        return anything;
     }
 
     /** Returns the message in the language, no variables are replaced. */

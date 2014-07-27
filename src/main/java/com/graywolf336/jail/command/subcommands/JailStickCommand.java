@@ -10,27 +10,27 @@ import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 
 @CommandInfo(
-		maxArgs = 0,
-		minimumArgs = 0,
-		needsPlayer = true,
-		pattern = "stick",
-		permission = "jail.usercmd.jailstick",
-		usage = "/jail stick"
-	)
+        maxArgs = 0,
+        minimumArgs = 0,
+        needsPlayer = true,
+        pattern = "stick",
+        permission = "jail.usercmd.jailstick",
+        usage = "/jail stick"
+        )
 public class JailStickCommand implements Command {
-	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
-		if(jm.getPlugin().getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
-			boolean using = jm.getPlugin().getJailStickManager().toggleUsingStick(((Player) sender).getUniqueId());
-			
-			if(using) {
-				sender.sendMessage(Lang.JAILSTICKENABLED.get());
-			}else {
-				sender.sendMessage(Lang.JAILSTICKDISABLED.get());
-			}
-		}else {
-			sender.sendMessage(Lang.JAILSTICKUSAGEDISABLED.get());
-		}
-		
-		return true;
-	}
+    public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
+        if(jm.getPlugin().getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
+            boolean using = jm.getPlugin().getJailStickManager().toggleUsingStick(((Player) sender).getUniqueId());
+
+            if(using) {
+                sender.sendMessage(Lang.JAILSTICKENABLED.get());
+            }else {
+                sender.sendMessage(Lang.JAILSTICKDISABLED.get());
+            }
+        }else {
+            sender.sendMessage(Lang.JAILSTICKUSAGEDISABLED.get());
+        }
+
+        return true;
+    }
 }

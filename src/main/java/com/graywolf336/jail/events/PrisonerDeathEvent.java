@@ -17,60 +17,60 @@ import com.graywolf336.jail.beans.Prisoner;
  * @version 1.0.0
  */
 public class PrisonerDeathEvent extends Event {
-	private static final HandlerList handlers = new HandlerList();
-	private PlayerDeathEvent event;
-	private Jail jail;
-	private Cell cell;
-	private Prisoner prisoner;
-	private Player player;
-	
-	/**
-	 * Creates a new {@link PrisonerDeathEvent prisoner death event} for the given player.
-	 * 
-	 * @param event The {@link PlayerDeathEvent} which triggered this event.
-	 * @param jail The jail the prisoner is in.
-	 * @param cell The cell the prisoner is in, can be null.
-	 * @param prisoner The prisoner's data.
-	 * @param player The player being jailed.
-	 */
-	public PrisonerDeathEvent(PlayerDeathEvent event, Jail jail, Cell cell, Prisoner prisoner, Player player) {
-		this.event = event;
-		this.jail = jail;
-		this.cell = cell;
-		this.prisoner = prisoner;
-		this.player = player;
-	}
-	
-	/** Gets the {@link PlayerDeathEvent} which triggered this PrisonerDeathEvent. */
-	public PlayerDeathEvent getPlayerDeathEvent() {
-		return this.event;
-	}
-	
-	/** Gets the {@link Jail} this prisoner is in. */
-	public Jail getJail() {
-		return this.jail;
-	}
-	
-	/** Gets the cell the prisoner is in, can be null. */
-	public Cell getCell() {
-		return this.cell;
-	}
-	
-	/** Gets the {@link Prisoner}'s data. */
-	public Prisoner getPrisoner() {
-		return this.prisoner;
-	}
-	
-	/** Gets the instance of the player who died. */
-	public Player getPlayer() {
-		return this.player;
-	}
-	
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    private static final HandlerList handlers = new HandlerList();
+    private PlayerDeathEvent event;
+    private Jail jail;
+    private Cell cell;
+    private Prisoner prisoner;
+    private Player player;
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    /**
+     * Creates a new {@link PrisonerDeathEvent prisoner death event} for the given player.
+     * 
+     * @param event The {@link PlayerDeathEvent} which triggered this event.
+     * @param jail The jail the prisoner is in.
+     * @param cell The cell the prisoner is in, can be null.
+     * @param prisoner The prisoner's data.
+     * @param player The player being jailed.
+     */
+    public PrisonerDeathEvent(PlayerDeathEvent event, Jail jail, Cell cell, Prisoner prisoner, Player player) {
+        this.event = event;
+        this.jail = jail;
+        this.cell = cell;
+        this.prisoner = prisoner;
+        this.player = player;
+    }
+
+    /** Gets the {@link PlayerDeathEvent} which triggered this PrisonerDeathEvent. */
+    public PlayerDeathEvent getPlayerDeathEvent() {
+        return this.event;
+    }
+
+    /** Gets the {@link Jail} this prisoner is in. */
+    public Jail getJail() {
+        return this.jail;
+    }
+
+    /** Gets the cell the prisoner is in, can be null. */
+    public Cell getCell() {
+        return this.cell;
+    }
+
+    /** Gets the {@link Prisoner}'s data. */
+    public Prisoner getPrisoner() {
+        return this.prisoner;
+    }
+
+    /** Gets the instance of the player who died. */
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

@@ -1,5 +1,11 @@
 package test.java.com.graywolf336.jail.util;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,8 +23,6 @@ import org.bukkit.block.Block;
 import org.bukkit.generator.ChunkGenerator;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-
-import static org.mockito.Mockito.*;
 
 public class MockWorldFactory {
 
@@ -97,7 +101,7 @@ public class MockWorldFactory {
         });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
             @SuppressWarnings("deprecation")
-			public Block answer(InvocationOnMock invocation) throws Throwable {
+            public Block answer(InvocationOnMock invocation) throws Throwable {
                 Location loc;
                 try {
                     loc = (Location) invocation.getArguments()[0];
@@ -142,7 +146,7 @@ public class MockWorldFactory {
         });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
             @SuppressWarnings("deprecation")
-			public Block answer(InvocationOnMock invocation) throws Throwable {
+            public Block answer(InvocationOnMock invocation) throws Throwable {
                 Location loc;
                 try {
                     loc = (Location) invocation.getArguments()[0];

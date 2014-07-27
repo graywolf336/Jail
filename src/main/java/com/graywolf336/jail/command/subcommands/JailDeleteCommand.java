@@ -10,22 +10,22 @@ import com.graywolf336.jail.enums.Confirmation;
 import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
-		maxArgs = 1,
-		minimumArgs = 1,
-		needsPlayer = false,
-		pattern = "delete|d",
-		permission = "jail.command.jaildelete",
-		usage = "/jail delete [jail]"
-	)
+        maxArgs = 1,
+        minimumArgs = 1,
+        needsPlayer = false,
+        pattern = "delete|d",
+        permission = "jail.command.jaildelete",
+        usage = "/jail delete [jail]"
+        )
 public class JailDeleteCommand implements Command {
-	public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
-		if(jm.isConfirming(sender.getName())) {
-			sender.sendMessage(Lang.ALREADY.get());
-		}else {
-			jm.addConfirming(sender.getName(), new ConfirmPlayer(sender.getName(), args, Confirmation.DELETE));
-			sender.sendMessage(Lang.START.get());
-		}
-		
-		return true;
-	}
+    public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
+        if(jm.isConfirming(sender.getName())) {
+            sender.sendMessage(Lang.ALREADY.get());
+        }else {
+            jm.addConfirming(sender.getName(), new ConfirmPlayer(sender.getName(), args, Confirmation.DELETE));
+            sender.sendMessage(Lang.START.get());
+        }
+
+        return true;
+    }
 }

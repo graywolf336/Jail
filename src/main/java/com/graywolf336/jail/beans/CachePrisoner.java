@@ -8,21 +8,21 @@ package com.graywolf336.jail.beans;
  * @version 1.0.0
  */
 public class CachePrisoner {
-	private Jail jail;
-	private Prisoner p;
-	
-	public CachePrisoner(Jail jail, Prisoner prisoner) {
-		this.jail = jail;
-		this.p = prisoner;
-	}
-	
-	/** Gets the Jail this cache is in. */
-	public Jail getJail() {
-		return this.jail;
-	}
-	
-	/** Gets the Prisoner in this cache. */
-	public Prisoner getPrisoner() {
-		return this.p;
-	}
+    private Jail jail;
+    private Prisoner p;
+
+    public CachePrisoner(Jail jail, Prisoner prisoner) {
+        this.jail = jail;
+        this.p = prisoner;
+    }
+
+    /** Gets the Jail this cache is in. */
+    public Jail getJail() {
+        return this.jail;
+    }
+
+    /** Gets the Prisoner in this cache. */
+    public Prisoner getPrisoner() {
+        return this.p;
+    }
 }

@@ -22,52 +22,52 @@ import com.graywolf336.jail.beans.Prisoner;
  * @version 1.0.0
  */
 public class PrePrisonerReleasedEvent extends Event {
-	private static final HandlerList handlers = new HandlerList();
-	private Jail jail;
-	private Cell cell;
-	private Prisoner prisoner;
-	private Player player;
-	
-	/**
-	 * Creates a new {@link PrePrisonerReleasedEvent pre-prisoner released event} for the given player.
-	 * 
-	 * @param jail The jail the prisoner will be jailed at.
-	 * @param cell The cell we're going to be sending the prisoner to, can be null.
-	 * @param prisoner The prisoner data.
-	 * @param player The player being jailed.
-	 */
-	public PrePrisonerReleasedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player) {
-		this.jail = jail;
-		this.cell = cell;
-		this.prisoner = prisoner;
-		this.player = player;
-	}
-	
-	/** Gets the {@link Jail} this prisoner is coming from. */
-	public Jail getJail() {
-		return this.jail;
-	}
-	
-	/** Gets the cell where the prisoner was jailed in, null if they weren't in one. */
-	public Cell getCell() {
-		return this.cell;
-	}
-	
-	/** Gets the {@link Prisoner} data for this prisoner. */
-	public Prisoner getPrisoner() {
-		return this.prisoner;
-	}
-	
-	/** Gets the instance of the player being released. */
-	public Player getPlayer() {
-		return this.player;
-	}
-	
-	public static HandlerList getHandlerList() {
-		return handlers;
-	}
+    private static final HandlerList handlers = new HandlerList();
+    private Jail jail;
+    private Cell cell;
+    private Prisoner prisoner;
+    private Player player;
 
-	public HandlerList getHandlers() {
-		return handlers;
-	}
+    /**
+     * Creates a new {@link PrePrisonerReleasedEvent pre-prisoner released event} for the given player.
+     * 
+     * @param jail The jail the prisoner will be jailed at.
+     * @param cell The cell we're going to be sending the prisoner to, can be null.
+     * @param prisoner The prisoner data.
+     * @param player The player being jailed.
+     */
+    public PrePrisonerReleasedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player) {
+        this.jail = jail;
+        this.cell = cell;
+        this.prisoner = prisoner;
+        this.player = player;
+    }
+
+    /** Gets the {@link Jail} this prisoner is coming from. */
+    public Jail getJail() {
+        return this.jail;
+    }
+
+    /** Gets the cell where the prisoner was jailed in, null if they weren't in one. */
+    public Cell getCell() {
+        return this.cell;
+    }
+
+    /** Gets the {@link Prisoner} data for this prisoner. */
+    public Prisoner getPrisoner() {
+        return this.prisoner;
+    }
+
+    /** Gets the instance of the player being released. */
+    public Player getPlayer() {
+        return this.player;
+    }
+
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
+
+    public HandlerList getHandlers() {
+        return handlers;
+    }
 }

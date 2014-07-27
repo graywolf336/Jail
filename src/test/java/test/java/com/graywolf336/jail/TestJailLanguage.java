@@ -1,6 +1,8 @@
 package test.java.com.graywolf336.jail;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.UUID;
 
@@ -24,7 +26,7 @@ public class TestJailLanguage {
     private static TestInstanceCreator creator;
     private static JailMain main;
     private UUID id = UUID.randomUUID();
-    
+
     @BeforeClass
     public static void setUp() throws Exception {
         creator = new TestInstanceCreator();
@@ -50,7 +52,7 @@ public class TestJailLanguage {
         assertEquals("interacting with an item", Lang.INTERACTIONITEMS.get());
         assertEquals("trying to escape", Lang.MOVING.get());
     }
-    
+
     @Test
     public void testConfirmLanguage() {
         assertEquals(colorize("&cYou are already confirming something else, please type '&b/jail confirm&c' to confirm it."), Lang.ALREADY.get());
@@ -58,7 +60,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&cYou are not confirming anything."), Lang.NOTHING.get());
         assertEquals(colorize("&cPlease type '&b/jail confirm&c' to confirm we should continue."), Lang.START.get());
     }
-    
+
     @Test
     public void testGeneralLanguage() {
         assertEquals("all the jails", Lang.ALLJAILS.get());
@@ -84,7 +86,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&9transferring"), Lang.TRANSFERRING.get());
         assertEquals(colorize("&cNo commands registered by the name of invalidcommand."), Lang.UNKNOWNCOMMAND.get("invalidcommand"));
     }
-    
+
     @Test
     public void testJailingLanguage() {
         assertEquals(colorize("&cYou can not be afk while being jailed."), Lang.AFKKICKMESSAGE.get());
@@ -130,7 +132,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&4You are jailed in a jail that is located in a world which is currently unloaded, try again later."), Lang.WORLDUNLOADEDKICK.get());
         assertEquals(colorize("&2You are not jailed."), Lang.YOUARENOTJAILED.get());
     }
-    
+
     @Test
     public void testJailPayLanguage() {
         assertEquals(colorize("&cYou are jailed and as a result you can not pay for others."), Lang.PAYCANTPAYWHILEJAILED.get());
@@ -145,7 +147,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&2You have just payed 50000 and lowered your sentence to 10 minutes!"), Lang.PAYPAIDLOWEREDTIME.get(new String[] { "50000", "10" }));
         assertEquals(colorize("&2You have just payed 500 and lowered graywolf336's sentence to 15 minutes!"), Lang.PAYPAIDLOWEREDTIMEELSE.get(new String[] { "500", "graywolf336", "15" }));
     }
-    
+
     @Test
     public void tesetHandCuffingLanguage() {
         assertEquals(colorize("&9graywolf336 &ccan not be handcuffed."), Lang.CANTBEHANDCUFFED.get("graywolf336"));
@@ -156,7 +158,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&9graywolf336 &ahas been released from their handcuffs."), Lang.HANDCUFFSRELEASED.get("graywolf336"));
         assertEquals(colorize("&aYour handcuffs have been removed."), Lang.UNHANDCUFFED.get());
     }
-    
+
     private String colorize(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }

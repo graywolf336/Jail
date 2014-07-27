@@ -31,57 +31,57 @@ import com.graywolf336.jail.events.PrisonerTransferredEvent;
  *
  */
 public class CacheListener implements Listener {
-	private JailMain pl;
-	
-	public CacheListener(JailMain plugin) {
-		this.pl = plugin;
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void joinListener(PlayerJoinEvent event) {
-		if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
-			Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
-			Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
-			
-			pl.getJailManager().addCacheObject(new CachePrisoner(j, p));
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void leaveListener(PlayerQuitEvent event) {
-		if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
-			pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void kickListener(PlayerKickEvent event) {
-		if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
-			pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void jailListener(PrisonerJailedEvent event) {
-		pl.getJailManager().addCacheObject(new CachePrisoner(event.getJail(), event.getPrisoner()));
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void beforeReleaseListener(PrePrisonerReleasedEvent event) {
-		if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
-			pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void beforeTransferringListener(PrePrisonerTransferredEvent event) {
-		if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
-			pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
-		}
-	}
-	
-	@EventHandler(priority = EventPriority.LOWEST)
-	public void transferListener(PrisonerTransferredEvent event) {
-		pl.getJailManager().addCacheObject(new CachePrisoner(event.getTargetJail(), event.getPrisoner()));
-	}
+    private JailMain pl;
+
+    public CacheListener(JailMain plugin) {
+        this.pl = plugin;
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void joinListener(PlayerJoinEvent event) {
+        if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
+            Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
+            Prisoner p = j.getPrisoner(event.getPlayer().getUniqueId());
+
+            pl.getJailManager().addCacheObject(new CachePrisoner(j, p));
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void leaveListener(PlayerQuitEvent event) {
+        if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
+            pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void kickListener(PlayerKickEvent event) {
+        if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
+            pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void jailListener(PrisonerJailedEvent event) {
+        pl.getJailManager().addCacheObject(new CachePrisoner(event.getJail(), event.getPrisoner()));
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void beforeReleaseListener(PrePrisonerReleasedEvent event) {
+        if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
+            pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void beforeTransferringListener(PrePrisonerTransferredEvent event) {
+        if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
+            pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
+        }
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    public void transferListener(PrisonerTransferredEvent event) {
+        pl.getJailManager().addCacheObject(new CachePrisoner(event.getTargetJail(), event.getPrisoner()));
+    }
 }
