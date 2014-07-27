@@ -28,7 +28,7 @@ import com.lexicalscope.jewel.cli.CliFactory;
 		needsPlayer = false,
 		pattern = "jail|j",
 		permission = "jail.command.jail",
-		usage = "/jail [name] (-t time) (-j JailName) (-c CellName) (-m Muted) (-r A reason for jailing)"
+		usage = "/jail [name] (-t time) (-j JailName) (-c CellName) (-a AnyCell) (-m Muted) (-r A reason for jailing)"
 	)
 public class JailCommand implements Command {
 	
@@ -83,7 +83,7 @@ public class JailCommand implements Command {
 		//from the config and if that isn't there then we default to thirty minutes.
 		Long time = 10L;
 		try {
-			if(params.getTime() == null) {
+			if(!params.isTime()) {
 				time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.DEFAULTTIME.getPath(), "30m"));
 			}else if(params.getTime() == String.valueOf(-1)) {
 				time = -1L;
@@ -100,44 +100,65 @@ public class JailCommand implements Command {
 		//the sender but otherwise if it isn't nearest then let's set it to the default jail
 		//which is defined in the config.
 		String jailName = "";
-		if(params.getJail() == null) {
+		if(!params.isJail()) {
 			String dJail = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
 			
 			if(dJail.equalsIgnoreCase("nearest")) {
 				jailName = jm.getNearestJail(sender).getName();
 			}else {
-				jailName = jm.getPlugin().getConfig().getString(Settings.DEFAULTJAIL.getPath());
+				jailName = dJail;
 			}
-		}else if(jm.getJail(params.getJail()) == null) {
+		}else if(!jm.isValidJail(params.getJail())) {
 			sender.sendMessage(Lang.NOJAIL.get(params.getJail()));
 			return true;
 		}else {
 			jailName = params.getJail();
 		}
 		
-		//Check if the cell is defined, and if so check to be sure it exists.
-		if(params.getCell() != null) {
-			if(jm.getJail(params.getJail()).getCell(params.getCell()) == null) {
+	      //Get the jail instance from the name of jail in the params.
+        Jail j = jm.getJail(jailName);
+        if(!j.isEnabled()) {
+            sender.sendMessage(Lang.WORLDUNLOADED.get(j.getName()));
+            return true;
+        }
+		
+		Cell c = null;
+		//Check if the cell is defined
+		if(params.isCell()) {
+		    //Check if it is a valid cell
+			if(!jm.getJail(jailName).isValidCell(params.getCell())) {
 				//There is no cell by that name
-				sender.sendMessage(Lang.NOCELL.get(new String[] { params.getCell(), params.getJail() }));
+				sender.sendMessage(Lang.NOCELL.get(new String[] { params.getCell(), jailName }));
 				return true;
-			}else if(jm.getJail(params.getJail()).getCell(params.getCell()).hasPrisoner()) {
-				//If the cell has a prisoner, don't allow jailing them to that particular cell
+			}else if(jm.getJail(jailName).getCell(params.getCell()).hasPrisoner()) {
+				//If the cell has a prisoner, don't allow jailing them to that particular cell but suggest another one
 				sender.sendMessage(Lang.CELLNOTEMPTY.get(params.getCell()));
-				Cell suggestedCell = jm.getJail(params.getJail()).getFirstEmptyCell();
+				Cell suggestedCell = jm.getJail(jailName).getFirstEmptyCell();
 				if(suggestedCell != null) {
-					sender.sendMessage(Lang.SUGGESTEDCELL.get(new String[] { params.getJail(), suggestedCell.getName() }));
+					sender.sendMessage(Lang.SUGGESTEDCELL.get(new String[] { jailName, suggestedCell.getName() }));
 				}else {
-					sender.sendMessage(Lang.NOEMPTYCELLS.get(params.getJail()));
+					sender.sendMessage(Lang.NOEMPTYCELLS.get(jailName));
 				}
 				
 				return true;
+			}else {
+			    c = jm.getJail(jailName).getCell(params.getCell());
 			}
+		}
+		
+		//If they want just any open cell, then let's find the first empty one
+		if(params.isAnyCell()) {
+		    c = jm.getJail(jailName).getFirstEmptyCell();
+		    if(c == null) {
+		        //If there wasn't an empty cell, then tell them so.
+		        sender.sendMessage(Lang.NOEMPTYCELLS.get(jailName));
+		        return true;
+		    }
 		}
 		
 		//If the jailer gave no reason, then let's get the default reason
 		String reason = "";
-		if(params.getReason() == null) {
+		if(!params.isReason()) {
 			reason = Lang.DEFAULTJAILEDREASON.get();
 		}else {
 			StringBuilder sb = new StringBuilder();
@@ -172,14 +193,6 @@ public class JailCommand implements Command {
 			uuid = p.getUniqueId().toString();
 		}
 		
-		//Get the jail instance from the name of jail in the params.
-		Jail j = jm.getJail(jailName);
-		if(!j.isEnabled()) {
-			sender.sendMessage(Lang.WORLDUNLOADED.get(j.getName()));
-			return true;
-		}
-		
-		Cell c = j.getCell(params.getCell());
 		Prisoner pris = new Prisoner(uuid, params.getPlayer(), muted, time, sender.getName(), reason);
 		
 		//call the event

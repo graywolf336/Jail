@@ -18,6 +18,9 @@ public interface Jailing {
 	@Option(longName={"cell"}, shortName="c", description = "the cell")
 	public String getCell();
 	
+	@Option(longName={"anycell"}, shortName="a", description = "decides whether the plugin will pick any open cell")
+	public boolean getAnyCell();
+	
 	@Option(longName={"muted", "canttalk"}, shortName="m", description = "whether the prisoner is muted or not")
 	public boolean getMuted();
 	
@@ -27,6 +30,7 @@ public interface Jailing {
 	public boolean isTime();
 	public boolean isJail();
 	public boolean isCell();
+	public boolean isAnyCell();
 	public boolean isMuted();
 	public boolean isReason();
 }

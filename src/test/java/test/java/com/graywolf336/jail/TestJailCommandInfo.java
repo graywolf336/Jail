@@ -124,8 +124,10 @@ public class TestJailCommandInfo {
 		Jailing j = CliFactory.parseArguments(Jailing.class, args);
 		
 		assertEquals("graywolf336", j.getPlayer());
+		assertTrue("The cell wasn't provided.", j.isCell());
 		assertEquals("testing", j.getCell());
 		
+		assertTrue("A reason wasn't provided.", j.isReason());
 		StringBuilder sb = new StringBuilder();
 		for(String s : j.getReason()) {
 			sb.append(s).append(' ');
@@ -136,13 +138,36 @@ public class TestJailCommandInfo {
 		assertEquals("This is a reason", sb.toString());
 	}
 	
+    @Test
+    public void testJailWithAnyCellJewel() {
+        String[] args = { "--player", "graywolf336", "-a", "-r", "This", "is", "a", "reason" };
+        Jailing j = CliFactory.parseArguments(Jailing.class, args);
+        
+        assertEquals("graywolf336", j.getPlayer());
+        assertTrue("The any cell option wasn't provided.", j.isAnyCell());
+        assertTrue("The any cell is false when it should be true.", j.getAnyCell());
+        
+        assertTrue("A reason wasn't provided.", j.isReason());
+        StringBuilder sb = new StringBuilder();
+        for(String s : j.getReason()) {
+            sb.append(s).append(' ');
+        }
+        
+        sb.deleteCharAt(sb.length() - 1);
+        
+        assertEquals("This is a reason", sb.toString());
+    }
+	
 	@Test
 	public void testTransferForJailAndCell() {
 		String[] args = { "-p", "graywolf336", "-j", "hardcore", "-c", "cell_n01" };
 		Transfer t = CliFactory.parseArguments(Transfer.class, args);
 		
+		assertTrue("The player wasn't provided.", t.isPlayer());
 		assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
+		assertTrue("The jail wasn't provided.", t.isJail());
 		assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
+		assertTrue("The cell wasn't provided.", t.isCell());
 		assertEquals("The cell parsed is not what we expected.", "cell_n01", t.getCell());
 	}
 	
@@ -151,8 +176,11 @@ public class TestJailCommandInfo {
 		String[] args = { "-p", "graywolf336", "-j", "hardcore" };
 		Transfer t = CliFactory.parseArguments(Transfer.class, args);
 		
+		assertTrue("The player wasn't provided.", t.isPlayer());
 		assertEquals("The player parsed is not what we expected.", "graywolf336", t.getPlayer());
+		assertTrue("The jail wasn't provided.", t.isJail());
 		assertEquals("The jail parsed is not what we expected.", "hardcore", t.getJail());
+		assertFalse("The cell was provided?", t.isCell());
 		assertNull("The cell is not null?", t.getCell());
 	}
 }
