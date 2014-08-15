@@ -74,7 +74,7 @@ public class JailTimer {
                     //only execute this code if the prisoner's time is more than 0 milliseconds
                     //and they don't have any offline pending things
                     if(p.getRemainingTime() > 0 && !p.isOfflinePending()) {
-                        Player player = pl.getServer().getPlayer(p.getUUID());
+                        final Player player = pl.getServer().getPlayer(p.getUUID());
 
                         //Check if the player is offline
                         if(player == null) {
@@ -90,7 +90,14 @@ public class JailTimer {
                                 p.setAFKTime(p.getAFKTime() + timePassed);
                                 if(p.getAFKTime() > afkTime) {
                                     p.setAFKTime(0);
-                                    player.kickPlayer(Lang.AFKKICKMESSAGE.get());
+                                    //This is so we kick players on the main thread
+                                    //instead of on the async thread(s), as spigot
+                                    //has a protection against this enabled.
+                                    pl.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
+                                    	public void run() {
+                                    		player.kickPlayer(Lang.AFKKICKMESSAGE.get());
+                                    	}
+                                    });
                                 }
                             }
 
