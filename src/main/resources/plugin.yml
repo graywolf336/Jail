@@ -7,71 +7,19 @@ website: dev.bukkit.org/server-mods/jail/
 softdepend: [WorldEdit, Vault]
 load: POSTWORLD
 commands:
-    jailcreate:
-        description: Creates a new jail zone.
-    jailcreatecells:
-        description: Creates cells in existing jail zone.
-    jailremove:
-        description: Remove existing jail zone
     jail:
         description: Jail specified player for specified amount of time.
         usage: /jail [p:name] (t:time) (j:Jail name) (c:Cell name) (m:Muted) (r:Reason)
+    togglejaildebug:
+        description: Toggles whether the plugin is in debugging state or not.
     unjail:
         description: Release a player from jail.
     unjailforce:
         description: Remove player from the database.
-    jailclear:
-        description: Unjail every player on the server. Use with caution!
-    jailclearforce:
-        description: Remove every player from the jail database.
-    jailtransfer:
-        description: Transfer player from current jail to another
-    jailtransferall:
-        description: Transfer all players in one jail to another jail
-    jailcheck:
-        description: Check the status of the specified player
-    jailtelein:
-        description: Teleport inside jail
-    jailteleout:
-        description: Teleport outside of the jail.
-    jaillist:
-        description: List all created jails
-    jailstatus:
-        description: Check your current jail status
-    jailmute:
-        description: Toggle mute of the specified prisoner
-    jailstop:
-        description: Stop any creation process.
-    jailset:
-        description: modify existing jail or prisoner.
-        usage: /jailset [player/jail/cell name] [property name] (property value)
-    jailpay:
-        description: Pay money to be released early.
-        usage: /jailpay (amount) (prisoner name)
-    jailremovecells:
-        description: Remove all cells from specified jail.
-    jaillistcells:
-        description: List all named cells from specified jail.
-    jailstick:
-        description: Toggle jailstick feature.
-    jailcreatewe:
-        description: Create a new jail zone based on existing world guard region.
-    jailremovecell:
-        description: Remove one cell.
-    jailreload:
-        description: Reload jail data
-    jailrecord:
-        description: Shows a players record
-    jailversion:
-        description: Shows the plugin version
-    votejail:
-        description: Allows players to vote to jail a player
     handcuff:
         description: Allows the player to handcuff another player
     unhandcuff:
         description: Allows the player to unhandcuff someone
-    togglejaildebug:
-        description: Toggles whether the plugin is in debugging state or not.
 permissions:
     jail.*:
         children:
