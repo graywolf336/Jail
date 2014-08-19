@@ -54,7 +54,7 @@ public class JailPayManager {
      * @return The economy cost the prisoner will need to pay to get completely free.
      */
     public double calculateBill(Prisoner prisoner) {
-        return prisoner.getRemainingTime() > 0 ? prisoner.getRemainingTimeInMinutes() * this.minteCost : infiniteCost;
+        return prisoner.getRemainingTime() >= 0 ? prisoner.getRemainingTimeInMinutes() * this.minteCost : infiniteCost;
     }
 
     /** Gets how many minutes someone is paying for (rounds to the lowest number). */
