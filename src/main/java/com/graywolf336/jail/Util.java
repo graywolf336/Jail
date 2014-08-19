@@ -103,7 +103,7 @@ public class Util {
         msg = msg.replaceAll("%uuid%", p.getUUID().toString());
         msg = msg.replaceAll("%reason%", p.getReason());
         msg = msg.replaceAll("%jailer", p.getJailer());
-        msg = msg.replaceAll("%afktime%", TimeUnit.MILLISECONDS.toMinutes(p.getAFKTime()) + " mins");
+        msg = msg.replaceAll("%afktime%", TimeUnit.MINUTES.convert(p.getAFKTime(), TimeUnit.MILLISECONDS) + " mins");
 
         if(p.getRemainingTime() >= 0) {
             msg = msg.replaceAll("%timeinminutes%", String.valueOf(p.getRemainingTimeInMinutes()));
@@ -157,16 +157,16 @@ public class Util {
         if (match.matches()) {
             String units = match.group(2);
             if ("seconds".equals(units) || "second".equals(units) || "s".equals(units))
-                t = TimeUnit.MILLISECONDS.toSeconds(Long.valueOf(match.group(1)));
+                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.SECONDS);
             else if ("minutes".equals(units) || "minute".equals(units) || "mins".equals(units) || "min".equals(units) || "m".equals(units))
-                t = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(match.group(1)));
+                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.MINUTES);
             else if ("hours".equals(units) || "hour".equals(units) || "h".equals(units))
-                t = TimeUnit.MILLISECONDS.toHours(Long.valueOf(match.group(1)));
+                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.HOURS);
             else if ("days".equals(units) || "day".equals(units) || "d".equals(units))
-                t = TimeUnit.MILLISECONDS.toDays(Long.valueOf(match.group(1)));
+                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.DAYS);
             else {
                 try {
-                    t = TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(time));
+                    t = TimeUnit.MILLISECONDS.convert(Long.parseLong(time), TimeUnit.MINUTES);
                 }catch(NumberFormatException e) {
                     throw new Exception("Invalid format.");
                 }
