@@ -9,6 +9,7 @@ public enum Settings {
     BLOCKPLACEPENALTY("jailing.during.blockPlacePenalty"),
     BLOCKPLACEPROTECTION("jailing.during.blockPlaceProtection"),
     BLOCKPLACEWHITELIST("jailing.during.blockPlaceWhiteList"),
+    CELLSIGNLINES("jailing.during.cellsign"),
     CLOTHINGENABLED("jailing.jail.clothing.enabled"),
     CLOTHINGHELMET("jailing.jail.clothing.helmet"),
     CLOTHINGCHEST("jailing.jail.clothing.chest"),

@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -14,6 +15,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.CreationPlayer;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.SimpleLocation;
+import com.graywolf336.jail.enums.Lang;
 
 /**
  * Class for stepping a player through the Cell creation process, instance is stored in {@link JailManager}.
@@ -93,6 +95,15 @@ public class CellCreationSteps {
     private void secondStep(CreationPlayer cp, Player player, Block block) {
         if (block.getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN) {
             cp.addSign(new SimpleLocation(block.getLocation()));
+            
+            //Set the sign's first text
+            Sign sign = (Sign) block.getState();
+			sign.setLine(0, "");
+			sign.setLine(1, Lang.CELLEMPTYSIGN.get());
+			sign.setLine(2, "");
+			sign.setLine(3, "");
+			sign.update();
+			
             player.sendMessage(ChatColor.GREEN + "Sign added, if you want to select another go ahead otherwise right click on any non-sign block.");
         }else {
             player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation (chest) ----------");

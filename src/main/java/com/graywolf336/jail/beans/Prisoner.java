@@ -112,7 +112,7 @@ public class Prisoner {
 
     /** Gets the remaining time the prisoner has in minutes. */
     public long getRemainingTimeInMinutes() {
-        return TimeUnit.MINUTES.convert(time, TimeUnit.MILLISECONDS);
+    	return TimeUnit.MILLISECONDS.toMinutes(time);
     }
 
     /** Gets the remaining time the prison has in minutes except only in int format. */

@@ -23,6 +23,7 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.enums.Lang;
 
 /**
  * Provides a variety of methods, static, that are used throughout the plugin.
@@ -95,6 +96,23 @@ public class Util {
     public static String getColorfulMessage(String message) {
         return message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
     }
+    
+    /** Returns a message with all the possible variables replaced. */
+    public static String replaceAllVariables(Prisoner p, String msg) {
+    	msg = msg.replaceAll("%player%", p.getLastKnownName());
+    	msg = msg.replaceAll("%uuid%", p.getUUID().toString());
+    	msg = msg.replaceAll("%reason%", p.getReason());
+    	msg = msg.replaceAll("%jailer", p.getJailer());
+    	msg = msg.replaceAll("%afktime%", TimeUnit.MILLISECONDS.toMinutes(p.getAFKTime()) + "m");
+    	
+    	if(p.getRemainingTime() >= 0) {
+    		msg = msg.replaceAll("%timeinminutes%", String.valueOf(p.getRemainingTimeInMinutes()));
+    	}else {
+    		msg = msg.replaceAll("%timeinminutes%", Lang.JAILEDFOREVERSIGN.get());
+    	}
+    	
+    	return getColorfulMessage(msg);
+    }
 
     /** Returns the wand used throughout the different creation steps. */
     public static ItemStack getWand() {
@@ -139,16 +157,16 @@ public class Util {
         if (match.matches()) {
             String units = match.group(2);
             if ("seconds".equals(units) || "second".equals(units) || "s".equals(units))
-                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.SECONDS);
+                t = TimeUnit.MILLISECONDS.toSeconds(Long.valueOf(match.group(1)));
             else if ("minutes".equals(units) || "minute".equals(units) || "mins".equals(units) || "min".equals(units) || "m".equals(units))
-                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.MINUTES);
+                t = TimeUnit.MILLISECONDS.toMinutes(Long.valueOf(match.group(1)));
             else if ("hours".equals(units) || "hour".equals(units) || "h".equals(units))
-                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.HOURS);
+                t = TimeUnit.MILLISECONDS.toHours(Long.valueOf(match.group(1)));
             else if ("days".equals(units) || "day".equals(units) || "d".equals(units))
-                t = TimeUnit.MILLISECONDS.convert(Long.valueOf(match.group(1)), TimeUnit.DAYS);
+                t = TimeUnit.MILLISECONDS.toDays(Long.valueOf(match.group(1)));
             else {
                 try {
-                    t = TimeUnit.MILLISECONDS.convert(Long.parseLong(time), TimeUnit.MINUTES);
+                    t = TimeUnit.MILLISECONDS.toMinutes(Long.parseLong(time));
                 }catch(NumberFormatException e) {
                     throw new Exception("Invalid format.");
                 }

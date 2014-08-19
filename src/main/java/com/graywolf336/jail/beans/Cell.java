@@ -72,6 +72,11 @@ public class Cell {
     public HashSet<SimpleLocation> getSigns() {
         return this.signs;
     }
+    
+    /** Checks if there are any signs for this cell. */
+    public boolean hasSigns() {
+    	return !this.signs.isEmpty();
+    }
 
     /** Returns the entire list of signs in a string. */
     public String getSignString() {

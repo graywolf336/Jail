@@ -125,10 +125,14 @@ public enum Lang {
     // General section, used by different parts
     /** Part message of any messages which require 'all the jails' or such. */
     ALLJAILS("general"),
+    /** The one line on signs when the cell is empty. */
+    CELLEMPTYSIGN("general"),
     /** The message sent to the sender whenever they try to remove a cell but was unsuccessful due to a prisoner. */
     CELLREMOVALUNSUCCESSFUL("general"),
     /** The message sent whenever a cell is successfully removed. */
     CELLREMOVED("general"),
+    /** The line on a cell's sign when the prisoner is jailed forever. */
+    JAILEDFOREVERSIGN("general"),
     /** The simple word jailing to be put in other parts. */
     JAILING("general"),
     /** The message sent to the sender when they try to remove a jail but there are still prisoners in there. */

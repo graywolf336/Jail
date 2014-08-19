@@ -24,6 +24,11 @@ jailing:
     blockPlacePenalty: 5m
     blockPlaceProtection: true
     blockPlaceWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
+    cellsign:
+    - '%player%'
+    - '%timeinminutes% mins'
+    - 'with a reason'
+    - '%reason%'
     commandPenalty: 5m
     commandProtection: true
     commandWhitelist: ['/ping', '/list', '/jail status', '/jail pay']
