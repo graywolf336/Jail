@@ -52,6 +52,11 @@ public class PrePrisonerReleasedEvent extends Event {
     public Cell getCell() {
         return this.cell;
     }
+    
+    /** Checks if there is a cell involved. */
+    public boolean hasCell() {
+    	return this.cell != null;
+    }
 
     /** Gets the {@link Prisoner} data for this prisoner. */
     public Prisoner getPrisoner() {

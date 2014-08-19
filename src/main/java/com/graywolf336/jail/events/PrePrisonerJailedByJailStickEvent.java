@@ -65,6 +65,11 @@ public class PrePrisonerJailedByJailStickEvent extends Event implements Cancella
     public void setCell(Cell cell) {
         this.cell = cell;
     }
+    
+    /** Checks if there is a cell involved. */
+    public boolean hasCell() {
+    	return this.cell != null;
+    }
 
     /** Gets the {@link Prisoner} data for this prisoner. */
     public Prisoner getPrisoner() {

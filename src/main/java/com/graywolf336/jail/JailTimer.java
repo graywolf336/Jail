@@ -11,6 +11,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.events.PrisonerTimeChangeEvent;
 
 /**
  * Contains all the logic for counting down the time of the prisoners time.
@@ -82,8 +83,17 @@ public class JailTimer {
                             //while the prisoner is offline, then let's do it
                             if(pl.getConfig().getBoolean(Settings.COUNTDOWNTIMEOFFLINE.getPath())) {
                                 //Set their remaining time but if it is less than zero, set it to zero
-                                p.setRemainingTime(Math.max(0, p.getRemainingTime() - timePassed));
-                                if(p.getRemainingTime() == 0) pl.getPrisonerManager().schedulePrisonerRelease(p);
+                            	long before = p.getRemainingTime();
+                            	long after = Math.max(0, p.getRemainingTime() - timePassed);
+                            	
+                            	PrisonerTimeChangeEvent event = new PrisonerTimeChangeEvent(j, j.getCellPrisonerIsIn(p.getUUID()), p, player, before, after);
+                            	pl.getServer().getPluginManager().callEvent(event);
+                            	
+                            	if(!event.isCancelled()) {
+                            		after = event.getTimeAfterChange();
+                            		p.setRemainingTime(after);
+                                    if(p.getRemainingTime() == 0) pl.getPrisonerManager().schedulePrisonerRelease(p);
+                            	}
                             }
                         }else {
                             if(afkTime > 0) {
@@ -103,8 +113,17 @@ public class JailTimer {
 
                             //The prisoner isn't offline, so let's count down
                             //Set their remaining time but if it is less than zero, set it to zero
-                            p.setRemainingTime(Math.max(0, p.getRemainingTime() - timePassed));
-                            if(p.getRemainingTime() == 0) pl.getPrisonerManager().schedulePrisonerRelease(p);
+                            long before = p.getRemainingTime();
+                        	long after = Math.max(0, p.getRemainingTime() - timePassed);
+                        	
+                        	PrisonerTimeChangeEvent event = new PrisonerTimeChangeEvent(j, j.getCellPrisonerIsIn(p.getUUID()), p, player, before, after);
+                        	pl.getServer().getPluginManager().callEvent(event);
+                        	
+                        	if(!event.isCancelled()) {
+                        		after = event.getTimeAfterChange();
+                        		p.setRemainingTime(after);
+                                if(p.getRemainingTime() == 0) pl.getPrisonerManager().schedulePrisonerRelease(p);
+                        	}
                         }
                     }
                 }

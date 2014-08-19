@@ -60,6 +60,11 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
     public Cell getOriginalCell() {
         return this.originalCell;
     }
+    
+    /** Checks if there is an original cell involved. */
+    public boolean hasOriginalCell() {
+    	return this.originalCell != null;
+    }
 
     /** Gets the {@link Jail} this prisoner is being transferred to. */
     public Jail getTargetJail() {
@@ -82,6 +87,11 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
     public Cell getTargetCell() {
         if(this.targetJail.isValidCell(this.targetCell.getName())) return this.targetCell;
         else return null;
+    }
+    
+    /** Checks if there is a target cell involved. */
+    public boolean hasTargetCell() {
+    	return this.getTargetCell() != null;
     }
 
     /**

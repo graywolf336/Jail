@@ -54,6 +54,11 @@ public class PrisonerTransferredEvent extends Event {
     public Cell getOriginalCell() {
         return this.originalCell;
     }
+    
+    /** Checks if there was an original cell involved. */
+    public boolean hasOriginalCell() {
+    	return this.originalCell != null;
+    }
 
     /** Gets the {@link Jail} this prisoner is being transferred to. */
     public Jail getTargetJail() {
@@ -67,6 +72,11 @@ public class PrisonerTransferredEvent extends Event {
     public Cell getTargetCell() {
         if(this.targetJail.isValidCell(this.targetCell.getName())) return this.targetCell;
         else return null;
+    }
+    
+    /** Checks if there was a target cell involved. */
+    public boolean hasTargetCell() {
+    	return this.getTargetCell() != null;
     }
 
     /** Gets the {@link Prisoner} data for this prisoner. */
