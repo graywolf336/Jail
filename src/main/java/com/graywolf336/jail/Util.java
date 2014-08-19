@@ -96,22 +96,22 @@ public class Util {
     public static String getColorfulMessage(String message) {
         return message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
     }
-    
+
     /** Returns a message with all the possible variables replaced. */
     public static String replaceAllVariables(Prisoner p, String msg) {
-    	msg = msg.replaceAll("%player%", p.getLastKnownName());
-    	msg = msg.replaceAll("%uuid%", p.getUUID().toString());
-    	msg = msg.replaceAll("%reason%", p.getReason());
-    	msg = msg.replaceAll("%jailer", p.getJailer());
-    	msg = msg.replaceAll("%afktime%", TimeUnit.MILLISECONDS.toMinutes(p.getAFKTime()) + "m");
-    	
-    	if(p.getRemainingTime() >= 0) {
-    		msg = msg.replaceAll("%timeinminutes%", String.valueOf(p.getRemainingTimeInMinutes()));
-    	}else {
-    		msg = msg.replaceAll("%timeinminutes%", Lang.JAILEDFOREVERSIGN.get());
-    	}
-    	
-    	return getColorfulMessage(msg);
+        msg = msg.replaceAll("%player%", p.getLastKnownName());
+        msg = msg.replaceAll("%uuid%", p.getUUID().toString());
+        msg = msg.replaceAll("%reason%", p.getReason());
+        msg = msg.replaceAll("%jailer", p.getJailer());
+        msg = msg.replaceAll("%afktime%", TimeUnit.MILLISECONDS.toMinutes(p.getAFKTime()) + " mins");
+
+        if(p.getRemainingTime() >= 0) {
+            msg = msg.replaceAll("%timeinminutes%", String.valueOf(p.getRemainingTimeInMinutes()));
+        }else {
+            msg = msg.replaceAll("%timeinminutes%", Lang.JAILEDFOREVERSIGN.get());
+        }
+
+        return getColorfulMessage(msg);
     }
 
     /** Returns the wand used throughout the different creation steps. */

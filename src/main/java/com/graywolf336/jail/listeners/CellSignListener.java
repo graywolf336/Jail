@@ -17,106 +17,106 @@ import com.graywolf336.jail.events.PrisonerTimeChangeEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
 
 public class CellSignListener implements Listener {
-	private String lineOne, lineTwo, lineThree, lineFour;
-	
-	public CellSignListener(JailMain plugin) {
-		List<String> lines = plugin.getConfig().getStringList(Settings.CELLSIGNLINES.getPath());
-		lineOne = lines.get(0);
-		lineTwo = lines.get(1);
-		lineThree = lines.get(2);
-		lineFour = lines.get(3);
-	}
-	
-	@EventHandler
+    private String lineOne, lineTwo, lineThree, lineFour;
+
+    public CellSignListener(JailMain plugin) {
+        List<String> lines = plugin.getConfig().getStringList(Settings.CELLSIGNLINES.getPath());
+        lineOne = lines.get(0);
+        lineTwo = lines.get(1);
+        lineThree = lines.get(2);
+        lineFour = lines.get(3);
+    }
+
+    @EventHandler
     public void changeTheCellSigns(PrisonerTimeChangeEvent event) {
-		if(event.hasCell() && event.getCell().hasSigns()) {
-			HashSet<SimpleLocation> signs = event.getCell().getSigns();
-			String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
-			String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
-			String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
-			String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
-			
-			for(SimpleLocation s : signs) {
-				if(s.getLocation().getBlock().getState() instanceof Sign) {
-					Sign sign = (Sign) s.getLocation().getBlock().getState();
-					sign.setLine(0, s1);
-					sign.setLine(1, s2);
-					sign.setLine(2, s3);
-					sign.setLine(3, s4);
-					sign.update();
-				}else {
-					//Remove the sign from the cell since it isn't
-					//a valid sign
-					event.getCell().getSigns().remove(s);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	public void clearTheCellSigns(PrisonerReleasedEvent event) {
-		if(event.hasCell() && event.getCell().hasSigns()) {
-			HashSet<SimpleLocation> signs = event.getCell().getSigns();
-			
-			for(SimpleLocation s : signs) {
-				if(s.getLocation().getBlock().getState() instanceof Sign) {
-					Sign sign = (Sign) s.getLocation().getBlock().getState();
-					sign.setLine(0, "");
-					sign.setLine(1, Lang.CELLEMPTYSIGN.get());
-					sign.setLine(2, "");
-					sign.setLine(3, "");
-					sign.update();
-				}else {
-					//Remove the sign from the cell since it isn't
-					//a valid sign
-					event.getCell().getSigns().remove(s);
-				}
-			}
-		}
-	}
-	
-	@EventHandler
-	public void handleSignsOnTransfer(PrisonerTransferredEvent event) {
-		if(event.hasOriginalCell() && event.getOriginalCell().hasSigns()) {
-			HashSet<SimpleLocation> signs = event.getOriginalCell().getSigns();
-			
-			for(SimpleLocation s : signs) {
-				if(s.getLocation().getBlock().getState() instanceof Sign) {
-					Sign sign = (Sign) s.getLocation().getBlock().getState();
-					sign.setLine(0, "");
-					sign.setLine(1, Lang.CELLEMPTYSIGN.get());
-					sign.setLine(2, "");
-					sign.setLine(3, "");
-					sign.update();
-				}else {
-					//Remove the sign from the cell since it isn't
-					//a valid sign
-					event.getOriginalCell().getSigns().remove(s);
-				}
-			}
-		}
-		
-		if(event.hasTargetCell() && event.getTargetCell().hasSigns()) {
-			HashSet<SimpleLocation> signs = event.getTargetCell().getSigns();
-			String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
-			String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
-			String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
-			String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
-			
-			for(SimpleLocation s : signs) {
-				if(s.getLocation().getBlock().getState() instanceof Sign) {
-					Sign sign = (Sign) s.getLocation().getBlock().getState();
-					sign.setLine(0, s1);
-					sign.setLine(1, s2);
-					sign.setLine(2, s3);
-					sign.setLine(3, s4);
-					sign.update();
-				}else {
-					//Remove the sign from the cell since it isn't
-					//a valid sign
-					event.getTargetCell().getSigns().remove(s);
-				}
-			}
-		}
-	}
+        if (event.hasCell() && event.getCell().hasSigns()) {
+            HashSet<SimpleLocation> signs = event.getCell().getSigns();
+            String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
+            String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
+            String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
+            String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
+
+            for (SimpleLocation s : signs) {
+                if (s.getLocation().getBlock().getState() instanceof Sign) {
+                    Sign sign = (Sign) s.getLocation().getBlock().getState();
+                    sign.setLine(0, s1);
+                    sign.setLine(1, s2);
+                    sign.setLine(2, s3);
+                    sign.setLine(3, s4);
+                    sign.update();
+                } else {
+                    // Remove the sign from the cell since it isn't
+                    // a valid sign
+                    event.getCell().getSigns().remove(s);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void clearTheCellSigns(PrisonerReleasedEvent event) {
+        if (event.hasCell() && event.getCell().hasSigns()) {
+            HashSet<SimpleLocation> signs = event.getCell().getSigns();
+
+            for (SimpleLocation s : signs) {
+                if (s.getLocation().getBlock().getState() instanceof Sign) {
+                    Sign sign = (Sign) s.getLocation().getBlock().getState();
+                    sign.setLine(0, "");
+                    sign.setLine(1, Lang.CELLEMPTYSIGN.get());
+                    sign.setLine(2, "");
+                    sign.setLine(3, "");
+                    sign.update();
+                } else {
+                    // Remove the sign from the cell since it isn't
+                    // a valid sign
+                    event.getCell().getSigns().remove(s);
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void handleSignsOnTransfer(PrisonerTransferredEvent event) {
+        if (event.hasOriginalCell() && event.getOriginalCell().hasSigns()) {
+            HashSet<SimpleLocation> signs = event.getOriginalCell().getSigns();
+
+            for (SimpleLocation s : signs) {
+                if (s.getLocation().getBlock().getState() instanceof Sign) {
+                    Sign sign = (Sign) s.getLocation().getBlock().getState();
+                    sign.setLine(0, "");
+                    sign.setLine(1, Lang.CELLEMPTYSIGN.get());
+                    sign.setLine(2, "");
+                    sign.setLine(3, "");
+                    sign.update();
+                } else {
+                    // Remove the sign from the cell since it isn't
+                    // a valid sign
+                    event.getOriginalCell().getSigns().remove(s);
+                }
+            }
+        }
+
+        if (event.hasTargetCell() && event.getTargetCell().hasSigns()) {
+            HashSet<SimpleLocation> signs = event.getTargetCell().getSigns();
+            String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
+            String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
+            String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
+            String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
+
+            for (SimpleLocation s : signs) {
+                if (s.getLocation().getBlock().getState() instanceof Sign) {
+                    Sign sign = (Sign) s.getLocation().getBlock().getState();
+                    sign.setLine(0, s1);
+                    sign.setLine(1, s2);
+                    sign.setLine(2, s3);
+                    sign.setLine(3, s4);
+                    sign.update();
+                } else {
+                    // Remove the sign from the cell since it isn't
+                    // a valid sign
+                    event.getTargetCell().getSigns().remove(s);
+                }
+            }
+        }
+    }
 }
