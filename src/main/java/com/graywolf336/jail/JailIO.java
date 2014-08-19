@@ -2,7 +2,6 @@ package com.graywolf336.jail;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -108,6 +107,8 @@ public class JailIO {
                     sqliteConnection.setAutoCommit(true);
                     this.con = sqliteConnection;
                     pl.debug("Connection created for sqlite.");
+                    
+                    if(doInitialCreations) createTables();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                     pl.getLogger().severe("---------- Jail Error!!! ----------");
@@ -213,7 +214,78 @@ public class JailIO {
             Statement st = con.createStatement();
             switch(storage){
                 case 1:
-                    //TODO: yeah big time!
+                    String sqlJailCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "jails` ("
+                            + "`name` VARCHAR PRIMARY KEY NOT NULL,"
+                            + "`world` VARCHAR NOT NULL,"
+                            + "`top.x` INT NOT NULL,"
+                            + "`top.y` INT NOT NULL,"
+                            + "`top.z` INT NOT NULL,"
+                            + "`bottom.x` INT NOT NULL,"
+                            + "`bottom.y` INT NOT NULL,"
+                            + "`bottom.z` INT NOT NULL,"
+                            + "`tps.in.x` DOUBLE NOT NULL,"
+                            + "`tps.in.y` DOUBLE NOT NULL,"
+                            + "`tps.in.z` DOUBLE NOT NULL,"
+                            + "`tps.in.yaw` DOUBLE NOT NULL,"
+                            + "`tps.in.pitch` DOUBLE NOT NULL,"
+                            + "`tps.free.world` VARCHAR NOT NULL,"
+                            + "`tps.free.x` DOUBLE NOT NULL,"
+                            + "`tps.free.y` DOUBLE NOT NULL,"
+                            + "`tps.free.z` DOUBLE NOT NULL,"
+                            + "`tps.free.yaw` DOUBLE NOT NULL,"
+                            + "`tps.free.pitch` DOUBLE NOT NULL);";
+
+                    st.executeUpdate(sqlJailCreateCmd);
+                    st.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS `" + prefix + "jails_name` on `" + prefix + "jails` (`name`) ");
+
+                    String sqlCellCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "cells` ("
+                            + "`cellid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                            + "`name` VARCHAR NOT NULL,"
+                            + "`jail` VARCHAR NOT NULL,"
+                            + "`tp.x` DOUBLE NOT NULL,"
+                            + "`tp.y` DOUBLE NOT NULL,"
+                            + "`tp.z` DOUBLE NOT NULL,"
+                            + "`tp.yaw` DOUBLE NOT NULL,"
+                            + "`tp.pitch` DOUBLE NOT NULL,"
+                            + "`chest.x` INT NULL,"
+                            + "`chest.y` INT NULL,"
+                            + "`chest.z` INT NULL,"
+                            + "`signs` VARCHAR NULL);";
+
+                    st.executeUpdate(sqlCellCreateCmd);
+                    st.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS `" + prefix + "cells_cellid` on `" + prefix + "cells` (`cellid`) ");
+
+                    String sqlPrisCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "prisoners` ("
+                            + "`uuid` VARCHAR PRIMARY KEY NOT NULL,"
+                            + "`name` VARCHAR NOT NULL,"
+                            + "`jail` VARCHAR NOT NULL,"
+                            + "`cell` VARCHAR NULL,"
+                            + "`muted` TINYINT NOT NULL,"
+                            + "`time` BIGINT NOT NULL,"
+                            + "`offlinePending` TINYINT NOT NULL,"
+                            + "`toBeTransferred` TINYINT NOT NULL,"
+                            + "`jailer` VARCHAR NOT NULL,"
+                            + "`reason` VARCHAR NOT NULL,"
+                            + "`inventory` BLOB NULL,"
+                            + "`armor` BLOB NULL,"
+                            + "`previousLocation` VARCHAR(250) NULL,"
+                            + "`previousGameMode` VARCHAR(16) NULL);";
+
+                    st.executeUpdate(sqlPrisCreateCmd);
+                    st.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS `" + prefix + "prisoners_uuid` on `" + prefix + "prisoners` (`uuid`) ");
+
+                    String sqlProCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "records` ("
+                            + "`recordid` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,"
+                            + "`uuid` VARCHAR NOT NULL,"
+                            + "`username` VARCHAR NOT NULL,"
+                            + "`jailer` VARCHAR NOT NULL,"
+                            + "`date` VARCHAR NOT NULL,"
+                            + "`time` BIGINT NOT NULL,"
+                            + "`reason` VARCHAR NOT NULL);";
+
+                    st.executeUpdate(sqlProCreateCmd);
+                    st.executeUpdate("CREATE UNIQUE INDEX IF NOT EXISTS `" + prefix + "records_recordid` on `" + prefix + "records` (`recordid`) ");
+                    st.close();
                     break;
                 case 2:
                     String jailCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "jails` ("
@@ -438,10 +510,8 @@ public class JailIO {
                             Prisoner p = new Prisoner(set.getString("uuid"), set.getString("name"), set.getBoolean("muted"), set.getLong("time"), set.getString("jailer"), set.getString("reason"));
                             p.setOfflinePending(set.getBoolean("offlinePending"));
                             p.setToBeTransferred(set.getBoolean("toBeTransferred"));
-                            Blob inv = set.getBlob("inventory");
-                            p.setInventory(new String(inv.getBytes(1, (int) inv.length())));
-                            Blob ar = set.getBlob("armor");
-                            p.setArmor(new String(ar.getBytes(1, (int)ar.length())));
+                            p.setInventory(new String(set.getBytes("inventory")));
+                            p.setArmor(new String(set.getBytes("armor")));
                             p.setPreviousPosition(set.getString("previousLocation"));
                             p.setPreviousGameMode(set.getString("previousGameMode"));
                             p.setChanged(false);//Since we just loaded the prisoner, we really don't need to save them.
@@ -951,7 +1021,7 @@ public class JailIO {
             case 1:
             case 2:
                 try {
-                    PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where uuid = ? limit 1;");
+                    PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where uuid = ?");
                     pp.setString(1, p.getUUID().toString());
 
                     pl.debug("Removing " + p.getLastKnownName() + " (" + p.getUUID().toString() + ") from MySQL database.");

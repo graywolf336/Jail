@@ -7,6 +7,7 @@ This plugins adds Jail to your Minecraft server. Admins can define several jails
 Beta 3 Changes
 ===
 *Changes since Beta 2*
+* Added support for sqlite storage
 * Add advanced update notifications, even for beta builds
 * Move cellcreate command to createcell
 * Fix an out of bounds exception when using old jail stick configurations
