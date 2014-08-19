@@ -968,7 +968,7 @@ public class JailIO {
                 if(c == null)
                     flat.set("jails." + j.getName() + ".prisoners." + p.getUUID().toString(), null);
                 else
-                    flat.set("jails." + j.getName() + "." + c.getName() + ".prisoner", null);
+                    flat.set("jails." + j.getName() + ".cells." + c.getName() + ".prisoner", null);
 
                 try {
                     flat.save(new File(pl.getDataFolder(), "data.yml"));
