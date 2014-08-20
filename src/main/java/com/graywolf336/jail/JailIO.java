@@ -717,221 +717,223 @@ public class JailIO {
      * @param j The jail to save.
      */
     public void saveJail(Jail j) {
-        switch(storage) {
-            case 1:
-            case 2:
-                long st = System.currentTimeMillis();
+        if(j.isEnabled()) {
+            switch(storage) {
+                case 1:
+                case 2:
+                    long st = System.currentTimeMillis();
 
-                try {
-                    if(con == null) this.prepareStorage(false);
-                    PreparedStatement ps = con.prepareStatement("REPLACE INTO "
-                            + prefix + "jails (`name`, `world`, `top.x`, `top.y`, `top.z`, `bottom.x`, `bottom.y`,"
-                            + "`bottom.z`, `tps.in.x`, `tps.in.y`, `tps.in.z`, `tps.in.yaw`, `tps.in.pitch`,"
-                            + "`tps.free.world`, `tps.free.x`, `tps.free.y`, `tps.free.z`, `tps.free.yaw`, `tps.free.pitch`)"
-                            + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    try {
+                        if(con == null) this.prepareStorage(false);
+                        PreparedStatement ps = con.prepareStatement("REPLACE INTO "
+                                + prefix + "jails (`name`, `world`, `top.x`, `top.y`, `top.z`, `bottom.x`, `bottom.y`,"
+                                + "`bottom.z`, `tps.in.x`, `tps.in.y`, `tps.in.z`, `tps.in.yaw`, `tps.in.pitch`,"
+                                + "`tps.free.world`, `tps.free.x`, `tps.free.y`, `tps.free.z`, `tps.free.yaw`, `tps.free.pitch`)"
+                                + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
-                    ps.setString(1, j.getName());
-                    ps.setString(2, j.getWorldName());
-                    ps.setInt(3, j.getMaxPoint().getBlockX());
-                    ps.setInt(4, j.getMaxPoint().getBlockY());
-                    ps.setInt(5, j.getMaxPoint().getBlockZ());
-                    ps.setInt(6, j.getMinPoint().getBlockX());
-                    ps.setInt(7, j.getMinPoint().getBlockY());
-                    ps.setInt(8, j.getMinPoint().getBlockZ());
-                    ps.setDouble(9, j.getTeleportIn().getX());
-                    ps.setDouble(10, j.getTeleportIn().getY());
-                    ps.setDouble(11, j.getTeleportIn().getZ());
-                    ps.setDouble(12, j.getTeleportIn().getYaw());
-                    ps.setDouble(13, j.getTeleportIn().getPitch());
-                    ps.setString(14, j.getTeleportFree().getWorld().getName());
-                    ps.setDouble(15, j.getTeleportFree().getX());
-                    ps.setDouble(16, j.getTeleportFree().getY());
-                    ps.setDouble(17, j.getTeleportFree().getZ());
-                    ps.setDouble(18, j.getTeleportFree().getYaw());
-                    ps.setDouble(19, j.getTeleportFree().getPitch());
+                        ps.setString(1, j.getName());
+                        ps.setString(2, j.getWorldName());
+                        ps.setInt(3, j.getMaxPoint().getBlockX());
+                        ps.setInt(4, j.getMaxPoint().getBlockY());
+                        ps.setInt(5, j.getMaxPoint().getBlockZ());
+                        ps.setInt(6, j.getMinPoint().getBlockX());
+                        ps.setInt(7, j.getMinPoint().getBlockY());
+                        ps.setInt(8, j.getMinPoint().getBlockZ());
+                        ps.setDouble(9, j.getTeleportIn().getX());
+                        ps.setDouble(10, j.getTeleportIn().getY());
+                        ps.setDouble(11, j.getTeleportIn().getZ());
+                        ps.setDouble(12, j.getTeleportIn().getYaw());
+                        ps.setDouble(13, j.getTeleportIn().getPitch());
+                        ps.setString(14, j.getTeleportFree().getWorld().getName());
+                        ps.setDouble(15, j.getTeleportFree().getX());
+                        ps.setDouble(16, j.getTeleportFree().getY());
+                        ps.setDouble(17, j.getTeleportFree().getZ());
+                        ps.setDouble(18, j.getTeleportFree().getYaw());
+                        ps.setDouble(19, j.getTeleportFree().getPitch());
 
-                    ps.executeUpdate();
-                    ps.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    pl.getLogger().severe("---------- Jail Error!!! ----------");
-                    pl.getLogger().severe("Error while saving the Jail '" + j.getName() + "' (not updating the prisoners), please check the error and fix what is wrong.");
-                }
-
-                try {
-                    if(con == null) this.prepareStorage(false);
-
-                    for(Cell c : j.getCells()) {
-                        if(c.hasPrisoner() && c.getPrisoner().wasChanged()) {
-                            Prisoner p = c.getPrisoner();
-                            PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
-                                    + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`)"
-                                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                            pPS.setString(1, p.getUUID().toString());
-                            pPS.setString(2, p.getLastKnownName());
-                            pPS.setString(3, j.getName());
-                            pPS.setString(4, c.getName());
-                            pPS.setBoolean(5, p.isMuted());
-                            pPS.setFloat(6, p.getRemainingTime());
-                            pPS.setBoolean(7, p.isOfflinePending());
-                            pPS.setBoolean(8, p.isToBeTransferred());
-                            pPS.setString(9, p.getJailer());
-                            pPS.setString(10, p.getReason());
-                            pPS.setBytes(11, p.getInventory().getBytes());
-                            pPS.setBytes(12, p.getArmor().getBytes());
-                            pPS.setString(13, p.getPreviousLocationString());
-                            pPS.setString(14, p.getPreviousGameMode().toString());
-
-                            pPS.executeUpdate();
-                            pPS.close();
-
-                            p.setChanged(false);//Since we just saved the prisoner
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    pl.getLogger().severe("---------- Jail Error!!! ----------");
-                    pl.getLogger().severe("Error while saving the cells of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
-                }
-
-                try {
-                    if(con == null) this.prepareStorage(false);
-
-                    for(Prisoner p : j.getPrisonersNotInCells().values()) {
-                        if(p.wasChanged()) {
-                            PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
-                                    + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-                            pPS.setString(1, p.getUUID().toString());
-                            pPS.setString(2, p.getLastKnownName());
-                            pPS.setString(3, j.getName());
-                            pPS.setString(4, "");
-                            pPS.setBoolean(5, p.isMuted());
-                            pPS.setFloat(6, p.getRemainingTime());
-                            pPS.setBoolean(7, p.isOfflinePending());
-                            pPS.setBoolean(8, p.isToBeTransferred());
-                            pPS.setString(9, p.getJailer());
-                            pPS.setString(10, p.getReason());
-                            pPS.setBytes(11, p.getInventory().getBytes());
-                            pPS.setBytes(12, p.getArmor().getBytes());
-                            pPS.setString(13, p.getPreviousLocationString());
-                            pPS.setString(14, p.getPreviousGameMode().toString());
-
-                            pPS.executeUpdate();
-                            pPS.close();
-                            p.setChanged(false);//Since we just saved the prisoner
-                        }
-                    }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                    pl.getLogger().severe("---------- Jail Error!!! ----------");
-                    pl.getLogger().severe("Error while saving the prisoners of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
-                }
-
-                pl.debug("Took " + (System.currentTimeMillis() - st) + " millis to save the jail " + j.getName() + ".");
-                break;
-            default:
-                if(flat != null) {
-                    String node = "jails." + j.getName() + ".";
-
-                    //Corners
-                    flat.set(node + "world", j.getWorldName());
-                    flat.set(node + "top.x", j.getMaxPoint().getBlockX());
-                    flat.set(node + "top.y", j.getMaxPoint().getBlockY());
-                    flat.set(node + "top.z", j.getMaxPoint().getBlockZ());
-                    flat.set(node + "bottom.x", j.getMinPoint().getBlockX());
-                    flat.set(node + "bottom.y", j.getMinPoint().getBlockY());
-                    flat.set(node + "bottom.z", j.getMinPoint().getBlockZ());
-
-                    //Tele in
-                    flat.set(node + "tps.in.x", j.getTeleportIn().getX());
-                    flat.set(node + "tps.in.y", j.getTeleportIn().getY());
-                    flat.set(node + "tps.in.z", j.getTeleportIn().getZ());
-                    flat.set(node + "tps.in.yaw", j.getTeleportIn().getYaw());
-                    flat.set(node + "tps.in.pitch", j.getTeleportIn().getPitch());
-
-                    //Tele out
-                    flat.set(node + "tps.free.world", j.getTeleportFree().getWorld().getName());
-                    flat.set(node + "tps.free.x", j.getTeleportFree().getX());
-                    flat.set(node + "tps.free.y", j.getTeleportFree().getY());
-                    flat.set(node + "tps.free.z", j.getTeleportFree().getZ());
-                    flat.set(node + "tps.free.yaw", j.getTeleportFree().getYaw());
-                    flat.set(node + "tps.free.pitch", j.getTeleportFree().getPitch());
-
-                    //Set all the cells to nothing, then we save each of them so no cells are left behind
-                    flat.set(node + "cells", null);
-                    for(Cell c : j.getCells()) {
-                        String cNode = node + "cells." + c.getName() + ".";
-
-                        if(c.getTeleport() != null) {
-                            flat.set(cNode + "tp.x", c.getTeleport().getX());
-                            flat.set(cNode + "tp.y", c.getTeleport().getY());
-                            flat.set(cNode + "tp.z", c.getTeleport().getZ());
-                            flat.set(cNode + "tp.yaw", c.getTeleport().getYaw());
-                            flat.set(cNode + "tp.pitch", c.getTeleport().getPitch());
-                        }
-
-                        if(c.getChestLocation() != null) {
-                            flat.set(cNode + "chest.x", c.getChestLocation().getBlockX());
-                            flat.set(cNode + "chest.y", c.getChestLocation().getBlockY());
-                            flat.set(cNode + "chest.z", c.getChestLocation().getBlockZ());
-                        }
-
-                        String[] signs = new String[c.getSigns().size()];
-                        int count = 0;
-                        for(SimpleLocation loc : c.getSigns()) {
-                            signs[count] = loc.toString();
-                            count++;
-                        }
-
-                        flat.set(cNode + "signs", signs);
-
-                        if(c.getPrisoner() != null) {
-                            Prisoner p = c.getPrisoner();
-                            flat.set(cNode + "prisoner.uuid", p.getUUID().toString());
-                            flat.set(cNode + "prisoner.name", p.getLastKnownName());
-                            flat.set(cNode + "prisoner.muted", p.isMuted());
-                            flat.set(cNode + "prisoner.time", p.getRemainingTime());
-                            flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
-                            flat.set(cNode + "prisoner.toBeTransferred", p.isToBeTransferred());
-                            flat.set(cNode + "prisoner.jailer", p.getJailer());
-                            flat.set(cNode + "prisoner.reason", p.getReason());
-                            flat.set(cNode + "prisoner.inventory", p.getInventory());
-                            flat.set(cNode + "prisoner.armor", p.getArmor());
-                            if(p.getPreviousLocationString() != null)
-                                flat.set(cNode + "prisoner.previousLocation", p.getPreviousLocationString());
-                            if(p.getPreviousGameMode() != null)
-                                flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
-                        }
-                    }
-
-                    //Null all the prisoners out before we save them again, this way no prisoners are left behind
-                    flat.set(node + "prisoners", null);
-                    for(Prisoner p : j.getPrisonersNotInCells().values()) {
-                        String pNode = node + "prisoners." + p.getUUID().toString() + ".";
-                        flat.set(pNode + "name", p.getLastKnownName());
-                        flat.set(pNode + "muted", p.isMuted());
-                        flat.set(pNode + "time", p.getRemainingTime());
-                        flat.set(pNode + "offlinePending", p.isOfflinePending());
-                        flat.set(pNode + "toBeTransferred", p.isToBeTransferred());
-                        flat.set(pNode + "jailer", p.getJailer());
-                        flat.set(pNode + "reason", p.getReason());
-                        flat.set(pNode + "inventory", p.getInventory());
-                        flat.set(pNode + "armor", p.getArmor());
-                        if(p.getPreviousLocationString() != null)
-                            flat.set(pNode + "previousLocation", p.getPreviousLocationString());
-                        if(p.getPreviousGameMode() != null)
-                            flat.set(pNode + "previousGameMode", p.getPreviousGameMode().toString());
+                        ps.executeUpdate();
+                        ps.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        pl.getLogger().severe("---------- Jail Error!!! ----------");
+                        pl.getLogger().severe("Error while saving the Jail '" + j.getName() + "' (not updating the prisoners), please check the error and fix what is wrong.");
                     }
 
                     try {
-                        flat.save(new File(pl.getDataFolder(), "data.yml"));
-                    } catch (IOException e) {
-                        pl.getLogger().severe("Unable to save the Jail data: " + e.getMessage());
+                        if(con == null) this.prepareStorage(false);
+
+                        for(Cell c : j.getCells()) {
+                            if(c.hasPrisoner() && c.getPrisoner().wasChanged()) {
+                                Prisoner p = c.getPrisoner();
+                                PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+                                        + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`)"
+                                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                pPS.setString(1, p.getUUID().toString());
+                                pPS.setString(2, p.getLastKnownName());
+                                pPS.setString(3, j.getName());
+                                pPS.setString(4, c.getName());
+                                pPS.setBoolean(5, p.isMuted());
+                                pPS.setFloat(6, p.getRemainingTime());
+                                pPS.setBoolean(7, p.isOfflinePending());
+                                pPS.setBoolean(8, p.isToBeTransferred());
+                                pPS.setString(9, p.getJailer());
+                                pPS.setString(10, p.getReason());
+                                pPS.setBytes(11, p.getInventory().getBytes());
+                                pPS.setBytes(12, p.getArmor().getBytes());
+                                pPS.setString(13, p.getPreviousLocationString());
+                                pPS.setString(14, p.getPreviousGameMode().toString());
+
+                                pPS.executeUpdate();
+                                pPS.close();
+
+                                p.setChanged(false);//Since we just saved the prisoner
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        pl.getLogger().severe("---------- Jail Error!!! ----------");
+                        pl.getLogger().severe("Error while saving the cells of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
                     }
-                }else {
-                    pl.getLogger().severe("Storage not enabled, could not save the jail " + j.getName());
-                }
-                break;
+
+                    try {
+                        if(con == null) this.prepareStorage(false);
+
+                        for(Prisoner p : j.getPrisonersNotInCells().values()) {
+                            if(p.wasChanged()) {
+                                PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+                                        + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                                pPS.setString(1, p.getUUID().toString());
+                                pPS.setString(2, p.getLastKnownName());
+                                pPS.setString(3, j.getName());
+                                pPS.setString(4, "");
+                                pPS.setBoolean(5, p.isMuted());
+                                pPS.setFloat(6, p.getRemainingTime());
+                                pPS.setBoolean(7, p.isOfflinePending());
+                                pPS.setBoolean(8, p.isToBeTransferred());
+                                pPS.setString(9, p.getJailer());
+                                pPS.setString(10, p.getReason());
+                                pPS.setBytes(11, p.getInventory().getBytes());
+                                pPS.setBytes(12, p.getArmor().getBytes());
+                                pPS.setString(13, p.getPreviousLocationString());
+                                pPS.setString(14, p.getPreviousGameMode().toString());
+
+                                pPS.executeUpdate();
+                                pPS.close();
+                                p.setChanged(false);//Since we just saved the prisoner
+                            }
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        pl.getLogger().severe("---------- Jail Error!!! ----------");
+                        pl.getLogger().severe("Error while saving the prisoners of the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+                    }
+
+                    pl.debug("Took " + (System.currentTimeMillis() - st) + " millis to save the jail " + j.getName() + ".");
+                    break;
+                default:
+                    if(flat != null) {
+                        String node = "jails." + j.getName() + ".";
+
+                        //Corners
+                        flat.set(node + "world", j.getWorldName());
+                        flat.set(node + "top.x", j.getMaxPoint().getBlockX());
+                        flat.set(node + "top.y", j.getMaxPoint().getBlockY());
+                        flat.set(node + "top.z", j.getMaxPoint().getBlockZ());
+                        flat.set(node + "bottom.x", j.getMinPoint().getBlockX());
+                        flat.set(node + "bottom.y", j.getMinPoint().getBlockY());
+                        flat.set(node + "bottom.z", j.getMinPoint().getBlockZ());
+
+                        //Tele in
+                        flat.set(node + "tps.in.x", j.getTeleportIn().getX());
+                        flat.set(node + "tps.in.y", j.getTeleportIn().getY());
+                        flat.set(node + "tps.in.z", j.getTeleportIn().getZ());
+                        flat.set(node + "tps.in.yaw", j.getTeleportIn().getYaw());
+                        flat.set(node + "tps.in.pitch", j.getTeleportIn().getPitch());
+
+                        //Tele out
+                        flat.set(node + "tps.free.world", j.getTeleportFree().getWorld().getName());
+                        flat.set(node + "tps.free.x", j.getTeleportFree().getX());
+                        flat.set(node + "tps.free.y", j.getTeleportFree().getY());
+                        flat.set(node + "tps.free.z", j.getTeleportFree().getZ());
+                        flat.set(node + "tps.free.yaw", j.getTeleportFree().getYaw());
+                        flat.set(node + "tps.free.pitch", j.getTeleportFree().getPitch());
+
+                        //Set all the cells to nothing, then we save each of them so no cells are left behind
+                        flat.set(node + "cells", null);
+                        for(Cell c : j.getCells()) {
+                            String cNode = node + "cells." + c.getName() + ".";
+
+                            if(c.getTeleport() != null) {
+                                flat.set(cNode + "tp.x", c.getTeleport().getX());
+                                flat.set(cNode + "tp.y", c.getTeleport().getY());
+                                flat.set(cNode + "tp.z", c.getTeleport().getZ());
+                                flat.set(cNode + "tp.yaw", c.getTeleport().getYaw());
+                                flat.set(cNode + "tp.pitch", c.getTeleport().getPitch());
+                            }
+
+                            if(c.getChestLocation() != null) {
+                                flat.set(cNode + "chest.x", c.getChestLocation().getBlockX());
+                                flat.set(cNode + "chest.y", c.getChestLocation().getBlockY());
+                                flat.set(cNode + "chest.z", c.getChestLocation().getBlockZ());
+                            }
+
+                            String[] signs = new String[c.getSigns().size()];
+                            int count = 0;
+                            for(SimpleLocation loc : c.getSigns()) {
+                                signs[count] = loc.toString();
+                                count++;
+                            }
+
+                            flat.set(cNode + "signs", signs);
+
+                            if(c.getPrisoner() != null) {
+                                Prisoner p = c.getPrisoner();
+                                flat.set(cNode + "prisoner.uuid", p.getUUID().toString());
+                                flat.set(cNode + "prisoner.name", p.getLastKnownName());
+                                flat.set(cNode + "prisoner.muted", p.isMuted());
+                                flat.set(cNode + "prisoner.time", p.getRemainingTime());
+                                flat.set(cNode + "prisoner.offlinePending", p.isOfflinePending());
+                                flat.set(cNode + "prisoner.toBeTransferred", p.isToBeTransferred());
+                                flat.set(cNode + "prisoner.jailer", p.getJailer());
+                                flat.set(cNode + "prisoner.reason", p.getReason());
+                                flat.set(cNode + "prisoner.inventory", p.getInventory());
+                                flat.set(cNode + "prisoner.armor", p.getArmor());
+                                if(p.getPreviousLocationString() != null)
+                                    flat.set(cNode + "prisoner.previousLocation", p.getPreviousLocationString());
+                                if(p.getPreviousGameMode() != null)
+                                    flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
+                            }
+                        }
+
+                        //Null all the prisoners out before we save them again, this way no prisoners are left behind
+                        flat.set(node + "prisoners", null);
+                        for(Prisoner p : j.getPrisonersNotInCells().values()) {
+                            String pNode = node + "prisoners." + p.getUUID().toString() + ".";
+                            flat.set(pNode + "name", p.getLastKnownName());
+                            flat.set(pNode + "muted", p.isMuted());
+                            flat.set(pNode + "time", p.getRemainingTime());
+                            flat.set(pNode + "offlinePending", p.isOfflinePending());
+                            flat.set(pNode + "toBeTransferred", p.isToBeTransferred());
+                            flat.set(pNode + "jailer", p.getJailer());
+                            flat.set(pNode + "reason", p.getReason());
+                            flat.set(pNode + "inventory", p.getInventory());
+                            flat.set(pNode + "armor", p.getArmor());
+                            if(p.getPreviousLocationString() != null)
+                                flat.set(pNode + "previousLocation", p.getPreviousLocationString());
+                            if(p.getPreviousGameMode() != null)
+                                flat.set(pNode + "previousGameMode", p.getPreviousGameMode().toString());
+                        }
+
+                        try {
+                            flat.save(new File(pl.getDataFolder(), "data.yml"));
+                        } catch (IOException e) {
+                            pl.getLogger().severe("Unable to save the Jail data: " + e.getMessage());
+                        }
+                    }else {
+                        pl.getLogger().severe("Storage not enabled, could not save the jail " + j.getName());
+                    }
+                    break;
+            }
         }
     }
 
