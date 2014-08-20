@@ -410,6 +410,7 @@ public class JailIO {
                         j.setTeleportFree(new Location(pl.getServer().getWorld(j.getWorldName()), set.getDouble("tps.free.x"),
                                 set.getDouble("tps.free.y"), set.getDouble("tps.free.z"),
                                 set.getFloat("tps.free.yaw"), set.getFloat("tps.free.pitch")));
+                        j.setEnabled(j.getWorld() != null);
                         pl.getJailManager().addJail(j, false);
                     }
 
@@ -435,23 +436,26 @@ public class JailIO {
                         Jail j = pl.getJailManager().getJail(set.getString("jail"));
 
                         if(j != null) {
-                            Cell c = new Cell(set.getString("name"));
-                            c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"), set.getDouble("tp.y"), set.getDouble("tp.z"),
-                                    set.getFloat("tp.yaw"), set.getFloat("tp.pitch")));
+                            if(j.getWorld() != null) {
+                                Cell c = new Cell(set.getString("name"));
+                                c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"), set.getDouble("tp.y"), set.getDouble("tp.z"),
+                                        set.getFloat("tp.yaw"), set.getFloat("tp.pitch")));
 
-                            c.setChestLocation(new Location(j.getWorld(), set.getInt("chest.x"), set.getInt("chest.y"), set.getInt("chest.z")));
+                                c.setChestLocation(new Location(j.getWorld(), set.getInt("chest.x"), set.getInt("chest.y"), set.getInt("chest.z")));
 
-                            String cSigns = set.getString("signs");
-                            if(!cSigns.isEmpty()) {
-                                String[] signs = cSigns.split(";");
-                                for(String s : signs) {
-                                    String[] co = s.split(",");
-                                    c.addSign(new SimpleLocation(co[0], co[1], co[2], co[3]));
+                                String cSigns = set.getString("signs");
+                                if(!cSigns.isEmpty()) {
+                                    String[] signs = cSigns.split(";");
+                                    for(String s : signs) {
+                                        String[] co = s.split(",");
+                                        c.addSign(new SimpleLocation(co[0], co[1], co[2], co[3]));
+                                    }
                                 }
+
+                                j.addCell(c, false);
+                            }else {
+                                pl.getLogger().warning("The cell, " + set.getString("name") + ", in " + j.getName() + " is located in a world that is not loaded.");
                             }
-
-
-                            j.addCell(c, false);
                         }else {
                             cellsToRemove.add(set.getInt("cellid"));
                         }
