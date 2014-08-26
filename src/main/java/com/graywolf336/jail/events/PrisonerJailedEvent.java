@@ -72,6 +72,11 @@ public class PrisonerJailedEvent extends Event {
     public String getJailer() {
         return this.prisoner.getJailer();
     }
+    
+    /** Gets the reason the prisoner was jailed. */
+    public String getReason() {
+        return this.prisoner.getReason();
+    }
 
     public static HandlerList getHandlerList() {
         return handlers;

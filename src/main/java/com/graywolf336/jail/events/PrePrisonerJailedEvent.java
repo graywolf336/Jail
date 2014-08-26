@@ -98,6 +98,20 @@ public class PrePrisonerJailedEvent extends Event implements Cancellable {
     public void setJailer(String jailer) {
         this.jailer = jailer;
     }
+    
+    /** Gets the reason the player was jailed for. */
+    public String getReason() {
+        return this.prisoner.getReason();
+    }
+    
+    /**
+     * Sets the reason the prisoner was jailed for.
+     * 
+     * @param reason the prisoner was jailed for.
+     */
+    public void setReason(String reason) {
+        this.prisoner.setReason(reason);
+    }
 
     /** Checks whether this event is cancelled or not. */
     public boolean isCancelled() {
