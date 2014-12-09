@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.minecraft.util.org.apache.commons.io.FileUtils;
-
 import org.bukkit.Material;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -432,13 +430,24 @@ public class LegacyManager {
     }
 
     private void moveOldConfigs() throws IOException {
-        FileUtils.moveFileToDirectory(new File(pl.getDataFolder(), "global.yml"), new File(pl.getDataFolder() + File.separator + "preJail3Data"), true);
-        FileUtils.moveFileToDirectory(new File(pl.getDataFolder(), "jails.yml"), new File(pl.getDataFolder() + File.separator + "preJail3Data"), true);
-        FileUtils.moveFileToDirectory(new File(pl.getDataFolder(), "jailLog.txt"), new File(pl.getDataFolder() + File.separator + "preJail3Data"), true);
+        File global = new File(pl.getDataFolder(), "global.yml");
+        if(global.exists()) {
+            global.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "global.yml"));
+        }
+        
+        File jails = new File(pl.getDataFolder(), "jails.yml");
+        if(jails.exists()) {
+            jails.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "jails.yml"));
+        }
+        
+        File log = new File(pl.getDataFolder(), "jailLog.txt");
+        if(log.exists()) {
+            log.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "jailLog.txt"));
+        }
 
         File sqlite = new File(pl.getDataFolder(), "jail.sqlite");
         if(sqlite.exists()) {
-            FileUtils.moveFileToDirectory(sqlite, new File(pl.getDataFolder() + File.separator + "oldData"), true);
+            sqlite.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "jail.sqlite"));
         }
     }
 }
