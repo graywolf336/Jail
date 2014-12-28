@@ -12,6 +12,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import com.google.common.io.Files;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.enums.Settings;
 
@@ -430,24 +431,15 @@ public class LegacyManager {
     }
 
     private void moveOldConfigs() throws IOException {
-        File global = new File(pl.getDataFolder(), "global.yml");
-        if(global.exists()) {
-            global.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "global.yml"));
-        }
+        File to = new File(pl.getDataFolder() + File.separator + "preJail3Data");
         
-        File jails = new File(pl.getDataFolder(), "jails.yml");
-        if(jails.exists()) {
-            jails.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "jails.yml"));
-        }
-        
-        File log = new File(pl.getDataFolder(), "jailLog.txt");
-        if(log.exists()) {
-            log.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "jailLog.txt"));
-        }
+        Files.move(new File(pl.getDataFolder(), "global.yml"), to);
+        Files.move(new File(pl.getDataFolder(), "jails.yml"), to);
+        Files.move(new File(pl.getDataFolder(), "jailLog.txt"), to);
 
         File sqlite = new File(pl.getDataFolder(), "jail.sqlite");
         if(sqlite.exists()) {
-            sqlite.renameTo(new File(pl.getDataFolder() + File.separator + "preJail3Data" + File.separator + "jail.sqlite"));
+            Files.move(sqlite, to);
         }
     }
 }
