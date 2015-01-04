@@ -98,8 +98,8 @@ public class JailHandler {
         // First, let's check if the sender has permission for the command.
         if(!i.permission().isEmpty()) {
             if(!sender.hasPermission(i.permission())) {
-                jailmanager.getPlugin().debug("Sender has no permission.");
-                sender.sendMessage(Lang.NOPERMISSION.get());
+                jailmanager.getPlugin().debug("Sender has no permission: " + i.permission());
+                sender.sendMessage(Lang.NOPERMISSION.get() + (jailmanager.getPlugin().inDebug() ? " (" + i.permission() + ")" : ""));
                 return true;
             }
         }
