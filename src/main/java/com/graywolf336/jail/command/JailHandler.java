@@ -182,6 +182,7 @@ public class JailHandler {
         load(JailDeleteCellCommand.class);
         load(JailDeleteCellsCommand.class);
         load(JailDeleteCommand.class);
+        load(JailDeleteCommand.class);
         load(JailListCellsCommand.class);
         load(JailListCommand.class);
         load(JailMuteCommand.class);
