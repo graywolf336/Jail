@@ -212,7 +212,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler(ignoreCancelled=true)
+    @EventHandler(priority = EventPriority.LOWEST, ignoreCancelled=true)
     public void jailStickHandling(EntityDamageByEntityEvent event) {
         if(pl.getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
             //If the damager and the entity getting damage is not a player,
