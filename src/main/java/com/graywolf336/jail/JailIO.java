@@ -596,6 +596,11 @@ public class JailIO {
         String node = "jails." + name + ".";
         String cNode = node + "cells.";
         Jail j = new Jail(pl, name);
+        
+        if(flat.getString(node + "world").isEmpty()) {
+        	pl.getLogger().severe("Failed to load the jail, " + name + ", because the world is not set.");
+        	return;
+        }
 
         j.setWorld(flat.getString(node + "world"));
         j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
