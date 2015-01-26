@@ -163,6 +163,8 @@ public enum Lang {
     PLAYERNOTONLINE("general"),
     /** The message sent to the sender when the plugin data has been reloaded. */
     PLUGINRELOADED("general"),
+    /** The message sent to the sender of a command when the plugin didn't start correct. */
+    PLUGINNOTLOADED("general"),
     /** The message sent whenever the prisoners are cleared from jail(s). */
     PRISONERSCLEARED("general"),
     /** The format we should use when entering a record into flatfile or showing it. */

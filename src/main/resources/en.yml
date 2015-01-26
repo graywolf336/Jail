@@ -32,6 +32,7 @@ language:
     numberformatincorrect: '&cNumber format is incorrect.'
     playercontextrequired: '&cA player context is required for this.'
     playernotonline: '&cThat player is not online!'
+    pluginnotloaded: '&cThe plugin did not load correctly, tell the administrator to check the console for errors.'
     pluginreloaded: '&9Jail data successfully reloaded.'
     prisonerscleared: '&cAll the prisoners from %0% have been cleared.'
     recordentry: '&7[%0%]: &9%1% &fjailed by &9%2% &ffor &9%3% &fminutes with a reason of &9%4%&f. [%5%]'

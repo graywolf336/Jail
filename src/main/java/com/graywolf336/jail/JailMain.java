@@ -11,6 +11,7 @@ import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.command.JailHandler;
+import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.legacy.LegacyManager;
 import com.graywolf336.jail.listeners.BlockListener;
@@ -171,11 +172,16 @@ public class JailMain extends JavaPlugin {
      * Send the command off to the CommandHandler class, that way this main class doesn't get clogged up.
      */
     public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
-        if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
-            jh.parseCommand(jm, sender, args);
-        }else {
-            cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
-        }
+    	if(jh == null || cmdHand == null) {
+    		sender.sendMessage(Lang.PLUGINNOTLOADED.get());
+    		getServer().getConsoleSender().sendMessage(Lang.PLUGINNOTLOADED.get());
+    	}else {
+            if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
+            	jh.parseCommand(jm, sender, args);
+            }else {
+                cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
+            }
+    	}
 
         return true;//Always return true here, that way we can handle the help and command usage ourself.
     }
