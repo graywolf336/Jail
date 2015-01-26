@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
         minimumArgs = 1,
         needsPlayer = false,
         pattern = "listcells|lc",
-        permission = "jail.command.jaillistcell",
+        permission = "jail.command.jaillistcells",
         usage = "/jail listcells [jail]"
         )
 public class JailListCellsCommand implements Command {
