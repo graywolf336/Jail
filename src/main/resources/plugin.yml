@@ -9,7 +9,6 @@ load: POSTWORLD
 commands:
     jail:
         description: Jail specified player for specified amount of time.
-        usage: /jail [p:name] (t:time) (j:Jail name) (c:Cell name) (m:Muted) (r:Reason)
     togglejaildebug:
         description: Toggles whether the plugin is in debugging state or not.
     unjail:
@@ -29,55 +28,55 @@ permissions:
             jail.usejailstick280: true
             jail.canbestickjailed: true
             jail.openchest: true
-            jail.canswear: true
             jail.cantbejailed: true
     jail.command.*:
         description: access to all admin commands
         children:
-            jail.command.jailcreate: true
-            jail.command.jailcreatecells: true
-            jail.command.jailremove: true
-            jail.command.jailremovecells: true
+            jail.command.handcuff: true
             jail.command.jail: true
-            jail.command.unjail: true
-            jail.command.jailtransfer: true
-            jail.command.jailtransferall: true
             jail.command.jailcheck: true
-            jail.command.jailtelein: true
-            jail.command.jailteleout: true
-            jail.command.jaillist: true
-            jail.command.jaillistcells: true
-            jail.command.unjailforce: true
             jail.command.jailclear: true
             jail.command.jailclearforce: true
+            jail.command.jailcreate: true
+            jail.command.jailcreatecells: true
+            jail.command.jaildelete: true
+            jail.command.jaildeletecell: true
+            jail.command.jaildeletecells: true
+            jail.command.jailhelp: true
+            jail.command.jaillist: true
+            jail.command.jaillistcells: true
             jail.command.jailmute: true
-            jail.command.jailstop: true
-            jail.command.jailset: true
-            jail.command.jailcreatewe: true
-            jail.command.jailremovecell: true
-            jail.command.jailreload: true
             jail.command.jailrecord: true
+            jail.command.jailreload: true
+            jail.command.jailstop: true
+            jail.command.jailtelein: true
+            jail.command.jailteleout: true
             jail.command.jailtime: true
-            jail.command.handcuff: true
+            jail.command.jailtransfer: true
+            jail.command.jailtransferall: true
+            jail.command.jailversion: true
             jail.command.toggledebug: true
+            jail.command.unjail: true
+            jail.command.unjailforce: true
     jail.usercmd.*:
         description: access to all user commands
         children:
-            jail.usercmd.jailstatus: true
             jail.usercmd.jailpay: true
+            jail.usercmd.jailstatus: true
             jail.usercmd.jailstick: true
-            jail.usercmd.votejail: true
-            jail.usercmd.votejail.player: true
-            jail.usercmd.jailversion: true
     jail.command.jail:
         default: op
     jail.command.jailcreate:
         default: op
     jail.command.jailcreatecells:
         default: op
-    jail.command.jailremove:
+    jail.command.jaildelete:
         default: op
-    jail.command.jailremovecells:
+    jail.command.jaildeletecell:
+        default: op
+    jail.command.jaildeletecells:
+        default: op
+    jail.command.jailhelp:
         default: op
     jail.command.unjail:
         default: op
@@ -109,14 +108,10 @@ permissions:
         default: op
     jail.command.jailcreatewe:
         default: op
-    jail.command.jailremovecell:
-        default: op
     jail.command.jailreload:
         default: op
     jail.command.jailrecord:
         default: op
-    jail.usercmd.jailversion:
-        default: true
     jail.command.handcuff:
         default: op
     jail.usercmd.jailvote:
@@ -140,11 +135,11 @@ permissions:
         default: true
     jail.openchest:
         default: op
-    jail.canswear:
-        default: op
     jail.cantbejailed:
         default: op
     jail.command.toggledebug:
         default: op
     jail.command.jailtime:
+        default: op
+    jail.command.jailversion:
         default: op
