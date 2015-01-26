@@ -65,11 +65,8 @@ public class JailStickManager {
                     continue;
                 }
 
-                double health = -1;
-                if(a.length > 5) health = Double.valueOf(a[4]);
-
                 try {
-                    this.sticks.put(m, new Stick(jail, a[3], time, health));
+                    this.sticks.put(m, new Stick(jail, a[3], time, a.length > 5 ? Double.valueOf(a[4]) : -1));
                 }catch (Exception e) {
                     e.printStackTrace();
                     pl.getLogger().severe(s);
