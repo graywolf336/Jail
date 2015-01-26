@@ -609,7 +609,7 @@ public class JailIO {
                 (float) flat.getDouble(node + "tps.in.yaw"),
                 (float) flat.getDouble(node + "tps.in.pitch")));
         j.setTeleportFree(new Location(
-                pl.getServer().getWorld(flat.getString(node + "world")),
+                pl.getServer().getWorld(flat.getString(node + "tps.free.world")),
                 flat.getDouble(node + "tps.free.x"),
                 flat.getDouble(node + "tps.free.y"),
                 flat.getDouble(node + "tps.free.z"),
