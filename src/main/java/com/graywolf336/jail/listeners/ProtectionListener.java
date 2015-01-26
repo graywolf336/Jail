@@ -29,9 +29,7 @@ public class ProtectionListener implements Listener {
         //Before we check if the player is jailed, let's save a
         //tiny bit of resources and check if this protection is enabled
         if(pl.getConfig().getBoolean(Settings.BLOCKBREAKPROTECTION.getPath())) {
-            //Let's check if the player is jailed, otherwise the other listener
-            //in the BlockListener class will take care of protecting inside
-            //of the jails.
+            //Let's check if the player is jailed
             if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
                 //Get the breaking whitelist, check if the current item is in there
                 if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKBREAKWHITELIST.getPath()),
@@ -63,6 +61,17 @@ public class ProtectionListener implements Listener {
                     //Stop the event from happening, as the block wasn't in the whitelist
                     event.setCancelled(true);
                 }
+            }else {
+            	//The player is not jailed but they're trying to break blocks inside of the Jail
+                //If there is no jail let's skedaddle
+                if(pl.getJailManager().getJailFromLocation(event.getBlock().getLocation()) == null) return;
+
+                //If the player doesn't have permission to modify the jail,
+                //then we stop it here. We won't be doing any of the additions to
+                //a prisoner's sentence here as that's for the protections listener
+                if(!event.getPlayer().hasPermission("jail.modifyjail")) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
@@ -72,9 +81,7 @@ public class ProtectionListener implements Listener {
         //Before we check if the player is jailed, let's save a
         //tiny bit of resources and check if this protection is enabled
         if(pl.getConfig().getBoolean(Settings.BLOCKPLACEPROTECTION.getPath())) {
-            //Let's check if the player is jailed, otherwise the other listener
-            //in the BlockListener class will take care of protecting inside
-            //of the jails.
+            //Let's check if the player is jailed
             if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
                 //Get the placing whitelist, check if the current item is in there
                 if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKPLACEWHITELIST.getPath()),
@@ -104,6 +111,17 @@ public class ProtectionListener implements Listener {
                     }
 
                     //Stop the event from happening, as the block wasn't in the whitelist
+                    event.setCancelled(true);
+                }
+            }else {
+            	//The player is not jailed but they're trying to place blocks inside of the Jail
+                //If there is no jail let's skedaddle
+                if(pl.getJailManager().getJailFromLocation(event.getBlock().getLocation()) == null) return;
+
+                //If the player doesn't have permission to modify the jail,
+                //then we stop it here. We won't be doing any of the additions to
+                //a prisoner's sentence here as that's for the protections listener
+                if(!event.getPlayer().hasPermission("jail.modifyjail")) {
                     event.setCancelled(true);
                 }
             }

@@ -14,7 +14,6 @@ import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.legacy.LegacyManager;
-import com.graywolf336.jail.listeners.BlockListener;
 import com.graywolf336.jail.listeners.CacheListener;
 import com.graywolf336.jail.listeners.CellSignListener;
 import com.graywolf336.jail.listeners.EntityListener;
@@ -87,7 +86,6 @@ public class JailMain extends JavaPlugin {
         pm = new PrisonerManager(this);
 
         PluginManager plm = this.getServer().getPluginManager();
-        plm.registerEvents(new BlockListener(this), this);
         plm.registerEvents(new CacheListener(this), this);
         plm.registerEvents(new CellSignListener(this), this);
         plm.registerEvents(new EntityListener(this), this);
