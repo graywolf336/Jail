@@ -598,7 +598,7 @@ public class JailIO {
         pl.debug("Loading the jail " + name + "; " + node + "; " + cNode);
         Jail j = new Jail(pl, name);
         
-        if(flat.getString(node + "world").isEmpty()) {
+        if(flat.getString(node + "world") == null || flat.getString(node + "world").isEmpty()) {
         	pl.getLogger().severe("Failed to load the jail, " + name + ", because the world is not set.");
         	return;
         }
