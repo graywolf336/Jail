@@ -595,6 +595,7 @@ public class JailIO {
     private void loadJailFromFlatFile(String name) {
         String node = "jails." + name + ".";
         String cNode = node + "cells.";
+        pl.debug("Loading the jail " + name + "; " + node + "; " + cNode);
         Jail j = new Jail(pl, name);
         
         if(flat.getString(node + "world").isEmpty()) {
@@ -606,6 +607,11 @@ public class JailIO {
         j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
         j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
 
+        if(j.getWorld() == null) {
+            pl.getLogger().severe("Failed to load the jail, " + name + ", because the world " + j.getWorldName() + " is null.");
+            return;
+        }
+        
         j.setTeleportIn(new Location(
                 pl.getServer().getWorld(flat.getString(node + "world")),
                 flat.getDouble(node + "tps.in.x"),
