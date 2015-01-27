@@ -608,7 +608,7 @@ public class JailIO {
         j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
 
         if(j.getWorld() == null) {
-            pl.getLogger().severe("Failed to load the jail, " + name + ", because the world " + j.getWorldName() + " is null.");
+            pl.getLogger().severe("Failed to load the jail, " + name + ", because the world " + j.getWorldName() + " doesn't exist (is null).");
             return;
         }
         
