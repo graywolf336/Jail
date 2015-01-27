@@ -606,14 +606,9 @@ public class JailIO {
         j.setWorld(flat.getString(node + "world"));
         j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
         j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
-
-        if(j.getWorld() == null) {
-            pl.getLogger().severe("Failed to load the jail, " + name + ", because the world " + j.getWorldName() + " doesn't exist (is null).");
-            return;
-        }
         
         j.setTeleportIn(new Location(
-                pl.getServer().getWorld(flat.getString(node + "world")),
+                pl.getServer().getWorld(j.getWorldName()),
                 flat.getDouble(node + "tps.in.x"),
                 flat.getDouble(node + "tps.in.y"),
                 flat.getDouble(node + "tps.in.z"),
@@ -634,13 +629,13 @@ public class JailIO {
                     Cell c = new Cell(cell);
                     String cellNode = cNode + cell + ".";
 
-                    c.setTeleport(new SimpleLocation(j.getTeleportIn().getWorld().getName(),
+                    c.setTeleport(new SimpleLocation(j.getWorldName(),
                             flat.getDouble(cellNode + "tp.x"),
                             flat.getDouble(cellNode + "tp.y"),
                             flat.getDouble(cellNode + "tp.z"),
                             (float) flat.getDouble(cellNode + "tp.yaw"),
                             (float) flat.getDouble(cellNode + "tp.pitch")));
-                    c.setChestLocation(new Location(j.getTeleportIn().getWorld(),
+                    c.setChestLocation(new Location(pl.getServer().getWorld(j.getWorldName()),
                             flat.getInt(cellNode + "chest.x"),
                             flat.getInt(cellNode + "chest.y"),
                             flat.getInt(cellNode + "chest.z")));
@@ -700,11 +695,9 @@ public class JailIO {
             }
         }
 
-        if(pl.getServer().getWorld(j.getWorldName()) != null) {
-            pl.getJailManager().addJail(j, false);
-            pl.getLogger().info("Loaded jail " + j.getName() + " with " + j.getAllPrisoners().size() + " prisoners and " + j.getCellCount() + " cells.");
-        } else
-            pl.getLogger().severe("Failed to load the jail " + j.getName() + " as the world '" + j.getWorldName() + "' does not exist (is null). Did you remove this world?");
+        j.setEnabled(j.getWorld() != null);
+        pl.getJailManager().addJail(j, false);
+        pl.getLogger().info("Loaded jail " + j.getName() + " with " + j.getAllPrisoners().size() + " prisoners and " + j.getCellCount() + " cells" + (j.isEnabled() ? "." : " but the jail is disabled as the world doesn't exist or isn't loaded."));
     }
 
     /** Saves everything about a jail, don't usually call this. */
