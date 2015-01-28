@@ -54,6 +54,14 @@
 			<version>1.8-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
+		
+        <dependency>
+            <groupId>org.bukkit</groupId>
+            <artifactId>craftbukkit</artifactId>
+            <version>1.8-R0.1-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>com.sk89q</groupId>
