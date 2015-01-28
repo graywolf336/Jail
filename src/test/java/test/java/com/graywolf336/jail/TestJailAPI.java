@@ -50,12 +50,18 @@ public class TestJailAPI {
         assertNotNull(main.getJailManager());
         assertNotNull(main.getPrisonerManager());
     }
+    
+    @Test
+    public void verifyManagersAreTheSame() {
+        assertThat("The HandCuff Manager references are different.", JailsAPI.getHandCuffManager(), is(main.getHandCuffManager()));
+        assertThat("The Jail Manager references are different.", JailsAPI.getJailManager(), is(main.getJailManager()));
+        assertThat("The Prisoner Manager references are different.", JailsAPI.getPrisonerManager(), is(main.getPrisonerManager()));
+    }
 
     @Test
     public void testHandCuffManagerAPI() {
         UUID id = UUID.randomUUID();
         Location loc = new Location(main.getServer().getWorld("world"), 11.469868464778077, 65.0, -239.27944647045672, Float.valueOf("38.499817"), Float.valueOf("2.0000453"));
-        assertThat("The HandCuff Managers are different.", JailsAPI.getHandCuffManager(), is(main.getHandCuffManager()));
         assertFalse("The test id of someone is already handcuffed.", JailsAPI.getHandCuffManager().isHandCuffed(id));
 
         JailsAPI.getHandCuffManager().addHandCuffs(id, loc);
