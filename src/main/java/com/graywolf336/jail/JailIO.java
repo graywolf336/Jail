@@ -707,8 +707,12 @@ public class JailIO {
         for(Jail j : pl.getJailManager().getJails()) {
             saveJail(j);
 
-            for(Cell c : j.getCells()) {
-                saveCell(j, c);
+            //Only save the cells individually
+            //when we are not using the flatfile storage
+            if(storage != 0) {
+                for(Cell c : j.getCells()) {
+                    saveCell(j, c);
+                }
             }
         }
 
