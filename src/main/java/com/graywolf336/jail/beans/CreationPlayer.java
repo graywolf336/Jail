@@ -21,7 +21,7 @@ public class CreationPlayer {
     private double inX, inY, inZ, freeX, freeY, freeZ;
     private float inPitch, inYaw, freePitch, freeYaw;
     private HashSet<SimpleLocation> signs;
-    private Location chest;
+    private SimpleLocation chest;
 
     /**
      * Create a new instance of a CreationPlayer, given the name of the jail.
@@ -216,12 +216,12 @@ public class CreationPlayer {
     }
 
     /** Sets the chest's location, used mainly for cells. */
-    public void setChestLocation(Location loc) {
+    public void setChestLocation(SimpleLocation loc) {
         this.chest = loc;
     }
 
     /** Gets the chest's location. */
-    public Location getChestLocation() {
+    public SimpleLocation getChestLocation() {
         return this.chest;
     }
 }

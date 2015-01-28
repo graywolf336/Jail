@@ -4,7 +4,7 @@ version: maven-version-number
 description: Ban too harsh? Kick/mute/whatever not enough? Jail bad players!
 authors: [graywolf336]
 website: dev.bukkit.org/server-mods/jail/
-softdepend: [WorldEdit, Vault, Multiverse]
+softdepend: [WorldEdit, Vault, Multiverse-Core]
 load: POSTWORLD
 commands:
     jail:

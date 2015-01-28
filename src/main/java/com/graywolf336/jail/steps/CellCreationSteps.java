@@ -127,7 +127,7 @@ public class CellCreationSteps {
 
         if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
             if(pos1 || pos2 || pos3 || pos4) {
-                cp.setChestLocation(block.getLocation());
+                cp.setChestLocation(new SimpleLocation(block.getLocation()));
                 player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation ----------");
                 player.sendMessage(ChatColor.GREEN + "Chest selected.");
                 player.sendMessage(ChatColor.AQUA + "----------------------------------------");

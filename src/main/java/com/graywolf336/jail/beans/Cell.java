@@ -104,8 +104,8 @@ public class Cell {
     }
 
     /** Sets the location of the chest. */
-    public void setChestLocation(Location location) {
-        this.chest = new SimpleLocation(location);
+    public void setChestLocation(SimpleLocation simpleLocation) {
+        this.chest = simpleLocation;
     }
 
     /**

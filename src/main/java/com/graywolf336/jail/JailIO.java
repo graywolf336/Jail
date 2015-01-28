@@ -441,7 +441,7 @@ public class JailIO {
                                 c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"), set.getDouble("tp.y"), set.getDouble("tp.z"),
                                         set.getFloat("tp.yaw"), set.getFloat("tp.pitch")));
 
-                                c.setChestLocation(new Location(j.getWorld(), set.getInt("chest.x"), set.getInt("chest.y"), set.getInt("chest.z")));
+                                c.setChestLocation(new SimpleLocation(j.getWorldName(), set.getInt("chest.x"), set.getInt("chest.y"), set.getInt("chest.z")));
 
                                 String cSigns = set.getString("signs");
                                 if(!cSigns.isEmpty()) {
@@ -635,7 +635,7 @@ public class JailIO {
                             flat.getDouble(cellNode + "tp.z"),
                             (float) flat.getDouble(cellNode + "tp.yaw"),
                             (float) flat.getDouble(cellNode + "tp.pitch")));
-                    c.setChestLocation(new Location(pl.getServer().getWorld(j.getWorldName()),
+                    c.setChestLocation(new SimpleLocation(j.getWorldName(),
                             flat.getInt(cellNode + "chest.x"),
                             flat.getInt(cellNode + "chest.y"),
                             flat.getInt(cellNode + "chest.z")));

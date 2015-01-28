@@ -184,7 +184,7 @@ public class OldInputOutput {
 
                     if(!chest.isEmpty()) {
                         String[] ch = chest.split(",");
-                        c.setChestLocation(new Location(j.getWorld(), Double.valueOf(ch[0]), Double.valueOf(ch[1]), Double.valueOf(ch[2])));
+                        c.setChestLocation(new SimpleLocation(j.getWorldName(), Double.valueOf(ch[0]), Double.valueOf(ch[1]), Double.valueOf(ch[2])));
                     }else {
                         pl.getLogger().warning("Cell " + c.getName() + " in " + j.getName() + " has no chest.");
                     }
