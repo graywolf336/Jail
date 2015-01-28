@@ -18,6 +18,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import test.java.com.graywolf336.jail.util.TestInstanceCreator;
 
 import com.graywolf336.jail.JailMain;
+import com.graywolf336.jail.Util;
 import com.graywolf336.jail.enums.Lang;
 
 @RunWith(PowerMockRunner.class)
@@ -116,7 +117,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&cPlease provide a jail to jail &cthem to."), Lang.PROVIDEAJAIL.get("jail"));
         assertEquals(colorize("&cgraywolf336 has resisted arrest thanks to having more health than you can jail at."), Lang.RESISTEDARRESTJAILER.get("graywolf336"));
         assertEquals(colorize("&cYou have resisted arrest due to having more health than graywolf336 can jail at."), Lang.RESISTEDARRESTPLAYER.get("graywolf336"));
-        assertEquals(colorize("&2You have been jailed with a reason of 'terrible coding' by graywolf336 and have 60 minutes remaining."), Lang.STATUS.get(new String[] { "terrible coding", "graywolf336", "60" }));
+        assertEquals(colorize("&2You have been jailed with a reason of 'terrible coding' by graywolf336 and have 60 minutes remaining (1h0m0s)."), Lang.STATUS.get(new String[] { "terrible coding", "graywolf336", "60", Util.getDurationBreakdown(3600000) }));
         assertEquals(colorize("&cAn empty cell in the same jail, cloud, was found: cell_n02"), Lang.SUGGESTEDCELL.get(new String[] { "cloud", "cell_n02" }));
         assertEquals(colorize("&9Teleported graywolf336 to cloud's teleport in location."), Lang.TELEIN.get(new String[] { "graywolf336", "cloud" }));
         assertEquals(colorize("&9Teleported graywolf336 to cloud's teleport out location."), Lang.TELEOUT.get(new String[] { "graywolf336", "cloud" }));

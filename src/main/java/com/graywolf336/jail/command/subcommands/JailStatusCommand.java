@@ -4,6 +4,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
@@ -25,7 +26,7 @@ public class JailStatusCommand implements Command{
         if(jm.isPlayerJailed(pl.getUniqueId())) {
             Prisoner p = jm.getPrisoner(pl.getUniqueId());
             //They are jailed, so let's tell them some information
-            sender.sendMessage(Lang.STATUS.get(new String[] { p.getReason(), p.getJailer(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+            sender.sendMessage(Lang.STATUS.get(new String[] { p.getReason(), p.getJailer(), String.valueOf(p.getRemainingTimeInMinutes()), Util.getDurationBreakdown(p.getRemainingTime()) }));
         }else {
             //the sender of the command is not jailed, tell them that
             sender.sendMessage(Lang.YOUARENOTJAILED.get());

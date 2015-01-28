@@ -109,4 +109,13 @@ public class TestUtilClass {
         assertEquals(1L, Util.getTime("60m", TimeUnit.HOURS), 0);
         assertEquals(6L, Util.getTime("6d", TimeUnit.DAYS), 0);
     }
+    
+    @Test
+    public void testDurationBreakdown() {
+        assertEquals("1s", Util.getDurationBreakdown(1000));
+        assertEquals("1m0s", Util.getDurationBreakdown(60000));
+        assertEquals("1h0m0s", Util.getDurationBreakdown(3600000));
+        assertEquals("1d0h0m0s", Util.getDurationBreakdown(86400000));
+        assertEquals("1d1h1m1s", Util.getDurationBreakdown(90061000));
+    }
 }
