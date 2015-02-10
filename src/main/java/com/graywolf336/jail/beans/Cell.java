@@ -114,7 +114,7 @@ public class Cell {
      * @return The location of the chest, null if none.
      */
     public Location getChestLocation() {
-        return this.chest.getLocation();
+        return this.chest == null ? null : this.chest.getLocation();
     }
 
     /**
