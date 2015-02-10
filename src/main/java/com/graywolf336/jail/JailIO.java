@@ -205,13 +205,13 @@ public class JailIO {
     }
 
     private void createTables() {
-        if(con == null) {
+        if(getConnection() == null) {
             pl.debug("The connection was null when we tried to create a table.");
             return;
         }
 
         try {
-            Statement st = con.createStatement();
+            Statement st = getConnection().createStatement();
             switch(storage){
                 case 1:
                     String sqlJailCreateCmd = "CREATE TABLE IF NOT EXISTS `" + prefix + "jails` ("
@@ -394,8 +394,7 @@ public class JailIO {
                 long st = System.currentTimeMillis();
 
                 try {
-                    if(con == null) this.prepareStorage(false);
-                    PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "jails");
+                    PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM " + prefix + "jails");
                     ResultSet set = ps.executeQuery();
 
                     while(set.next()) {
@@ -428,8 +427,7 @@ public class JailIO {
                 List<Integer> cellsToRemove = new LinkedList<Integer>();
 
                 try {
-                    if(con == null) this.prepareStorage(false);
-                    PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "cells");
+                    PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM " + prefix + "cells");
                     ResultSet set = ps.executeQuery();
 
                     while(set.next()) {
@@ -480,7 +478,7 @@ public class JailIO {
                     }
 
                     try {
-                        PreparedStatement cds = con.prepareStatement("delete from " + prefix + "cells where cellid in (" + names + ");");
+                        PreparedStatement cds = getConnection().prepareStatement("delete from " + prefix + "cells where cellid in (" + names + ");");
 
                         pl.debug("Deleting old cells: 'delete from " + prefix + "cells where cellid in (" + names + ");'");
 
@@ -500,8 +498,7 @@ public class JailIO {
                 List<String> prisonersToRemove = new LinkedList<String>();
 
                 try {
-                    if(con == null) this.prepareStorage(false);
-                    PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "prisoners");
+                    PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM " + prefix + "prisoners");
                     ResultSet set = ps.executeQuery();
 
                     while(set.next()) {
@@ -553,7 +550,7 @@ public class JailIO {
                     }
 
                     try {
-                        PreparedStatement pds = con.prepareStatement("delete from " + prefix + "prisoners where name in (" + names + ");");
+                        PreparedStatement pds = getConnection().prepareStatement("delete from " + prefix + "prisoners where name in (" + names + ");");
 
                         pl.debug("Deleting old prisoners: 'delete from " + prefix + "prisoners where name in (" + names + ");'");
 
@@ -733,7 +730,7 @@ public class JailIO {
 
                     try {
                         if(con == null) this.prepareStorage(false);
-                        PreparedStatement ps = con.prepareStatement("REPLACE INTO "
+                        PreparedStatement ps = getConnection().prepareStatement("REPLACE INTO "
                                 + prefix + "jails (`name`, `world`, `top.x`, `top.y`, `top.z`, `bottom.x`, `bottom.y`,"
                                 + "`bottom.z`, `tps.in.x`, `tps.in.y`, `tps.in.z`, `tps.in.yaw`, `tps.in.pitch`,"
                                 + "`tps.free.world`, `tps.free.x`, `tps.free.y`, `tps.free.z`, `tps.free.yaw`, `tps.free.pitch`)"
@@ -768,12 +765,10 @@ public class JailIO {
                     }
 
                     try {
-                        if(con == null) this.prepareStorage(false);
-
                         for(Cell c : j.getCells()) {
                             if(c.hasPrisoner() && c.getPrisoner().wasChanged()) {
                                 Prisoner p = c.getPrisoner();
-                                PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+                                PreparedStatement pPS = getConnection().prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
                                         + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`)"
                                         + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 pPS.setString(1, p.getUUID().toString());
@@ -804,11 +799,9 @@ public class JailIO {
                     }
 
                     try {
-                        if(con == null) this.prepareStorage(false);
-
                         for(Prisoner p : j.getPrisonersNotInCells().values()) {
                             if(p.wasChanged()) {
-                                PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+                                PreparedStatement pPS = getConnection().prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
                                         + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                                 pPS.setString(1, p.getUUID().toString());
                                 pPS.setString(2, p.getLastKnownName());
@@ -950,9 +943,7 @@ public class JailIO {
             case 1:
             case 2:
                 try {
-                    if(con == null) this.prepareStorage(false);
-
-                    PreparedStatement cPS = con.prepareStatement("INSERT INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
+                    PreparedStatement cPS = getConnection().prepareStatement("INSERT INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
                             + "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
                     cPS.setString(1, c.getName());
@@ -980,7 +971,7 @@ public class JailIO {
 
                     if(c.hasPrisoner()) {
                         Prisoner p = c.getPrisoner();
-                        PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+                        PreparedStatement pPS = getConnection().prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
                                 + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         pPS.setString(1, p.getUUID().toString());
                         pPS.setString(2, p.getLastKnownName());
@@ -1035,7 +1026,7 @@ public class JailIO {
             case 1:
             case 2:
                 try {
-                    PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where uuid = ?");
+                    PreparedStatement pp = getConnection().prepareStatement("delete from `" + prefix + "prisoners` where uuid = ?");
                     pp.setString(1, p.getUUID().toString());
 
                     pl.debug("Removing " + p.getLastKnownName() + " (" + p.getUUID().toString() + ") from MySQL database.");
@@ -1083,7 +1074,7 @@ public class JailIO {
             case 1:
             case 2:
                 try {
-                    PreparedStatement p = con.prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
+                    PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
                     p.setString(1, c.getName());
                     p.setString(2, j.getName());
 
@@ -1127,7 +1118,7 @@ public class JailIO {
                 }
 
                 try {
-                    PreparedStatement p = con.prepareStatement("delete from `" + prefix + "jails` where name = ?");
+                    PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "jails` where name = ?");
                     p.setString(1, name);
 
                     p.executeUpdate();
@@ -1168,7 +1159,7 @@ public class JailIO {
                 break;
             case 2:
                 try {
-                    PreparedStatement p = con.prepareStatement("insert into `" + prefix + "records` (`uuid`, `username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?,?);");
+                    PreparedStatement p = getConnection().prepareStatement("insert into `" + prefix + "records` (`uuid`, `username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?,?);");
                     p.setString(1, uuid);
                     p.setString(2, username);
                     p.setString(3, jailer);
@@ -1219,7 +1210,7 @@ public class JailIO {
                 break;
             case 2:
                 try {
-                    PreparedStatement ps = con.prepareStatement("SELECT * FROM " + prefix + "records where uuid = ?");
+                    PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM " + prefix + "records where uuid = ?");
                     ps.setString(1, uuid.toString());
                     ResultSet set = ps.executeQuery();
 
