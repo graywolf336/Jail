@@ -11,7 +11,7 @@ import org.bukkit.block.Chest;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.1.2
+ * @version 1.1.3
  */
 public class Cell {
     private String name;
@@ -31,11 +31,6 @@ public class Cell {
     /** Gets the name of the cell. */
     public String getName() {
         return this.name;
-    }
-
-    /** Updates the signs of the cell, with the player name and time and such. TODO */
-    public void update() {
-        //TODO: Update the signs
     }
 
     /** Sets the prisoner in this cell. */

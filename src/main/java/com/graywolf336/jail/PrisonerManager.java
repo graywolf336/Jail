@@ -248,10 +248,6 @@ public class PrisonerManager {
 
                     player.getInventory().setArmorContents(null);
                     player.getInventory().clear();
-
-                    //Here so we don't forget about it later as this method isn't finished, but
-                    //Updates the cell's signs
-                    cell.update();
                 }else {
                     for(ItemStack item : player.getInventory().getContents())
                         if(item != null)
