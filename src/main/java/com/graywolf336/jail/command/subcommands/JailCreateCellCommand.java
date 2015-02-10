@@ -22,7 +22,7 @@ public class JailCreateCellCommand implements Command {
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         Player player = (Player) sender;
         String name = player.getName();
-        String jail = args[1].toLowerCase();
+        String jail = args[1];
         String cell = "";
 
         //Only get the cell name they provide if they provide it
