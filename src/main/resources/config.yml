@@ -54,6 +54,7 @@ jailing:
       title: 'Jail Info'
       time: '&aTime:'
   jail:
+    automaticCell: true
     automaticMute: true
     broadcastJailing: false
     clothing:

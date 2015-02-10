@@ -1,6 +1,7 @@
 package com.graywolf336.jail.enums;
 
 public enum Settings {
+    AUTOMATICCELL("jailing.jail.automaticCell"),
     AUTOMATICMUTE("jailing.jail.automaticMute"),
     BROADCASTJAILING("jailing.jail.broadcastJailing"),
     BLOCKBREAKPENALTY("jailing.during.blockBreakPenalty"),

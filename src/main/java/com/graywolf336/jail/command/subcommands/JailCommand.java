@@ -146,8 +146,9 @@ public class JailCommand implements Command {
             }
         }
 
-        //If they want just any open cell, then let's find the first empty one
-        if(params.isAnyCell()) {
+        //If they want just any open cell or automatic jailing in cells is turned on
+        //and a cell wasn't already found, then find try to find a cell
+        if((params.isAnyCell() || jm.getPlugin().getConfig().getBoolean(Settings.AUTOMATICCELL.getPath(), true)) && c == null) {
             c = jm.getJail(jailName).getFirstEmptyCell();
             if(c == null) {
                 //If there wasn't an empty cell, then tell them so.

@@ -123,6 +123,7 @@ public class TestJailDefaultConfig {
 
     @Test
     public void testJailingDefaultConfig() {
+        assertTrue("Default setting for automatically jailing in cells is false.", main.getConfig().getBoolean(Settings.AUTOMATICCELL.getPath()));
         assertTrue("Default setting for automatically muting is false.", main.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()));
         assertFalse("Default setting for broadcasting a jailing is true.", main.getConfig().getBoolean(Settings.BROADCASTJAILING.getPath()));
         assertTrue("Default setting for jail clothing is not enabled.", main.getConfig().getBoolean(Settings.CLOTHINGENABLED.getPath()));
