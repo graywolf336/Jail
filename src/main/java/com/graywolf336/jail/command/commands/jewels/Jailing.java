@@ -11,6 +11,9 @@ public interface Jailing {
 
     @Option(longName={"time", "length"}, shortName="t", description = "the amount of time")
     public String getTime();
+    
+    @Option(longName={"forever", "eternity", "infinite"}, shortName="i", description = "jail the player for eternity")
+    public boolean getInfinite();
 
     @Option(longName={"jail", "prison"}, shortName="j", description = "the jail")
     public String getJail();
@@ -27,6 +30,7 @@ public interface Jailing {
     @Option(longName={"reason"}, shortName="r", description = "the reason this player is being jailed")
     public List<String> getReason();
 
+    public boolean isInfinite();
     public boolean isTime();
     public boolean isJail();
     public boolean isCell();

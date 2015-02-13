@@ -161,6 +161,27 @@ public class TestJailCommandInfo {
 
         assertEquals("This is a reason", sb.toString());
     }
+    
+    @Test
+    public void testForInfiniteJailTime() {
+        String[] args = { "-p", "graywolf336", "-j", "hardcore", "-iamr", "This", "should", "be", "a", "reason." };
+        Jailing j = CliFactory.parseArguments(Jailing.class, args);
+        
+        assertEquals("The player parsed doesn't match.", "graywolf336", j.getPlayer());
+        assertTrue("No jail was parsed.", j.isJail());
+        assertEquals("The jail parsed doesn't match.", "hardcore", j.getJail());
+        assertTrue("The time isn't infinite.", j.isInfinite());
+        assertTrue("The any cell wasn't parsed.", j.isAnyCell());
+        assertTrue("The player wouldn't be muted.", j.isMuted());
+        assertTrue("The reason wasn't provided?", j.isReason());
+        StringBuilder sb = new StringBuilder();
+        for(String s : j.getReason()) {
+            sb.append(s).append(' ');
+        }
+
+        sb.deleteCharAt(sb.length() - 1);
+        assertEquals("The reason doesn't match.", "This should be a reason.", sb.toString());
+    }
 
     @Test
     public void testTransferForJailAndCell() {

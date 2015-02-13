@@ -83,16 +83,20 @@ public class JailCommand implements Command {
         //from the config and if that isn't there then we default to thirty minutes.
         Long time = 10L;
         try {
-            if(!params.isTime()) {
-                time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.DEFAULTTIME.getPath(), "30m"));
-            }else if(params.getTime() == String.valueOf(-1)) {
-                time = -1L;
-            }else {
+            if(params.isTime()) {
                 time = Util.getTime(params.getTime());
+            }else {
+                time = Util.getTime(jm.getPlugin().getConfig().getString(Settings.DEFAULTTIME.getPath(), "30m"));
             }
         }catch(Exception e) {
             sender.sendMessage(Lang.NUMBERFORMATINCORRECT.get());
             return true;
+        }
+        
+        //Check if they provided the infinite argument
+        //if so, then set the time jailed forever
+        if(params.isInfinite()) {
+            time = -1L;
         }
 
         //Check the jail params. If it is empty, let's get the default jail
