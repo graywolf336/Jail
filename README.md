@@ -22,8 +22,8 @@ Beta 4 Changes
 * Fixed teleport free not sending the prisoner to the correct world.
 * Fixed jailed players not being able to destory and place whitelisted blocks. [#34](https://github.com/graywolf336/Jail/issues/34)
 * Fixed the plugin being loaded before the worlds, if using Multiverse-Core. [#41](https://github.com/graywolf336/Jail/issues/41)
-* Fixed automatically jailing to open cells missing. [#42](https://github.com/graywolf336/Jail/issues/42]
-* Fixed capital letters being ignore when creating cells. [#47](https://github.com/graywolf336/Jail/issues/47]
+* Fixed automatically jailing to open cells missing. [#42](https://github.com/graywolf336/Jail/issues/42)
+* Fixed capital letters being ignore when creating cells. [#47](https://github.com/graywolf336/Jail/issues/47)
 * Fixed some cells not being created when a chest wasn't defined. [#46](https://github.com/graywolf336/Jail/issues/46)
 * Fixed not being able to jail someone for an infinite amount of time. [#49](https://github.com/graywolf336/Jail/issues/49)
 
