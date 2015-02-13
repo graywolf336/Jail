@@ -16,7 +16,7 @@ public class JailPayManager {
     private Material item;
     private boolean infinite, timed;
 
-    public JailPayManager(JailMain plugin) {
+    protected JailPayManager(JailMain plugin) {
         this.item = Material.getMaterial(plugin.getConfig().getString(Settings.JAILPAYITEM.getPath().toUpperCase()));
         if(this.item == null) this.item = Material.AIR;
 

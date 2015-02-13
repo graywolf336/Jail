@@ -40,7 +40,7 @@ public class JailIO {
     private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
     private String prefix;
 
-    public JailIO(JailMain plugin) {
+    protected JailIO(JailMain plugin) {
         this.pl = plugin;
 
         String st = pl.getConfig().getString("storage.type", "flatfile");
@@ -60,7 +60,7 @@ public class JailIO {
 
     /** Loads the language file from disk, if there is none then we save the default one. */
     @SuppressWarnings("deprecation")
-    public void loadLanguage() {
+    protected void loadLanguage() {
         String language = pl.getConfig().getString(Settings.LANGUAGE.getPath());
         boolean save = false;
         File langFile = new File(pl.getDataFolder(), language + ".yml");
@@ -97,7 +97,7 @@ public class JailIO {
     }
 
     /** Prepares the storage engine to be used, returns true if everything went good. */
-    public boolean prepareStorage(boolean doInitialCreations) {
+    protected boolean prepareStorage(boolean doInitialCreations) {
         switch(storage) {
             case 1:
                 try {
@@ -161,7 +161,7 @@ public class JailIO {
      * 
      * @return The connection for the sql database.
      */
-    public Connection getConnection() {
+    private Connection getConnection() {
         switch(storage) {
             case 1:
             case 2:
@@ -181,7 +181,7 @@ public class JailIO {
     }
 
     /** Closes the sql connection. */
-    public void closeConnection() {
+    protected void closeConnection() {
         switch(storage) {
             case 1:
             case 2:
@@ -386,7 +386,7 @@ public class JailIO {
     /**
      * Loads the jails, this should <strong>only</strong> be called after {@link #prepareStorage(boolean)}.
      */
-    public void loadJails() {
+    protected void loadJails() {
         switch(storage) {
             case 1:
             case 2:
@@ -721,7 +721,7 @@ public class JailIO {
      * 
      * @param j The jail to save.
      */
-    public void saveJail(Jail j) {
+    protected void saveJail(Jail j) {
         if(j.isEnabled()) {
             switch(storage) {
                 case 1:
@@ -1010,7 +1010,7 @@ public class JailIO {
      * @param j the jail which the prisoner is in.
      * @param p the prisoner data
      */
-    public void removePrisoner(Jail j, Prisoner p) {
+    protected void removePrisoner(Jail j, Prisoner p) {
         this.removePrisoner(j, null, p);
     }
 
@@ -1021,7 +1021,7 @@ public class JailIO {
      * @param c the cell which the prisoner is in, null if none
      * @param p the prisoner data
      */
-    public void removePrisoner(Jail j, Cell c, Prisoner p) {
+    protected void removePrisoner(Jail j, Cell c, Prisoner p) {
         switch(storage) {
             case 1:
             case 2:
@@ -1107,7 +1107,7 @@ public class JailIO {
      * 
      * @param j the jail instance to remove.
      */
-    public void removeJail(Jail j) {
+    protected void removeJail(Jail j) {
         String name = j.getName();
 
         switch(storage) {

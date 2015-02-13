@@ -47,7 +47,7 @@ public class JailManager {
     private JailCreationSteps jcs;
     private CellCreationSteps ccs;
 
-    public JailManager(JailMain plugin) {
+    protected JailManager(JailMain plugin) {
         this.plugin = plugin;
         this.jails = new HashMap<String, Jail>();
         this.jailCreators = new HashMap<String, CreationPlayer>();

@@ -30,7 +30,7 @@ public class HandCuffManager {
     private HashMap<UUID, Location> locs;
 
     /** Constructs a new HandCuff Manager, for handling all the handcuffing. */
-    public HandCuffManager() {
+    protected HandCuffManager() {
         this.handcuffed = new HashMap<UUID, Long>();
         this.locs = new HashMap<UUID, Location>();
     }

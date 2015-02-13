@@ -20,7 +20,7 @@ public class ScoreBoardManager {
     private HashMap<UUID, Scoreboard> boards;
     private OfflinePlayer time;
 
-    public ScoreBoardManager(JailMain plugin) {
+    protected ScoreBoardManager(JailMain plugin) {
         this.pl = plugin;
         this.man = plugin.getServer().getScoreboardManager();
         this.boards = new HashMap<UUID, Scoreboard>();

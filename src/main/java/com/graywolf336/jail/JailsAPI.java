@@ -15,7 +15,7 @@ package com.graywolf336.jail;
 public class JailsAPI {
     private static JailMain pl;
 
-    public JailsAPI(JailMain plugin) {
+    protected JailsAPI(JailMain plugin) {
         pl = plugin;
     }
 

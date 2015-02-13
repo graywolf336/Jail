@@ -27,7 +27,7 @@ public class JailTimer {
     private Long lastTime;
     private Long afkTime = 0L;
 
-    public JailTimer(JailMain plugin) {
+    protected JailTimer(JailMain plugin) {
         this.pl = plugin;
         try {
             afkTime = Util.getTime(pl.getConfig().getString(Settings.MAXAFKTIME.getPath()));

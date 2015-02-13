@@ -44,7 +44,7 @@ public class PrisonerManager {
     private JailMain pl;
     private ArrayList<Prisoner> releases;
 
-    public PrisonerManager(JailMain plugin) {
+    protected PrisonerManager(JailMain plugin) {
         this.pl = plugin;
         this.releases = new ArrayList<Prisoner>();
 

@@ -32,7 +32,7 @@ public class JailVoteManager {
      *  
      * @throws Exception When it can't load the time correctly
      */
-    public JailVoteManager(JailMain plugin) throws Exception {
+    protected JailVoteManager(JailMain plugin) throws Exception {
         this.pl = plugin;
         this.votes = new HashMap<String, JailVote>();
         this.tasks = new HashMap<String, Integer>();

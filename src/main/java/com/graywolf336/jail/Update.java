@@ -28,7 +28,7 @@ public class Update {
     // The url for the new file and file version
     private String fileUrl = "", version = "";
 
-    public Update(JailMain plugin) {
+    protected Update(JailMain plugin) {
         this.plugin = plugin;
     }
 

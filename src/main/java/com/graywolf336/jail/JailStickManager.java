@@ -21,7 +21,7 @@ public class JailStickManager {
     private ArrayList<UUID> stickers;
     private HashMap<Material, Stick> sticks;
 
-    public JailStickManager(JailMain plugin) {
+    protected JailStickManager(JailMain plugin) {
         this.stickers = new ArrayList<UUID>();
         this.sticks = new HashMap<Material, Stick>();
 

@@ -19,15 +19,7 @@ import com.graywolf336.jail.enums.Lang;
 public class JailReloadCommand implements Command {
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         try {
-            jm.getPlugin().reloadConfig();
-            jm.getPlugin().getJailIO().loadLanguage();
-            jm.getPlugin().getJailIO().loadJails();
-            jm.getPlugin().reloadScoreBoardManager();
-            jm.getPlugin().reloadJailSticks();
-            jm.getPlugin().reloadJailPayManager();
-            jm.getPlugin().reloadJailVoteManager();
-            jm.getPlugin().reloadUpdateCheck();
-
+            jm.getPlugin().reloadEverything();
             sender.sendMessage(Lang.PLUGINRELOADED.get());
         }catch (Exception e) {
             e.printStackTrace();

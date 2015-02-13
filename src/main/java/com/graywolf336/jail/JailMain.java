@@ -192,9 +192,20 @@ public class JailMain extends JavaPlugin {
 
         return true;//Always return true here, that way we can handle the help and command usage ourself.
     }
+    
+    public void reloadEverything() throws Exception {
+        reloadConfig();
+        getJailIO().loadLanguage();
+        getJailIO().loadJails();
+        reloadScoreBoardManager();
+        reloadJailSticks();
+        reloadJailPayManager();
+        reloadJailVoteManager();
+        reloadUpdateCheck();
+    }
 
     /** Reloads the scoreboard manager class, useful when something is changed int he config about it. */
-    public void reloadScoreBoardManager() {
+    private void reloadScoreBoardManager() {
         this.sbm.removeAllScoreboards();
         this.sbm = null;
         this.sbm = new ScoreBoardManager(this);
@@ -211,7 +222,7 @@ public class JailMain extends JavaPlugin {
     }
 
     /** Reloads the Jail Sticks, so the new ones can be loaded from the config. */
-    public void reloadJailSticks() {
+    private void reloadJailSticks() {
         if(getConfig().getBoolean(Settings.JAILSTICKENABLED.getPath())) {
             if(this.jsm != null) {
                 this.jsm.removeAllStickUsers();
@@ -223,7 +234,7 @@ public class JailMain extends JavaPlugin {
     }
 
     /** Reloads the {@link JailPayManager}. */
-    public void reloadJailPayManager() {
+    private void reloadJailPayManager() {
         this.jpm = null;
 
         if(getConfig().getBoolean(Settings.JAILPAYENABLED.getPath())) {
@@ -237,7 +248,7 @@ public class JailMain extends JavaPlugin {
     }
     
     /** Reloads the {@link JailVoteManager}. */
-    public void reloadJailVoteManager() throws Exception {
+    private void reloadJailVoteManager() throws Exception {
         if(this.jvm != null) {
             for(Integer i : this.jvm.getRunningTasks().values()) {
                 this.getServer().getScheduler().cancelTask(i);
@@ -252,7 +263,7 @@ public class JailMain extends JavaPlugin {
     }
 
     /** Reloads the update checker, in case they changed a setting about it. */
-    public void reloadUpdateCheck() {
+    private void reloadUpdateCheck() {
         getServer().getScheduler().cancelTask(updateCheckTask);
         update = new Update(this);
         if(getConfig().getBoolean(Settings.UPDATENOTIFICATIONS.getPath())) {
