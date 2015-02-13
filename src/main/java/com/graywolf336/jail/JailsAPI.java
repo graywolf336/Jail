@@ -38,6 +38,16 @@ public class JailsAPI {
     public static PrisonerManager getPrisonerManager() {
         return pl.getPrisonerManager();
     }
+    
+    /**
+     * The instance of the {@link JailStickManager} which handles all the jail sticks.
+     * 
+     * @return instance of the {@link JailStickManager}
+     * @see JailStickManager
+     */
+    public static JailStickManager getJailStickManager() {
+        return pl.getJailStickManager();
+    }
 
     /**
      * The instance of the {@link HandCuffManager} which handles all the handcuffing of players.

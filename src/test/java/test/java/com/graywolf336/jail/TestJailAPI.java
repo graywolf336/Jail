@@ -57,6 +57,7 @@ public class TestJailAPI {
         assertThat("The HandCuff Manager references are different.", JailsAPI.getHandCuffManager(), is(main.getHandCuffManager()));
         assertThat("The Jail Manager references are different.", JailsAPI.getJailManager(), is(main.getJailManager()));
         assertThat("The Prisoner Manager references are different.", JailsAPI.getPrisonerManager(), is(main.getPrisonerManager()));
+        assertThat("The Jail Stick Manager references are different.", JailsAPI.getJailStickManager(), is(main.getJailStickManager()));
         assertThat("The Jail Vote Manager references are different.", JailsAPI.getJailVoteManager(), is(main.getJailVoteManager()));
     }
 
