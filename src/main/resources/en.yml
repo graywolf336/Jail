@@ -97,7 +97,7 @@ language:
     paidloweredtimeelse: "&2You have just payed %0% and lowered %1%'s sentence to %2% minutes!"
   jailvote:
     broadcast:
-      header: "&3------------ Jail -----------"
+      header: "&3------------- Jail ------------"
       line1: "&a%0% &bhas voted that &c%1% &bshould be jailed."
       line2: "&6Type &a/jail vote %0% yes &6if you agree"
       line3: "&6or type &a/jail vote %0% no &6if you disagree."

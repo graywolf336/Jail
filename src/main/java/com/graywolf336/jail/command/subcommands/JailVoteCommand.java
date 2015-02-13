@@ -38,17 +38,26 @@ public class JailVoteCommand implements Command {
                             }
                         }
                     }else if(sender.hasPermission("jail.vote.start")) {
-                        jvm.addVote(new JailVote(args[1]));
-                        jvm.addVote(args[1], p.getUniqueId(), true);
-                        
-                        jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTHEADER.get());
-                        jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE1.get(new String[] { sender.getName(), args[1] }));
-                        jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE2.get(args[1]));
-                        jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE3.get(args[1]));
-                        jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE4.get(jvm.getTimerLengthDescription()));
-                        jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTFOOTER.get());
-                        
-                        jvm.scheduleCalculating(args[1]);
+                        Player voteAgainst = jm.getPlugin().getServer().getPlayer(args[1]);  
+                        if(voteAgainst == null) {
+                            sender.sendMessage(Lang.PLAYERNOTONLINE.get());
+                        }else {
+                            if(voteAgainst.hasPermission("jail.cantbejailed")) {
+                                sender.sendMessage(Lang.CANTBEJAILED.get());
+                            }else {
+                                jvm.addVote(new JailVote(voteAgainst.getName()));
+                                jvm.addVote(voteAgainst.getName(), p.getUniqueId(), true);
+                                
+                                jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTHEADER.get());
+                                jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE1.get(new String[] { sender.getName(), args[1] }));
+                                jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE2.get(voteAgainst.getName()));
+                                jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE3.get(voteAgainst.getName()));
+                                jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTLINE4.get(jvm.getTimerLengthDescription()));
+                                jm.getPlugin().getServer().broadcastMessage(Lang.VOTEBROADCASTFOOTER.get());
+                                
+                                jvm.scheduleCalculating(args[1]);
+                            }
+                        }
                     }else {
                         jm.getPlugin().debug(sender.getName() + " tried to start a vote to jail someone but didn't have permission, jail.vote.start");
                         sender.sendMessage(Lang.VOTENOPERMISSIONTOSTART.get(args[1]));
