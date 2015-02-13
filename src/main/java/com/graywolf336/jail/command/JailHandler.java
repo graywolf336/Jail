@@ -35,6 +35,7 @@ import com.graywolf336.jail.command.subcommands.JailTimeCommand;
 import com.graywolf336.jail.command.subcommands.JailTransferAllCommand;
 import com.graywolf336.jail.command.subcommands.JailTransferCommand;
 import com.graywolf336.jail.command.subcommands.JailVersionCommand;
+import com.graywolf336.jail.command.subcommands.JailVoteCommand;
 import com.graywolf336.jail.enums.Lang;
 
 public class JailHandler {
@@ -199,6 +200,7 @@ public class JailHandler {
         load(JailTransferAllCommand.class);
         load(JailTransferCommand.class);
         load(JailVersionCommand.class);
+        load(JailVoteCommand.class);
     }
 
     private void load(Class<? extends Command> c) {

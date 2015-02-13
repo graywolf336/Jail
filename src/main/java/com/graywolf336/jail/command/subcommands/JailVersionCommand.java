@@ -10,11 +10,11 @@ import com.graywolf336.jail.command.CommandInfo;
         maxArgs = 0,
         minimumArgs = 0,
         needsPlayer = false,
-        pattern = "version|ver|v",
+        pattern = "version|ver",
         permission = "jail.command.jailversion",
         usage = "/jail version"
         )
-public class JailVersionCommand implements Command{
+public class JailVersionCommand implements Command {
 
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         // Sends the version number to the sender

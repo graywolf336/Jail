@@ -40,6 +40,7 @@ public class JailMain extends JavaPlugin {
     private JailPayManager jpm;
     private JailStickManager jsm;
     private JailTimer jt;
+    private JailVoteManager jvm;
     private PrisonerManager pm;
     private ScoreBoardManager sbm;
     private MoveProtectionListener mpl;
@@ -84,6 +85,13 @@ public class JailMain extends JavaPlugin {
         cmdHand = new CommandHandler(this);
         jh = new JailHandler(this);
         pm = new PrisonerManager(this);
+        
+        try {
+            jvm = new JailVoteManager(this);
+        }catch(Exception e) {
+            e.printStackTrace();
+            getLogger().severe("Failed to load the Jail Vote system, please see the stacktrace above (you probably misconfigured the time).");
+        }
 
         PluginManager plm = this.getServer().getPluginManager();
         plm.registerEvents(new CacheListener(this), this);
@@ -132,6 +140,7 @@ public class JailMain extends JavaPlugin {
         getServer().getScheduler().cancelTasks(this);
 
         update = null;
+        jvm = null;
         jt = null;
         sbm = null;
         jpm = null;
@@ -213,11 +222,7 @@ public class JailMain extends JavaPlugin {
         }
     }
 
-    /**
-     * Reloads the {@link JailPayManager}.
-     * 
-     * @throws Exception If we couldn't successfully create a new Jail Pay Manager instance.
-     */
+    /** Reloads the {@link JailPayManager}. */
     public void reloadJailPayManager() {
         this.jpm = null;
 
@@ -229,6 +234,21 @@ public class JailMain extends JavaPlugin {
                 getLogger().severe("Jail Pay couldn't find an economy, disabling Jail Pay.");
             }
         }
+    }
+    
+    /** Reloads the {@link JailVoteManager}. */
+    public void reloadJailVoteManager() throws Exception {
+        if(this.jvm != null) {
+            for(Integer i : this.jvm.getRunningTasks().values()) {
+                this.getServer().getScheduler().cancelTask(i);
+            }
+            
+            this.jvm.getRunningTasks().clear();
+            this.jvm.getVotes().clear();
+        }
+        
+        this.jvm = null;
+        this.jvm = new JailVoteManager(this);
     }
 
     /** Reloads the update checker, in case they changed a setting about it. */
@@ -282,6 +302,11 @@ public class JailMain extends JavaPlugin {
     /** Gets the {@link ScoreBoardManager} instance. */
     public ScoreBoardManager getScoreBoardManager() {
         return this.sbm;
+    }
+    
+    /** Gets the {@link JailVoteManager} instance. */
+    public JailVoteManager getJailVoteManager() {
+        return this.jvm;
     }
 
     /** Gets the {@link Update} instance.  */

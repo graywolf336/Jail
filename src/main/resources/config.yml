@@ -90,3 +90,9 @@ jailpay:
 jailstick:
   enabled: true
   sticks: ["stick,30m,,Running away,-1", "blaze_rod,15m,,Having too much fun,6"]
+jailvote:
+  enabled: true #whether the jail vote is enabled
+  voteTimer: 60s #the length the timer has for a vote to last
+  minimumYes: 5 #the minimum amount of yes votes before a vote takes place (5 yes, 0 no; 5 yes, 1 no; etc)
+  reason: "Jailed by players via Jail Vote" #the reason why players get jailed
+  time: 5m #time the player gets jailed for

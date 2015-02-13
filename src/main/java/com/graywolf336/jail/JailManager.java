@@ -111,6 +111,8 @@ public class JailManager {
      * @return The nearest {@link Jail} to the sender if it is a player or else the first jail defined.
      */
     public Jail getNearestJail(CommandSender sender) {
+        if(jails.isEmpty()) return null;
+        
         if(sender instanceof Player) {
             Location loc = ((Player) sender).getLocation();
 

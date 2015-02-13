@@ -48,4 +48,14 @@ public class JailsAPI {
     public static HandCuffManager getHandCuffManager() {
         return pl.getHandCuffManager();
     }
+    
+    /**
+     * The instance of the {@link JailVoteManager} which handles all the voting to jail players.
+     * 
+     * @return instance of the {@link JailVoteManager}
+     * @see JailVoteManager
+     */
+    public static JailVoteManager getJailVoteManager() {
+        return pl.getJailVoteManager();
+    }
 }

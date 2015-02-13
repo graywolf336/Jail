@@ -29,6 +29,7 @@ permissions:
             jail.canbestickjailed: true
             jail.openchest: true
             jail.cantbejailed: true
+            jail.vote.start: true
     jail.command.*:
         description: access to all admin commands
         children:
@@ -58,12 +59,14 @@ permissions:
             jail.command.toggledebug: true
             jail.command.unjail: true
             jail.command.unjailforce: true
+            jail.vote.start: true
     jail.usercmd.*:
         description: access to all user commands
         children:
             jail.usercmd.jailpay: true
             jail.usercmd.jailstatus: true
             jail.usercmd.jailstick: true
+            jail.usercmd.jailvote: true
     jail.command.jail:
         default: op
     jail.command.jailcreate:
@@ -142,4 +145,8 @@ permissions:
     jail.command.jailtime:
         default: op
     jail.command.jailversion:
+        default: op
+    jail.usercmd.jailvote:
+        default: op
+    jail.vote.start:
         default: op

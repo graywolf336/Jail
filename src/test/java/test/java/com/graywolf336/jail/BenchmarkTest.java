@@ -28,7 +28,6 @@ import com.carrotsearch.junitbenchmarks.AbstractBenchmark;
 import com.carrotsearch.junitbenchmarks.BenchmarkOptions;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.beans.CachePrisoner;
-import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 
 @RunWith(PowerMockRunner.class)
@@ -46,15 +45,7 @@ public class BenchmarkTest extends AbstractBenchmark {
         assertTrue(creator.setup());
         main = creator.getMain();
         assertNotNull("The JailMain class is null.", main);
-
-        Jail j = new Jail(main, "testingJail");
-        j.setWorld("world");
-        j.setMaxPoint(new int[] { 9, 63, -238 });
-        j.setMinPoint(new int[] { 23, 70, -242 });
-        j.setTeleportIn(new Location(main.getServer().getWorld("world"), 11.469868464778077, 65.0, -239.27944647045672, Float.valueOf("38.499817"), Float.valueOf("2.0000453")));
-        j.setTeleportFree(new Location(main.getServer().getWorld("world"), 27.947015843504765, 65.0, -218.8108042076112, Float.valueOf("90.54981"), Float.valueOf("12.500043")));
-        main.getJailManager().addJail(j, false);
-
+        assertTrue("The adding of a jail failed.", creator.addJail());
         assertFalse("There are no jails.", main.getJailManager().getJails().isEmpty());
 
         for(int i = 0; i < 1000; i++) {

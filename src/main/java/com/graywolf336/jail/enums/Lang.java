@@ -201,6 +201,42 @@ public enum Lang {
     PAYPAIDLOWEREDTIME("jailpay", "paidloweredtime"),
     /** The message sent when they pay and lower someone else's time. */
     PAYPAIDLOWEREDTIMEELSE("jailpay", "paidloweredtimeelse"),
+    
+    // Jail vote
+    /** The header sent when broadcasting a new jail vote. */
+    VOTEBROADCASTHEADER("jailvote.broadcast", "header"),
+    /** The footer sent when broadcasting a new jail vote. */
+    VOTEBROADCASTFOOTER("jailvote.broadcast", "footer"),
+    /** Line1 of the broadcast message sent when a new jail vote is happening. */
+    VOTEBROADCASTLINE1("jailvote.broadcast", "line1"),
+    /** Line2 of the broadcast message sent when a new jail vote is happening. */
+    VOTEBROADCASTLINE2("jailvote.broadcast", "line2"),
+    /** Line3 of the broadcast message sent when a new jail vote is happening. */
+    VOTEBROADCASTLINE3("jailvote.broadcast", "line3"),
+    /** Line4 of the broadcast message sent when a new jail vote is happening. */
+    VOTEBROADCASTLINE4("jailvote.broadcast", "line4"),
+    /** The message sent when someone tries to vote for a player when a vote isn't running. */
+    VOTENOVOTEFORTHATPLAYER("jailvote", "novotegoingforthatplayer"),
+    /** The message sent to a player who tries to start a vote to jail someone and doesn't have permission. */
+    VOTENOPERMISSIONTOSTART("jailvote", "nopermissiontostartvote"),
+    /** The message sent when jail vote is not enabled. */
+    VOTENOTENABLED("jailvote", "notenabled"),
+    /** The message sent whenever someone's vote is not successful. */
+    VOTEUNSUCCESSFUL("jailvote", "voteunsuccessful"),
+    /** The message sent whenever a player successfully votes no. */
+    VOTENOSUCCESS("jailvote", "votenosuccessful"),
+    /** The message sent whenever a player successfully votes yes. */
+    VOTEYESSUCCESS("jailvote", "voteyessuccessful"),
+    /** The message broadcasted whenever a vote is tied. */
+    VOTESTIED("jailvote", "votestied"),
+    /** The message broadcasted whenever there are more no votes. */
+    VOTESSAIDNO("jailvote", "morenovotes"),
+    /** The message broadcasted whenever there aren't the minimum yes votes. */
+    VOTESNOTENOUGHYES("jailvote", "notenoughyes"),
+    /** The message broadcasted whenever the player the vote is for is no longer online. */
+    VOTEPLAYERNOLONGERONLINE("jailvote", "playernolongeronline"),
+    /** The message sent when a player tries to vote again for someone. */
+    VOTEALREADYVOTEDFOR("jailvote", "alreadyvotedfor"),
 
     // Confirming action messages.
     /** The message sent when the sender is already confirming something. */

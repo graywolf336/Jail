@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -46,19 +47,23 @@ import org.powermock.core.MockGateway;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import com.graywolf336.jail.JailMain;
+import com.graywolf336.jail.beans.Jail;
 
 @PrepareForTest({ CraftItemFactory.class })
 public class TestInstanceCreator {
     private JailMain main;
     private Server mockServer;
     private Player mockPlayer;
+    private World mockWorld;
     private CommandSender mockSender, mockPlayerSender;
     private ConsoleCommandSender consoleSender;
+    private ArrayList<UUID> players = new ArrayList<UUID>();
 
     public static final File serverDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
     public static final File worldsDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
     public static final File pluginDirectory = new File(serverDirectory + File.separator + "plugins" + File.separator + "JailTest");
 
+    @SuppressWarnings("deprecation")
     public boolean setup() {
         try {
             pluginDirectory.mkdirs();
@@ -76,7 +81,7 @@ public class TestInstanceCreator {
             when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
             when(mockServer.getItemFactory()).thenReturn(CraftItemFactory.instance());
 
-            MockWorldFactory.makeNewMockWorld("world", Environment.NORMAL, WorldType.NORMAL);
+            mockWorld = MockWorldFactory.makeNewMockWorld("world", Environment.NORMAL, WorldType.NORMAL);
 
             suppress(constructor(JailMain.class));
             main = PowerMockito.spy(new JailMain());
@@ -253,7 +258,8 @@ public class TestInstanceCreator {
 
             // Init our player, who is op and who has all permissions (with name of graywolf336)
             mockPlayer = mock(Player.class);
-            when(mockPlayer.getUniqueId()).thenReturn(UUID.fromString("062c14ba-4c47-4757-911b-bbf9a60dab7b"));
+            UUID playerId = UUID.fromString("062c14ba-4c47-4757-911b-bbf9a60dab7b");
+            when(mockPlayer.getUniqueId()).thenReturn(playerId);
             when(mockPlayer.getName()).thenReturn("graywolf336");
             when(mockPlayer.getDisplayName()).thenReturn("TheGrayWolf");
             when(mockPlayer.isPermissionSet(anyString())).thenReturn(true);
@@ -262,6 +268,10 @@ public class TestInstanceCreator {
             when(mockPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
             when(mockPlayer.isOp()).thenReturn(true);
             when(mockPlayer.getInventory()).thenReturn(new MockPlayerInventory());
+            when(mockPlayer.getLocation()).thenReturn(new Location(mockWorld, 23, 70, -242));
+            when(mockServer.getPlayer("graywolf336")).thenReturn(mockPlayer);
+            when(mockServer.getPlayer(playerId)).thenReturn(mockPlayer);
+            players.add(playerId);
 
             // Init our second command sender, but this time is an instance of a player
             mockPlayerSender = mockPlayer;
@@ -311,6 +321,44 @@ public class TestInstanceCreator {
         deleteFolder(worldsDirectory);
         deleteFolder(serverDirectory);
         return true;
+    }
+    
+    @SuppressWarnings("deprecation")
+    public boolean addMockPlayer(String name, UUID id) {
+        if(players.contains(id)) {
+            return false;
+        }else {
+            Player anotherPlayer = mock(Player.class);
+            when(anotherPlayer.getUniqueId()).thenReturn(id);
+            when(anotherPlayer.getName()).thenReturn(name);
+            when(anotherPlayer.getDisplayName()).thenReturn(name);
+            when(anotherPlayer.isPermissionSet(anyString())).thenReturn(true);
+            when(anotherPlayer.isPermissionSet(Matchers.isA(Permission.class))).thenReturn(true);
+            when(anotherPlayer.hasPermission(anyString())).thenReturn(true);
+            when(anotherPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
+            when(anotherPlayer.isOp()).thenReturn(true);
+            when(anotherPlayer.getInventory()).thenReturn(new MockPlayerInventory());
+            when(anotherPlayer.getLocation()).thenReturn(new Location(mockWorld, 56, 85, -2420));
+            when(mockServer.getPlayer(name)).thenReturn(anotherPlayer);
+            when(mockServer.getPlayer(id)).thenReturn(anotherPlayer);
+            players.add(id);
+            return true;
+        }
+    }
+    
+    public boolean addJail() {
+        if(main.getJailManager().getJails().isEmpty()) {
+            Jail j = new Jail(main, "testingJail");
+            j.setWorld("world");
+            j.setMaxPoint(new int[] { 9, 63, -238 });
+            j.setMinPoint(new int[] { 23, 70, -242 });
+            j.setTeleportIn(new Location(main.getServer().getWorld("world"), 11.469868464778077, 65.0, -239.27944647045672, Float.valueOf("38.499817"), Float.valueOf("2.0000453")));
+            j.setTeleportFree(new Location(main.getServer().getWorld("world"), 27.947015843504765, 65.0, -218.8108042076112, Float.valueOf("90.54981"), Float.valueOf("12.500043")));
+            main.getJailManager().addJail(j, false);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public JailMain getMain() {

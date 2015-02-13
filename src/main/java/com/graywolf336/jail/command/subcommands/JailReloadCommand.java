@@ -25,11 +25,13 @@ public class JailReloadCommand implements Command {
             jm.getPlugin().reloadScoreBoardManager();
             jm.getPlugin().reloadJailSticks();
             jm.getPlugin().reloadJailPayManager();
+            jm.getPlugin().reloadJailVoteManager();
             jm.getPlugin().reloadUpdateCheck();
 
             sender.sendMessage(Lang.PLUGINRELOADED.get());
         }catch (Exception e) {
-            sender.sendMessage(ChatColor.RED + "Failed to reload due to: " + e.getMessage());
+            e.printStackTrace();
+            sender.sendMessage(ChatColor.RED + "Failed to reload due to (see the console): " + e.getMessage());
         }
 
         return true;

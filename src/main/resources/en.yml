@@ -95,6 +95,25 @@ language:
     paidreleasedelse: "&2You have just payed %0% and released %1% from jail!"
     paidloweredtime: "&2You have just payed %0% and lowered your sentence to %1% minutes!"
     paidloweredtimeelse: "&2You have just payed %0% and lowered %1%'s sentence to %2% minutes!"
+  jailvote:
+    broadcast:
+      header: "&3------------ Jail -----------"
+      line1: "&a%0% &bhas voted that &c%1% &bshould be jailed."
+      line2: "&6Type &a/jail vote %0% yes &6if you agree"
+      line3: "&6or type &a/jail vote %0% no &6if you disagree."
+      line4: "&bThis vote will be open for %0%!"
+      footer: "&3-----------------------------"
+    novotegoingforthatplayer: "&cThere is currently no vote running to jail %0%."
+    nopermissiontostartvote: "&cYou don't have permission to start a vote to jail %0%."
+    notenabled: "&cJail vote is disabled by the administrator."
+    voteunsuccessful: "&cYour vote to jail someone was unsuccessful, you already voted." 
+    votenosuccessful: "&aYou successfully voted for %0% to &cnot&a be jailed!"
+    voteyessuccessful: "&aYou successfully voted for %0% to be jailed!"
+    votestied: "&cThe votes were tied, %0% was not jailed."
+    morenovotes: "&cThere were more votes for no, %0% was not jailed."
+    notenoughyes: "&cThe voting to jail %0% was not successful, %1% out of a minimum %2% yes votes were received."
+    playernolongeronline: "&cThe player %0% is no longer online, player not jailed."
+    alreadyvotedfor: "&cYou have already voted for %0%, you can't vote again."
   handcuffing:
     cantbehandcuffed: '&9%0% &ccan not be handcuffed.'
     currentlyjailed: '&9%0% &cis currently jailed, you can not handcuff a prisoner.'
