@@ -4,7 +4,29 @@ This plugins adds Jail to your Minecraft server. Admins can define several jails
 
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
 
-Beta 3 Changes
+Developing/Building
+===
+If you want to make some changes, build, and run the unit tests you will notice we require CraftBukkit 1.8 with maven and it isn't hosted anywhere publically for legal reasons. You will need to build CraftBukkit 1.8 yourself and then put it locally for maven with the following command:
+`mvn install:install-file -Dfile=craftbukkit-1.8.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8-R0.1-SNAPSHOT -Dpackaging=jar`
+
+Beta 4 Changes
+===
+*Changes since Beta 3*
+* Added `/jail vote`. [Jail Vote Wiki Page](https://github.com/graywolf336/Jail/wiki/Jail-Vote). [#8](https://github.com/graywolf336/Jail/issues/8)
+* Added support for `%prettytime%` on signs, formats the time with `1h4m20s`. [#35](https://github.com/graywolf336/Jail/issues/35)
+* Added temporary help command, see the wiki for *wip* information: https://github.com/graywolf336/Jail/wiki/
+* Fixed updating signs throwing an error on Spigot. [#36](https://github.com/graywolf336/Jail/issues/36)
+* Fixed incorrect permissions for `/jail listcells`. [#39](https://github.com/graywolf336/Jail/issues/39)
+* Fixed some permissions not being included in `jail.command.*`. [#38](https://github.com/graywolf336/Jail/issues/38)
+* Fixed teleport free not sending the prisoner to the correct world.
+* Fixed jailed players not being able to destory and place whitelisted blocks. [#34](https://github.com/graywolf336/Jail/issues/34)
+* Fixed the plugin being loaded before the worlds, if using Multiverse-Core. [#41](https://github.com/graywolf336/Jail/issues/41)
+* Fixed automatically jailing to open cells missing. [#42](https://github.com/graywolf336/Jail/issues/42]
+* Fixed capital letters being ignore when creating cells. [#47](https://github.com/graywolf336/Jail/issues/47]
+* Fixed some cells not being created when a chest wasn't defined. [#46](https://github.com/graywolf336/Jail/issues/46)
+* Fixed not being able to jail someone for an infinite amount of time. [#49](https://github.com/graywolf336/Jail/issues/49)
+
+[Beta 3](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.3) Changes
 ===
 *Changes since Beta 2*
 * Added support for sqlite storage
@@ -18,7 +40,7 @@ Beta 3 Changes
 * Fixed confirmations not expiring, ever
 * Commands clear and clear force have been combined, use -f (-force) if you want to forcefully clear
 
-Beta 2 Changes
+[Beta 2](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.2) Changes
 ===
 *Changes since Beta 1*
 * Using UUID as the only means of knowing if someone is jailed or not, last known username is stored for commands
@@ -33,7 +55,7 @@ Beta 2 Changes
 * Added some caching of online prisoners and where they're located at, this improves performance on servers with 500+ prisoners jailed
 * Only updating prisoners in the database if they were changed, this should help improve saving speed
 
-Beta 1 Changes
+[Beta 1](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.1) Changes
 ===
 *Changes since alpha*
 * MySQL storage is now a valid option for storage ([#18](https://github.com/graywolf336/Jail/issues/18))
@@ -42,31 +64,10 @@ Beta 1 Changes
 * Add the record keeping system ([#12](https://github.com/graywolf336/Jail/issues/12))
 * Added Jail Sticks, format of them has slightly changed ([#16](https://github.com/graywolf336/Jail/issues/16))
 
-Changes
-===
-*With this being version 3 of this plugin, a couple things have changed but the core concept is still the exact same. Here are some drastic changes:*
-* Time can now be entered different formats, 3hours or 15mins or 4days
-* New language system
-* New config system (per jail configs are going to make a come back)
-* Items in the config use item names now, **not** the ids
-* All commands are prevented by default, now there is **only** a whitelist
-* All interactions are prevented by default, add to the whitelist what you want
-* If store inventory is not enabled, inventories are deleted upon jailing
-* Sign text has a new format, old format will not be converted
-* Max reason length has been removed, might be added back in if needed
-
-ToDo
+To Do
 ===
 * Jail set
-* Jail vote
 * Jailing for swearing
 * Guards (PlayerMoveProtectionAction - when they try to move do we teleport them back, let the guards get them, or nothing)
 * Storing permissions
 * Pages on jail list
-
-Notice
-===
-* Old messages (language) will not be converted
-* MaximumAFKTime setting will not convert over, the format isn't clear and the old version didn't provide a way to get values with decimal places
-* EnableLogging has been removed, we are always going to be logging (unless major request to control this)
-* Prisoner's old inventory strings in the database are lost, we can not convert those
