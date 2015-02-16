@@ -153,6 +153,11 @@ public class Jail {
     public void removePrisoner(Prisoner p) {
         this.nocellPrisoners.remove(p.getUUID());
     }
+    
+    /** Returns if there are any cells or not. */
+    public boolean hasCells() {
+        return !this.cells.isEmpty();
+    }
 
     /** Adds a cell to the Jail. */
     public void addCell(Cell cell, boolean save) {
