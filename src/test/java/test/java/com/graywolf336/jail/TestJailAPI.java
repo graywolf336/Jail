@@ -36,6 +36,7 @@ public class TestJailAPI {
         assertTrue(creator.setup());
         main = creator.getMain();
         assertNotNull("The JailMain class is null.", main);
+        assertTrue("The adding of a jail failed.", creator.addJail("TestJailAPI"));
     }
 
     @AfterClass

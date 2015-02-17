@@ -15,6 +15,7 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +52,7 @@ import com.graywolf336.jail.beans.Jail;
 
 @PrepareForTest({ CraftItemFactory.class })
 public class TestInstanceCreator {
+    private Random r;
     private JailMain main;
     private Server mockServer;
     private Player mockPlayer;
@@ -65,6 +67,7 @@ public class TestInstanceCreator {
 
     @SuppressWarnings("deprecation")
     public boolean setup() {
+        r = new Random();
         try {
             pluginDirectory.mkdirs();
             Assert.assertTrue(pluginDirectory.exists());
@@ -346,18 +349,18 @@ public class TestInstanceCreator {
         }
     }
     
-    public boolean addJail() {
-        if(main.getJailManager().getJails().isEmpty()) {
-            Jail j = new Jail(main, "testingJail");
+    public boolean addJail(String name) {
+        if(main.getJailManager().isValidJail(name)) {
+            return false;
+        }else {
+            Jail j = new Jail(main, name);
             j.setWorld("world");
-            j.setMaxPoint(new int[] { 9, 63, -238 });
-            j.setMinPoint(new int[] { 23, 70, -242 });
-            j.setTeleportIn(new Location(main.getServer().getWorld("world"), 11.469868464778077, 65.0, -239.27944647045672, Float.valueOf("38.499817"), Float.valueOf("2.0000453")));
-            j.setTeleportFree(new Location(main.getServer().getWorld("world"), 27.947015843504765, 65.0, -218.8108042076112, Float.valueOf("90.54981"), Float.valueOf("12.500043")));
+            j.setMaxPoint(new int[] { r.nextInt(), r.nextInt(256), r.nextInt() });
+            j.setMinPoint(new int[] { r.nextInt(), r.nextInt(54), r.nextInt() });
+            j.setTeleportIn(new Location(main.getServer().getWorld("world"), r.nextInt(), r.nextInt(256), r.nextInt(), Float.valueOf("38.499817"), Float.valueOf("2.0000453")));
+            j.setTeleportFree(new Location(main.getServer().getWorld("world"), r.nextInt(), r.nextInt(256), r.nextInt(), Float.valueOf("90.54981"), Float.valueOf("12.500043")));
             main.getJailManager().addJail(j, false);
             return true;
-        }else {
-            return false;
         }
     }
 

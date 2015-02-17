@@ -37,7 +37,7 @@ public class TestJailVote {
         assertTrue(creator.setup());
         main = creator.getMain();
         assertNotNull("The JailMain class is null.", main);
-        assertTrue("The adding of a jail failed.", creator.addJail());
+        assertTrue("The adding of a jail failed.", creator.addJail("TestJailVote"));
     }
 
     @AfterClass
