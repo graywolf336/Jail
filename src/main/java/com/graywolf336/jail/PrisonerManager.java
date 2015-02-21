@@ -142,7 +142,7 @@ public class PrisonerManager {
      * @param player who is the prisoner
      * @param prisoner data containing everything pertaining to them
      */
-    public void jailPrisoner(Jail jail, Cell cell, Player player, Prisoner prisoner) {
+    protected void jailPrisoner(Jail jail, Cell cell, Player player, Prisoner prisoner) {
         //If they have handcuffs on them, then let's remove them before we continue
         //this way the handcuff listeners and this aren't battleing each other
         if(pl.getHandCuffManager().isHandCuffed(player.getUniqueId())) {

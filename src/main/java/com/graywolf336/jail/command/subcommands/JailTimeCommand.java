@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
         needsPlayer = false,
         pattern = "time|t",
         permission = "jail.command.jailtime",
-        usage = "/jail time [add|remove|show] [name] <time>"
+        usage = "/jail time [add|remove|set|show] [name] <time>"
         )
 public class JailTimeCommand implements Command {
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
@@ -35,6 +35,8 @@ public class JailTimeCommand implements Command {
                         p.addTime(Util.getTime(args[3]));
                     }else if(args[1].equalsIgnoreCase("remove")) {
                         p.subtractTime(Util.getTime(args[3]));
+                    }else if(args[1].equalsIgnoreCase("set")) {
+                        p.setRemainingTime(Util.getTime(args[3]));
                     }else {
                         return false;
                     }
