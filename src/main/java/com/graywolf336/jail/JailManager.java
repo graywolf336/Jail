@@ -101,7 +101,10 @@ public class JailManager {
      * @return The {@link Jail} with the given name, if no jail found this <strong>will</strong> return null.
      */
     public Jail getJail(String name) {
-        return name.isEmpty() ? this.jails.values().iterator().next() : this.jails.get(name);
+        if(name.isEmpty() && jails.isEmpty())
+            return null;
+        else
+            return name.isEmpty() ? this.jails.values().iterator().next() : this.jails.get(name);
     }
 
     /**
@@ -183,7 +186,7 @@ public class JailManager {
     public CachePrisoner addCacheObject(CachePrisoner cache) {
         plugin.debug("Adding " + cache.getPrisoner().getUUID().toString() + " to the cache.");
         this.cache.put(cache.getPrisoner().getUUID(), cache);
-        return cache;
+        return this.cache.get(cache.getPrisoner().getUUID());
     }
 
     /**

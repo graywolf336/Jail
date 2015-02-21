@@ -1,6 +1,7 @@
 package test.java.com.graywolf336.jail;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -75,5 +76,24 @@ public class TestJailAPI {
         JailsAPI.getHandCuffManager().removeHandCuffs(id);
         assertFalse(JailsAPI.getHandCuffManager().isHandCuffed(id));
         assertNull(JailsAPI.getHandCuffManager().getLocation(id));
+    }
+    
+    @Test
+    public void testJailManagerAPI() {
+        assertThat("The Jail Manager reference to the plugin is different.", JailsAPI.getJailManager().getPlugin(), is(main));
+        assertNotNull("The getJails method returned a null value.", JailsAPI.getJailManager().getJails());
+        assertEquals("There isn't a Jail in the returned Jails.", 1, JailsAPI.getJailManager().getJails().size());
+        assertThat("Jail Names aren't equal..", new String[] { "TestJailAPI" }, is(JailsAPI.getJailManager().getJailNames()));
+        assertTrue("The adding of a new jail, furtherTesting, wasn't successful.", creator.addJail("furtherTesting"));
+        assertTrue("The added jail, furtherTesting, doesn't exist.", JailsAPI.getJailManager().isValidJail("furtherTesting"));
+        JailsAPI.getJailManager().removeJail("furtherTesting");
+        assertFalse("The jail furtherTesting wasn't successfully removed.", JailsAPI.getJailManager().isValidJail("furtherTesting"));
+        assertNull("The jail furtherTesting is not null.", JailsAPI.getJailManager().getJail("furtherTesting"));
+        assertNotNull("The jail TestJailAPI is null.", JailsAPI.getJailManager().getJail("TestJailAPI"));
+        assertNotNull("An empty string returned a null value even though there is one jail.", JailsAPI.getJailManager().getJail(""));
+        assertNotNull("The first jail is null from the console sender.", JailsAPI.getJailManager().getNearestJail(creator.getCommandSender()));
+        assertNotNull("The nearest jail from the player sender is null.", JailsAPI.getJailManager().getNearestJail(creator.getPlayerCommandSender()));
+        assertNotNull("The cells object returned is null.", JailsAPI.getJailManager().getAllCells());
+        assertTrue("There are some cells even though there shouldn't be.", JailsAPI.getJailManager().getAllCells().isEmpty());
     }
 }
