@@ -16,6 +16,7 @@ Beta 4 Changes
 * Added `/jail vote`. [Jail Vote Wiki Page](https://github.com/graywolf336/Jail/wiki/Jail-Vote). [#8](https://github.com/graywolf336/Jail/issues/8)
 * Added support for `%prettytime%` on signs, formats the time with `1h4m20s`. [#35](https://github.com/graywolf336/Jail/issues/35)
 * Added temporary help command, see the wiki for *wip* information: https://github.com/graywolf336/Jail/wiki/
+* Added the ability to set a prisoner's time with `/jail time set [player] [amount]`
 * Fixed updating signs throwing an error on Spigot. [#36](https://github.com/graywolf336/Jail/issues/36)
 * Fixed incorrect permissions for `/jail listcells`. [#39](https://github.com/graywolf336/Jail/issues/39)
 * Fixed some permissions not being included in `jail.command.*`. [#38](https://github.com/graywolf336/Jail/issues/38)
