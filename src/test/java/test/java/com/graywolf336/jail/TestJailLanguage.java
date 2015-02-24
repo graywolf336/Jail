@@ -92,8 +92,8 @@ public class TestJailLanguage {
     public void testJailingLanguage() {
         assertEquals(colorize("&cYou can not be afk while being jailed."), Lang.AFKKICKMESSAGE.get());
         assertEquals(colorize("&cgraywolf336 is already jailed."), Lang.ALREADYJAILED.get("graywolf336"));
-        assertEquals(colorize("&9graywolf336 has been jailed forever."), Lang.BROADCASTMESSAGEFOREVER.get("graywolf336"));
-        assertEquals(colorize("&9graywolf336 has been jailed for 60 minutes."), Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { "graywolf336", "60"}));
+        assertEquals(colorize("&9graywolf336 has been jailed forever for: &cSome cool reason."), Lang.BROADCASTMESSAGEFOREVER.get(new String[] { "graywolf336", "Some cool reason." }));
+        assertEquals(colorize("&9graywolf336 has been jailed for 60 minutes for: &cSome cool reason."), Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { "graywolf336", "60", "Some cool reason."}));
         assertEquals(colorize("&9graywolf336 has been unjailed by console."), Lang.BROADCASTUNJAILING.get(new String[] { "graywolf336", "console" }));
         assertEquals(colorize("&cJailing graywolf336 was cancelled by another plugin and they did not leave you a message."), Lang.CANCELLEDBYANOTHERPLUGIN.get("graywolf336"));
         assertEquals(colorize("&cThat player can not be jailed."), Lang.CANTBEJAILED.get());

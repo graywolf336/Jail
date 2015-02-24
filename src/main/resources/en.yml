@@ -43,8 +43,8 @@ language:
   jailing:
     afkkickmessage: '&cYou can not be afk while being jailed.'
     alreadyjailed: '&c%0% is already jailed.'
-    broadcastmessageforever: '&9%0% has been jailed forever.'
-    broadcastmessageforminutes: '&9%0% has been jailed for %1% minutes.'
+    broadcastmessageforever: '&9%0% has been jailed forever for: &c%1%'
+    broadcastmessageforminutes: '&9%0% has been jailed for %1% minutes for: &c%2%'
     broadcastunjailing: '&9%0% has been unjailed by %1%.'
     cancelledbyanotherplugin: '&cJailing %0% was cancelled by another plugin and they did not leave you a message.'
     cantbejailed: '&cThat player can not be jailed.'
