@@ -10,7 +10,12 @@ If you want to make some changes, build, and run the unit tests you will notice 
 
 `mvn install:install-file -Dfile=craftbukkit-1.8.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8-R0.1-SNAPSHOT -Dpackaging=jar`
 
-Beta 4 Changes
+Beta 5 Changes
+===
+*Changes since Beta 4*
+* Added the ability to show `reason`, `jail`, and `cell` to the broadcast messages. [#53](https://github.com/graywolf336/Jail/issues/53)
+
+[Beta 4](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.4) Changes
 ===
 *Changes since Beta 3*
 * Added `/jail vote`. [Jail Vote Wiki Page](https://github.com/graywolf336/Jail/wiki/Jail-Vote). [#8](https://github.com/graywolf336/Jail/issues/8)

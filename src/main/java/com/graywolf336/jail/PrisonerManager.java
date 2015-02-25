@@ -107,9 +107,9 @@ public class PrisonerManager {
         String msg = "";
 
         if(prisoner.getRemainingTime() < 0L)
-            msg = Lang.BROADCASTMESSAGEFOREVER.get(new String[] { prisoner.getLastKnownName(), prisoner.getReason() });
+            msg = Lang.BROADCASTMESSAGEFOREVER.get(new String[] { prisoner.getLastKnownName(), prisoner.getReason(), jail.getName(), cell == null ? "" : cell.getName() });
         else
-            msg = Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { prisoner.getLastKnownName(), String.valueOf(prisoner.getRemainingTimeInMinutes()), prisoner.getReason() });
+            msg = Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { prisoner.getLastKnownName(), String.valueOf(prisoner.getRemainingTimeInMinutes()), prisoner.getReason(), jail.getName(), cell == null ? "" : cell.getName() });
 
         boolean broadcasted = false;
         //Broadcast the message, if it is enabled
