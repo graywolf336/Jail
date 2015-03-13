@@ -199,7 +199,7 @@ public class PlayerListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
             Jail j = pl.getJailManager().getJailPlayerIsIn(event.getPlayer().getUniqueId());
