@@ -7,6 +7,7 @@ import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
+import com.graywolf336.jail.Util;
 import com.graywolf336.jail.enums.Lang;
 
 @CommandInfo(
@@ -27,7 +28,7 @@ public class JailCheckCommand implements Command{
 
             //graywolf663: Being gray's evil twin; CONSOLE (10)
             //prisoner: reason; jailer (time in minutes)
-            sender.sendMessage(ChatColor.BLUE + " " + p.getLastKnownName() + ": " + p.getReason() + "; " + p.getJailer() + " (" + p.getRemainingTimeInMinutes() + " mins)");
+            sender.sendMessage(ChatColor.BLUE + " " + p.getLastKnownName() + ": " + p.getReason() + "; " + p.getJailer() + " (" + Util.getDurationBreakdown(p.getRemainingTime()) + " )");
         }else {
             sender.sendMessage(Lang.NOTJAILED.get(args[1]));
         }
