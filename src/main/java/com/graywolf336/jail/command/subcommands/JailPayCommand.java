@@ -7,12 +7,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import com.graywolf336.jail.JailManager;
-import com.graywolf336.jail.JailPayManager;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.interfaces.IJailPayManager;
 
 @CommandInfo(
         maxArgs = 2,
@@ -25,7 +25,7 @@ import com.graywolf336.jail.enums.Settings;
 public class JailPayCommand implements Command {
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
         if(jm.getPlugin().getConfig().getBoolean(Settings.JAILPAYENABLED.getPath())) {
-            JailPayManager pm = jm.getPlugin().getJailPayManager();
+            IJailPayManager pm = jm.getPlugin().getJailPayManager();
 
             switch(args.length) {
                 case 1:

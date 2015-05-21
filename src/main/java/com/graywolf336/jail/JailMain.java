@@ -13,6 +13,7 @@ import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.interfaces.IJailPayManager;
 import com.graywolf336.jail.interfaces.IJailStickManager;
 import com.graywolf336.jail.legacy.LegacyManager;
 import com.graywolf336.jail.listeners.CacheListener;
@@ -38,7 +39,7 @@ public class JailMain extends JavaPlugin {
     private JailHandler jh;
     private JailIO io;
     private JailManager jm;
-    private JailPayManager jpm;
+    private IJailPayManager jpm;
     private IJailStickManager jsm;
     private JailTimer jt;
     private JailVoteManager jvm;
@@ -296,8 +297,8 @@ public class JailMain extends JavaPlugin {
         return this.jm;
     }
 
-    /** Gets the {@link JailPayManager} instance. */
-    public JailPayManager getJailPayManager() {
+    /** Gets an instance of the {@link IJailPayManager}. */
+    public IJailPayManager getJailPayManager() {
         return this.jpm;
     }
 
@@ -306,7 +307,7 @@ public class JailMain extends JavaPlugin {
         return this.pm;
     }
 
-    /** Gets the {@link JailStickManager} instance. */
+    /** Gets an instance of the {@link JailStickManager}. */
     public IJailStickManager getJailStickManager() {
         return this.jsm;
     }
