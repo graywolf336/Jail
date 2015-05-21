@@ -1,5 +1,7 @@
 package com.graywolf336.jail;
 
+import com.graywolf336.jail.interfaces.IJailStickManager;
+
 /**
  * The static api interface for Jail plugin.
  * 
@@ -40,12 +42,12 @@ public class JailsAPI {
     }
     
     /**
-     * The instance of the {@link JailStickManager} which handles all the jail sticks.
+     * Gets an instance of the {@link IJailStickManager} which handles all the jail sticks.
      * 
-     * @return instance of the {@link JailStickManager}
-     * @see JailStickManager
+     * @return an instance of the {@link IJailStickManager}
+     * @see IJailStickManager
      */
-    public static JailStickManager getJailStickManager() {
+    public static IJailStickManager getJailStickManager() {
         return pl.getJailStickManager();
     }
 

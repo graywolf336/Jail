@@ -8,6 +8,7 @@ import org.bukkit.Material;
 
 import com.graywolf336.jail.beans.Stick;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.interfaces.IJailStickManager;
 
 /**
  * Manages the jail stick users.
@@ -17,7 +18,7 @@ import com.graywolf336.jail.enums.Settings;
  * @since 3.0.0
  *
  */
-public class JailStickManager {
+public class JailStickManager implements IJailStickManager {
     private ArrayList<UUID> stickers;
     private HashMap<Material, Stick> sticks;
 
@@ -79,56 +80,27 @@ public class JailStickManager {
         int c = sticks.size();
         pl.getLogger().info("Loaded " + c + " jail stick" + (c == 1 ? "" : "s") + ".");
     }
-
-    /**
-     * Gets the {@link Stick jail stick} by the provided {@link Material}, can be null.
-     * 
-     * @param mat of the stick to get
-     * @return The {@link Stick jail stick}
-     */
+    
     public Stick getStick(Material mat) {
         return this.sticks.get(mat);
     }
 
-    /** Checks if the provided Material is a valid {@link Stick jail stick}. */
     public boolean isValidStick(Material mat) {
         return this.sticks.containsKey(mat);
     }
 
-    /**
-     * Adds a player to be using a jail stick, with the uuid of the player.
-     * 
-     * @param id of the player to add
-     */
     public void addUsingStick(UUID id) {
         this.stickers.add(id);
     }
 
-    /**
-     * Removes a player from using a jail stick, with the uuid of the player.
-     * 
-     * @param id of the player to remove using a jail stick
-     */
     public void removeUsingStick(UUID id) {
         this.stickers.remove(id);
     }
 
-    /**
-     * Returns whether or not the player is using a jail stick.
-     * 
-     * @param id of the player to check if using one
-     * @return true if the player is using a jail stick, false if not
-     */
     public boolean isUsingJailStick(UUID id) {
         return this.stickers.contains(id);
     }
 
-    /**
-     * Toggles whether the player is using a jail stick, returning the true if enabled false if disabled.
-     * 
-     * @param id of the player to toggle using a stick
-     * @return true if we enabled it, false if we disabled it.
-     */
     public boolean toggleUsingStick(UUID id) {
         if(this.stickers.contains(id)) {
             this.stickers.remove(id);
@@ -139,7 +111,6 @@ public class JailStickManager {
         }
     }
 
-    /**  Removes all the users currently using the sticks. */
     public void removeAllStickUsers() {
         for(UUID id : stickers) {
             this.removeUsingStick(id);
