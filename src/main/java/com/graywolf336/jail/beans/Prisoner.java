@@ -131,26 +131,32 @@ public class Prisoner {
     }
 
     /**
-     * Adds the given time to the remaining time the prisoner has left.
+     * Adds the given time to the remaining time the prisoner has left, unless they're jailed forever.
      * 
      * @param time to add to the prisoner's remaining time.
      * @return the new remaining time the prisoner has
      */
     public long addTime(long time) {
-        this.time += time;
-        this.changed = true;
+    	if(this.time != -1L) {
+    		this.time += time;
+            this.changed = true;
+    	}
+        
         return this.time;
     }
 
     /**
-     * Subtracts the given time from the remaining time the prisoner has left.
+     * Subtracts the given time from the remaining time the prisoner has left, unless they're jailed forever.
      * 
      * @param time to subtract from the prisoner's remaining time.
      * @return the new remaining time the prisoner has
      */
     public long subtractTime(long time) {
-        this.time -= time;
-        this.changed = true;
+    	if(this.time != -1L) {
+    		this.time -= time;
+            this.changed = true;
+    	}
+        
         return this.time;
     }
 
