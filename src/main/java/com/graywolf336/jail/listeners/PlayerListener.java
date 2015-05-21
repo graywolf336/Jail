@@ -239,8 +239,10 @@ public class PlayerListener implements Listener {
                                             pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
                                             s.getTime(), attacker.getName(), s.getReason());
 
+                                    Jail j = pl.getJailManager().getJail(s.getJail());
+                                    Cell c = j.getFirstEmptyCell();
                                     PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
-                                            pl.getJailManager().getJail(s.getJail()), null, p, player, attacker.getName(), s);
+                                            j, c, p, player, attacker.getName(), s);
 
                                     pl.getServer().getPluginManager().callEvent(jEvent);
 
@@ -251,8 +253,8 @@ public class PlayerListener implements Listener {
                                             attacker.sendMessage(jEvent.getCancelledMessage());
                                     }else {
                                         //recall data from the event
-                                        Jail j = jEvent.getJail();
-                                        Cell c = jEvent.getCell();
+                                        j = jEvent.getJail();
+                                        c = jEvent.getCell();
                                         p = jEvent.getPrisoner();
                                         player = jEvent.getPlayer();
 
