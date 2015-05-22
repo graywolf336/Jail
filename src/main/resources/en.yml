@@ -49,6 +49,7 @@ language:
     cancelledbyanotherplugin: '&cJailing %0% was cancelled by another plugin and they did not leave you a message.'
     cantbejailed: '&cThat player can not be jailed.'
     cellnotempty: '&cThe destination cell, %0%, already has a prisoner in it.'
+    defaultjailer: 'Al Capone'
     defaultjailedreason: 'Breaking the rules.'
     forceunjailed: '&c%0% was forcefully unjailed.'
     jailed: '&cYou have been jailed!'

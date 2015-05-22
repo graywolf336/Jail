@@ -37,6 +37,8 @@ public enum Lang {
     CANTBEJAILED("jailing"),
     /** The message sent to the sender when they are trying to jail into a cell which is not empty. */
     CELLNOTEMPTY("jailing"),
+    /** The jailer set whenever a jailer is not provided. */
+    DEFAULTJAILER("jailing"),
     /** The message sent when someone is jailed without a reason. */
     DEFAULTJAILEDREASON("jailing"),
     /** The message sent when someone is unjailed yet they never came online and so they were forcefully unjailed. */
@@ -201,7 +203,7 @@ public enum Lang {
     PAYPAIDLOWEREDTIME("jailpay", "paidloweredtime"),
     /** The message sent when they pay and lower someone else's time. */
     PAYPAIDLOWEREDTIMEELSE("jailpay", "paidloweredtimeelse"),
-    
+
     // Jail vote
     /** The header sent when broadcasting a new jail vote. */
     VOTEBROADCASTHEADER("jailvote.broadcast", "header"),
@@ -265,7 +267,7 @@ public enum Lang {
 
     /**
      * Sets the {@link YamlConfiguration} instance to use.
-     * 
+     *
      * @param file
      *            of the language to use.
      */
@@ -304,7 +306,7 @@ public enum Lang {
 
     /**
      * Returns the message in the language, with the provided variables being replaced.
-     * 
+     *
      * @param variables
      *            All the variables to replace, in order from 0 to however many.
      * @return The message as a colorful message or an empty message if that

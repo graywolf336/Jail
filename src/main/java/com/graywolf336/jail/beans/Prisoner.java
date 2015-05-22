@@ -6,24 +6,27 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import com.graywolf336.jail.enums.Lang;
 
 /**
  * Represents a Prisoner, player who is jailed, and contains all the information about him/her.
- * 
+ *
  * @author graywolf336
  * @since 2.x.x
- * @version 3.0.2
+ * @version 3.1.0
  */
 public class Prisoner {
     private String uuid, name, jailer, reason, inventory, armor;
-    private boolean muted, offlinePending, teleporting, toBeTransferred, changed;
-    private long time, afk;
+    private boolean muted = true, offlinePending = false, teleporting = false, toBeTransferred = false, changed = false;
+    private long time = -1L, afk = 0L;
     private Location previousPosition;
     private GameMode previousGameMode;
 
     /**
-     * Creates a new prisoner with a name and whether they are muted or not.
-     * 
+     * Creates the prisoner instance with the lot of data provided.
+     *
      * @param uuid The uuid of the prisoner
      * @param name The name of the prisoner
      * @param muted Whether the prisoner is muted or not
@@ -38,15 +41,134 @@ public class Prisoner {
         this.time = time;
         this.jailer = jailer;
         this.reason = reason;
-        this.offlinePending = false;
-        this.teleporting = false;
-        this.toBeTransferred = false;
-        this.previousPosition = null;
-        this.previousGameMode = GameMode.SURVIVAL;
-        this.inventory = "";
-        this.armor = "";
-        this.afk = 0;
-        this.changed = false;
+        finishSetup();
+    }
+
+    /**
+     * Creates the prisoner instance with the lot of data provided.
+     *
+     * @param uuid The uuid of the prisoner
+     * @param name The name of the prisoner
+     * @param time The amount of remaining time the prisoner has
+     * @param jailer The name of the person who jailed this prisoner
+     * @param reason The reason why this prisoner is in jail
+     */
+    public Prisoner(String uuid, String name, long time, String jailer, String reason) {
+        this.uuid = uuid;
+        this.name = name;
+        this.time = time;
+        this.jailer = jailer;
+        this.reason = reason;
+        finishSetup();
+    }
+
+    /**
+     * Creates the prisoner instance with the lot of data provided.
+     *
+     * @param uuid The uuid of the prisoner
+     * @param name The name of the prisoner
+     * @param time The amount of remaining time the prisoner has
+     * @param reason The reason why this prisoner is in jail
+     */
+    public Prisoner(String uuid, String name, long time, String reason) {
+        this.uuid = uuid;
+        this.name = name;
+        this.time = time;
+        this.reason = reason;
+        finishSetup();
+    }
+
+    /**
+     * Creates the prisoner instance with the lot of data provided.
+     *
+     * @param uuid The uuid of the prisoner
+     * @param name The name of the prisoner
+     * @param time The amount of remaining time the prisoner has
+     */
+    public Prisoner(String uuid, String name, long time) {
+        this.uuid = uuid;
+        this.name = name;
+        this.time = time;
+        finishSetup();
+    }
+
+    /**
+     * Creates the prisoner instance with the data provided.
+     *
+     * @param player The instance of the player who is to be jailed
+     * @param muted Whether the prisoner is muted or not
+     * @param time The amount of remaining time the prisoner has
+     * @param jailer The jailer who jailed the prisoner
+     * @param reason The reason why this prisoner is in jail
+     */
+    public Prisoner(Player player, boolean muted, long time, String jailer, String reason) {
+        this.uuid = player.getUniqueId().toString();
+        this.name = player.getName();
+        this.muted = muted;
+        this.time = time;
+        this.jailer = jailer;
+        this.reason = reason;
+        finishSetup();
+    }
+
+    /**
+     * Creates the prisoner instance with the data provided.
+     *
+     * @param player The instance of the player who is to be jailed
+     * @param time The amount of remaining time the prisoner has
+     * @param jailer The jailer who jailed the prisoner
+     * @param reason The reason why this prisoner is in jail
+     */
+    public Prisoner(Player player, long time, String jailer, String reason) {
+        this.uuid = player.getUniqueId().toString();
+        this.name = player.getName();
+        this.time = time;
+        this.jailer = jailer;
+        this.reason = reason;
+        finishSetup();
+    }
+
+    /**
+     * The most basic prisoner instance creation via providing the player, time, and reason.
+     *
+     * @param player The instance of the player who is to be jailed
+     * @param time The amount of remaining time the prisoner has
+     * @param reason The reason why this prisoner is in jail
+     */
+    public Prisoner(Player player, long time, String reason) {
+        this.uuid = player.getUniqueId().toString();
+        this.name = player.getName();
+        this.time = time;
+        this.reason = reason;
+        finishSetup();
+    }
+
+    /**
+     * The most basic prisoner instance creation via providing the player and time.
+     *
+     * @param player The instance of the player who is to be jailed
+     * @param time The amount of remaining time the prisoner has
+     */
+    public Prisoner(Player player, long time) {
+        this.uuid = player.getUniqueId().toString();
+        this.name = player.getName();
+        this.time = time;
+        finishSetup();
+    }
+
+    /** Finishes the setup of the prisoner data, set to defaults. */
+    private void finishSetup() {
+        if(jailer == null)
+            jailer = Lang.DEFAULTJAILER.get();
+        if(reason == null)
+            Lang.DEFAULTJAILEDREASON.get();
+        if(inventory == null)
+            inventory = "";
+        if(armor == null)
+            armor = "";
+        if(previousGameMode == null)
+            previousGameMode = GameMode.SURVIVAL;
+        previousPosition = null;
     }
 
     /** Returns the UUID of the prisoner. */
@@ -73,7 +195,7 @@ public class Prisoner {
 
     /**
      * Sets the reason this player was jailed for.
-     * 
+     *
      * @param reason the player was jailed.
      * @return the reason the player was jailed, what we have stored about them.
      */
@@ -122,7 +244,7 @@ public class Prisoner {
 
     /**
      * Sets the remaining time the prisoner has left.
-     * 
+     *
      * @param time The amount of time left, in milliseconds.
      */
     public void setRemainingTime(long time) {
@@ -132,31 +254,31 @@ public class Prisoner {
 
     /**
      * Adds the given time to the remaining time the prisoner has left, unless they're jailed forever.
-     * 
+     *
      * @param time to add to the prisoner's remaining time.
      * @return the new remaining time the prisoner has
      */
     public long addTime(long time) {
-    	if(this.time != -1L) {
-    		this.time += time;
+        if(this.time != -1L) {
+            this.time += time;
             this.changed = true;
-    	}
-        
+        }
+
         return this.time;
     }
 
     /**
      * Subtracts the given time from the remaining time the prisoner has left, unless they're jailed forever.
-     * 
+     *
      * @param time to subtract from the prisoner's remaining time.
      * @return the new remaining time the prisoner has
      */
     public long subtractTime(long time) {
-    	if(this.time != -1L) {
-    		this.time -= time;
+        if(this.time != -1L) {
+            this.time -= time;
             this.changed = true;
-    	}
-        
+        }
+
         return this.time;
     }
 

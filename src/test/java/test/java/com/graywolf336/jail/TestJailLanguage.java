@@ -98,6 +98,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&cJailing graywolf336 was cancelled by another plugin and they did not leave you a message."), Lang.CANCELLEDBYANOTHERPLUGIN.get("graywolf336"));
         assertEquals(colorize("&cThat player can not be jailed."), Lang.CANTBEJAILED.get());
         assertEquals(colorize("&cThe destination cell, cell_n01, already has a prisoner in it."), Lang.CELLNOTEMPTY.get("cell_n01"));
+        assertEquals("Al Capone", Lang.DEFAULTJAILER.get());
         assertEquals("Breaking the rules.", Lang.DEFAULTJAILEDREASON.get());
         assertEquals(colorize("&cgraywolf336 was forcefully unjailed."), Lang.FORCEUNJAILED.get("graywolf336"));
         assertEquals(colorize("&cYou have been jailed!"), Lang.JAILED.get());
