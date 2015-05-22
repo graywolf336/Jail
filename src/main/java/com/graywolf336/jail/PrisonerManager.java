@@ -11,8 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import com.graywolf336.jail.beans.AnyCell;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
+import com.graywolf336.jail.beans.NoCell;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
@@ -20,12 +22,13 @@ import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
+import com.graywolf336.jail.interfaces.ICell;
 
 /**
  * Provides methods, non-statically, that do the preparing of jails, jailing, etc.
- * 
+ *
  * <p />
- * 
+ *
  * <ul>
  * 	<li>{@link #prepareJail(Jail, Cell, Player, Prisoner) preparejail}</li>
  * 	<li>{@link #jailPrisoner(Jail, Cell, Player, Prisoner) jailPrisoner}</li>
@@ -35,7 +38,7 @@ import com.graywolf336.jail.events.PrisonerTransferredEvent;
  *  <li>{@link #forceUnJail(Jail, Cell, Player, Prisoner, CommandSender) forceUnJail}</li>
  *  <li>{@link #transferPrisoner(Jail, Cell, Jail, Cell, Prisoner) transferPrisoner}</li>
  * </ul>
- * 
+ *
  * @author graywolf336
  * @since 2.x.x
  * @version 3.0.0
@@ -58,32 +61,35 @@ public class PrisonerManager {
 
     /**
      * Does everything preparing for the jailing of the provided prisoner, if they are online it forwards it to {@link #jailPrisoner(Jail, Cell, Player, Prisoner)}.
-     * 
+     *
      * <p />
-     * 
+     *
      * In this we do the following:
      * <ol>
      * 	<li>Checks if the jail is null, if so it throws an Exception</li>
      * 	<li>Checks if the prisoner is null, if so it throws an Exception</li>
      * 	<li>Sets the prisoner data to offline pending or not, player == null</li>
-     * 	<li>If the cell is null, add the prisoner data to the jail otherwise we set the cell's prisoner to this one. <em>Check before here if the cell already contains a prisoner.</em></li>
+     * 	<li>Determine which type of cell is provided, add the prisoner data to the jail otherwise we set the cell's prisoner to this one. <em>Check before here if the cell already contains a prisoner.</em></li>
      * 	<li>Saves the jail information, goes out to the {@link JailIO} to initate a save.</li>
      * 	<li>If the prisoner is <em>not</em> offline, we will actually {@link #jailPrisoner(Jail, Cell, Player, Prisoner) jail} them now.</li>
      * 	<li>Does checks to get the right message for the next two items.</li>
      * 	<li>If we broadcast the jailing, then let's broadcast it.</li>
      * 	<li>If we log the jailing to console <em>and</em> we haven't broadcasted it, then we log it to the console.</li>
      * </ol>
-     * 
+     *
      * @param jail The {@link Jail jail instance} we are sending this prisoner to
      * @param cell The name of the {@link Cell cell} we are sending this prisoner to
      * @param player The {@link Player player} we are preparing the jail for.
      * @param prisoner The {@link Prisoner prisoner} file.
      * @throws Exception if the jail or prisoner are null.
      */
-    public void prepareJail(Jail jail, Cell cell, Player player, Prisoner prisoner) throws Exception {
+    public void prepareJail(Jail jail, ICell cell, Player player, Prisoner prisoner) throws Exception {
         //Do some checks of whether the passed params are null.
         if(jail == null)
             throw new Exception("The jail can not be null.");
+
+        if(cell == null)
+            cell = new NoCell();
 
         if(prisoner == null)
             throw new Exception("Prisoner data can not be null.");
@@ -92,8 +98,16 @@ public class PrisonerManager {
         prisoner.setOfflinePending(player == null);
 
         //Now that we've got those checks out of the way, let's start preparing.
-        if(cell == null) {
+        if(cell instanceof NoCell) {
             jail.addPrisoner(prisoner);
+            cell = null;
+        }else if(cell instanceof AnyCell) {
+            cell = jail.getFirstEmptyCell();
+
+            if(cell == null)
+                jail.addPrisoner(prisoner);
+            else
+                cell.setPrisoner(prisoner);
         }else {
             cell.setPrisoner(prisoner);
         }
@@ -126,7 +140,7 @@ public class PrisonerManager {
 
     /**
      * Jails the given player, <strong>only</strong> use when that player has offline data pending.
-     * 
+     *
      * @param uuid of the player to jail.
      */
     public void jailPlayer(UUID uuid) {
@@ -136,13 +150,18 @@ public class PrisonerManager {
 
     /**
      * Jails the prisoner with the proper information given.
-     * 
+     *
      * @param jail where they are going
-     * @param cell where they are being placed in, can be null
+     * @param cell  where they are being placed in, can be null
      * @param player who is the prisoner
      * @param prisoner data containing everything pertaining to them
      */
-    protected void jailPrisoner(Jail jail, Cell cell, Player player, Prisoner prisoner) {
+    protected void jailPrisoner(Jail jail, ICell cell, Player player, Prisoner prisoner) {
+        if(cell instanceof NoCell)
+            cell = null;
+        else if(cell instanceof AnyCell)
+            cell = null;
+        
         //If they have handcuffs on them, then let's remove them before we continue
         //this way the handcuff listeners and this aren't battleing each other
         if(pl.getHandCuffManager().isHandCuffed(player.getUniqueId())) {
@@ -321,13 +340,13 @@ public class PrisonerManager {
         pl.getJailIO().saveJail(jail);
 
         //Call our custom event for when a prisoner is actually jailed.
-        PrisonerJailedEvent event = new PrisonerJailedEvent(jail, cell, prisoner, player);
+        PrisonerJailedEvent event = new PrisonerJailedEvent(jail, cell == null ? null : (Cell)cell, prisoner, player);
         pl.getServer().getPluginManager().callEvent(event);
     }
 
     /**
      * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
-     * 
+     *
      * @param prisoner to be released.
      * @see {@link #unJail(Jail, Cell, Player, Prisoner, CommandSender)} - If you're wanting to unjail a prisoner.
      */
@@ -345,7 +364,7 @@ public class PrisonerManager {
 
     /**
      * Release the given prisoner from jailing, does the checks if they are offline or not.
-     * 
+     *
      * @param player we are releasing, can be null and if so they'll be treated as offline.
      * @param prisoner data to handle.
      */
@@ -371,11 +390,11 @@ public class PrisonerManager {
 
     /**
      * Unjails a prisoner from jail, removing all their data.
-     * 
+     *
      * <p />
-     * 
+     *
      * Throws an exception if either the jail is null or the prisoner is null.
-     * 
+     *
      * @param jail where the prisoner is located at
      * @param cell which the prisoner is in, can be null
      * @param player instance for the prisoner we're unjailing
@@ -383,11 +402,16 @@ public class PrisonerManager {
      * @param sender The {@link CommandSender} who unjailed this player, can be null.
      * @throws Exception
      */
-    public void unJail(Jail jail, Cell cell, Player player, Prisoner prisoner, CommandSender sender) throws Exception {
+    public void unJail(Jail jail, ICell cell, Player player, Prisoner prisoner, CommandSender sender) throws Exception {
         //Do some checks of whether the passed params are null.
         if(jail == null)
             throw new Exception("The jail can not be null.");
 
+        if(cell instanceof NoCell)
+            cell = null;
+        else if(cell instanceof AnyCell)
+            cell = null;
+        
         if(prisoner == null)
             throw new Exception("Prisoner data can not be null.");
 
@@ -466,7 +490,7 @@ public class PrisonerManager {
                 Util.restoreInventory(player, prisoner);
             }
 
-            pl.getJailIO().removePrisoner(jail, cell, prisoner);
+            pl.getJailIO().removePrisoner(jail, cell == null ? null : (Cell)cell, prisoner);
             cell.removePrisoner();
         }else {
             Util.restoreInventory(player, prisoner);
@@ -488,7 +512,7 @@ public class PrisonerManager {
         }
 
         //Call the prisoner released event as we have released them.
-        PrisonerReleasedEvent event = new PrisonerReleasedEvent(jail, cell, prisoner, player);
+        PrisonerReleasedEvent event = new PrisonerReleasedEvent(jail, cell == null ? null : (Cell)cell, prisoner, player);
         pl.getServer().getPluginManager().callEvent(event);
 
         player.sendMessage(Lang.UNJAILED.get());
@@ -497,9 +521,9 @@ public class PrisonerManager {
 
     /**
      * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
-     * 
+     *
      * <p />
-     * 
+     *
      * This method forcefully removes all the references to this prisoner,
      * meaning if they're offline the following won't happened:
      * <ul>
@@ -507,11 +531,11 @@ public class PrisonerManager {
      * 	<li>Teleported anywhere</li>
      *  <li>No messages sent, they'll be clueless.</li>
      * </ul>
-     * 
+     *
      * But if they're online, it goes through the regular unjailing methods.
-     * 
+     *
      * <p />
-     * 
+     *
      * @param prisoner to release
      * @param sender who is releasing the prisoner, <em>can be null</em>
      */
@@ -522,10 +546,10 @@ public class PrisonerManager {
 
     /**
      * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
-     * 
-     * 
+     *
+     *
      * <p />
-     * 
+     *
      * This method forcefully removes all the references to this prisoner,
      * meaning if they're offline the following won't happened:
      * <ul>
@@ -533,11 +557,11 @@ public class PrisonerManager {
      * 	<li>Teleported anywhere</li>
      *  <li>No messages sent, they'll be clueless.</li>
      * </ul>
-     * 
+     *
      * But if they're online, it goes through the regular unjailing methods.
-     * 
+     *
      * <p />
-     * 
+     *
      * @param jail the prisoner is in
      * @param cell the prisoner is in, <em>can be null</em>
      * @param player of the prisoner, if this is null then the player won't be teleported when they come back on.
@@ -567,7 +591,7 @@ public class PrisonerManager {
 
     /**
      * Transfers the prisoner from one jail, or cell, to another jail, and/or cell.
-     * 
+     *
      * @param originJail The jail where they are coming from.
      * @param originCell The cell where they are coming from.
      * @param targetJail The jail we're transferring them from.
