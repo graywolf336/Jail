@@ -19,6 +19,7 @@ import com.graywolf336.jail.command.commands.jewels.Jailing;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedEvent;
+import com.graywolf336.jail.interfaces.ICell;
 import com.lexicalscope.jewel.cli.ArgumentValidationException;
 import com.lexicalscope.jewel.cli.CliFactory;
 
@@ -126,7 +127,7 @@ public class JailCommand implements Command {
             return true;
         }
 
-        Cell c = null;
+        ICell c = null;
         //Check if the cell is defined
         if(params.isCell()) {
             //Check if it is a valid cell

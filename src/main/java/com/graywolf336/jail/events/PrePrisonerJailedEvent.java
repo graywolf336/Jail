@@ -8,6 +8,7 @@ import org.bukkit.event.HandlerList;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.interfaces.ICell;
 
 /**
  * Event thrown before we are jailing a player, both offline and online players.
@@ -25,7 +26,7 @@ public class PrePrisonerJailedEvent extends Event implements Cancellable {
     private boolean cancelled = false;
     private boolean online;
     private Jail jail;
-    private Cell cell;
+    private ICell cell;
     private Prisoner prisoner;
     private Player player;
     private String jailer, cancelMsg;
@@ -34,15 +35,15 @@ public class PrePrisonerJailedEvent extends Event implements Cancellable {
      * Creates a new {@link PrePrisonerJailedEvent prisoner jailed event} for the given player before they get sent to jail.
      * 
      * @param jail The jail the prisoner will be jailed at.
-     * @param cell The cell we're going to be sending the prisoner to, can be null.
+     * @param c The cell we're going to be sending the prisoner to, can be null.
      * @param prisoner The prisoner data.
      * @param player The player being jailed.
      * @param online Whether the player is online or not.
      * @param jailer The name of what jailed this prisoner.
      */
-    public PrePrisonerJailedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player, boolean online, String jailer) {
+    public PrePrisonerJailedEvent(Jail jail, ICell c, Prisoner prisoner, Player player, boolean online, String jailer) {
         this.jail = jail;
-        this.cell = cell;
+        this.cell = c;
         this.prisoner = prisoner;
         this.player = player;
         this.online = online;
@@ -56,7 +57,7 @@ public class PrePrisonerJailedEvent extends Event implements Cancellable {
     }
 
     /** Gets the cell we're going to be sending the prisoner to. */
-    public Cell getCell() {
+    public ICell getCell() {
         return this.cell;
     }
 

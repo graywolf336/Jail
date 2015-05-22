@@ -7,20 +7,22 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
 
+import com.graywolf336.jail.interfaces.ICell;
+
 /** Represents a Cell inside of a {@link Jail}.
- * 
+ *
  * @author graywolf336
  * @since 3.0.0
- * @version 1.1.3
+ * @version 1.1.4
  */
-public class Cell {
+public class Cell implements ICell {
     private String name;
     private Prisoner p;
     private HashSet<SimpleLocation> signs;
     private SimpleLocation teleport, chest;
 
     /** Creates a new Cell with the given name
-     * 
+     *
      * @param name The name of the cell.
      */
     public Cell(String name) {
@@ -28,52 +30,42 @@ public class Cell {
         this.signs = new HashSet<SimpleLocation>();
     }
 
-    /** Gets the name of the cell. */
     public String getName() {
         return this.name;
     }
 
-    /** Sets the prisoner in this cell. */
     public void setPrisoner(Prisoner prisoner) {
         this.p = prisoner;
     }
 
-    /** Gets the prisoner being held in this cell. */
     public Prisoner getPrisoner() {
         return this.p;
     }
 
-    /** Nullifies the prisoner data. */
     public void removePrisoner() {
         this.p = null;
     }
 
-    /** Returns true if there is currently a prisoner in this cell. */
     public boolean hasPrisoner() {
         return this.p != null; //Return true if prison is not null, as when it isn't null we have a prisoner in this cell
     }
 
-    /** Adds all the given signs to the cell. */
     public void addAllSigns(HashSet<SimpleLocation> signs) {
         this.signs.addAll(signs);
     }
 
-    /** Adds a sign to the cell. */
     public void addSign(SimpleLocation sign) {
         this.signs.add(sign);
     }
 
-    /** Returns all the signs for this cell. */
     public HashSet<SimpleLocation> getSigns() {
         return this.signs;
     }
-    
-    /** Checks if there are any signs for this cell. */
+
     public boolean hasSigns() {
-    	return !this.signs.isEmpty();
+        return !this.signs.isEmpty();
     }
 
-    /** Returns the entire list of signs in a string. */
     public String getSignString() {
         String r = "";
 
@@ -88,47 +80,29 @@ public class Cell {
         return r;
     }
 
-    /** Sets the location of where the prisoner will be teleported at when jailed here. */
     public void setTeleport(SimpleLocation location) {
         this.teleport = location;
     }
 
-    /** Gets the teleport location where the prisoner will be teleported at when jailed here. */
     public Location getTeleport() {
         return this.teleport.getLocation();
     }
 
-    /** Sets the location of the chest. */
     public void setChestLocation(SimpleLocation simpleLocation) {
         this.chest = simpleLocation;
     }
 
-    /**
-     * Gets the location of the chest, returns null if no chest is stored at this cell.
-     * 
-     * @return The location of the chest, null if none.
-     */
     public Location getChestLocation() {
         return this.chest == null ? null : this.chest.getLocation();
     }
 
-    /**
-     * Gets the chest for this cell, returns null if there is no chest or the location we have is not a chest.
-     * 
-     * @return The chest and its state.
-     */
     public Chest getChest() {
         if(this.chest == null) return null;
-        if((this.chest.getLocation().getBlock() == null) || (this.chest.getLocation().getBlock().getType() != Material.CHEST)) return null;
+        if(this.chest.getLocation().getBlock() == null || this.chest.getLocation().getBlock().getType() != Material.CHEST) return null;
 
         return (Chest) this.chest.getLocation().getBlock().getState();
     }
 
-    /**
-     * Checks if the chest location doesn't equal null and if it is a double chest.
-     * 
-     * @return true if there is a chest, false if there isn't.
-     */
     public boolean hasChest() {
         Chest c = getChest();
         if(c != null) {

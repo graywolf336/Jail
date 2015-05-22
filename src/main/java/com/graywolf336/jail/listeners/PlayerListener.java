@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
+import com.graywolf336.jail.beans.AnyCell;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
@@ -31,6 +32,7 @@ import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.PrePrisonerJailedByJailStickEvent;
 import com.graywolf336.jail.events.PrisonerDeathEvent;
+import com.graywolf336.jail.interfaces.ICell;
 
 public class PlayerListener implements Listener {
     private JailMain pl;
@@ -239,10 +241,8 @@ public class PlayerListener implements Listener {
                                             pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
                                             s.getTime(), attacker.getName(), s.getReason());
 
-                                    Jail j = pl.getJailManager().getJail(s.getJail());
-                                    Cell c = j.getFirstEmptyCell();
                                     PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
-                                            j, c, p, player, attacker.getName(), s);
+                                            pl.getJailManager().getJail(s.getJail()), new AnyCell(), p, player, attacker.getName(), s);
 
                                     pl.getServer().getPluginManager().callEvent(jEvent);
 
@@ -253,8 +253,8 @@ public class PlayerListener implements Listener {
                                             attacker.sendMessage(jEvent.getCancelledMessage());
                                     }else {
                                         //recall data from the event
-                                        j = jEvent.getJail();
-                                        c = jEvent.getCell();
+                                        Jail j = jEvent.getJail();
+                                        ICell c = jEvent.getCell();
                                         p = jEvent.getPrisoner();
                                         player = jEvent.getPlayer();
 

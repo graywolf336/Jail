@@ -9,6 +9,7 @@ import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.Stick;
+import com.graywolf336.jail.interfaces.ICell;
 
 /**
  * Event thrown before we a player is jailed by someone hitting them with a {@link Stick jail stick}.
@@ -25,7 +26,7 @@ public class PrePrisonerJailedByJailStickEvent extends Event implements Cancella
     private static final HandlerList handlers = new HandlerList();
     private boolean cancelled = false;
     private Jail jail;
-    private Cell cell;
+    private ICell cell;
     private Prisoner prisoner;
     private Player player;
     private String jailer, cancelMsg;
@@ -41,7 +42,7 @@ public class PrePrisonerJailedByJailStickEvent extends Event implements Cancella
      * @param jailer The name of what jailed this prisoner.
      * @param stick The {@link Stick jail stick} used.
      */
-    public PrePrisonerJailedByJailStickEvent(Jail jail, Cell cell, Prisoner prisoner, Player player, String jailer, Stick stick) {
+    public PrePrisonerJailedByJailStickEvent(Jail jail, ICell cell, Prisoner prisoner, Player player, String jailer, Stick stick) {
         this.jail = jail;
         this.cell = cell;
         this.prisoner = prisoner;
@@ -57,7 +58,7 @@ public class PrePrisonerJailedByJailStickEvent extends Event implements Cancella
     }
 
     /** Gets the cell we're going to be sending the prisoner to. */
-    public Cell getCell() {
+    public ICell getCell() {
         return this.cell;
     }
 

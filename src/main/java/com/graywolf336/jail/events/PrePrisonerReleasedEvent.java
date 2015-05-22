@@ -4,9 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
+import com.graywolf336.jail.interfaces.ICell;
 
 /**
  * Event thrown after a prisoner is released.
@@ -24,7 +24,7 @@ import com.graywolf336.jail.beans.Prisoner;
 public class PrePrisonerReleasedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
     private Jail jail;
-    private Cell cell;
+    private ICell cell;
     private Prisoner prisoner;
     private Player player;
 
@@ -36,7 +36,7 @@ public class PrePrisonerReleasedEvent extends Event {
      * @param prisoner The prisoner data.
      * @param player The player being jailed.
      */
-    public PrePrisonerReleasedEvent(Jail jail, Cell cell, Prisoner prisoner, Player player) {
+    public PrePrisonerReleasedEvent(Jail jail, ICell cell, Prisoner prisoner, Player player) {
         this.jail = jail;
         this.cell = cell;
         this.prisoner = prisoner;
@@ -49,7 +49,7 @@ public class PrePrisonerReleasedEvent extends Event {
     }
 
     /** Gets the cell where the prisoner was jailed in, null if they weren't in one. */
-    public Cell getCell() {
+    public ICell getCell() {
         return this.cell;
     }
     
