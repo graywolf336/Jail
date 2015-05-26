@@ -24,6 +24,12 @@ public class MoveProtectionListener implements Listener {
 
     @EventHandler(ignoreCancelled=true)
     public void moveProtection(PlayerMoveEvent event) {
+        //If Player moved to another Block - increase TPS - exclude Player's Yaw and/or Pitch change
+        if ( e.getFrom().getBlockX() == e.getTo().getBlockX()
+           //&& e.getFrom().getBlockY() == e.getTo().getBlockY()
+            && e.getFrom().getBlockZ() == e.getTo().getBlockZ() ) {
+            return;
+        }
         //If we have the move protection enabled, then let's do it.
         //Other wise we don't need to deal with it.
         if(pl.getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
