@@ -199,7 +199,17 @@ public class PrisonerManager {
         try {
             player.setGameMode(GameMode.valueOf(pl.getConfig().getString(Settings.JAILEDGAMEMODE.getPath(), "ADVENTURE").toUpperCase()));
         }catch(Exception e) {
-            pl.getLogger().severe("Your jailedgamemode setting is incorrect, please fix.");
+            StringBuilder gamemodes = new StringBuilder();
+            for(GameMode m : GameMode.values()) {
+                if(gamemodes.length() != 0)
+                    gamemodes.append(", ");
+                
+                gamemodes.append(m.toString().toLowerCase());
+            }
+            
+            pl.getLogger().warning("Your jailed gamemode setting is problematic. It is currently '"
+                    + pl.getConfig().getString(Settings.JAILEDGAMEMODE.getPath())
+                    + "' and should be one of the following: " + gamemodes.toString());
             player.setGameMode(GameMode.ADVENTURE);
         }
 
