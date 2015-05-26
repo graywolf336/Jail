@@ -465,45 +465,52 @@ public class PrisonerManager {
             player.setGameMode(prisoner.getPreviousGameMode());
         }
 
-        //Now, let's restore their inventory
-        //First up, clear their inventory
-        player.closeInventory();
-        player.getInventory().setArmorContents(null);
-        player.getInventory().clear();
+        //Now, let's restore their inventory if we can store it but
+        //first up is clearing their inventory...if we can store it
+        boolean store = pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true);
+        if(store) {
+            player.closeInventory();
+            player.getInventory().setArmorContents(null);
+            player.getInventory().clear();
+        }
 
         //if the cell isn't null, let's check if the cell has a chest and if so then try out best to restore
         //the prisoner's inventory from that
         if(cell != null) {
-            if(cell.hasChest()) {
-                Inventory chest = cell.getChest().getInventory();
+            if(store) {
+                if(cell.hasChest()) {
+                    Inventory chest = cell.getChest().getInventory();
 
-                for (ItemStack item : chest.getContents()) {
-                    if (item == null || item.getType() == Material.AIR) continue;
+                    for (ItemStack item : chest.getContents()) {
+                        if (item == null || item.getType() == Material.AIR) continue;
 
-                    if(item.getType().toString().toLowerCase().contains("helmet") && (player.getInventory().getHelmet() == null || player.getInventory().getHelmet().getType() == Material.AIR)) {
-                        player.getInventory().setHelmet(item);
-                    } else if(item.getType().toString().toLowerCase().contains("chestplate") && (player.getInventory().getChestplate() == null || player.getInventory().getChestplate().getType() == Material.AIR)) {
-                        player.getInventory().setChestplate(item);
-                    } else if(item.getType().toString().toLowerCase().contains("leg") && (player.getInventory().getLeggings() == null || player.getInventory().getLeggings().getType() == Material.AIR)) {
-                        player.getInventory().setLeggings(item);
-                    } else if(item.getType().toString().toLowerCase().contains("boots") && (player.getInventory().getBoots() == null || player.getInventory().getBoots().getType() == Material.AIR)) {
-                        player.getInventory().setBoots(item);
-                    } else if (player.getInventory().firstEmpty() == -1) {
-                        player.getWorld().dropItem(player.getLocation(), item);
-                    } else {
-                        player.getInventory().addItem(item);
+                        if(item.getType().toString().toLowerCase().contains("helmet") && (player.getInventory().getHelmet() == null || player.getInventory().getHelmet().getType() == Material.AIR)) {
+                            player.getInventory().setHelmet(item);
+                        } else if(item.getType().toString().toLowerCase().contains("chestplate") && (player.getInventory().getChestplate() == null || player.getInventory().getChestplate().getType() == Material.AIR)) {
+                            player.getInventory().setChestplate(item);
+                        } else if(item.getType().toString().toLowerCase().contains("leg") && (player.getInventory().getLeggings() == null || player.getInventory().getLeggings().getType() == Material.AIR)) {
+                            player.getInventory().setLeggings(item);
+                        } else if(item.getType().toString().toLowerCase().contains("boots") && (player.getInventory().getBoots() == null || player.getInventory().getBoots().getType() == Material.AIR)) {
+                            player.getInventory().setBoots(item);
+                        } else if (player.getInventory().firstEmpty() == -1) {
+                            player.getWorld().dropItem(player.getLocation(), item);
+                        } else {
+                            player.getInventory().addItem(item);
+                        }
                     }
-                }
 
-                chest.clear();
+                    chest.clear();
+                }else {
+                    Util.restoreInventory(player, prisoner);
+                }
             }else {
-                Util.restoreInventory(player, prisoner);
+                if(cell.hasChest()) cell.getChest().getInventory().clear();
             }
 
-            pl.getJailIO().removePrisoner(jail, cell == null ? null : (Cell)cell, prisoner);
+            pl.getJailIO().removePrisoner(jail, (Cell)cell, prisoner);
             cell.removePrisoner();
         }else {
-            Util.restoreInventory(player, prisoner);
+            if(store) Util.restoreInventory(player, prisoner);
 
             pl.getJailIO().removePrisoner(jail, prisoner);
             jail.removePrisoner(prisoner);

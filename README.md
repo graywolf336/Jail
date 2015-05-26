@@ -14,6 +14,14 @@ Beta 5 Changes
 ===
 *Changes since Beta 4*
 * Added the ability to show `reason`, `jail`, and `cell` to the broadcast messages. [#53](https://github.com/graywolf336/Jail/issues/53)
+* Changed how we handle inventory when storing is set to false. Don't remove their inventory when they are unjailed and we don't store it. [#57](https://github.com/graywolf336/Jail/issues/57)
+* Changed the jail api, see [#72's comment](https://github.com/graywolf336/Jail/issues/72#issuecomment-104757472) for some details
+* Changed the format of the jail check command, thanks to stevoh6. [#65](https://github.com/graywolf336/Jail/pull/65)
+* Changed the explanation of why the gamemode setting was problematic and give the available options. [#73](https://github.com/graywolf336/Jail/issues/73)
+* Fixed an issue where cell data was being duplicated (or more) in the database [#74](https://github.com/graywolf336/Jail/issues/74)
+* Fixed jail sticks not putting players into cells. [#68](https://github.com/graywolf336/Jail/issues/68)
+* Fixed respawning after dying not placing players back into their cells when another plugin sets their respawn point. [#55](https://github.com/graywolf336/Jail/issues/55)
+* Fixed time being added/subtracted from a player's time when they were jailed forever, resulting in them being able to get out. [#69](https://github.com/graywolf336/Jail/issues/69)
 
 [Beta 4](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.4) Changes
 ===
