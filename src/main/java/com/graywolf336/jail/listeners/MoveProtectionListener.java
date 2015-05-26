@@ -24,6 +24,13 @@ public class MoveProtectionListener implements Listener {
 
     @EventHandler(ignoreCancelled=true)
     public void moveProtection(PlayerMoveEvent event) {
+        //If they haven't moved on the X or Z axis, then we shouldn't try to handle their moving
+        //this was suggested as Pull Request 63. Going to test it some, but the hope is that
+        //we don't handle move events so much and thus improve performance.
+        if(event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ()) {
+            return;
+        }
+        
         //If we have the move protection enabled, then let's do it.
         //Other wise we don't need to deal with it.
         if(pl.getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
