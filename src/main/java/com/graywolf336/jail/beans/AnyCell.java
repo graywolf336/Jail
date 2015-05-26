@@ -71,4 +71,12 @@ public class AnyCell implements ICell {
     public boolean hasChest() {
         throw new UnsupportedOperationException();
     }
+
+    public boolean setChanged(boolean changed) {
+        throw new UnsupportedOperationException();
+    }
+
+    public boolean hasChanged() {
+        throw new UnsupportedOperationException();
+    }
 }

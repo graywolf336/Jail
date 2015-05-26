@@ -68,4 +68,15 @@ public interface ICell {
      * @return true if there is a chest, false if there isn't.
      */
     public boolean hasChest();
+    
+    /**
+     * Sets whether this cell has been changed or not.
+     * 
+     * @param changed true if we've changed it, mostly use if you want to force an update
+     * @return the resulting change, whether it is changed or not
+     */
+    public boolean setChanged(boolean changed);
+    
+    /** Gets whether the Cell has changed from the last save or not. */
+    public boolean hasChanged();
 }

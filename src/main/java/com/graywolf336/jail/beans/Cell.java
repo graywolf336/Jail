@@ -20,6 +20,7 @@ public class Cell implements ICell {
     private Prisoner p;
     private HashSet<SimpleLocation> signs;
     private SimpleLocation teleport, chest;
+    private boolean changed;
 
     /** Creates a new Cell with the given name
      *
@@ -28,6 +29,7 @@ public class Cell implements ICell {
     public Cell(String name) {
         this.name = name;
         this.signs = new HashSet<SimpleLocation>();
+        this.changed = false;
     }
 
     public String getName() {
@@ -36,6 +38,7 @@ public class Cell implements ICell {
 
     public void setPrisoner(Prisoner prisoner) {
         this.p = prisoner;
+        this.changed = true;
     }
 
     public Prisoner getPrisoner() {
@@ -44,6 +47,7 @@ public class Cell implements ICell {
 
     public void removePrisoner() {
         this.p = null;
+        this.changed = true;
     }
 
     public boolean hasPrisoner() {
@@ -52,10 +56,12 @@ public class Cell implements ICell {
 
     public void addAllSigns(HashSet<SimpleLocation> signs) {
         this.signs.addAll(signs);
+        this.changed = true;
     }
 
     public void addSign(SimpleLocation sign) {
         this.signs.add(sign);
+        this.changed = true;
     }
 
     public HashSet<SimpleLocation> getSigns() {
@@ -82,6 +88,7 @@ public class Cell implements ICell {
 
     public void setTeleport(SimpleLocation location) {
         this.teleport = location;
+        this.changed = true;
     }
 
     public Location getTeleport() {
@@ -90,6 +97,7 @@ public class Cell implements ICell {
 
     public void setChestLocation(SimpleLocation simpleLocation) {
         this.chest = simpleLocation;
+        this.changed = true;
     }
 
     public Location getChestLocation() {
@@ -114,5 +122,13 @@ public class Cell implements ICell {
             }
         }else
             return false;
+    }
+    
+    public boolean setChanged(boolean changed) {
+        return this.changed = changed;
+    }
+    
+    public boolean hasChanged() {
+        return this.changed;
     }
 }

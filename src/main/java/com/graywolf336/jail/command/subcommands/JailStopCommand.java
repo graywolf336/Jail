@@ -33,8 +33,6 @@ public class JailStopCommand implements Command {
 
         if(nothing) {
             sender.sendMessage(ChatColor.RED + "You've stopped creating....nothing.");
-        }else {
-        	jm.getPlugin().getJailIO().saveEverything();
         }
 
         return true;

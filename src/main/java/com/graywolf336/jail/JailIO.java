@@ -449,8 +449,16 @@ public class JailIO {
                                         c.addSign(new SimpleLocation(co[0], co[1], co[2], co[3]));
                                     }
                                 }
+                                
+                                //Since we're loading the data, the cell hasn't officially changed
+                                c.setChanged(false);
 
-                                j.addCell(c, false);
+                                //Try to add the cell to the jail, if one 
+                                if(!j.addCell(c, false)) {
+                                    int id = set.getInt("cellid");
+                                    cellsToRemove.add(id);
+                                    pl.debug("The cell, " + c.getName() + " (" + id + "), is already in jail " + j.getName() + " so we're removing it.");
+                                }
                             }else {
                                 pl.getLogger().warning("The cell, " + set.getString("name") + ", in " + j.getName() + " is located in a world that is not loaded.");
                             }
@@ -471,24 +479,24 @@ public class JailIO {
 
                 //Remove the invalid prisoners
                 if(cellsToRemove.size() != 0) {
-                    String names = "";
+                    StringBuilder ids = new StringBuilder();
                     for(int c : cellsToRemove) {
-                        if(names.isEmpty()) names = "'" + c + "'";
-                        else names += "," + "'" + c + "'";
+                        if(ids.length() == 0) ids.append("'" + c + "'");
+                        else ids.append("," + "'" + c + "'");
                     }
 
                     try {
-                        PreparedStatement cds = getConnection().prepareStatement("delete from " + prefix + "cells where cellid in (" + names + ");");
+                        PreparedStatement cds = getConnection().prepareStatement("delete from " + prefix + "cells where cellid in (" + ids.toString() + ");");
 
-                        pl.debug("Deleting old cells: 'delete from " + prefix + "cells where cellid in (" + names + ");'");
+                        pl.debug("Deleting old cells: `delete from " + prefix + "cells where cellid in (" + ids.toString() + ");`");
 
                         int count = cds.executeUpdate();
-                        pl.getLogger().info("Deleted " + count + " old cells which referenced a jail no longer valid: " + names);
+                        pl.getLogger().info("Deleted " + count + " cells which were invalid, they either referenced a jail which are no longer valid or were duplicates.");
                         cds.close();
                     } catch (SQLException e) {
                         e.printStackTrace();
                         pl.getLogger().severe("---------- Jail Error!!! ----------");
-                        pl.getLogger().severe("Error while deleting the old cells which don't have a valid jail, please check the error and fix what is wrong.");
+                        pl.getLogger().severe("Error while deleting the old cells which were invalid (they either referenced a jail which are no longer valid or were duplicates), please check the error and fix what is wrong.");
                     }
                 }
 
@@ -521,6 +529,7 @@ public class JailIO {
                                 j.addPrisoner(p);
                             }else if(c != null) {
                                 c.setPrisoner(p);
+                                c.setChanged(false);
                             }else {
                                 //the prisoner is assigned to a cell which doesn't exist, so just put them into the jail
                                 j.addPrisoner(p);
@@ -664,6 +673,7 @@ public class JailIO {
                         c.setPrisoner(p);
                     }
 
+                    c.setChanged(false);
                     j.addCell(c, false);
                 }
             }
@@ -904,6 +914,8 @@ public class JailIO {
                                 if(p.getPreviousGameMode() != null)
                                     flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
                             }
+                            
+                            c.setChanged(false);
                         }
 
                         //Null all the prisoners out before we save them again, this way no prisoners are left behind
@@ -939,10 +951,14 @@ public class JailIO {
     }
 
     public void saveCell(Jail j, Cell c) {
+        //if the cell hasn't changed, no need to save it again
+        if(!c.hasChanged()) return;
+        
         switch(storage) {
             case 1:
             case 2:
                 try {
+                    pl.debug("Saving the cell " + c.getName());
                     PreparedStatement cPS = getConnection().prepareStatement("INSERT INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
                             + "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -1002,6 +1018,8 @@ public class JailIO {
                 this.saveJail(j);
                 break;
         }
+        
+        c.setChanged(false);
     }
 
     /**
