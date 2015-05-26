@@ -504,6 +504,8 @@ public class PrisonerManager {
                     Util.restoreInventory(player, prisoner);
                 }
             }else {
+                //Clear out the cell's chest just in case
+                //they decided to store something there
                 if(cell.hasChest()) cell.getChest().getInventory().clear();
             }
 
