@@ -19,16 +19,17 @@ import com.graywolf336.jail.events.PrisonerTimeChangeEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
 
 public class CellSignListener implements Listener {
-    private String lineOne, lineTwo, lineThree, lineFour;
+    private String lineOne = "", lineTwo = "", lineThree = "", lineFour = "";
     private JailMain pl;
 
     public CellSignListener(JailMain plugin) {
         pl = plugin;
         List<String> lines = pl.getConfig().getStringList(Settings.CELLSIGNLINES.getPath());
-        lineOne = lines.get(0);
-        lineTwo = lines.get(1);
-        lineThree = lines.get(2);
-        lineFour = lines.get(3);
+        
+        if(lines.size() >= 1) lineOne = lines.get(0);
+        if(lines.size() >= 2) lineTwo = lines.get(1);
+        if(lines.size() >= 3) lineThree = lines.get(2);
+        if(lines.size() >= 4) lineFour = lines.get(3);
     }
 
     @EventHandler(ignoreCancelled=true, priority = EventPriority.MONITOR)
