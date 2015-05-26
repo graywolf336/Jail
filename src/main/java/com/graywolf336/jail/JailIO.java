@@ -453,7 +453,10 @@ public class JailIO {
                                 //Since we're loading the data, the cell hasn't officially changed
                                 c.setChanged(false);
 
-                                //Try to add the cell to the jail, if one 
+                                //Try to add the cell to the jail
+                                //if this method returns false then
+                                //the cell already exists and needs
+                                //to be removed from the database
                                 if(!j.addCell(c, false)) {
                                     int id = set.getInt("cellid");
                                     cellsToRemove.add(id);
