@@ -197,14 +197,26 @@ public class JailMain extends JavaPlugin {
     }
     
     public void reloadEverything() throws Exception {
+        //Reload the configuration file
         reloadConfig();
+        //Reload the language
         getJailIO().loadLanguage();
-        getJailIO().loadJails();
+        //Reload the storage settings and set them up if they don't exist.
+        //We don't touch any of the data currently being stored in cache,
+        //this way you can transfer from flatfile to mysql or flip flopped.
+        getJailIO().prepareStorage(true);
+        //Reload all that has to do with the scoreboard, name and settings
         reloadScoreBoardManager();
+        //Reload the jail sticks
         reloadJailSticks();
+        //Reload the jail pay information and settings
         reloadJailPayManager();
+        //Reload the jail vote information and settings
         reloadJailVoteManager();
+        //Reload the update checking, to turn it on/off and/or change the channel
         reloadUpdateCheck();
+        //Let the rest of the plugin(s) know we have reloaded so they can do stuff
+        //if they rely on any of the configuration settings (such as signs)
         getServer().getPluginManager().callEvent(new JailPluginReloadedEvent(this));
     }
 
