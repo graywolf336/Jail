@@ -59,7 +59,7 @@ public class PrisonerManager {
     }
 
     /**
-     * Does everything preparing for the jailing of the provided prisoner, if they are online it forwards it to {@link #jailPrisoner(Jail, Cell, Player, Prisoner)}.
+     * Does everything preparing for the jailing of the provided prisoner, if they are online it forwards it to {@link #jailPrisoner(Jail, ICell, Player, Prisoner)}.
      *
      * <p />
      *
@@ -355,9 +355,10 @@ public class PrisonerManager {
 
     /**
      * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
+     * 
+     * If you're wanting to unjail a prisoner, see the {@link #unJail(Jail, ICell, Player, Prisoner, CommandSender)} method.
      *
      * @param prisoner to be released.
-     * @see If you're wanting to unjail a prisoner, see the unjail method.
      */
     public void schedulePrisonerRelease(Prisoner prisoner) {
         releases.add(prisoner);
@@ -398,7 +399,7 @@ public class PrisonerManager {
     }
 
     /**
-     * Unjails a prisoner from jail, removing all their data.
+     * Unjails a prisoner, <strong>sync</strong>, from jail, removing all their data.
      *
      * <p />
      *
