@@ -37,25 +37,12 @@ public class JailIO {
     private JailMain pl;
     private FileConfiguration flat, records;
     private Connection con;
-    private int storage; //0 = flatfile, 1 = sqlite, 2 = mysql
+    private int storage = -1; //0 = flatfile, 1 = sqlite, 2 = mysql
     private String prefix;
+    private boolean changed = false;
 
     protected JailIO(JailMain plugin) {
         this.pl = plugin;
-
-        String st = pl.getConfig().getString("storage.type", "flatfile");
-        if(st.equalsIgnoreCase("sqlite")) {
-            storage = 1;
-            prefix = pl.getConfig().getString("storage.mysql.prefix");
-        }else if(st.equalsIgnoreCase("mysql")) {
-            storage = 2;
-            prefix = pl.getConfig().getString("storage.mysql.prefix");
-        }else {
-            storage = 0;
-        }
-
-        pl.debug("The storage type " + st + " with the type being " + storage + ".");
-        if(!pl.inDebug()) pl.getLogger().info("Storage type selected: " + st);
     }
 
     /** Loads the language file from disk, if there is none then we save the default one. */
@@ -98,6 +85,30 @@ public class JailIO {
 
     /** Prepares the storage engine to be used, returns true if everything went good. */
     protected boolean prepareStorage(boolean doInitialCreations) {
+        int inital = storage == -1 ? -1 : storage;
+        
+        String st = pl.getConfig().getString("storage.type", "flatfile");
+        if(st.equalsIgnoreCase("sqlite")) {
+            storage = 1;
+            prefix = pl.getConfig().getString("storage.mysql.prefix");
+        }else if(st.equalsIgnoreCase("mysql")) {
+            storage = 2;
+            prefix = pl.getConfig().getString("storage.mysql.prefix");
+        }else {
+            storage = 0;
+        }
+        
+        //Determine if we changed storage types midstream
+        //this way we can know whether to save EVERYTHING
+        //or not afterwards
+        if(inital != -1 && inital != storage) {
+            pl.debug("We changed storage types! We used to be " + inital + " and changed to " + storage + ".");
+            changed = true;
+        }
+
+        pl.debug("The storage type " + st + " with the type being " + storage + ".");
+        if(!pl.inDebug()) pl.getLogger().info("Storage type selected: " + st);
+        
         switch(storage) {
             case 1:
                 try {
@@ -151,6 +162,11 @@ public class JailIO {
                 flat = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "data.yml"));
                 records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
                 break;
+        }
+        
+        if(changed) {
+            changed = false;
+            this.saveEverything();
         }
 
         return true;
@@ -711,7 +727,7 @@ public class JailIO {
     }
 
     /** Saves everything about a jail, don't usually call this. */
-    public void saveEverything() {
+    protected void saveEverything() {
         long st = System.currentTimeMillis();
 
         for(Jail j : pl.getJailManager().getJails()) {
@@ -721,7 +737,7 @@ public class JailIO {
             //when we are not using the flatfile storage
             if(storage != 0) {
                 for(Cell c : j.getCells()) {
-                    saveCell(j, c);
+                    saveCell(j, c, true);
                 }
             }
         }
@@ -953,9 +969,10 @@ public class JailIO {
         }
     }
 
-    public void saveCell(Jail j, Cell c) {
+    public void saveCell(Jail j, Cell c, boolean force) {
         //if the cell hasn't changed, no need to save it again
-        if(!c.hasChanged()) return;
+        //unless they're forcing the save
+        if(!c.hasChanged() && !force) return;
         
         switch(storage) {
             case 1:

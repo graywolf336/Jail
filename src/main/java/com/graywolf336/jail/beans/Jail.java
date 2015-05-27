@@ -161,7 +161,7 @@ public class Jail {
 
     /** Adds a cell to the Jail. */
     public boolean addCell(Cell cell, boolean save) {
-        if(save) plugin.getJailIO().saveCell(this, cell);
+        if(save) plugin.getJailIO().saveCell(this, cell, false);
         
         //Check if it already exists or not
         if(this.cells.containsKey(cell.getName())) return false;
