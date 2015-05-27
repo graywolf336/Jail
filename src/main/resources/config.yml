@@ -26,7 +26,7 @@ jailing:
     blockPlaceWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
     cellsign:
     - '%player%'
-    - '%timeinminutes% mins'
+    - '%prettytime%'
     - 'with a reason'
     - '%reason%'
     commandPenalty: 5m

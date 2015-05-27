@@ -13,6 +13,7 @@ import com.graywolf336.jail.command.CommandHandler;
 import com.graywolf336.jail.command.JailHandler;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.events.JailPluginReloadedEvent;
 import com.graywolf336.jail.interfaces.IJailPayManager;
 import com.graywolf336.jail.interfaces.IJailStickManager;
 import com.graywolf336.jail.legacy.LegacyManager;
@@ -204,6 +205,7 @@ public class JailMain extends JavaPlugin {
         reloadJailPayManager();
         reloadJailVoteManager();
         reloadUpdateCheck();
+        getServer().getPluginManager().callEvent(new JailPluginReloadedEvent(this));
     }
 
     /** Reloads the scoreboard manager class, useful when something is changed int he config about it. */
