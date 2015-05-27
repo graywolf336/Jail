@@ -39,6 +39,7 @@ import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
 import org.junit.Assert;
 import org.mockito.Matchers;
 import org.mockito.invocation.InvocationOnMock;
@@ -68,6 +69,7 @@ public class TestInstanceCreator {
     @SuppressWarnings("deprecation")
     public boolean setup() {
         r = new Random();
+        
         try {
             pluginDirectory.mkdirs();
             Assert.assertTrue(pluginDirectory.exists());
@@ -176,42 +178,47 @@ public class TestInstanceCreator {
             when(mockServer.unloadWorld(anyString(), anyBoolean())).thenReturn(true);
 
             // add mock scheduler
+            final BukkitTask bt = mock(BukkitTask.class);
+            when(bt.getTaskId()).thenReturn(r.nextInt());
+            when(bt.getOwner()).thenReturn(main);
+            when(bt.isSync()).thenReturn(false);
+            
             BukkitScheduler mockScheduler = mock(BukkitScheduler.class);
             when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class), anyLong())).
-            thenAnswer(new Answer<Integer>() {
-                public Integer answer(InvocationOnMock invocation) throws Throwable {
+            thenAnswer(new Answer<BukkitTask>() {
+                public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
                         arg = (Runnable) invocation.getArguments()[1];
                     } catch (Exception e) {
-                        return null;
+                        return bt;
                     }
                     arg.run();
-                    return null;
+                    return bt;
                 }});
             when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class))).
-            thenAnswer(new Answer<Integer>() {
-                public Integer answer(InvocationOnMock invocation) throws Throwable {
+            thenAnswer(new Answer<BukkitTask>() {
+                public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
                         arg = (Runnable) invocation.getArguments()[1];
                     } catch (Exception e) {
-                        return null;
+                        return bt;
                     }
                     arg.run();
-                    return null;
+                    return bt;
                 }});
             when(mockScheduler.runTaskTimerAsynchronously(any(Plugin.class), any(Runnable.class), anyLong(), anyLong())).
-            thenAnswer(new Answer<Integer>() {
-                public Integer answer(InvocationOnMock invocation) throws Throwable {
+            thenAnswer(new Answer<BukkitTask>() {
+                public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
                         arg = (Runnable) invocation.getArguments()[1];
                     } catch (Exception e) {
-                        return null;
+                        return bt;
                     }
                     arg.run();
-                    return null;
+                    return bt;
                 }});
             when(mockServer.getScheduler()).thenReturn(mockScheduler);
 
