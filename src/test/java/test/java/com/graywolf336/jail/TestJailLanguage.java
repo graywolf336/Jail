@@ -81,7 +81,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&cNumber format is incorrect."), Lang.NUMBERFORMATINCORRECT.get());
         assertEquals(colorize("&cA player context is required for this."), Lang.PLAYERCONTEXTREQUIRED.get());
         assertEquals(colorize("&cThat player is not online!"), Lang.PLAYERNOTONLINE.get());
-        assertEquals(colorize("&9Jail data successfully reloaded."), Lang.PLUGINRELOADED.get());
+        assertEquals(colorize("&9Jail configuration successfully reloaded."), Lang.PLUGINRELOADED.get());
         assertEquals(colorize("&cAll the prisoners from cloud have been cleared."), Lang.PRISONERSCLEARED.get("cloud"));
         assertEquals(colorize("&7[MM/dd/yyyy HH:mm:ss]: &9graywolf336 &fjailed by &9console &ffor &960 &fminutes with a reason of &9doing terrible coding&f. [" + id.toString() + "]"), Lang.RECORDENTRY.get(new String[] { "MM/dd/yyyy HH:mm:ss", "graywolf336", "console", "60", "doing terrible coding", id.toString() }));
         assertEquals(colorize("&9transferring"), Lang.TRANSFERRING.get());
