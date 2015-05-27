@@ -76,7 +76,7 @@ public class JailHandler {
 
         }else {
             //Get the matches from the first argument passed
-            List<Command> matches = getMatches(args[0]);
+            List<Command> matches = getMatches(args[0].toLowerCase());
 
             if(matches.size() == 0) {
                 //No matches found, thus it is more likely than not they are trying to jail someone
