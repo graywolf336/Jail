@@ -30,10 +30,9 @@ import com.graywolf336.jail.interfaces.ICell;
  * <p />
  *
  * <ul>
- * 	<li>{@link #prepareJail(Jail, Cell, Player, Prisoner) preparejail}</li>
- * 	<li>{@link #jailPrisoner(Jail, Cell, Player, Prisoner) jailPrisoner}</li>
+ * 	<li>{@link #prepareJail(Jail, ICell, Player, Prisoner) preparejail}</li>
  * 	<li>{@link #schedulePrisonerRelease(Prisoner) schedulePrisonerRelease}</li>
- * 	<li>{@link #unJail(Jail, Cell, Player, Prisoner, CommandSender) unJail}</li>
+ * 	<li>{@link #unJail(Jail, ICell, Player, Prisoner, CommandSender) unJail}</li>
  * 	<li>{@link #forceRelease(Prisoner, CommandSender) forceRelease}</li>
  *  <li>{@link #forceUnJail(Jail, Cell, Player, Prisoner, CommandSender) forceUnJail}</li>
  *  <li>{@link #transferPrisoner(Jail, Cell, Jail, Cell, Prisoner) transferPrisoner}</li>
@@ -71,14 +70,14 @@ public class PrisonerManager {
      * 	<li>Sets the prisoner data to offline pending or not, player == null</li>
      * 	<li>Determine which type of cell is provided, add the prisoner data to the jail otherwise we set the cell's prisoner to this one. <em>Check before here if the cell already contains a prisoner.</em></li>
      * 	<li>Saves the jail information, goes out to the {@link JailIO} to initate a save.</li>
-     * 	<li>If the prisoner is <em>not</em> offline, we will actually {@link #jailPrisoner(Jail, Cell, Player, Prisoner) jail} them now.</li>
+     * 	<li>If the prisoner is <em>not</em> offline, we will actually {@link #jailPrisoner(Jail, ICell, Player, Prisoner) jail} them now.</li>
      * 	<li>Does checks to get the right message for the next two items.</li>
      * 	<li>If we broadcast the jailing, then let's broadcast it.</li>
      * 	<li>If we log the jailing to console <em>and</em> we haven't broadcasted it, then we log it to the console.</li>
      * </ol>
      *
      * @param jail The {@link Jail jail instance} we are sending this prisoner to
-     * @param cell The name of the {@link Cell cell} we are sending this prisoner to
+     * @param cell The name of the {@link ICell cell} we are sending this prisoner to
      * @param player The {@link Player player} we are preparing the jail for.
      * @param prisoner The {@link Prisoner prisoner} file.
      * @throws Exception if the jail or prisoner are null.
@@ -358,7 +357,7 @@ public class PrisonerManager {
      * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
      *
      * @param prisoner to be released.
-     * @see {@link #unJail(Jail, Cell, Player, Prisoner, CommandSender)} - If you're wanting to unjail a prisoner.
+     * @see If you're wanting to unjail a prisoner, see the unjail method.
      */
     public void schedulePrisonerRelease(Prisoner prisoner) {
         releases.add(prisoner);
