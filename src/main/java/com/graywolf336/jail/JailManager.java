@@ -70,7 +70,15 @@ public class JailManager {
 
     /** Returns an array of all the names of the jails. */
     public String[] getJailNames() {
-        return this.jails.keySet().toArray(new String[jails.size()]);
+        String[] toReturn = new String[jails.size()];
+        
+        int count = 0;
+        for(Jail j : this.jails.values()) {
+            toReturn[count] = j.getName();
+            count++;
+        }
+        
+        return toReturn;
     }
 
     /**
@@ -80,7 +88,7 @@ public class JailManager {
      * @param n True if this is a new jail, false if it isn't.
      */
     public void addJail(Jail jail, boolean n) {
-        this.jails.put(jail.getName(), jail);
+        this.jails.put(jail.getName().toLowerCase(), jail);
         if(n) plugin.getJailIO().saveJail(jail);
     }
 
@@ -90,8 +98,8 @@ public class JailManager {
      * @param name of the jail to remove
      */
     public void removeJail(String name) {
-        plugin.getJailIO().removeJail(this.jails.get(name));
-        this.jails.remove(name);
+        plugin.getJailIO().removeJail(this.jails.get(name.toLowerCase()));
+        this.jails.remove(name.toLowerCase());
     }
 
     /**
@@ -104,7 +112,7 @@ public class JailManager {
         if(name.isEmpty() && jails.isEmpty())
             return null;
         else
-            return name.isEmpty() ? this.jails.values().iterator().next() : this.jails.get(name);
+            return name.isEmpty() ? this.jails.values().iterator().next() : this.jails.get(name.toLowerCase());
     }
 
     /**
@@ -160,7 +168,7 @@ public class JailManager {
      * @return True if a valid jail was found, false if no jail was found.
      */
     public boolean isValidJail(String name) {
-        return this.jails.get(name) != null;
+        return this.jails.get(name.toLowerCase()) != null;
     }
 
     /**
