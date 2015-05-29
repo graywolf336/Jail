@@ -13,7 +13,7 @@ import com.graywolf336.jail.enums.Lang;
         maxArgs = 2,
         minimumArgs = 1,
         needsPlayer = false,
-        pattern = "telein|teleportin",
+        pattern = "teleportin|telein",
         permission = "jail.command.jailtelein",
         usage = "/jail telein [jail] (name)"
         )

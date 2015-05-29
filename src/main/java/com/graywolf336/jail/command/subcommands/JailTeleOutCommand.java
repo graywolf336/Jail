@@ -13,7 +13,7 @@ import com.graywolf336.jail.enums.Lang;
         maxArgs = 2,
         minimumArgs = 1,
         needsPlayer = false,
-        pattern = "teleout|teleportout",
+        pattern = "teleportout|teleout",
         permission = "jail.command.jailteleout",
         usage = "/jail teleout [jail] (name)"
         )

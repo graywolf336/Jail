@@ -91,6 +91,28 @@ public class Util {
 
         return false;
     }
+    
+    public static String getStringFromArray(String separator, String... list) {
+        StringBuilder result = new StringBuilder();
+        
+        for(String s : list) {
+            if(result.length() != 0) result.append(separator);
+            result.append(s);
+        }
+        
+        return result.toString();
+    }
+    
+    public static String getStringFromList(String separator, List<String> list) {
+        StringBuilder result = new StringBuilder();
+        
+        for(String s : list) {
+            if(result.length() != 0) result.append(separator);
+            result.append(s);
+        }
+        
+        return result.toString();
+    }
 
     /** Returns a colorful message from the color codes. */
     public static String getColorfulMessage(String message) {

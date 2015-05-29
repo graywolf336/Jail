@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
         maxArgs = 2,
         minimumArgs = 2,
         needsPlayer = false,
-        pattern = "transferall|transall",
+        pattern = "transferall|transall|ta",
         permission = "jail.command.jailtransferall",
         usage = "/jail transferall [current] [target]"
         )

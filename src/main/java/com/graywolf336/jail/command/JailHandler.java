@@ -1,6 +1,7 @@
 package com.graywolf336.jail.command;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -46,6 +47,41 @@ public class JailHandler {
         loadCommands();
 
         plugin.debug("Loaded " + commands.size() + " sub-commands of /jail.");
+    }
+    
+    public List<String> parseTabComplete(JailManager jm, CommandSender sender, String[] args) {
+        if(args[0].equalsIgnoreCase("")) {
+            List<String> results = new ArrayList<String>();
+            boolean hasJailPermission = false;
+            
+            for(Command c : commands.values()) {
+                CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
+                //Skip the jail subcommand instance, since it is unique
+                if(i.pattern().equalsIgnoreCase("jail|j")) {
+                    hasJailPermission = sender.hasPermission(i.permission());
+                    continue;
+                }
+                
+                //Skip if the command requires a player and the sender isn't a player
+                if(i.needsPlayer() && !(sender instanceof Player)) continue;
+                
+                if(sender.hasPermission(i.permission())) {
+                    results.add(i.pattern().split("\\|")[0]);
+                }
+            }
+            
+            //Sort the results before adding the player names
+            Collections.sort(results);
+            
+            //Don't send out all the players if they don't have jail permission
+            if(hasJailPermission)
+                for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+                    results.add(p.getName());
+            
+            return results;
+        }
+        
+        return Collections.emptyList();
     }
 
     /**

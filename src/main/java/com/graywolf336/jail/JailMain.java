@@ -1,5 +1,7 @@
 package com.graywolf336.jail;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.command.Command;
@@ -194,6 +196,23 @@ public class JailMain extends JavaPlugin {
     	}
 
         return true;//Always return true here, that way we can handle the help and command usage ourself.
+    }
+    
+    public List<String> onTabComplete(CommandSender sender, Command command, String commandLabel, String[] args) {
+        if(jh == null || cmdHand == null) {
+            sender.sendMessage(Lang.PLUGINNOTLOADED.get());
+            getServer().getConsoleSender().sendMessage(Lang.PLUGINNOTLOADED.get());
+        }else {
+            debug("Tab Complete Args (" + args.length + ") for '" + commandLabel + "': " + Util.getStringFromArray(", ", args));
+            if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
+                return jh.parseTabComplete(jm, sender, args);
+            }else {
+                //cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
+                //unjail,etc
+            }
+        }
+        
+        return Collections.emptyList();
     }
     
     public void reloadEverything() throws Exception {
