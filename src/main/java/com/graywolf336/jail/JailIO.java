@@ -180,14 +180,24 @@ public class JailIO {
     private Connection getConnection() {
         switch(storage) {
             case 1:
-            case 2:
                 if(con == null) this.prepareStorage(false);
                 try {
-                    if(!con.isValid(10)) this.prepareStorage(false);
+                    if(con.isClosed()) this.prepareStorage(false);
                 } catch (SQLException e) {
                     e.printStackTrace();
                     pl.getLogger().severe("---------- Jail Error!!! ----------");
-                    pl.getLogger().severe("Unable to get a Sql connection, please see the error above and fix the problem.");
+                    pl.getLogger().severe("Unable to get a SQLite connection, please see the error above and fix the problem.");
+                    return null;
+                }
+                return con;
+            case 2:
+                if(con == null) this.prepareStorage(false);
+                try {
+                    if(con.isClosed() || !con.isValid(10)) this.prepareStorage(false);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    pl.getLogger().severe("---------- Jail Error!!! ----------");
+                    pl.getLogger().severe("Unable to get a MySql connection, please see the error above and fix the problem.");
                     return null;
                 }
                 return con;
