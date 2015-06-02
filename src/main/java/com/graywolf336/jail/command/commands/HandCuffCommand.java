@@ -1,10 +1,12 @@
 package com.graywolf336.jail.command.commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.command.Command;
@@ -43,7 +45,16 @@ public class HandCuffCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        List<String> results = new ArrayList<String>();
+        
+        for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+            if(!jm.getPlugin().getHandCuffManager().isHandCuffed(p.getUniqueId())) //don't send someone who is already handcuffed
+                if(!p.hasPermission("jail.cantbehandcuffed")) //don't send someone who can't be handcuffed
+                    if(args[0].isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), args[0]))
+                        results.add(p.getName());
+        
+        Collections.sort(results);
+        
+        return results;
     }
 }

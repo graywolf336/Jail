@@ -1,5 +1,6 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -7,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Prisoner;
@@ -210,7 +212,24 @@ public class JailPayCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
+        if(jm.getPlugin().getConfig().getBoolean(Settings.JAILPAYENABLED.getPath())) {
+            switch(args.length) {
+                case 3:
+                    List<String> results = new ArrayList<String>();
+                    for(Prisoner p : jm.getAllPrisoners().values())
+                        if(!p.isOfflinePending()) //Don't list if they're offline pending
+                            if(p.getRemainingTime() != -1) //Don't list if they're jailed forever
+                                if(StringUtil.startsWithIgnoreCase(p.getLastKnownName(), args[2]))
+                                    results.add(p.getLastKnownName());
+                    
+                    Collections.sort(results);
+                    
+                    return results;
+                default:
+                    break;
+            }
+        }
+        
         return Collections.emptyList();
     }
 }

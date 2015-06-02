@@ -1,12 +1,15 @@
 package com.graywolf336.jail.command.commands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.Lang;
@@ -39,7 +42,14 @@ public class UnJailForceCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        List<String> results = new ArrayList<String>();
+        
+        for(Prisoner p : jm.getAllPrisoners().values())
+            if(args[0].isEmpty() || StringUtil.startsWithIgnoreCase(p.getLastKnownName(), args[0]))
+                results.add(p.getLastKnownName());
+        
+        Collections.sort(results);
+        
+        return results;
     }
 }

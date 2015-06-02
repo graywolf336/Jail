@@ -41,19 +41,17 @@ public class JailDeleteCellCommand implements Command {
         
         switch(args.length) {
             case 1:
-                results.addAll(jm.getJailNamesAsList());
+                results.addAll(jm.getJailsByPrefix(""));
                 break;
             case 2:
-                for(Jail j : jm.getJails())
-                    if(StringUtil.startsWithIgnoreCase(j.getName(), args[1]))
-                        results.add(j.getName());
+                results = jm.getJailsByPrefix(args[1]);
                 break;
             case 3:
                 if(jm.isValidJail(args[1])) {
                     Jail j = jm.getJail(args[1]);
                     
                     for(Cell c : j.getCells())
-                        if(StringUtil.startsWithIgnoreCase(c.getName(), args[2]))
+                        if(args[2].isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), args[2]))
                             results.add(c.getName());
                 }
                 break;

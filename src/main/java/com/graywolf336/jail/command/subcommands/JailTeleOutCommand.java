@@ -1,10 +1,12 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
@@ -56,7 +58,21 @@ public class JailTeleOutCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        switch(args.length) {
+            case 2:
+                return jm.getJailsByPrefix(args[1]);
+            case 3:
+                List<String> results = new ArrayList<String>();
+                
+                for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+                    if(args[2].isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), args[2]))
+                        results.add(p.getName());
+                
+                Collections.sort(results);
+                
+                return results;
+            default:
+                return Collections.emptyList();
+        }
     }
 }

@@ -1,10 +1,12 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
@@ -57,7 +59,21 @@ public class JailTransferAllCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        switch(args.length) {
+            case 2:
+                return jm.getJailsByPrefix(args[1]);
+            case 3:
+                List<String> results = new ArrayList<String>();
+                
+                for(Jail j : jm.getJails())
+                    if(!j.getName().equalsIgnoreCase(args[1]) && (args[2].isEmpty() || StringUtil.startsWithIgnoreCase(j.getName(), args[2])))
+                        results.add(j.getName());
+                
+                Collections.sort(results);
+                
+                return results;
+            default:
+                return Collections.emptyList();
+        }
     }
 }

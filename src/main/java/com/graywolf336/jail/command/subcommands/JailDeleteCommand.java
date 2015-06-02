@@ -1,6 +1,5 @@
 package com.graywolf336.jail.command.subcommands;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
@@ -33,7 +32,6 @@ public class JailDeleteCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        return jm.getJailsByPrefix(args.length == 2 ? args[1] : "");
     }
 }

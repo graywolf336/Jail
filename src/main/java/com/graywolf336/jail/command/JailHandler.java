@@ -40,6 +40,14 @@ import com.graywolf336.jail.command.subcommands.JailVersionCommand;
 import com.graywolf336.jail.command.subcommands.JailVoteCommand;
 import com.graywolf336.jail.enums.Lang;
 
+/**
+ * Where all the <strong>jail</strong> commands are registered, handled, and processed at.
+ * 
+ * @author graywolf336
+ * @since 3.0.0
+ * @version 1.1.0
+ *
+ */
 public class JailHandler {
     private LinkedHashMap<String, Command> commands;
 
@@ -51,7 +59,7 @@ public class JailHandler {
     }
     
     public List<String> parseTabComplete(JailManager jm, CommandSender sender, String[] args) throws Exception {
-        if(args[0].equalsIgnoreCase("") || args.length == 1) {
+        if(args[0].isEmpty() || args.length == 1) {
             List<String> results = new ArrayList<String>();
             String arg0 = args[0].toLowerCase();
             boolean hasJailPermission = false;
@@ -70,7 +78,7 @@ public class JailHandler {
                 //If the sender has permission to the command
                 //and the first argument (sub command) is empty OR
                 //the first argument matches the command or starts with the string
-                if(sender.hasPermission(i.permission()) && (arg0.equalsIgnoreCase("") || (arg0.toLowerCase().matches(i.pattern()) || i.pattern().startsWith(arg0)))) {
+                if(sender.hasPermission(i.permission()) && (arg0.isEmpty() || (arg0.toLowerCase().matches(i.pattern()) || i.pattern().startsWith(arg0)))) {
                     results.add(i.pattern().split("\\|")[0]);
                 }
             }
@@ -79,12 +87,10 @@ public class JailHandler {
             Collections.sort(results);
             
             //Don't send out all the players if they don't have jail permission
-            if(hasJailPermission) {
-                for(Player p : jm.getPlugin().getServer().getOnlinePlayers()) {
-                    if(arg0.equalsIgnoreCase("") || StringUtil.startsWithIgnoreCase(p.getName(), arg0))
+            if(hasJailPermission)
+                for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+                    if(arg0.isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), arg0))
                         results.add(p.getName());
-                }
-            }
             
             return results;
         }else {
@@ -93,15 +99,15 @@ public class JailHandler {
             for(Command c : commands.values()) {
                 CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
                 
+                //Sender provided too many arguments which means there
+                //is nothing to tab complete
+                if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) continue;
+                
                 //Skip if the command requires a player and the sender isn't a player
                 if(i.needsPlayer() && !(sender instanceof Player)) continue;
                 
                 //If the sender doesn't have permission, we won't send them further
                 if(!sender.hasPermission(i.permission())) continue;
-                
-                //Sender provided too many arguments which means there
-                //is nothing to tab complete
-                if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) continue;
                 
                 if(arg0.toLowerCase().matches(i.pattern())) {
                     return c.provideTabCompletions(jm, sender, args);

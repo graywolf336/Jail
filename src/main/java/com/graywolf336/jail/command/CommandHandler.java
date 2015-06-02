@@ -1,6 +1,7 @@
 package com.graywolf336.jail.command;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -18,7 +19,7 @@ import com.graywolf336.jail.command.commands.UnJailForceCommand;
 import com.graywolf336.jail.enums.Lang;
 
 /**
- * Where all the commands are registered at and handled, processed, at.
+ * Where all the commands are registered, handled, and processed.
  * 
  * @author graywolf336
  * @since 3.0.0
@@ -33,6 +34,28 @@ public class CommandHandler {
         loadCommands();
 
         plugin.debug("Loaded " + commands.size() + " commands.");
+    }
+    
+    public List<String> parseTabComplete(JailManager jm, CommandSender sender, String commandLine, String[] args) throws Exception {
+        List<Command> matches = getMatches(commandLine);
+        
+        if(matches.size() == 0 || matches.size() > 1) return Collections.emptyList();
+        else {
+            CommandInfo i = matches.get(0).getClass().getAnnotation(CommandInfo.class);
+            
+            //Sender provided too many arguments which means there
+            //is nothing to tab complete
+            if(i.maxArgs() != -1 && i.maxArgs() < args.length) return Collections.emptyList();
+            
+            //Don't return anything if a player is required and they're not a player
+            if(i.needsPlayer() && !(sender instanceof Player)) return Collections.emptyList();
+            
+            //Don't return anything if they don't have permission
+            if(!sender.hasPermission(i.permission())) return Collections.emptyList();
+            
+            //Let the command handle the rest of it
+            return matches.get(0).provideTabCompletions(jm, sender, args);
+        }
     }
 
     /**

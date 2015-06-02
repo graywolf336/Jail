@@ -1,9 +1,11 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
@@ -57,7 +59,25 @@ public class JailTimeCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        List<String> results = new ArrayList<String>();
+        
+        switch(args.length) {
+            case 2:
+                for(String s : new String[] { "add", "remove", "set", "show" })
+                    if(args[1].isEmpty() || StringUtil.startsWithIgnoreCase(s, args[1]))
+                        results.add(s);
+                break;
+            case 3:
+                for(Prisoner p : jm.getAllPrisoners().values())
+                    if(StringUtil.startsWithIgnoreCase(p.getLastKnownName(), args[2]))
+                        results.add(p.getLastKnownName());
+                break;
+            default:
+                break;
+        }
+        
+        Collections.sort(results);
+        
+        return results;
     }
 }

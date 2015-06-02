@@ -1,13 +1,11 @@
 package com.graywolf336.jail.command.subcommands;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
@@ -72,18 +70,6 @@ public class JailCreateCellCommand implements Command {
         //We shouldn't provide when they want a cell name
         if(args.length >= 3) return Collections.emptyList();
         
-        List<String> results = new ArrayList<String>();
-        
-        for(Jail j : jm.getJails()) {
-            if(args.length == 2 && StringUtil.startsWithIgnoreCase(j.getName(), args[1])) {
-                results.add(j.getName());
-            }else {
-                results.add(j.getName());
-            }
-        }
-        
-        Collections.sort(results);
-        
-        return results;
+        return jm.getJailsByPrefix(args.length == 2 ? args[1] : "");
     }
 }

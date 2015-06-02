@@ -92,10 +92,17 @@ public class Util {
         return false;
     }
     
-    public static String getStringFromArray(String separator, String... list) {
+    /**
+     * Gets a single string from an array of strings, separated by the separator.
+     * 
+     * @param separator The item to separate the items
+     * @param array The array of strings to combine
+     * @return the resulting combined string
+     */
+    public static String getStringFromArray(String separator, String... array) {
         StringBuilder result = new StringBuilder();
         
-        for(String s : list) {
+        for(String s : array) {
             if(result.length() != 0) result.append(separator);
             result.append(s);
         }
@@ -103,6 +110,13 @@ public class Util {
         return result.toString();
     }
     
+    /**
+     * Gets a single string from a list of strings, separated by the separator.
+     * 
+     * @param separator The item to separate the items
+     * @param list The list of strings to combine
+     * @return the resulting combined string
+     */
     public static String getStringFromList(String separator, List<String> list) {
         StringBuilder result = new StringBuilder();
         

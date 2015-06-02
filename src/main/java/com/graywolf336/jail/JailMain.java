@@ -208,8 +208,7 @@ public class JailMain extends JavaPlugin {
                 if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
                     return jh.parseTabComplete(jm, sender, args);
                 }else {
-                    //cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
-                    //unjail,etc
+                    return cmdHand.parseTabComplete(jm, sender, command.getName().toLowerCase(), args);
                 }
             }catch(Exception e) {
                 return Collections.emptyList();

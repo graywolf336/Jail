@@ -45,7 +45,7 @@ public class JailRecordCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
+        //We won't be implementing tab complete on this for now (unless requested)
         return Collections.emptyList();
     }
 }

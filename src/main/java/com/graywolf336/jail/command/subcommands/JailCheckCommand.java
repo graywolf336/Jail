@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
@@ -53,6 +54,11 @@ public class JailCheckCommand implements Command{
         }
         
         Collections.sort(results);
+        
+        if(args.length == 1)
+            for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+                if(!results.contains(p.getName()))
+                    results.add(p.getName());
         
         return results;
     }

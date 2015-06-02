@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.beans.CachePrisoner;
 import com.graywolf336.jail.beans.Cell;
@@ -84,12 +85,26 @@ public class JailManager {
         return toReturn;
     }
     
-    /** Returns a List of the jail names. */
-    public List<String> getJailNamesAsList() {
+    /**
+     * Gets a list of Jail names that start with the provided prefix.
+     * 
+     * <p>
+     * 
+     * If the provided prefix is empty, then we add all of the jails.
+     * 
+     * @param prefix The start of the jails to get
+     * @return List of jails that matched the prefix
+     */
+    public List<String> getJailsByPrefix(String prefix) {
         List<String> results = new ArrayList<String>();
         
-        for(Jail j : this.jails.values())
-            results.add(j.getName());
+        for(Jail j : this.jails.values()) {
+            if(!prefix.isEmpty() && StringUtil.startsWithIgnoreCase(j.getName(), prefix)) {
+                results.add(j.getName());
+            }else {
+                results.add(j.getName());
+            }
+        }
         
         Collections.sort(results);
         

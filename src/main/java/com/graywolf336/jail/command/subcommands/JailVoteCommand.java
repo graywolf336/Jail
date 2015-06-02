@@ -1,10 +1,12 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.JailVoteManager;
@@ -102,7 +104,29 @@ public class JailVoteCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
-        return Collections.emptyList();
+        if(jm.getPlugin().getConfig().getBoolean(Settings.JAILVOTEENABLED.getPath()) && jm.getPlugin().getJailVoteManager() != null && !jm.getJails().isEmpty()) {
+            List<String> results = new ArrayList<String>();
+            
+            switch(args.length) {
+                case 2:
+                    for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+                        if(args[1].isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), args[1]))
+                            results.add(p.getName());
+                    break;
+                case 3:
+                    for(String s : new String[] { "yes", "no" })
+                        if(args[2].isEmpty() || StringUtil.startsWithIgnoreCase(s, args[2]))
+                            results.add(s);
+                    break;
+                default:
+                    break;
+            }
+            
+            Collections.sort(results);
+            
+            return results;
+        }else {
+            return Collections.emptyList();
+        }
     }
 }
