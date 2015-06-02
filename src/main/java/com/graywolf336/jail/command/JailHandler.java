@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
@@ -49,9 +50,10 @@ public class JailHandler {
         plugin.debug("Loaded " + commands.size() + " sub-commands of /jail.");
     }
     
-    public List<String> parseTabComplete(JailManager jm, CommandSender sender, String[] args) {
-        if(args[0].equalsIgnoreCase("")) {
+    public List<String> parseTabComplete(JailManager jm, CommandSender sender, String[] args) throws Exception {
+        if(args[0].equalsIgnoreCase("") || args.length == 1) {
             List<String> results = new ArrayList<String>();
+            String arg0 = args[0].toLowerCase();
             boolean hasJailPermission = false;
             
             for(Command c : commands.values()) {
@@ -65,7 +67,10 @@ public class JailHandler {
                 //Skip if the command requires a player and the sender isn't a player
                 if(i.needsPlayer() && !(sender instanceof Player)) continue;
                 
-                if(sender.hasPermission(i.permission())) {
+                //If the sender has permission to the command
+                //and the first argument (sub command) is empty OR
+                //the first argument matches the command or starts with the string
+                if(sender.hasPermission(i.permission()) && (arg0.equalsIgnoreCase("") || (arg0.toLowerCase().matches(i.pattern()) || i.pattern().startsWith(arg0)))) {
                     results.add(i.pattern().split("\\|")[0]);
                 }
             }
@@ -74,11 +79,34 @@ public class JailHandler {
             Collections.sort(results);
             
             //Don't send out all the players if they don't have jail permission
-            if(hasJailPermission)
-                for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
-                    results.add(p.getName());
+            if(hasJailPermission) {
+                for(Player p : jm.getPlugin().getServer().getOnlinePlayers()) {
+                    if(arg0.equalsIgnoreCase("") || StringUtil.startsWithIgnoreCase(p.getName(), arg0))
+                        results.add(p.getName());
+                }
+            }
             
             return results;
+        }else {
+            String arg0 = args[0].toLowerCase();
+            
+            for(Command c : commands.values()) {
+                CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
+                
+                //Skip if the command requires a player and the sender isn't a player
+                if(i.needsPlayer() && !(sender instanceof Player)) continue;
+                
+                //If the sender doesn't have permission, we won't send them further
+                if(!sender.hasPermission(i.permission())) continue;
+                
+                //Sender provided too many arguments which means there
+                //is nothing to tab complete
+                if(i.maxArgs() != -1 && i.maxArgs() < args.length - 1) continue;
+                
+                if(arg0.toLowerCase().matches(i.pattern())) {
+                    return c.provideTabCompletions(jm, sender, args);
+                }
+            }
         }
         
         return Collections.emptyList();

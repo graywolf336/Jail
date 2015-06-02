@@ -1,5 +1,7 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.bukkit.ChatColor;
@@ -205,5 +207,10 @@ public class JailPayCommand implements Command {
         }
 
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //TODO implement
+        return Collections.emptyList();
     }
 }

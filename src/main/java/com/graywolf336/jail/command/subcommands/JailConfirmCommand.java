@@ -1,5 +1,8 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
@@ -88,4 +91,8 @@ public class JailConfirmCommand implements Command{
         return true;
     }
 
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //confirming doesn't require any tab completing
+        return Collections.emptyList();
+    }
 }

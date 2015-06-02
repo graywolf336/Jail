@@ -1,5 +1,7 @@
 package com.graywolf336.jail.command;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
@@ -9,7 +11,7 @@ import com.graywolf336.jail.JailManager;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.0.0
+ * @version 1.1.0
  */
 public interface Command {
     /**
@@ -28,4 +30,6 @@ public interface Command {
      * @return True if the method handled it in any way, false if we should send the usage message.
      */
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception;
+    
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception;
 }

@@ -1,7 +1,12 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Prisoner;
@@ -36,4 +41,19 @@ public class JailCheckCommand implements Command{
         return true;
     }
 
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        List<String> results = new ArrayList<String>();
+        
+        for(Prisoner p : jm.getAllPrisoners().values()) {
+            if(args.length == 2 && StringUtil.startsWithIgnoreCase(p.getLastKnownName(), args[1].toLowerCase())) {
+                results.add(p.getLastKnownName());
+            }else {
+                results.add(p.getLastKnownName());
+            }
+        }
+        
+        Collections.sort(results);
+        
+        return results;
+    }
 }

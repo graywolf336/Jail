@@ -1,6 +1,7 @@
 package com.graywolf336.jail.command.subcommands;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -135,5 +136,10 @@ public class JailTransferCommand implements Command {
         }
 
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //TODO implement
+        return Collections.emptyList();
     }
 }

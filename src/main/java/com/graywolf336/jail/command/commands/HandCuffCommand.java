@@ -1,5 +1,8 @@
 package com.graywolf336.jail.command.commands;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -37,5 +40,10 @@ public class HandCuffCommand implements Command {
         }
 
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //TODO implement
+        return Collections.emptyList();
     }
 }

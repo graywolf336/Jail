@@ -1,8 +1,11 @@
 package com.graywolf336.jail;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Location;
@@ -79,6 +82,18 @@ public class JailManager {
         }
         
         return toReturn;
+    }
+    
+    /** Returns a List of the jail names. */
+    public List<String> getJailNamesAsList() {
+        List<String> results = new ArrayList<String>();
+        
+        for(Jail j : this.jails.values())
+            results.add(j.getName());
+        
+        Collections.sort(results);
+        
+        return results;
     }
 
     /**

@@ -1,5 +1,8 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -44,5 +47,10 @@ public class JailCreateCommand implements Command {
         }
 
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //Creating a jail shouldn't provide tab completion
+        return Collections.emptyList();
     }
 }

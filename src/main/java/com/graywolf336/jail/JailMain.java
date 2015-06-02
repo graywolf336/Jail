@@ -204,11 +204,15 @@ public class JailMain extends JavaPlugin {
             getServer().getConsoleSender().sendMessage(Lang.PLUGINNOTLOADED.get());
         }else {
             debug("Tab Complete Args (" + args.length + ") for '" + commandLabel + "': " + Util.getStringFromArray(", ", args));
-            if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
-                return jh.parseTabComplete(jm, sender, args);
-            }else {
-                //cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
-                //unjail,etc
+            try {
+                if(commandLabel.equalsIgnoreCase("jail") || commandLabel.equalsIgnoreCase("j")) {
+                    return jh.parseTabComplete(jm, sender, args);
+                }else {
+                    //cmdHand.handleCommand(jm, sender, command.getName().toLowerCase(), args);
+                    //unjail,etc
+                }
+            }catch(Exception e) {
+                return Collections.emptyList();
             }
         }
         

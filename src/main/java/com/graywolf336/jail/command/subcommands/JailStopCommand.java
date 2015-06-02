@@ -1,5 +1,8 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -36,5 +39,10 @@ public class JailStopCommand implements Command {
         }
 
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //no tab completion required for stop command
+        return Collections.emptyList();
     }
 }

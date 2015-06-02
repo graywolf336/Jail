@@ -1,9 +1,13 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.beans.Jail;
@@ -60,5 +64,21 @@ public class JailListCommand implements Command {
 
         sender.sendMessage(ChatColor.AQUA + "-------------------------");
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        List<String> results = new ArrayList<String>();
+        
+        for(Jail j : jm.getJails()) {
+            if(args.length == 2 && StringUtil.startsWithIgnoreCase(j.getName(), args[1])) {
+                results.add(j.getName());
+            }else {
+                results.add(j.getName());
+            }
+        }
+        
+        Collections.sort(results);
+        
+        return results;
     }
 }

@@ -1,5 +1,8 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Collections;
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
@@ -23,4 +26,8 @@ public class JailVersionCommand implements Command {
         return true;
     }
 
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //no tab completion required for version command
+        return Collections.emptyList();
+    }
 }

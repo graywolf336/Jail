@@ -1,6 +1,8 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
@@ -52,5 +54,10 @@ public class JailTransferAllCommand implements Command {
         sender.sendMessage(Lang.TRANSFERALLCOMPLETE.get(new String[] { old.getName(), args[2] }));
 
         return true;
+    }
+
+    public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
+        //TODO implement
+        return Collections.emptyList();
     }
 }
