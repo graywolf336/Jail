@@ -98,13 +98,9 @@ public class JailManager {
     public List<String> getJailsByPrefix(String prefix) {
         List<String> results = new ArrayList<String>();
         
-        for(Jail j : this.jails.values()) {
-            if(!prefix.isEmpty() && StringUtil.startsWithIgnoreCase(j.getName(), prefix)) {
+        for(Jail j : this.jails.values())
+            if(prefix.isEmpty() || StringUtil.startsWithIgnoreCase(j.getName(), prefix))
                 results.add(j.getName());
-            }else {
-                results.add(j.getName());
-            }
-        }
         
         Collections.sort(results);
         
