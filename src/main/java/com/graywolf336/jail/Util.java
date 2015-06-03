@@ -146,6 +146,7 @@ public class Util {
             msg = msg.replace("%prettytime%", Util.getDurationBreakdown(p.getRemainingTime()));
         }else {
             msg = msg.replace("%timeinminutes%", Lang.JAILEDFOREVERSIGN.get());
+            msg = msg.replace("%prettytime%", Lang.JAILEDFOREVERSIGN.get());
         }
 
         return getColorfulMessage(msg);
@@ -223,7 +224,7 @@ public class Util {
      */
     public static String getDurationBreakdown(long millis) {
         if(millis < 0) {
-            throw new IllegalArgumentException("Duration must be greater than zero!");
+            return Lang.JAILEDFOREVERSIGN.get();
         }
 
         long days = TimeUnit.MILLISECONDS.toDays(millis);
