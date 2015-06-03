@@ -46,11 +46,6 @@ public class TestJailAPI {
         creator.tearDown();
         main = null;
     }
-    
-    @Test
-    public void testBuildNumber() {
-        assertSame("The build version from the api was not 0.", 0, JailsAPI.getBuildNumber());
-    }
 
     @Test
     public void testManagersAreThere() {

@@ -24,7 +24,7 @@ import com.graywolf336.jail.enums.Lang;
         permission = "jail.command.jailcheck",
         usage = "/jail check [name]"
         )
-public class JailCheckCommand implements Command{
+public class JailCheckCommand implements Command {
 
     // Checks the status of the specified prisoner
     public boolean execute(JailManager jm, CommandSender sender, String... args) {

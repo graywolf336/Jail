@@ -194,7 +194,7 @@ public class JailManager {
      * @return True if a valid jail was found, false if no jail was found.
      */
     public boolean isValidJail(String name) {
-        return this.jails.get(name.toLowerCase()) != null;
+        return this.jails.containsKey(name.toLowerCase());
     }
 
     /**
