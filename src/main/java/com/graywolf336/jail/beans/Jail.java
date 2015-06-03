@@ -223,6 +223,15 @@ public class Jail {
 
         return null;
     }
+    
+    /** Checks if there is an empty cell in this Jail. */
+    public boolean hasEmptyCell() {
+        for(Cell c : getCells())
+            if(!c.hasPrisoner())
+                return true;
+        
+        return false;
+    }
 
     /** Gets the amount of cells the jail. */
     public int getCellCount() {
