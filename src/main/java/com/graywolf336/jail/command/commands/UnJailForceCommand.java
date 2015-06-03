@@ -14,6 +14,8 @@ import com.graywolf336.jail.command.Command;
 import com.graywolf336.jail.command.CommandInfo;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.exceptions.JailRequiredException;
+import com.graywolf336.jail.exceptions.PrisonerRequiredException;
 
 @CommandInfo(
         maxArgs = 1,
@@ -25,7 +27,7 @@ import com.graywolf336.jail.enums.Settings;
         )
 public class UnJailForceCommand implements Command {
 
-    public boolean execute(JailManager jm, CommandSender sender, String... args) {
+    public boolean execute(JailManager jm, CommandSender sender, String... args) throws JailRequiredException, PrisonerRequiredException {
         //Check if the player is jailed
         if(jm.isPlayerJailedByLastKnownUsername(args[0])) {
             jm.getPlugin().getPrisonerManager().forceRelease(jm.getPrisonerByLastKnownName(args[0]), sender);

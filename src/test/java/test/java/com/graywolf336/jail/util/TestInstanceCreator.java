@@ -85,6 +85,7 @@ public class TestInstanceCreator {
             when(mockServer.getLogger()).thenReturn(Util.logger);
             when(mockServer.getWorldContainer()).thenReturn(worldsDirectory);
             when(mockServer.getItemFactory()).thenReturn(CraftItemFactory.instance());
+            when(mockServer.isPrimaryThread()).thenReturn(true);
 
             mockWorld = MockWorldFactory.makeNewMockWorld("world", Environment.NORMAL, WorldType.NORMAL);
 

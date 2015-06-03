@@ -22,6 +22,11 @@ import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
+import com.graywolf336.jail.exceptions.AsyncJailingNotSupportedException;
+import com.graywolf336.jail.exceptions.AsyncUnJailingNotSupportedException;
+import com.graywolf336.jail.exceptions.JailRequiredException;
+import com.graywolf336.jail.exceptions.PrisonerAlreadyJailedException;
+import com.graywolf336.jail.exceptions.PrisonerRequiredException;
 import com.graywolf336.jail.interfaces.ICell;
 
 /**
@@ -80,19 +85,28 @@ public class PrisonerManager {
      * @param cell The name of the {@link ICell cell} we are sending this prisoner to
      * @param player The {@link Player player} we are preparing the jail for.
      * @param prisoner The {@link Prisoner prisoner} file.
-     * @throws Exception if the jail or prisoner are null.
+     * @throws AsyncJailingNotSupportedException if the method is called from a thread that is <strong>not</strong> the primary one (call it sync).
+     * @throws JailRequiredException if the jail provided is null.
+     * @throws PrisonerAlreadyJailedException if the prisoner is already jailed.
+     * @throws PrisonerRequiredException if the prisoner's data provided is null.
+     * 
      */
-    public void prepareJail(Jail jail, ICell cell, Player player, Prisoner prisoner) throws Exception {
+    public void prepareJail(Jail jail, ICell cell, Player player, Prisoner prisoner) throws AsyncJailingNotSupportedException, JailRequiredException, PrisonerAlreadyJailedException, PrisonerRequiredException {
+        if(!pl.getServer().isPrimaryThread()) throw new AsyncJailingNotSupportedException();
+        
         //Do some checks of whether the passed params are null.
         if(jail == null)
-            throw new Exception("The jail can not be null.");
+            throw new JailRequiredException("jailing a prisoner");
 
         if(cell == null)
             cell = new NoCell();
 
         if(prisoner == null)
-            throw new Exception("Prisoner data can not be null.");
+            throw new PrisonerRequiredException("jailing a prisoner");
 
+        if(this.pl.getJailManager().isPlayerJailed(prisoner.getUUID()))
+            throw new PrisonerAlreadyJailedException(prisoner.getLastKnownName(), prisoner.getUUID().toString());
+        
         //Set whether the prisoner is offline or not.
         prisoner.setOfflinePending(player == null);
 
@@ -410,12 +424,17 @@ public class PrisonerManager {
      * @param player instance for the prisoner we're unjailing
      * @param prisoner data where everything resides
      * @param sender The {@link CommandSender} who unjailed this player, can be null.
-     * @throws Exception
+     * @throws AsyncUnJailingNotSupportedException when this method is called via a thread that is <strong>not</strong> the primary thread.
+     * @throws JailRequiredException when the jail provided is null.
+     * @throws PrisonerRequiredException when the provided prisoner data is null.
+     *
      */
-    public void unJail(Jail jail, ICell cell, Player player, Prisoner prisoner, CommandSender sender) throws Exception {
+    public void unJail(Jail jail, ICell cell, Player player, Prisoner prisoner, CommandSender sender) throws AsyncUnJailingNotSupportedException, JailRequiredException, PrisonerRequiredException  {
+        if(!pl.getServer().isPrimaryThread()) throw new AsyncUnJailingNotSupportedException();
+            
         //Do some checks of whether the passed params are null.
         if(jail == null)
-            throw new Exception("The jail can not be null.");
+            throw new JailRequiredException("unjailing a prisoner");
 
         if(cell instanceof NoCell)
             cell = null;
@@ -423,7 +442,7 @@ public class PrisonerManager {
             cell = null;
         
         if(prisoner == null)
-            throw new Exception("Prisoner data can not be null.");
+            throw new PrisonerRequiredException("unjailing a prisoner");
 
         //Throw the custom event which is called before we start releasing them
         PrePrisonerReleasedEvent preEvent = new PrePrisonerReleasedEvent(jail, cell, prisoner, player);
@@ -557,8 +576,10 @@ public class PrisonerManager {
      *
      * @param prisoner to release
      * @param sender who is releasing the prisoner, <em>can be null</em>
+     * @throws PrisonerRequiredException when the prisoner data doesn't exist.
+     * @throws JailRequiredException when the prisoner isn't jailed
      */
-    public void forceRelease(Prisoner prisoner, CommandSender sender) {
+    public void forceRelease(Prisoner prisoner, CommandSender sender) throws JailRequiredException, PrisonerRequiredException {
         Jail j = pl.getJailManager().getJailPrisonerIsIn(prisoner);
         forceUnJail(j, j.getCellPrisonerIsIn(prisoner.getUUID()), pl.getServer().getPlayer(prisoner.getUUID()), prisoner, sender);
     }
@@ -586,8 +607,16 @@ public class PrisonerManager {
      * @param player of the prisoner, if this is null then the player won't be teleported when they come back on.
      * @param prisoner to release and remove data
      * @param sender who is releasing the prisoner, <em>can be null</em>
+     * @throws JailRequiredException when the provided jail is null.
+     * @throws PrisonerRequiredException when the provided prisoner data is null.
      */
-    public void forceUnJail(Jail jail, Cell cell, Player player, Prisoner prisoner, CommandSender sender) {
+    public void forceUnJail(Jail jail, Cell cell, Player player, Prisoner prisoner, CommandSender sender) throws JailRequiredException, PrisonerRequiredException {
+        if(jail == null)
+            throw new JailRequiredException("jailing a prisoner");
+
+        if(prisoner == null)
+            throw new PrisonerRequiredException("jailing a prisoner");
+        
         if(player == null) {
             //Player is offline, we just forcefully remove them from the database
             pl.getJailIO().removePrisoner(jail, cell, prisoner);
