@@ -96,6 +96,13 @@ public class JailVoteManager {
         }
     }
     
+    /**
+     * Checks if the uuid provided has voted for the player name provided.
+     * 
+     * @param name of the vote for to check against
+     * @param id of the player voting
+     * @return whether the player has voted for the username provided.
+     */
     public boolean hasVotedAlready(String name, UUID id) {
         if(this.votes.containsKey(name)) {
             return this.votes.get(name).hasVoted(id);
