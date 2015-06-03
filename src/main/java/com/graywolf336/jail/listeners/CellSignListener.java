@@ -33,7 +33,7 @@ public class CellSignListener implements Listener {
         if(lines.size() >= 4) lineFour = lines.get(3);
     }
 
-    @EventHandler(ignoreCancelled=true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void changeTheCellSigns(final PrisonerTimeChangeEvent event) {
         pl.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
             public void run() {
@@ -159,6 +159,12 @@ public class CellSignListener implements Listener {
     @EventHandler(priority = EventPriority.MONITOR)
     public void handleSignLineUpdates(JailPluginReloadedEvent event) {
         List<String> lines = pl.getConfig().getStringList(Settings.CELLSIGNLINES.getPath());
+        
+        //Reset the lines to nothing
+        lineOne = "";
+        lineTwo = "";
+        lineThree = "";
+        lineFour = "";
         
         if(lines.size() >= 1) lineOne = lines.get(0);
         if(lines.size() >= 2) lineTwo = lines.get(1);
