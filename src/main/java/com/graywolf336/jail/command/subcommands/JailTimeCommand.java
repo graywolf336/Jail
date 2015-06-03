@@ -23,6 +23,8 @@ import com.graywolf336.jail.enums.Lang;
         usage = "/jail time [add|remove|set|show] [name] <time>"
         )
 public class JailTimeCommand implements Command {
+    private static final String[] options = new String[] { "add", "remove", "set", "show" };
+    
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
         if(jm.isPlayerJailedByLastKnownUsername(args[2])) {
             Prisoner p = jm.getPrisonerByLastKnownName(args[2]);
@@ -63,7 +65,7 @@ public class JailTimeCommand implements Command {
         
         switch(args.length) {
             case 2:
-                for(String s : new String[] { "add", "remove", "set", "show" })
+                for(String s : options)
                     if(args[1].isEmpty() || StringUtil.startsWithIgnoreCase(s, args[1]))
                         results.add(s);
                 break;

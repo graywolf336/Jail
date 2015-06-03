@@ -25,6 +25,8 @@ import com.graywolf336.jail.enums.Settings;
         usage = "/jail vote [player] (yes|no)"
         )
 public class JailVoteCommand implements Command {
+    private static final String[] options =  new String[] { "yes", "no" };
+    
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         if(jm.getPlugin().getConfig().getBoolean(Settings.JAILVOTEENABLED.getPath()) && jm.getPlugin().getJailVoteManager() != null && !jm.getJails().isEmpty()) {
             Player p = (Player) sender;
@@ -114,7 +116,7 @@ public class JailVoteCommand implements Command {
                             results.add(p.getName());
                     break;
                 case 3:
-                    for(String s : new String[] { "yes", "no" })
+                    for(String s : options)
                         if(args[2].isEmpty() || StringUtil.startsWithIgnoreCase(s, args[2]))
                             results.add(s);
                     break;
