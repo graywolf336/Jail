@@ -20,6 +20,22 @@ public class JailsAPI {
     protected JailsAPI(JailMain plugin) {
         pl = plugin;
     }
+    
+    /**
+     * Returns the build number, it will return <strong>-1</strong> if an errors occurs.
+     * 
+     * @return the build number of jail or -1 if an error occurred.
+     */
+    public static int getBuildNumber() {
+        String v = pl.getDescription().getVersion();
+        String[] split = v.split("-");
+        
+        try {
+            return Integer.parseInt(split[split.length - 1].replace("b", ""));
+        }catch(NumberFormatException e) {
+            return -1;
+        }
+    }
 
     /**
      * The instance of the {@link JailManager} which contains all the jails and in return prisoners.

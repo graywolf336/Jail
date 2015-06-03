@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -44,6 +45,11 @@ public class TestJailAPI {
     public static void tearDown() throws Exception {
         creator.tearDown();
         main = null;
+    }
+    
+    @Test
+    public void testBuildNumber() {
+        assertSame("The build version from the api was not 0.", 0, JailsAPI.getBuildNumber());
     }
 
     @Test

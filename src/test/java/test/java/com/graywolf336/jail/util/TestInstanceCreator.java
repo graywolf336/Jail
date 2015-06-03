@@ -92,7 +92,7 @@ public class TestInstanceCreator {
             suppress(constructor(JailMain.class));
             main = PowerMockito.spy(new JailMain());
 
-            PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("Jail", "3.0.0-Test", "com.graywolf336.jail.JailMain"));
+            PluginDescriptionFile pdf = PowerMockito.spy(new PluginDescriptionFile("Jail", "3.0.0-SNAPSHOT-b0", "com.graywolf336.jail.JailMain"));
             when(pdf.getPrefix()).thenReturn("Jail");
             List<String> authors = new ArrayList<String>();
             authors.add("matejdro");
