@@ -1,11 +1,14 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.command.Command;
@@ -21,7 +24,6 @@ import com.graywolf336.jail.enums.Lang;
         usage = "/jail listcells [jail]"
         )
 public class JailListCellsCommand implements Command {
-    @Override
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         sender.sendMessage(ChatColor.AQUA + "----------Cells----------");
 
@@ -29,20 +31,15 @@ public class JailListCellsCommand implements Command {
             if(jm.getJail(args[1]) != null) {
                 Jail j = jm.getJail(args[1]);
 
-                String message = "";
+                List<String> cells = new ArrayList<String>();
+                
                 for(Cell c : j.getCells()) {
-                    if(message.isEmpty()) {
-                        message = c.getName() + (c.getPrisoner() == null ? "" : " (" + c.getPrisoner().getLastKnownName() + ")");
-                    }else {
-                        message += ", " + c.getName() + (c.getPrisoner() == null ? "" : " (" + c.getPrisoner().getLastKnownName() + ")");
-                    }
+                    cells.add(c.getName() + (c.getPrisoner() == null ? "" : " (" + c.getPrisoner().getLastKnownName() + ")"));
                 }
-
-                if(message.isEmpty()) {
-                    sender.sendMessage(Lang.NOCELLS.get(j.getName()));
-                }else {
-                    sender.sendMessage(ChatColor.GREEN + message);
-                }
+                
+                Collections.sort(cells);
+                
+                sender.sendMessage(cells.size() == 0 ? Lang.NOCELLS.get(j.getName()) : ChatColor.GREEN + Util.getStringFromList(", ", cells));
             }else {
                 sender.sendMessage(Lang.NOJAIL.get(args[1]));
             }
