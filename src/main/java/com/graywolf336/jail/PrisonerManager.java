@@ -141,7 +141,7 @@ public class PrisonerManager {
         boolean broadcasted = false;
         //Broadcast the message, if it is enabled
         if(pl.getConfig().getBoolean(Settings.BROADCASTJAILING.getPath(), false)) {
-            pl.getServer().broadcastMessage(msg);
+            pl.getServer().broadcast(msg, "jail.see.broadcast");
             broadcasted = true;
         }
 

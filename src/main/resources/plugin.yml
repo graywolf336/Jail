@@ -30,6 +30,7 @@ permissions:
             jail.openchest: true
             jail.cantbejailed: true
             jail.vote.start: true
+            jail.see.broadcast: true
     jail.command.*:
         description: access to all admin commands
         children:
@@ -150,3 +151,5 @@ permissions:
         default: op
     jail.vote.start:
         default: op
+    jail.see.broadcast:
+        default: true
