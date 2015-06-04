@@ -32,8 +32,8 @@ public class ProtectionListener implements Listener {
             //Let's check if the player is jailed
             if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
                 //Get the breaking whitelist, check if the current item is in there
-                if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKBREAKWHITELIST.getPath()),
-                        event.getBlock().getType().toString().toLowerCase())) {
+                if(!Util.isStringInsideList(event.getBlock().getType().toString().toLowerCase(),
+                        pl.getConfig().getStringList(Settings.BLOCKBREAKWHITELIST.getPath()))) {
                     //As our Util.getTime throws an exception when the time is in an
                     //incorrect format, we catch the exception and don't add any time
                     //as a fail safe, don't want us to go crazy adding tons of time.
@@ -84,8 +84,8 @@ public class ProtectionListener implements Listener {
             //Let's check if the player is jailed
             if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
                 //Get the placing whitelist, check if the current item is in there
-                if(!Util.isStringInsideList(pl.getConfig().getStringList(Settings.BLOCKPLACEWHITELIST.getPath()),
-                        event.getBlock().getType().toString().toLowerCase())) {
+                if(!Util.isStringInsideList(event.getBlock().getType().toString().toLowerCase(), 
+                        pl.getConfig().getStringList(Settings.BLOCKPLACEWHITELIST.getPath()))) {
                     //As our Util.getTime throws an exception when the time is in an
                     //incorrect format, we catch the exception and don't add any time
                     //as a fail safe, don't want us to go crazy adding tons of time.
@@ -264,8 +264,8 @@ public class ProtectionListener implements Listener {
                 if (event.getClickedBlock() != null) {
                     //Get the interaction blacklist, check if the current block is in there
                     //if it is, then let's take action
-                    if(Util.isStringInsideList(pl.getConfig().getStringList(Settings.PREVENTINTERACTIONBLOCKS.getPath()),
-                            event.getClickedBlock().getType().toString().toLowerCase())) {
+                    if(Util.isStringInsideList(event.getClickedBlock().getType().toString().toLowerCase(),
+                            pl.getConfig().getStringList(Settings.PREVENTINTERACTIONBLOCKS.getPath()))) {
                         try {
                             long add = Util.getTime(pl.getConfig().getString(Settings.PREVENTINTERACTIONBLOCKSPENALTY.getPath()));
                             pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);
@@ -293,8 +293,8 @@ public class ProtectionListener implements Listener {
                     //Otherwise let's check if they have something in hand
                     //Get the interaction blacklist, check if the current item is in there
                     //if it is, then let's take action
-                    if(Util.isStringInsideList(pl.getConfig().getStringList(Settings.PREVENTINTERACTIONITEMS.getPath()),
-                            event.getClickedBlock().getType().toString().toLowerCase())) {
+                    if(Util.isStringInsideList(event.getClickedBlock().getType().toString().toLowerCase(),
+                            pl.getConfig().getStringList(Settings.PREVENTINTERACTIONITEMS.getPath()))) {
                         try {
                             long add = Util.getTime(pl.getConfig().getString(Settings.PREVENTINTERACTIONITEMSPENALTY.getPath()));
                             pl.getJailManager().getPrisoner(event.getPlayer().getUniqueId()).addTime(add);

@@ -74,17 +74,34 @@ public class Util {
 
         return (point1 <= loc) && (loc <= point2);
     }
+    
+    /**
+     * Checks if the given string is inside the array, ignoring the casing.
+     * 
+     * <p />
+     * 
+     * @param value to check
+     * @param array of strings to check
+     * @return true if the array contains the provided value, false if it doesn't
+     */
+    public static boolean isStringInsideArray(String value, String... array) {
+        for(String s : array)
+            if(s.equalsIgnoreCase(value))
+                return true;
+        
+        return false;
+    }
 
     /**
      * Checks if the given string is inside the list, ignoring the casing.
      * 
      * <p />
      * 
-     * @param list of strings to check
      * @param value to check
+     * @param list of strings to check
      * @return true if the list contains the provided value, false if it doesn't
      */
-    public static boolean isStringInsideList(List<String> list, String value) {
+    public static boolean isStringInsideList(String value, List<String> list) {
         for(String s : list)
             if(s.equalsIgnoreCase(value))
                 return true;

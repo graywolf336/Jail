@@ -58,16 +58,16 @@ public class TestUtilClass {
 
     @Test
     public void testInList() {
-        assertTrue(Util.isStringInsideList(list, "seeds"));
-        assertTrue(Util.isStringInsideList(list, Material.COAL_ORE.toString()));
-        assertTrue(Util.isStringInsideList(list, "tOrCh"));
+        assertTrue(Util.isStringInsideList("seeds", list));
+        assertTrue(Util.isStringInsideList(Material.COAL_ORE.toString(), list));
+        assertTrue(Util.isStringInsideList("tOrCh", list));
     }
 
     @Test
     public void testNotInList() {
-        assertFalse(Util.isStringInsideList(list, "dirt"));
-        assertFalse(Util.isStringInsideList(list, "SAND"));
-        assertFalse(Util.isStringInsideList(list, Material.BEDROCK.toString()));
+        assertFalse(Util.isStringInsideList("dirt", list));
+        assertFalse(Util.isStringInsideList("SAND", list));
+        assertFalse(Util.isStringInsideList(Material.BEDROCK.toString(), list));
     }
 
     @Test

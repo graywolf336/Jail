@@ -268,7 +268,7 @@ public class PrisonerManager {
 
                     for(ItemStack item : inventory) {
                         if(item != null) {
-                            if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
+                            if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
                                 int i = chest.firstEmpty();
                                 if(i != -1) {//Check that we have got a free spot, should never happen but just in case
                                     chest.setItem(i, item);
@@ -279,7 +279,7 @@ public class PrisonerManager {
 
                     for(ItemStack item : armor) {
                         if(item != null) {
-                            if(!Util.isStringInsideList(blacklist, item.getType().toString())) {
+                            if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
                                 int i = chest.firstEmpty();
                                 if(i != -1) {//Check that we have got a free spot, should never happen but just in case
                                     chest.setItem(i, item);
@@ -293,12 +293,12 @@ public class PrisonerManager {
                 }else {
                     for(ItemStack item : player.getInventory().getContents())
                         if(item != null)
-                            if(Util.isStringInsideList(blacklist, item.getType().toString()))
+                            if(Util.isStringInsideList(item.getType().toString(), blacklist))
                                 player.getInventory().remove(item);
 
                     for(ItemStack item : player.getInventory().getArmorContents())
                         if(item != null)
-                            if(Util.isStringInsideList(blacklist, item.getType().toString()))
+                            if(Util.isStringInsideList(item.getType().toString(), blacklist))
                                 player.getInventory().remove(item);
 
                     String[] inv = Util.playerInventoryToBase64(player.getInventory());
@@ -321,12 +321,12 @@ public class PrisonerManager {
 
                 for(ItemStack item : player.getInventory().getContents())
                     if(item != null)
-                        if(Util.isStringInsideList(blacklist, item.getType().toString()))
+                        if(Util.isStringInsideList(item.getType().toString(), blacklist))
                             player.getInventory().remove(item);
 
                 for(ItemStack item : player.getInventory().getArmorContents())
                     if(item != null)
-                        if(Util.isStringInsideList(blacklist, item.getType().toString()))
+                        if(Util.isStringInsideList(item.getType().toString(), blacklist))
                             player.getInventory().remove(item);
 
                 String[] inv = Util.playerInventoryToBase64(player.getInventory());
