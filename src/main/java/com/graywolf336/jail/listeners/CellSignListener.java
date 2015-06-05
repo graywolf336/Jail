@@ -14,7 +14,7 @@ import com.graywolf336.jail.beans.SimpleLocation;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.JailPluginReloadedEvent;
-import com.graywolf336.jail.events.PrisonerJailedEvent;
+import com.graywolf336.jail.events.PrePrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTimeChangeEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
@@ -63,8 +63,8 @@ public class CellSignListener implements Listener {
         });
     }
     
-    @EventHandler
-    public void changeCellSignsOnJail(PrisonerJailedEvent event) {
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void changeCellSignsOnJail(PrePrisonerJailedEvent event) {
         if (event.hasCell() && event.getCell().hasSigns()) {
             HashSet<SimpleLocation> signs = event.getCell().getSigns();
             String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
