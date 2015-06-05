@@ -27,17 +27,18 @@ import com.graywolf336.jail.enums.Lang;
 
 /**
  * Provides a variety of methods, static, that are used throughout the plugin.
- * 
+ *
  * @author graywolf336
  * @since 2.x.x
- * @version 3.0.0
+ * @version 3.1.0
  */
 public class Util {
     private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(m(?:inute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
+    private static String[] signLines = new String[] { "", "", "", "" };
 
     /**
      * Checks if the first {@link Vector} is inside this region.
-     * 
+     *
      * @param point The point to check
      * @param first point of the region
      * @param second second point of the region
@@ -53,9 +54,9 @@ public class Util {
 
     /**
      * Checks if two numbers are inside a point, or something.
-     * 
+     *
      * <p />
-     * 
+     *
      * @param loc The location.
      * @param first The first point
      * @param second The second point
@@ -72,14 +73,14 @@ public class Util {
             point1 = second;
         }
 
-        return (point1 <= loc) && (loc <= point2);
+        return point1 <= loc && loc <= point2;
     }
-    
+
     /**
      * Checks if the given string is inside the array, ignoring the casing.
-     * 
+     *
      * <p />
-     * 
+     *
      * @param value to check
      * @param array of strings to check
      * @return true if the array contains the provided value, false if it doesn't
@@ -88,15 +89,15 @@ public class Util {
         for(String s : array)
             if(s.equalsIgnoreCase(value))
                 return true;
-        
+
         return false;
     }
 
     /**
      * Checks if the given string is inside the list, ignoring the casing.
-     * 
+     *
      * <p />
-     * 
+     *
      * @param value to check
      * @param list of strings to check
      * @return true if the list contains the provided value, false if it doesn't
@@ -108,40 +109,40 @@ public class Util {
 
         return false;
     }
-    
+
     /**
      * Gets a single string from an array of strings, separated by the separator.
-     * 
+     *
      * @param separator The item to separate the items
      * @param array The array of strings to combine
      * @return the resulting combined string
      */
     public static String getStringFromArray(String separator, String... array) {
         StringBuilder result = new StringBuilder();
-        
+
         for(String s : array) {
             if(result.length() != 0) result.append(separator);
             result.append(s);
         }
-        
+
         return result.toString();
     }
-    
+
     /**
      * Gets a single string from a list of strings, separated by the separator.
-     * 
+     *
      * @param separator The item to separate the items
      * @param list The list of strings to combine
      * @return the resulting combined string
      */
     public static String getStringFromList(String separator, List<String> list) {
         StringBuilder result = new StringBuilder();
-        
+
         for(String s : list) {
             if(result.length() != 0) result.append(separator);
             result.append(s);
         }
-        
+
         return result.toString();
     }
 
@@ -169,6 +170,16 @@ public class Util {
         return getColorfulMessage(msg);
     }
 
+    /** Replaces all the variables in the messages with their possible values. */
+    public static String[] replaceAllVariables(Prisoner p, String... msgs) {
+        String[] results = new String[msgs.length];
+        
+        for(int i = 0; i < msgs.length; i++)
+            results[i] = replaceAllVariables(p, msgs[i]);
+
+        return results;
+    }
+
     /** Returns the wand used throughout the different creation steps. */
     public static ItemStack getWand() {
         ItemStack wand = new ItemStack(Material.WOOD_SWORD);
@@ -184,9 +195,9 @@ public class Util {
     }
 
     /**
-     * 
+     *
      * Converts a string like '20minutes' into the appropriate amount of the given unit.
-     * 
+     *
      * @param time in a string to convert.
      * @param unit which to convert to.
      * @return The time in the unit given that is converted.
@@ -198,7 +209,7 @@ public class Util {
 
     /**
      * Converts a string like '20minutes' into the appropriate amount of milliseconds.
-     * 
+     *
      * @param time in a string to convert.
      * @return The time in milliseconds that is converted.
      * @throws Exception if there are no matches
@@ -232,10 +243,10 @@ public class Util {
 
         return t;
     }
-    
+
     /**
      * Convert a millisecond duration to a string format
-     * 
+     *
      * @param millis A duration to convert to a string form
      * @return A string of the form "XdYhZAs".
      */
@@ -257,26 +268,42 @@ public class Util {
             sb.append(days);
             sb.append("d");
         }
-        
+
         if(days > 0 || hours > 0) {
             sb.append(hours);
             sb.append("h");
         }
-        
+
         if(days > 0 || hours > 0 || minutes > 0) {
             sb.append(minutes);
             sb.append("m");
         }
-        
+
         sb.append(seconds);
         sb.append("s");
 
-        return(sb.toString());
+        return sb.toString();
+    }
+
+    /**
+     * Updates the local cache of the lines which go on signs.
+     *
+     * @param lines array of string which go on signs, must contain exactly four.
+     * @throws Exception Throws an exception if there aren't exactly four lines.
+     */
+    public static void updateSignLinesCache(String[] lines) throws Exception {
+        if(lines.length != 4) throw new Exception("Exactly four lines are required for the signs.");
+        signLines = lines;
+    }
+
+    /** Gets all the lines which go on the cell signs. */
+    public static String[] getSignLines() {
+        return signLines;
     }
 
     /**
      * Converts the player inventory to a String array of Base64 strings. First string is the content and second string is the armor.
-     * 
+     *
      * @param playerInventory to turn into an array of strings.
      * @return Array of strings: [ main content, armor content ]
      * @throws IllegalStateException
@@ -290,13 +317,13 @@ public class Util {
     }
 
     /**
-     * 
+     *
      * A method to serialize an {@link ItemStack} array to Base64 String.
-     * 
+     *
      * <p />
-     * 
+     *
      * Based off of {@link #toBase64(Inventory)}.
-     * 
+     *
      * @param items to turn into a Base64 String.
      * @return Base64 string of the items.
      * @throws IllegalStateException
@@ -310,8 +337,8 @@ public class Util {
             dataOutput.writeInt(items.length);
 
             // Save every element in the list
-            for (int i = 0; i < items.length; i++) {
-                dataOutput.writeObject(items[i]);
+            for (ItemStack item : items) {
+                dataOutput.writeObject(item);
             }
 
             // Serialize that array
@@ -324,14 +351,14 @@ public class Util {
 
     /**
      * A method to serialize an inventory to Base64 string.
-     * 
+     *
      * <p />
-     * 
+     *
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
-     * 
+     *
      * <a href="https://gist.github.com/aadnk/8138186">Original Source</a>
-     * 
+     *
      * @param inventory to serialize
      * @return Base64 string of the provided inventory
      * @throws IllegalStateException
@@ -358,16 +385,16 @@ public class Util {
     }
 
     /**
-     * 
+     *
      * A method to get an {@link Inventory} from an encoded, Base64, string.
-     * 
+     *
      * <p />
-     * 
+     *
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
-     * 
+     *
      * <a href="https://gist.github.com/aadnk/8138186">Original Source</a>
-     * 
+     *
      * @param data Base64 string of data containing an inventory.
      * @return Inventory created from the Base64 string.
      * @throws IOException
@@ -394,11 +421,11 @@ public class Util {
 
     /**
      * Gets an array of ItemStacks from Base64 string.
-     * 
+     *
      * <p />
-     * 
+     *
      * Base off of {@link #fromBase64(String)}.
-     * 
+     *
      * @param data Base64 string to convert to ItemStack array.
      * @return ItemStack array created from the Base64 string.
      * @throws IOException

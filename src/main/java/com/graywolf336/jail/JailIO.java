@@ -27,11 +27,11 @@ import com.graywolf336.jail.enums.Settings;
 
 /**
  * Handles all the saving and loading of the plugin's data.
- * 
+ *
  * @author graywolf336
  * @since 2.x.x
  * @version 3.0.0
- * 
+ *
  */
 public class JailIO {
     private JailMain pl;
@@ -86,7 +86,7 @@ public class JailIO {
     /** Prepares the storage engine to be used, returns true if everything went good. */
     protected boolean prepareStorage(boolean doInitialCreations) {
         int inital = storage == -1 ? -1 : storage;
-        
+
         String st = pl.getConfig().getString("storage.type", "flatfile");
         if(st.equalsIgnoreCase("sqlite")) {
             storage = 1;
@@ -97,7 +97,7 @@ public class JailIO {
         }else {
             storage = 0;
         }
-        
+
         //Determine if we changed storage types midstream
         //this way we can know whether to save EVERYTHING
         //or not afterwards
@@ -108,7 +108,7 @@ public class JailIO {
 
         pl.debug("The storage type " + st + " with the type being " + storage + ".");
         if(!pl.inDebug()) pl.getLogger().info("Storage type selected: " + st);
-        
+
         switch(storage) {
             case 1:
                 try {
@@ -118,7 +118,7 @@ public class JailIO {
                     sqliteConnection.setAutoCommit(true);
                     this.con = sqliteConnection;
                     pl.debug("Connection created for sqlite.");
-                    
+
                     if(doInitialCreations) createTables();
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -163,7 +163,7 @@ public class JailIO {
                 records = YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(), "records.yml"));
                 break;
         }
-        
+
         if(changed) {
             changed = false;
             this.saveEverything();
@@ -174,7 +174,7 @@ public class JailIO {
 
     /**
      * Gets the connection for the sqlite and mysql, null if flatfile.
-     * 
+     *
      * @return The connection for the sql database.
      */
     private Connection getConnection() {
@@ -461,7 +461,7 @@ public class JailIO {
 
                         if(j != null) {
                             if(j.getWorld() != null) {
-                                Cell c = new Cell(set.getString("name"));
+                                Cell c = new Cell(set.getInt("cellid"), set.getString("name"));
                                 c.setTeleport(new SimpleLocation(j.getWorldName(),  set.getDouble("tp.x"), set.getDouble("tp.y"), set.getDouble("tp.z"),
                                         set.getFloat("tp.yaw"), set.getFloat("tp.pitch")));
 
@@ -475,7 +475,7 @@ public class JailIO {
                                         c.addSign(new SimpleLocation(co[0], co[1], co[2], co[3]));
                                     }
                                 }
-                                
+
                                 //Since we're loading the data, the cell hasn't officially changed
                                 c.setChanged(false);
 
@@ -632,16 +632,16 @@ public class JailIO {
         String cNode = node + "cells.";
         pl.debug("Loading the jail " + name + "; " + node + "; " + cNode);
         Jail j = new Jail(pl, name);
-        
+
         if(flat.getString(node + "world") == null || flat.getString(node + "world").isEmpty()) {
-        	pl.getLogger().severe("Failed to load the jail, " + name + ", because the world is not set.");
-        	return;
+            pl.getLogger().severe("Failed to load the jail, " + name + ", because the world is not set.");
+            return;
         }
 
         j.setWorld(flat.getString(node + "world"));
         j.setMaxPoint(new int[] {flat.getInt(node + "top.x"), flat.getInt(node + "top.y"), flat.getInt(node + "top.z")});
         j.setMinPoint(new int[] {flat.getInt(node + "bottom.x"), flat.getInt(node + "bottom.y"), flat.getInt(node + "bottom.z")});
-        
+
         j.setTeleportIn(new Location(
                 pl.getServer().getWorld(j.getWorldName()),
                 flat.getDouble(node + "tps.in.x"),
@@ -757,7 +757,7 @@ public class JailIO {
 
     /**
      * Saves the provided {@link Jail jail} to the storage system we are using.
-     * 
+     *
      * @param j The jail to save.
      */
     protected void saveJail(Jail j) {
@@ -805,6 +805,9 @@ public class JailIO {
 
                     try {
                         for(Cell c : j.getCells()) {
+                            if(c.getDatabaseID() != -1)
+                                saveCell(j, c, false);
+
                             if(c.hasPrisoner() && c.getPrisoner().wasChanged()) {
                                 Prisoner p = c.getPrisoner();
                                 PreparedStatement pPS = getConnection().prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
@@ -943,7 +946,7 @@ public class JailIO {
                                 if(p.getPreviousGameMode() != null)
                                     flat.set(cNode + "prisoner.previousGameMode", p.getPreviousGameMode().toString());
                             }
-                            
+
                             c.setChanged(false);
                         }
 
@@ -983,14 +986,19 @@ public class JailIO {
         //if the cell hasn't changed, no need to save it again
         //unless they're forcing the save
         if(!c.hasChanged() && !force) return;
-        
+
         switch(storage) {
             case 1:
             case 2:
                 try {
                     pl.debug("Saving the cell " + c.getName());
-                    PreparedStatement cPS = getConnection().prepareStatement("INSERT INTO `" + prefix + "cells` (`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
-                            + "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+                    boolean hasId = c.getDatabaseID() != -1;
+
+                    PreparedStatement cPS = getConnection().prepareStatement((hasId ? "REPLACE" : "INSERT")
+                            + " INTO `" + prefix + "cells` (" + (hasId ? "`cellid`, " : "")
+                            + "`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
+                            + "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES ("
+                            + (hasId ? c.getDatabaseID() + "," : "") + "?,?,?,?,?,?,?,?,?,?,?)");
 
                     cPS.setString(1, c.getName());
                     cPS.setString(2, j.getName());
@@ -1048,13 +1056,13 @@ public class JailIO {
                 this.saveJail(j);
                 break;
         }
-        
+
         c.setChanged(false);
     }
 
     /**
      * Removes the prisoner from the storage system.
-     * 
+     *
      * @param j the jail which the prisoner is in.
      * @param p the prisoner data
      */
@@ -1064,7 +1072,7 @@ public class JailIO {
 
     /**
      * Removes the prisoner from the storage system.
-     * 
+     *
      * @param j the jail which the prisoner is in.
      * @param c the cell which the prisoner is in, null if none
      * @param p the prisoner data
@@ -1104,7 +1112,7 @@ public class JailIO {
 
     /**
      * Removes the provided cell from the jail.
-     * 
+     *
      * @param j instance of the jail the cell is in
      * @param c instance of the cell we are removing
      */
@@ -1152,7 +1160,7 @@ public class JailIO {
 
     /**
      * Removes a jail from the storage system.
-     * 
+     *
      * @param j the jail instance to remove.
      */
     protected void removeJail(Jail j) {
@@ -1193,7 +1201,7 @@ public class JailIO {
 
     /**
      * Adds an entry to the database/file for the user, logging when they was jailed.
-     * 
+     *
      * @param uuid of the player
      * @param username of the player
      * @param jailer who jailed them
@@ -1244,7 +1252,7 @@ public class JailIO {
 
     /**
      * Gets all the record entries for the given player.
-     * 
+     *
      * @param username the of the prisoner's records to get.
      * @return A List of strings containing the record entries.
      * @deprecated This calls getOfflinePlayer which is a blocking call from Bukkit

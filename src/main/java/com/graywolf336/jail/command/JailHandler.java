@@ -28,6 +28,7 @@ import com.graywolf336.jail.command.subcommands.JailMuteCommand;
 import com.graywolf336.jail.command.subcommands.JailPayCommand;
 import com.graywolf336.jail.command.subcommands.JailRecordCommand;
 import com.graywolf336.jail.command.subcommands.JailReloadCommand;
+import com.graywolf336.jail.command.subcommands.JailSignsCommand;
 import com.graywolf336.jail.command.subcommands.JailStatusCommand;
 import com.graywolf336.jail.command.subcommands.JailStickCommand;
 import com.graywolf336.jail.command.subcommands.JailStopCommand;
@@ -261,6 +262,7 @@ public class JailHandler {
         load(JailPayCommand.class);
         load(JailRecordCommand.class);
         load(JailReloadCommand.class);
+        load(JailSignsCommand.class);
         load(JailStatusCommand.class);
         load(JailStickCommand.class);
         load(JailStopCommand.class);

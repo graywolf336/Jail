@@ -1,20 +1,17 @@
 package com.graywolf336.jail.listeners;
 
-import java.util.HashSet;
 import java.util.List;
 
-import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.Util;
-import com.graywolf336.jail.beans.SimpleLocation;
-import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.JailPluginReloadedEvent;
-import com.graywolf336.jail.events.PrePrisonerJailedEvent;
+import com.graywolf336.jail.events.OfflinePrisonerJailedEvent;
+import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTimeChangeEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
@@ -26,11 +23,18 @@ public class CellSignListener implements Listener {
     public CellSignListener(JailMain plugin) {
         pl = plugin;
         List<String> lines = pl.getConfig().getStringList(Settings.CELLSIGNLINES.getPath());
-        
+
         if(lines.size() >= 1) lineOne = lines.get(0);
         if(lines.size() >= 2) lineTwo = lines.get(1);
         if(lines.size() >= 3) lineThree = lines.get(2);
         if(lines.size() >= 4) lineFour = lines.get(3);
+
+        try {
+            Util.updateSignLinesCache(new String[] { lineOne, lineTwo, lineThree, lineFour });
+        }catch(Exception e) {
+            //this should never happen
+            pl.debug("Error on Cell Sign Listener constructor:" + e.getMessage());
+        }
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
@@ -38,137 +42,59 @@ public class CellSignListener implements Listener {
         pl.getServer().getScheduler().scheduleSyncDelayedTask(pl, new Runnable() {
             public void run() {
                 if (event.hasCell() && event.getCell().hasSigns()) {
-                    HashSet<SimpleLocation> signs = event.getCell().getSigns();
-                    String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
-                    String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
-                    String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
-                    String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
-
-                    for (SimpleLocation s : signs) {
-                        if (s.getLocation().getBlock().getState() instanceof Sign) {
-                            Sign sign = (Sign) s.getLocation().getBlock().getState();
-                            sign.setLine(0, s1);
-                            sign.setLine(1, s2);
-                            sign.setLine(2, s3);
-                            sign.setLine(3, s4);
-                            sign.update();
-                        } else {
-                            // Remove the sign from the cell since it isn't
-                            // a valid sign
-                            event.getCell().getSigns().remove(s);
-                        }
-                    }
+                    event.getCell().updateSigns();
                 }
             }
         });
     }
     
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
-    public void changeCellSignsOnJail(PrePrisonerJailedEvent event) {
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void changeSignsOnOfflineJailing(OfflinePrisonerJailedEvent event) {
         if (event.hasCell() && event.getCell().hasSigns()) {
-            HashSet<SimpleLocation> signs = event.getCell().getSigns();
-            String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
-            String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
-            String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
-            String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
+            event.getCell().updateSigns();
+        }
+    }
 
-            for (SimpleLocation s : signs) {
-                if (s.getLocation().getBlock().getState() instanceof Sign) {
-                    Sign sign = (Sign) s.getLocation().getBlock().getState();
-                    sign.setLine(0, s1);
-                    sign.setLine(1, s2);
-                    sign.setLine(2, s3);
-                    sign.setLine(3, s4);
-                    sign.update();
-                } else {
-                    // Remove the sign from the cell since it isn't
-                    // a valid sign
-                    event.getCell().getSigns().remove(s);
-                }
-            }
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void changeCellSignsOnJail(PrisonerJailedEvent event) {
+        if (event.hasCell() && event.getCell().hasSigns()) {
+            event.getCell().updateSigns();
         }
     }
 
     @EventHandler
     public void clearTheCellSigns(PrisonerReleasedEvent event) {
         if (event.hasCell() && event.getCell().hasSigns()) {
-            HashSet<SimpleLocation> signs = event.getCell().getSigns();
-
-            for (SimpleLocation s : signs) {
-                if (s.getLocation().getBlock().getState() instanceof Sign) {
-                    Sign sign = (Sign) s.getLocation().getBlock().getState();
-                    sign.setLine(0, "");
-                    sign.setLine(1, Lang.CELLEMPTYSIGN.get());
-                    sign.setLine(2, "");
-                    sign.setLine(3, "");
-                    sign.update();
-                } else {
-                    // Remove the sign from the cell since it isn't
-                    // a valid sign
-                    event.getCell().getSigns().remove(s);
-                }
-            }
+            event.getCell().updateSigns();
         }
     }
 
     @EventHandler
     public void handleSignsOnTransfer(PrisonerTransferredEvent event) {
         if (event.hasOriginalCell() && event.getOriginalCell().hasSigns()) {
-            HashSet<SimpleLocation> signs = event.getOriginalCell().getSigns();
-
-            for (SimpleLocation s : signs) {
-                if (s.getLocation().getBlock().getState() instanceof Sign) {
-                    Sign sign = (Sign) s.getLocation().getBlock().getState();
-                    sign.setLine(0, "");
-                    sign.setLine(1, Lang.CELLEMPTYSIGN.get());
-                    sign.setLine(2, "");
-                    sign.setLine(3, "");
-                    sign.update();
-                } else {
-                    // Remove the sign from the cell since it isn't
-                    // a valid sign
-                    event.getOriginalCell().getSigns().remove(s);
-                }
-            }
+            event.getOriginalCell().updateSigns();
         }
 
         if (event.hasTargetCell() && event.getTargetCell().hasSigns()) {
-            HashSet<SimpleLocation> signs = event.getTargetCell().getSigns();
-            String s1 = Util.replaceAllVariables(event.getPrisoner(), lineOne);
-            String s2 = Util.replaceAllVariables(event.getPrisoner(), lineTwo);
-            String s3 = Util.replaceAllVariables(event.getPrisoner(), lineThree);
-            String s4 = Util.replaceAllVariables(event.getPrisoner(), lineFour);
-
-            for (SimpleLocation s : signs) {
-                if (s.getLocation().getBlock().getState() instanceof Sign) {
-                    Sign sign = (Sign) s.getLocation().getBlock().getState();
-                    sign.setLine(0, s1);
-                    sign.setLine(1, s2);
-                    sign.setLine(2, s3);
-                    sign.setLine(3, s4);
-                    sign.update();
-                } else {
-                    // Remove the sign from the cell since it isn't
-                    // a valid sign
-                    event.getTargetCell().getSigns().remove(s);
-                }
-            }
+            event.getTargetCell().updateSigns();
         }
     }
-    
+
     @EventHandler(priority = EventPriority.MONITOR)
-    public void handleSignLineUpdates(JailPluginReloadedEvent event) {
+    public void handleSignLineUpdates(JailPluginReloadedEvent event) throws Exception {
         List<String> lines = pl.getConfig().getStringList(Settings.CELLSIGNLINES.getPath());
-        
+
         //Reset the lines to nothing
         lineOne = "";
         lineTwo = "";
         lineThree = "";
         lineFour = "";
-        
+
         if(lines.size() >= 1) lineOne = lines.get(0);
         if(lines.size() >= 2) lineTwo = lines.get(1);
         if(lines.size() >= 3) lineThree = lines.get(2);
         if(lines.size() >= 4) lineFour = lines.get(3);
+
+        Util.updateSignLinesCache(new String[] { lineOne, lineTwo, lineThree, lineFour });
     }
 }

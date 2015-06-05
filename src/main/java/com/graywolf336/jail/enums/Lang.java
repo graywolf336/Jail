@@ -133,6 +133,10 @@ public enum Lang {
     CELLREMOVALUNSUCCESSFUL("general"),
     /** The message sent whenever a cell is successfully removed. */
     CELLREMOVED("general"),
+    /** The message sent when cleaning our cell signs. */
+    CLEANEDSIGNS("general"),
+    /** The message sent when seeing what signs are invalid. */
+    INVALIDSIGNS("general"),
     /** The line on a cell's sign when the prisoner is jailed forever. */
     JAILEDFOREVERSIGN("general"),
     /** The simple word jailing to be put in other parts. */
@@ -151,6 +155,8 @@ public enum Lang {
     NOCELL("general"),
     /** Message sent when needing a cell or something and there are no cells. */
     NOCELLS("general"),
+    /** Message sent when no invalid signs were found. */
+    NOINVALIDSIGNS("general"),
     /** The message sent whenever the sender does something which the jail does not found. */
     NOJAIL("general"),
     /** The message sent whenever the sender does something and there are no jails. */
@@ -173,6 +179,10 @@ public enum Lang {
     RECORDENTRY("general"),
     /** The message format sent saying how many times a user has been jailed. */
     RECORDTIMESJAILED("general"),
+    /** The simple word: sign. */
+    SIGN("general"),
+    /** The message sent when the signs are refreshed. */
+    SIGNSREFRESHED("general"),
     /** The format of the time entry we should use for the record entries. */
     TIMEFORMAT("general"),
     /** The simple word transferring to be put in other parts. */

@@ -50,6 +50,7 @@ permissions:
             jail.command.jailmute: true
             jail.command.jailrecord: true
             jail.command.jailreload: true
+            jail.command.jailsigns: true
             jail.command.jailstop: true
             jail.command.jailtelein: true
             jail.command.jailteleout: true
@@ -105,6 +106,8 @@ permissions:
     jail.command.jailclearforce:
         default: op
     jail.command.jailmute:
+        default: op
+    jail.command.jailsigns:
         default: op
     jail.command.jailstop:
         default: op
