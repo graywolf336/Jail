@@ -18,6 +18,7 @@ import com.graywolf336.jail.beans.NoCell;
 import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.Lang;
 import com.graywolf336.jail.enums.Settings;
+import com.graywolf336.jail.events.OfflinePrisonerJailedEvent;
 import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
@@ -89,11 +90,11 @@ public class PrisonerManager {
      * @throws JailRequiredException if the jail provided is null.
      * @throws PrisonerAlreadyJailedException if the prisoner is already jailed.
      * @throws PrisonerRequiredException if the prisoner's data provided is null.
-     * 
+     *
      */
     public void prepareJail(Jail jail, ICell cell, Player player, Prisoner prisoner) throws AsyncJailingNotSupportedException, JailRequiredException, PrisonerAlreadyJailedException, PrisonerRequiredException {
         if(!pl.getServer().isPrimaryThread()) throw new AsyncJailingNotSupportedException();
-        
+
         //Do some checks of whether the passed params are null.
         if(jail == null)
             throw new JailRequiredException("jailing a prisoner");
@@ -106,7 +107,7 @@ public class PrisonerManager {
 
         if(this.pl.getJailManager().isPlayerJailed(prisoner.getUUID()))
             throw new PrisonerAlreadyJailedException(prisoner.getLastKnownName(), prisoner.getUUID().toString());
-        
+
         //Set whether the prisoner is offline or not.
         prisoner.setOfflinePending(player == null);
 
@@ -125,8 +126,10 @@ public class PrisonerManager {
             cell.setPrisoner(prisoner);
         }
 
-        //If they are NOT offline, jail them
-        if(!prisoner.isOfflinePending()) {
+        //If they are are offline then throw the event otherwise jail them
+        if(prisoner.isOfflinePending()) {
+            pl.getServer().getPluginManager().callEvent(new OfflinePrisonerJailedEvent(jail, cell, prisoner));
+        }else {
             jailPrisoner(jail, cell, player, prisoner);
         }
 
@@ -174,7 +177,7 @@ public class PrisonerManager {
             cell = null;
         else if(cell instanceof AnyCell)
             cell = null;
-        
+
         //If they have handcuffs on them, then let's remove them before we continue
         //this way the handcuff listeners and this aren't battleing each other
         if(pl.getHandCuffManager().isHandCuffed(player.getUniqueId())) {
@@ -216,10 +219,10 @@ public class PrisonerManager {
             for(GameMode m : GameMode.values()) {
                 if(gamemodes.length() != 0)
                     gamemodes.append(", ");
-                
+
                 gamemodes.append(m.toString().toLowerCase());
             }
-            
+
             pl.getLogger().warning("Your jailed gamemode setting is problematic. It is currently '"
                     + pl.getConfig().getString(Settings.JAILEDGAMEMODE.getPath())
                     + "' and should be one of the following: " + gamemodes.toString());
@@ -369,7 +372,7 @@ public class PrisonerManager {
 
     /**
      * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
-     * 
+     *
      * If you're wanting to unjail a prisoner, see the {@link #unJail(Jail, ICell, Player, Prisoner, CommandSender)} method.
      *
      * @param prisoner to be released.
@@ -431,7 +434,7 @@ public class PrisonerManager {
      */
     public void unJail(Jail jail, ICell cell, Player player, Prisoner prisoner, CommandSender sender) throws AsyncUnJailingNotSupportedException, JailRequiredException, PrisonerRequiredException  {
         if(!pl.getServer().isPrimaryThread()) throw new AsyncUnJailingNotSupportedException();
-            
+
         //Do some checks of whether the passed params are null.
         if(jail == null)
             throw new JailRequiredException("unjailing a prisoner");
@@ -440,7 +443,7 @@ public class PrisonerManager {
             cell = null;
         else if(cell instanceof AnyCell)
             cell = null;
-        
+
         if(prisoner == null)
             throw new PrisonerRequiredException("unjailing a prisoner");
 
@@ -616,7 +619,7 @@ public class PrisonerManager {
 
         if(prisoner == null)
             throw new PrisonerRequiredException("jailing a prisoner");
-        
+
         if(player == null) {
             //Player is offline, we just forcefully remove them from the database
             pl.getJailIO().removePrisoner(jail, cell, prisoner);
@@ -626,6 +629,10 @@ public class PrisonerManager {
             }else {
                 cell.removePrisoner();
             }
+
+            //Call the prisoner released event as we have released them.
+            PrisonerReleasedEvent event = new PrisonerReleasedEvent(jail, cell, prisoner, player);
+            pl.getServer().getPluginManager().callEvent(event);
 
             if(sender != null) sender.sendMessage(Lang.FORCEUNJAILED.get(prisoner.getLastKnownName()));
         }else {
