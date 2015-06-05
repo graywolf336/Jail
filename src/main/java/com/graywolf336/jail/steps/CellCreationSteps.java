@@ -4,6 +4,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -115,18 +116,8 @@ public class CellCreationSteps {
 
     /** Applies the third step, which is adding a chest or select not to have a chest. */
     private void thirdStep(JailManager jm, CreationPlayer cp, Player player, Block block) {
-        Material bpos1 = block.getLocation().add(-1, 0, 0).getBlock().getType();
-        Material bpos2 = block.getLocation().add(+1, 0, 0).getBlock().getType();
-        Material bpos3 = block.getLocation().add(0, 0, -1).getBlock().getType();
-        Material bpos4 = block.getLocation().add(0, 0, +1).getBlock().getType();
-
-        boolean pos1 = bpos1 == Material.CHEST || bpos1 == Material.TRAPPED_CHEST;
-        boolean pos2 = bpos2 == Material.CHEST || bpos2 == Material.TRAPPED_CHEST;
-        boolean pos3 = bpos3 == Material.CHEST || bpos3 == Material.TRAPPED_CHEST;
-        boolean pos4 = bpos4 == Material.CHEST || bpos4 == Material.TRAPPED_CHEST;
-
         if (block.getType() == Material.CHEST || block.getType() == Material.TRAPPED_CHEST) {
-            if(pos1 || pos2 || pos3 || pos4) {
+            if(((Chest) block.getState()).getInventory().getSize() >= 40) {
                 cp.setChestLocation(new SimpleLocation(block.getLocation()));
                 player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation ----------");
                 player.sendMessage(ChatColor.GREEN + "Chest selected.");
