@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -79,6 +80,30 @@ public class JailCommand implements Command {
         if(jm.isPlayerJailedByLastKnownUsername(params.getPlayer())) {
             sender.sendMessage(Lang.ALREADYJAILED.get(params.getPlayer()));
             return true;
+        }
+        
+        Player p = jm.getPlugin().getServer().getPlayer(params.getPlayer());
+        
+        //If the player instance is not null and the player has the permission
+        //'jail.cantbejailed' then don't allow this to happen
+        if(p != null && p.hasPermission("jail.cantbejailed")) {
+            sender.sendMessage(Lang.CANTBEJAILED.get());
+            return true;
+        }
+        
+        String uuid = "";
+        if(p == null) {
+            //TODO: Make this whole jail command non-blocking
+            OfflinePlayer of = jm.getPlugin().getServer().getOfflinePlayer(params.getPlayer());
+            
+            if(!of.hasPlayedBefore() && !jm.getPlugin().getConfig().getBoolean(Settings.ALLOWJAILINGNEVERPLAYEDBEFOREPLAYERS.getPath())) {
+                sender.sendMessage(Lang.PLAYERHASNEVERPLAYEDBEFORE.get(params.getPlayer()));
+                return true;
+            }else {
+                uuid = of.getUniqueId().toString();
+            }
+        }else {
+            uuid = p.getUniqueId().toString();
         }
 
         //Try to parse the time, if they give us nothing in the time parameter then we get the default time
@@ -188,23 +213,6 @@ public class JailCommand implements Command {
         boolean muted = params.getMuted();
         if(jm.getPlugin().getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath())) {
             muted = true;
-        }
-
-        Player p = jm.getPlugin().getServer().getPlayer(params.getPlayer());
-
-        //If the player instance is not null and the player has the permission
-        //'jail.cantbejailed' then don't allow this to happen
-        if(p != null && p.hasPermission("jail.cantbejailed")) {
-            sender.sendMessage(Lang.CANTBEJAILED.get());
-            return true;
-        }
-
-        String uuid = "";
-        if(p == null) {
-            //TODO: Make this whole jail command non-blocking
-            uuid = jm.getPlugin().getServer().getOfflinePlayer(params.getPlayer()).getUniqueId().toString();
-        }else {
-            uuid = p.getUniqueId().toString();
         }
 
         Prisoner pris = new Prisoner(uuid, params.getPlayer(), muted, time, sender.getName(), reason);

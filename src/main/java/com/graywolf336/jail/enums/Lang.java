@@ -63,6 +63,8 @@ public enum Lang {
     OFFLINEJAIL("jailing"),
     /** The message sent to the jailer when they jail someone who is online. */
     ONLINEJAIL("jailing"),
+    /** The message sent to the jailer when they jail someone who has never played before. */
+    PLAYERHASNEVERPLAYEDBEFORE("jailing"),
     /** The message sent when finding out how much time a prisoner has. */
     PRISONERSTIME("jailing"),
     /** The message sent to the prisoner when they try to do something but it is protected. */

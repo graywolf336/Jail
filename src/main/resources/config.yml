@@ -54,6 +54,7 @@ jailing:
       title: 'Jail Info'
       time: '&aTime:'
   jail:
+    allowJailingNeverPlayedBeforePlayers: false
     automaticCell: true
     automaticMute: true
     broadcastJailing: false

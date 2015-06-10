@@ -67,6 +67,7 @@ language:
     nowunmuted: '&9%0% is now unmuted.'
     offlinejail: '&2%0% is offline and will be jailed when they next come online for %1% minutes.'
     onlinejail: '&2%0% was jailed for %1% minutes.'
+    playerhasneverplayedbefore: '&cThe player %0% has never played on the server before.'
     prisonerstime: '&2%0% has %1% minutes remaining.'
     protectionmessage: '&c%0% minutes have been added to your time for %1%.'
     protectionmessagenopenalty: '&cProtection enabled for %0%, do not do it again.'
