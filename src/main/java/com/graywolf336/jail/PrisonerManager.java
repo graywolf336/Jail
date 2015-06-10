@@ -23,7 +23,6 @@ import com.graywolf336.jail.events.PrePrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerJailedEvent;
 import com.graywolf336.jail.events.PrisonerReleasedEvent;
 import com.graywolf336.jail.events.PrisonerTransferredEvent;
-import com.graywolf336.jail.exceptions.AsyncJailingNotSupportedException;
 import com.graywolf336.jail.exceptions.AsyncUnJailingNotSupportedException;
 import com.graywolf336.jail.exceptions.JailRequiredException;
 import com.graywolf336.jail.exceptions.PrisonerAlreadyJailedException;
@@ -86,15 +85,12 @@ public class PrisonerManager {
      * @param cell The name of the {@link ICell cell} we are sending this prisoner to
      * @param player The {@link Player player} we are preparing the jail for.
      * @param prisoner The {@link Prisoner prisoner} file.
-     * @throws AsyncJailingNotSupportedException if the method is called from a thread that is <strong>not</strong> the primary one (call it sync).
      * @throws JailRequiredException if the jail provided is null.
      * @throws PrisonerAlreadyJailedException if the prisoner is already jailed.
      * @throws PrisonerRequiredException if the prisoner's data provided is null.
      *
      */
-    public void prepareJail(Jail jail, ICell cell, Player player, Prisoner prisoner) throws AsyncJailingNotSupportedException, JailRequiredException, PrisonerAlreadyJailedException, PrisonerRequiredException {
-        if(!pl.getServer().isPrimaryThread()) throw new AsyncJailingNotSupportedException();
-
+    public void prepareJail(final Jail jail, ICell cell, final Player player, final Prisoner prisoner) throws JailRequiredException, PrisonerAlreadyJailedException, PrisonerRequiredException {
         //Do some checks of whether the passed params are null.
         if(jail == null)
             throw new JailRequiredException("jailing a prisoner");
@@ -130,7 +126,12 @@ public class PrisonerManager {
         if(prisoner.isOfflinePending()) {
             pl.getServer().getPluginManager().callEvent(new OfflinePrisonerJailedEvent(jail, cell, prisoner));
         }else {
-            jailPrisoner(jail, cell, player, prisoner);
+            final ICell c = cell;
+            pl.getServer().getScheduler().runTask(pl, new Runnable() {
+                public void run() {
+                    jailPrisoner(jail, c, player, prisoner);
+                }
+            });
         }
 
         //Get a message ready for broadcasting or logging.
