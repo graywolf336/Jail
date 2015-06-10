@@ -15,7 +15,7 @@ import com.graywolf336.jail.enums.Lang;
  *
  * @author graywolf336
  * @since 2.x.x
- * @version 3.1.0
+ * @version 3.1.1
  */
 public class Prisoner {
     private String uuid, name, jailer, reason, inventory, armor;
@@ -225,6 +225,11 @@ public class Prisoner {
     public void setMuted(boolean muted) {
         this.muted = muted;
         this.changed = true;
+    }
+    
+    /** Gets whether the prisoner is jailed forever or not. */
+    public boolean isJailedForever() {
+        return this.time == -1;
     }
 
     /** Gets the remaining time the prisoner has. */

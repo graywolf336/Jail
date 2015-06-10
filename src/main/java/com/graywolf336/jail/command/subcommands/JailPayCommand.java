@@ -139,13 +139,13 @@ public class JailPayCommand implements Command {
                         if(jm.isPlayerJailedByLastKnownUsername(args[2])) {
                             Prisoner p = jm.getPrisonerByLastKnownName(args[2]);
 
-                            if(p.getRemainingTime() > 0) {
-                                if(!pm.isTimedEnabled()) {
+                            if(p.isJailedForever()) {
+                                if(!pm.isInfiniteEnabled()) {
                                     sender.sendMessage(Lang.PAYNOTENABLED.get());
                                     return true;
                                 }
                             }else {
-                                if(!pm.isInfiniteEnabled()) {
+                                if(!pm.isTimedEnabled()) {
                                     sender.sendMessage(Lang.PAYNOTENABLED.get());
                                     return true;
                                 }
