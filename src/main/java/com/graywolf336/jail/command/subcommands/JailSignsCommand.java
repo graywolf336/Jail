@@ -23,7 +23,7 @@ import com.graywolf336.jail.enums.Lang;
         needsPlayer = false,
         pattern = "signs",
         permission = "jail.command.jailsigns",
-        usage = "/jail signs [clean|refresh|verify] [jail] (cell)..."
+        usage = "/jail signs [clean|refresh|update|verify] [jail] (cell)..."
         )
 public class JailSignsCommand implements Command {
     private static final String[] options =  new String[] { "clean", "refresh", "verify" };
@@ -65,7 +65,7 @@ public class JailSignsCommand implements Command {
             }
 
             return true;
-        }else if(args[1].equalsIgnoreCase("refresh")) {
+        }else if(args[1].equalsIgnoreCase("refresh") || args[1].equalsIgnoreCase("update")) {
             //if they type refresh, we will go through all the signs and update them to
             //display the correct message on the sign whether empty or time
 
