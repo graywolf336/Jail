@@ -26,7 +26,7 @@ import com.graywolf336.jail.enums.Lang;
         usage = "/jail signs [clean|refresh|update|verify] [jail] (cell)..."
         )
 public class JailSignsCommand implements Command {
-    private static final String[] options =  new String[] { "clean", "refresh", "verify" };
+    private static final String[] options =  new String[] { "clean", "refresh", "update", "verify" };
 
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
         if(!jm.isValidJail(args[2])) {
