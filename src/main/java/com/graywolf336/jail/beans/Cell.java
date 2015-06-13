@@ -201,7 +201,9 @@ public class Cell implements ICell {
 
     public Chest getChest() {
         if(this.chest == null) return null;
-        if(this.chest.getLocation().getBlock() == null || this.chest.getLocation().getBlock().getType() != Material.CHEST) return null;
+        if(this.chest.getLocation().getBlock() == null
+                || (this.chest.getLocation().getBlock().getType() != Material.CHEST
+                && this.chest.getLocation().getBlock().getType() != Material.TRAPPED_CHEST)) return null;
 
         return (Chest) this.chest.getLocation().getBlock().getState();
     }
