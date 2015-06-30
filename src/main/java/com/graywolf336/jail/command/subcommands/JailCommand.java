@@ -39,7 +39,7 @@ import com.lexicalscope.jewel.cli.CliFactory;
         )
 public class JailCommand implements Command {
     private static final String noJailPermission = "jail.cantbejailed";
-    private List<String> commands = Arrays.asList(new String[] { "p", "t", "i", "j", "c", "a", "m", "r" });
+    private List<String> commands = Arrays.asList(new String[] { "p", "t", "i", "j", "c", "a", "m", "r", "f" });
 
     /*
      * Executes the command. Checks the following:
@@ -101,7 +101,7 @@ public class JailCommand implements Command {
             //TODO: Make this whole jail command non-blocking
             OfflinePlayer of = jm.getPlugin().getServer().getOfflinePlayer(params.getPlayer());
             
-            if(!of.hasPlayedBefore() && !jm.getPlugin().getConfig().getBoolean(Settings.ALLOWJAILINGNEVERPLAYEDBEFOREPLAYERS.getPath())) {
+            if(!of.hasPlayedBefore() && !jm.getPlugin().getConfig().getBoolean(Settings.ALLOWJAILINGNEVERPLAYEDBEFOREPLAYERS.getPath()) && !params.isForce()) {
                 sender.sendMessage(Lang.PLAYERHASNEVERPLAYEDBEFORE.get(params.getPlayer()));
                 return true;
             }else {

@@ -8,6 +8,9 @@ public interface Jailing {
 
     @Option(longName={"player", "pl"}, shortName="p", description = "the player's name")
     public String getPlayer();
+    
+    @Option(longName={"force"}, shortName="f", description = "force jailing someone who has never been online")
+    public boolean getForce();
 
     @Option(longName={"time", "length"}, shortName="t", description = "the amount of time")
     public String getTime();
@@ -30,6 +33,7 @@ public interface Jailing {
     @Option(longName={"reason"}, shortName="r", description = "the reason this player is being jailed")
     public List<String> getReason();
 
+    public boolean isForce();
     public boolean isInfinite();
     public boolean isTime();
     public boolean isJail();
