@@ -1,4 +1,4 @@
-[Jail 3.0](http://ci.graywolf336.com/job/Jail/) - [JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc) - [Wiki](https://github.com/graywolf336/Jail/wiki)
+[Jail 3.0](http://ci.graywolf336.com/job/Jail/) - [JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc) - [Wiki](https://github.com/graywolf336/Jail/wiki) - [Translate](https://poeditor.com/join/project/zK1CT5cash)
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people, can be on a time basis. This plugin also offers wide variety of protections, this way players won't escape out of jail.
 
@@ -13,16 +13,34 @@ If you want to make some changes, build, and run the unit tests you will notice 
 Beta 5 Changes
 ===
 *Changes since Beta 4*
+* Added a command to update, verify, refresh, and clean signs on cells. [#79](https://github.com/graywolf336/Jail/issues/79)
+* Added an api to get the build number, this way we can reference it in the future.
+* Added a password requirement on the broadcast of jailing, defaults to everyone. [#54](https://github.com/graywolf336/Jail/issues/54)
 * Added the ability to show `reason`, `jail`, and `cell` to the broadcast messages. [#53](https://github.com/graywolf336/Jail/issues/53)
+* Added tab complete to all the commands. [#77](https://github.com/graywolf336/Jail/issues/77)
+* Changed cell names to be semi-sorted alphabetically. [#80](https://github.com/graywolf336/Jail/issues/80)
 * Changed how we handle inventory when storing is set to false. Don't remove their inventory when they are unjailed and we don't store it. [#57](https://github.com/graywolf336/Jail/issues/57)
-* Changed the jail api, see [#72's comment](https://github.com/graywolf336/Jail/issues/72#issuecomment-104757472) for some details
+* Changed offline players jailing, don't allow jailing players unless they've played before (can be overwrote with -f). [#82](https://github.com/graywolf336/Jail/issues/82)
+* Changed the jail api, see [#72's comment](https://github.com/graywolf336/Jail/issues/72#issuecomment-104757472) for some details.
+* Changed jailing items, we run all jailing sync so that any api usage async won't cause problems. [#73](https://github.com/graywolf336/Jail/issues/73)
 * Changed the format of the jail check command, thanks to stevoh6. [#65](https://github.com/graywolf336/Jail/pull/65)
 * Changed the explanation of why the gamemode setting was problematic and give the available options. [#73](https://github.com/graywolf336/Jail/issues/73)
+* Changed pretty time to be the default of the signs.
+* Fixed a sqlite issue which was preventing plugin from launching. [#78](https://github.com/graywolf336/Jail/issues/78)
 * Fixed an issue where cell data was being duplicated (or more) in the database. [#74](https://github.com/graywolf336/Jail/issues/74)
 * Fixed an on load issue when the config didn't have four lines for the signs. [#61](https://github.com/graywolf336/Jail/issues/61)
+* Fixed cell signs not updating when an offline player is jailed. [#68](https://github.com/graywolf336/Jail/issues/68)
+* Fixed chests being selectable if trapped and regular were next to each other.
+* Fixed inventory not being stored in chests, trapped chests and chests work just fine now.
+* Fixed jail names being case sensitive. [#76](https://github.com/graywolf336/Jail/issues/76)
 * Fixed jail sticks not putting players into cells. [#68](https://github.com/graywolf336/Jail/issues/68)
+* Fixed pretty time not working with jailed forever time.
 * Fixed respawning after dying not placing players back into their cells when another plugin sets their respawn point. [#55](https://github.com/graywolf336/Jail/issues/55)
 * Fixed time being added/subtracted from a player's time when they were jailed forever, resulting in them being able to get out. [#69](https://github.com/graywolf336/Jail/issues/69)
+* Fixed transferring players who've never been on before not working. [#83](https://github.com/graywolf336/Jail/issues/83)
+* Fixed signs disappearing after reloading the plugin. [#67](https://github.com/graywolf336/Jail/issues/67)
+* Fixed signs not updating after transferring someone.
+* Fixed storage not changing when reloading the plugin, allows converting from one type to another. [#75](https://github.com/graywolf336/Jail/issues/75)
 
 [Beta 4](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.4) Changes
 ===
