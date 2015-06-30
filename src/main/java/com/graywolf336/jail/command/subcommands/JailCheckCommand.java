@@ -55,10 +55,11 @@ public class JailCheckCommand implements Command {
         
         Collections.sort(results);
         
-        if(args.length == 1)
+        if(args.length == 2)
             for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
-                if(!results.contains(p.getName()))
-                    results.add(p.getName());
+                if(args[1].isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), args[1]))
+                    if(!results.contains(p.getName()))
+                        results.add(p.getName());
         
         return results;
     }
