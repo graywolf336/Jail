@@ -749,6 +749,12 @@ public class PrisonerManager {
                 }
             }
         }
+        
+        //Update the signs of both cells
+        if(originCell != null)
+            originCell.updateSigns();
+        if(targetCell != null)
+            targetCell.updateSigns();
 
         //Throw our custom event PrisonerTransferredEvent to say it was successful
         PrisonerTransferredEvent event = new PrisonerTransferredEvent(originJail, originCell, targetJail, targetCell, prisoner, player);
