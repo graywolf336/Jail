@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.JailManager;
@@ -87,18 +86,28 @@ public class JailHandler {
             //Sort the results before adding the player names
             Collections.sort(results);
             
-            //Don't send out all the players if they don't have jail permission
-            if(hasJailPermission)
-                for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
-                    if(arg0.isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), arg0))
-                        results.add(p.getName());
-            
-            return results;
+            //If the results doesn't contain anything and they have permission to jail someone
+            //then send let the jail command provide the tab completion
+            if(results.isEmpty() && hasJailPermission)
+                return getMatches("jail").get(0).provideTabCompletions(jm, sender, args);
+            else
+                return results;
         }else {
             String arg0 = args[0].toLowerCase();
+            boolean hasJailPermission = false;
             
             for(Command c : commands.values()) {
                 CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
+                
+                //since the pattern won't ever match the jail plugin
+                //we can skip it but first we need to see if they have
+                //permission to do the jailing
+                if(i.pattern().equalsIgnoreCase("jail|j")) {
+                    hasJailPermission = sender.hasPermission(i.permission());
+                    continue;
+                }
+                
+                if(!arg0.toLowerCase().matches(i.pattern())) continue;
                 
                 //Sender provided too many arguments which means there
                 //is nothing to tab complete
@@ -110,10 +119,14 @@ public class JailHandler {
                 //If the sender doesn't have permission, we won't send them further
                 if(!sender.hasPermission(i.permission())) continue;
                 
-                if(arg0.toLowerCase().matches(i.pattern())) {
-                    return c.provideTabCompletions(jm, sender, args);
-                }
+                return c.provideTabCompletions(jm, sender, args);
             }
+            
+            //By the time it has reached here no other command matched
+            //which means they are probably jailing someone, or trying to
+            //so let's check permission first and go from there.
+            if(hasJailPermission)
+                return getMatches("jail").get(0).provideTabCompletions(jm, sender, args);
         }
         
         return Collections.emptyList();

@@ -211,6 +211,10 @@ public class JailMain extends JavaPlugin {
                     return cmdHand.parseTabComplete(jm, sender, command.getName().toLowerCase(), args);
                 }
             }catch(Exception e) {
+                if(this.debug)
+                    e.printStackTrace();
+                
+                debug(e.getClass().getSimpleName() + " occured while providing tab complete: " + e.getMessage());
                 return Collections.emptyList();
             }
         }

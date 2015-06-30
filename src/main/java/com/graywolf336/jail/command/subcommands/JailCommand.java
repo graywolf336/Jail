@@ -1,14 +1,18 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
 import com.graywolf336.jail.Util;
@@ -34,6 +38,8 @@ import com.lexicalscope.jewel.cli.CliFactory;
         usage = "/jail [name] (-t time) (-j JailName) (-c CellName) (-a AnyCell) (-m Muted) (-r A reason for jailing)"
         )
 public class JailCommand implements Command {
+    private static final String noJailPermission = "jail.cantbejailed";
+    private List<String> commands = Arrays.asList(new String[] { "p", "t", "i", "j", "c", "a", "m", "r" });
 
     /*
      * Executes the command. Checks the following:
@@ -47,7 +53,6 @@ public class JailCommand implements Command {
      * - If the prisoner is online or not.
      */
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
-
         if(jm.getJails().isEmpty()) {
             sender.sendMessage(Lang.NOJAILS.get());
             return true;
@@ -86,7 +91,7 @@ public class JailCommand implements Command {
         
         //If the player instance is not null and the player has the permission
         //'jail.cantbejailed' then don't allow this to happen
-        if(p != null && p.hasPermission("jail.cantbejailed")) {
+        if(p != null && p.hasPermission(noJailPermission)) {
             sender.sendMessage(Lang.CANTBEJAILED.get());
             return true;
         }
@@ -256,7 +261,81 @@ public class JailCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement (this'll take a while)
+        //by the time it gets to this command it'll have at least two arguments
+        String last = args[args.length - 1];
+        
+        if(last.isEmpty() || !commands.contains(last.replace("-", ""))) {
+            //the current part is empty. Need to look at their previous
+            //item and if it is a valid option, then provide them a valid tab complete option
+            if(args.length - 2 > -1) {
+                String previous = args[args.length - 2];
+                jm.getPlugin().debug("args[args.length - 2]: " + previous);
+                
+                if(previous.equalsIgnoreCase("-p")) return getPlayers(jm, "");
+                else if(previous.equalsIgnoreCase("-j")) return jm.getJailsByPrefix("");
+                else if(previous.equalsIgnoreCase("-c")) {
+                    //Since we need to give them a list of the cells in a jail
+                    //we need to get the jail they're giving
+                    int jailIndex = ArrayUtils.indexOf(args, "-j");
+                    if(jailIndex != -1) {
+                        String jail = args[jailIndex + 1];
+                        jm.getPlugin().debug("The jail is: " + jail);
+                        if(jm.isValidJail(jail)) return getCells(jm, jail, "");
+                    }
+                }else if(previous.endsWith("r")) return Collections.emptyList();
+                else if(!commands.contains(args[args.length - 2].replace("-", ""))) return getUnusedCommands(args);
+            }
+        }else if(last.equalsIgnoreCase("-")) {
+            //add some smart checking so that it only returns a list of what isn't already
+            //in the command :)
+            return getUnusedCommands(args);
+        }else {
+            return getPlayers(jm, last);
+        }
+        
         return Collections.emptyList();
+    }
+    
+    private List<String> getPlayers(JailManager jm, String first) {
+        List<String> results = new ArrayList<String>();
+        
+        for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+            if(first.isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), first))
+                if(!jm.isPlayerJailed(p.getUniqueId()) && !p.hasPermission(noJailPermission)) //don't send back them if they're already jailed or can't be jailed
+                    results.add(p.getName());
+        
+        Collections.sort(results);
+        
+        return results;
+    }
+    
+    private List<String> getCells(JailManager jm, String jail, String cell) {
+        List<String> results = new ArrayList<String>();
+        
+        for(Cell c : jm.getJail(jail).getCells())
+            if(!c.hasPrisoner())
+                if(cell.isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), cell))
+                    results.add(c.getName());
+        
+        Collections.sort(results);
+        
+        return results;
+    }
+    
+    private List<String> getUnusedCommands(String[] args) {
+        List<String> used = new ArrayList<String>();
+        for(String s : args)
+            if(s.contains("-"))
+                used.add(s.replace("-", ""));
+        
+        List<String> unused = new ArrayList<String>();
+        for(String t : commands)
+            if(!used.contains(t) //don't add it if it is already used
+                    && !t.equalsIgnoreCase("p"))//don't add -p
+                        unused.add("-" + t);
+        
+        Collections.sort(unused);
+        
+        return unused;
     }
 }

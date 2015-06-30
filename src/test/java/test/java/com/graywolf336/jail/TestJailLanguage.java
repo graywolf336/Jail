@@ -104,7 +104,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&cYou have been jailed!"), Lang.JAILED.get());
         assertEquals(colorize("&cYou have been jailed for: terrible coding"), Lang.JAILEDWITHREASON.get("terrible coding"));
         assertEquals(colorize("&cStop talking, you are in jail."), Lang.MUTED.get());
-        assertEquals(colorize("&cNo empty cells were found for cloud, all them appear to be full."), Lang.NOEMPTYCELLS.get("cloud"));
+        assertEquals(colorize("&cNo empty cells were found for cloud, all of them appear to be full."), Lang.NOEMPTYCELLS.get("cloud"));
         assertEquals(colorize("&9cloud is empty and contains no prisoners."), Lang.NOPRISONERS.get("cloud"));
         assertEquals(colorize("&cgraywolf336 is not jailed."), Lang.NOTJAILED.get("graywolf336"));
         assertEquals(colorize("&9graywolf336 is now muted."), Lang.NOWMUTED.get("graywolf336"));

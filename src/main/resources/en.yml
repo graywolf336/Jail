@@ -60,7 +60,7 @@ language:
     jailed: '&cYou have been jailed!'
     jailedwithreason: '&cYou have been jailed for: %0%'
     muted: '&cStop talking, you are in jail.'
-    noemptycells: '&cNo empty cells were found for %0%, all them appear to be full.'
+    noemptycells: '&cNo empty cells were found for %0%, all of them appear to be full.'
     noprisoners: '&9%0% is empty and contains no prisoners.'
     notjailed: '&c%0% is not jailed.'
     nowmuted: '&9%0% is now muted.'

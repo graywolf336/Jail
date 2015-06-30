@@ -78,7 +78,7 @@ public class JailIO {
             try {
                 Lang.getFile().save(new File(pl.getDataFolder(), "en.yml"));
             } catch (IOException e) {
-                pl.getLogger().severe("Unable to save the language file: " + e.getMessage());
+                pl.getLogger().severe("Unable to save the language file: " + e.getMessage() + " (" + e.getClass().getSimpleName() + ")");
             }
         }
     }
@@ -1271,7 +1271,7 @@ public class JailIO {
                     ResultSet set = ps.executeQuery();
 
                     while(set.next()) {
-                        entries.add(Lang.RECORDENTRY.get(new String[] { set.getString("date"), set.getString("username"), set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason") }));
+                        entries.add(Lang.RECORDENTRY.get(new String[] { set.getString("date"), set.getString("username"), set.getString("jailer"), String.valueOf(set.getLong("time")), set.getString("reason"), set.getString("uuid") }));
                     }
 
                     set.close();
