@@ -75,8 +75,10 @@ public class CacheListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void beforeTransferringListener(PrePrisonerTransferredEvent event) {
-        if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
-            pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
+        if(event.isPlayerOnline()) {
+            if(pl.getJailManager().inCache(event.getPlayer().getUniqueId())) {
+                pl.getJailManager().removeCacheObject(event.getPlayer().getUniqueId());
+            }
         }
     }
 

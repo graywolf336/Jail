@@ -18,7 +18,7 @@ import com.graywolf336.jail.beans.Prisoner;
  * 
  * @author graywolf336
  * @since 3.0.0
- * @version 1.0.0
+ * @version 1.0.1
  */
 public class PrePrisonerTransferredEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
@@ -114,8 +114,8 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
     }
 
     /** Gets whether the prisoner being transferred is online or not. */
-    public boolean isOnline() {
-        return player == null;
+    public boolean isPlayerOnline() {
+        return player != null;
     }
 
     /** Gets the name of what is transferring this prisoner. */

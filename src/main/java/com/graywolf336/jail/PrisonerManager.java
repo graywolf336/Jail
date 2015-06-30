@@ -732,9 +732,9 @@ public class PrisonerManager {
                     //If the targetCell has a chest
                     if(targetCell.hasChest()) {
                         //Loop through the origin's chest inventory and add it to the target cell's chest
-                        for(ItemStack i : originCell.getChest().getInventory().getContents()) {
-                            targetCell.getChest().getInventory().addItem(i);
-                        }
+                        for(ItemStack i : originCell.getChest().getInventory().getContents())
+                            if(i != null)
+                                targetCell.getChest().getInventory().addItem(i);
 
                         //Clear the origin cell's chest as it is clear now
                         originCell.getChest().getInventory().clear();
