@@ -41,6 +41,7 @@ Beta 5 Changes
 * Fixed signs disappearing after reloading the plugin. [#67](https://github.com/graywolf336/Jail/issues/67)
 * Fixed signs not updating after transferring someone.
 * Fixed storage not changing when reloading the plugin, allows converting from one type to another. [#75](https://github.com/graywolf336/Jail/issues/75)
+* Fixed subcommands of `/jail` being case sensitive.
 
 [Beta 4](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.4) Changes
 ===
