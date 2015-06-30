@@ -3,6 +3,8 @@ package com.graywolf336.jail;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -299,6 +301,23 @@ public class Util {
     /** Gets all the lines which go on the cell signs. */
     public static String[] getSignLines() {
         return signLines;
+    }
+    
+    public static List<String> getUnusedItems(List<String> items, String[] args, boolean useP) {
+        List<String> used = new ArrayList<String>();
+        for(String s : args)
+            if(s.contains("-"))
+                used.add(s.replace("-", ""));
+        
+        List<String> unused = new ArrayList<String>();
+        for(String t : items)
+            if(!used.contains(t)) //don't add it if it is already used
+                if(!t.equalsIgnoreCase("p") || (useP && t.equalsIgnoreCase("p")))//don't add -p unless otherwise stated
+                        unused.add("-" + t);
+        
+        Collections.sort(unused);
+        
+        return unused;
     }
 
     /**

@@ -1,14 +1,19 @@
 package com.graywolf336.jail.command.subcommands;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.util.StringUtil;
 
 import com.graywolf336.jail.JailManager;
+import com.graywolf336.jail.Util;
 import com.graywolf336.jail.beans.Cell;
 import com.graywolf336.jail.beans.Jail;
 import com.graywolf336.jail.beans.Prisoner;
@@ -29,6 +34,8 @@ import com.lexicalscope.jewel.cli.CliFactory;
         usage = "/jail transfer [-p player] (-j jail) (-c cell)"
         )
 public class JailTransferCommand implements Command {
+    private List<String> commands = Arrays.asList(new String[] { "p", "j", "c" });
+    
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
         if(jm.getJails().isEmpty()) {
             sender.sendMessage(Lang.NOJAILS.get());
@@ -137,7 +144,62 @@ public class JailTransferCommand implements Command {
     }
 
     public List<String> provideTabCompletions(JailManager jm, CommandSender sender, String... args) throws Exception {
-        //TODO implement
+        //by the time it gets to this command it'll have at least two arguments
+        String last = args[args.length - 1];
+        
+        if(last.isEmpty() || !commands.contains(last.replace("-", ""))) {
+            //the current part is empty. Need to look at their previous
+            //item and if it is a valid option, then provide them a valid tab complete option
+            if(args.length - 2 > -1) {
+                String previous = args[args.length - 2];
+                jm.getPlugin().debug("args[args.length - 2]: " + previous);
+                
+                if(previous.equalsIgnoreCase("-p")) return getPlayers(jm, last);
+                else if(previous.equalsIgnoreCase("-j")) return jm.getJailsByPrefix(last);
+                else if(previous.equalsIgnoreCase("-c")) {
+                    //Since we need to give them a list of the cells in a jail
+                    //we need to get the jail they're giving
+                    int jailIndex = ArrayUtils.indexOf(args, "-j");
+                    if(jailIndex != -1) {
+                        String jail = args[jailIndex + 1];
+                        jm.getPlugin().debug("The jail is: " + jail);
+                        if(jm.isValidJail(jail)) return getCells(jm, jail, last);
+                    }
+                }else if(!commands.contains(args[args.length - 2].replace("-", ""))) return Util.getUnusedItems(commands, args, true);
+            }
+        }else if(last.equalsIgnoreCase("-")) {
+            //add some smart checking so that it only returns a list of what isn't already
+            //in the command :)
+            return Util.getUnusedItems(commands, args, true);
+        }else {
+            return getPlayers(jm, last);
+        }
+        
         return Collections.emptyList();
+    }
+    
+    private List<String> getPlayers(JailManager jm, String first) {
+        List<String> results = new ArrayList<String>();
+        
+        for(Player p : jm.getPlugin().getServer().getOnlinePlayers())
+            if(first.isEmpty() || StringUtil.startsWithIgnoreCase(p.getName(), first))
+                results.add(p.getName());
+        
+        Collections.sort(results);
+        
+        return results;
+    }
+    
+    private List<String> getCells(JailManager jm, String jail, String cell) {
+        List<String> results = new ArrayList<String>();
+        
+        for(Cell c : jm.getJail(jail).getCells())
+            if(!c.hasPrisoner())
+                if(cell.isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), cell))
+                    results.add(c.getName());
+        
+        Collections.sort(results);
+        
+        return results;
     }
 }

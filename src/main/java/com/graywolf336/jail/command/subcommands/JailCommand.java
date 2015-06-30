@@ -271,8 +271,8 @@ public class JailCommand implements Command {
                 String previous = args[args.length - 2];
                 jm.getPlugin().debug("args[args.length - 2]: " + previous);
                 
-                if(previous.equalsIgnoreCase("-p")) return getPlayers(jm, "");
-                else if(previous.equalsIgnoreCase("-j")) return jm.getJailsByPrefix("");
+                if(previous.equalsIgnoreCase("-p")) return getPlayers(jm, last);
+                else if(previous.equalsIgnoreCase("-j")) return jm.getJailsByPrefix(last);
                 else if(previous.equalsIgnoreCase("-c")) {
                     //Since we need to give them a list of the cells in a jail
                     //we need to get the jail they're giving
@@ -280,15 +280,15 @@ public class JailCommand implements Command {
                     if(jailIndex != -1) {
                         String jail = args[jailIndex + 1];
                         jm.getPlugin().debug("The jail is: " + jail);
-                        if(jm.isValidJail(jail)) return getCells(jm, jail, "");
+                        if(jm.isValidJail(jail)) return getCells(jm, jail, last);
                     }
                 }else if(previous.endsWith("r")) return Collections.emptyList();
-                else if(!commands.contains(args[args.length - 2].replace("-", ""))) return getUnusedCommands(args);
+                else if(!commands.contains(args[args.length - 2].replace("-", ""))) return Util.getUnusedItems(commands, args, false);
             }
         }else if(last.equalsIgnoreCase("-")) {
             //add some smart checking so that it only returns a list of what isn't already
             //in the command :)
-            return getUnusedCommands(args);
+            return Util.getUnusedItems(commands, args, false);
         }else {
             return getPlayers(jm, last);
         }
@@ -320,22 +320,5 @@ public class JailCommand implements Command {
         Collections.sort(results);
         
         return results;
-    }
-    
-    private List<String> getUnusedCommands(String[] args) {
-        List<String> used = new ArrayList<String>();
-        for(String s : args)
-            if(s.contains("-"))
-                used.add(s.replace("-", ""));
-        
-        List<String> unused = new ArrayList<String>();
-        for(String t : commands)
-            if(!used.contains(t) //don't add it if it is already used
-                    && !t.equalsIgnoreCase("p"))//don't add -p
-                        unused.add("-" + t);
-        
-        Collections.sort(unused);
-        
-        return unused;
     }
 }
