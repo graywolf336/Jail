@@ -1085,7 +1085,7 @@ public class JailIO {
                     PreparedStatement pp = getConnection().prepareStatement("delete from `" + prefix + "prisoners` where uuid = ?");
                     pp.setString(1, p.getUUID().toString());
 
-                    pl.debug("Removing " + p.getLastKnownName() + " (" + p.getUUID().toString() + ") from MySQL database.");
+                    pl.debug("Removing " + p.getLastKnownName() + " (" + p.getUUID().toString() + ") from " + (storage == 2 ? "MySQL" : "SQLite") + " database.");
 
                     pp.executeUpdate();
                     pp.close();
