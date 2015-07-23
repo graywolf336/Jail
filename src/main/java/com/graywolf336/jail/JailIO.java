@@ -1128,6 +1128,19 @@ public class JailIO {
 
         switch(storage) {
             case 1:
+                try {
+                    PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ?;");
+                    p.setString(1, c.getName());
+                    p.setString(2, j.getName());
+
+                    p.executeUpdate();
+                    p.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    pl.getLogger().severe("---------- Jail Error!!! ----------");
+                    pl.getLogger().severe("Error while removing the cell '" + c.getName() + "' from the Jail '" + j.getName() + "', please check the error and fix what is wrong.");
+                }
+                break;
             case 2:
                 try {
                     PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
