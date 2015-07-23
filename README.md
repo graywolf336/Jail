@@ -18,6 +18,7 @@ Beta 5 Changes
 * Added a password requirement on the broadcast of jailing, defaults to everyone. [#54](https://github.com/graywolf336/Jail/issues/54)
 * Added the ability to show `reason`, `jail`, and `cell` to the broadcast messages. [#53](https://github.com/graywolf336/Jail/issues/53)
 * Added tab complete to all the commands. [#77](https://github.com/graywolf336/Jail/issues/77)
+* Added reloading the move protection listener, so the reload actually loads/disables it. [#88](https://github.com/graywolf336/Jail/issues/88)
 * Changed cell names to be semi-sorted alphabetically. [#80](https://github.com/graywolf336/Jail/issues/80)
 * Changed how we handle inventory when storing is set to false. Don't remove their inventory when they are unjailed and we don't store it. [#57](https://github.com/graywolf336/Jail/issues/57)
 * Changed offline players jailing, don't allow jailing players unless they've played before (can be overwrote with -f). [#82](https://github.com/graywolf336/Jail/issues/82)
@@ -27,6 +28,7 @@ Beta 5 Changes
 * Changed the explanation of why the gamemode setting was problematic and give the available options. [#73](https://github.com/graywolf336/Jail/issues/73)
 * Changed pretty time to be the default of the signs.
 * Fixed a sqlite issue which was preventing plugin from launching. [#78](https://github.com/graywolf336/Jail/issues/78)
+* Fixed a sqlite error when deleting a cell. [#89](https://github.com/graywolf336/Jail/issues/89)
 * Fixed an issue where cell data was being duplicated (or more) in the database. [#74](https://github.com/graywolf336/Jail/issues/74)
 * Fixed an on load issue when the config didn't have four lines for the signs. [#61](https://github.com/graywolf336/Jail/issues/61)
 * Fixed cell signs not updating when an offline player is jailed. [#68](https://github.com/graywolf336/Jail/issues/68)

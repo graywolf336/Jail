@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -114,10 +115,7 @@ public class JailMain extends JavaPlugin {
         //not registering this event listener will hopefully safe some performance.
         //But doing this also forces people to restart their server if they to
         //enable it after disabling it.
-        if(getConfig().getBoolean(Settings.MOVEPROTECTION.getPath())) {
-            this.mpl = new MoveProtectionListener(this);
-            plm.registerEvents(this.mpl, this);
-        }
+        this.reloadMoveProtection();
 
         jt = new JailTimer(this);
         sbm = new ScoreBoardManager(this);
@@ -231,6 +229,7 @@ public class JailMain extends JavaPlugin {
         //We don't touch any of the data currently being stored in cache,
         //this way you can transfer from flatfile to mysql or flip flopped.
         getJailIO().prepareStorage(true);
+        reloadMoveProtection();
         //Reload all that has to do with the scoreboard, name and settings
         reloadScoreBoardManager();
         //Reload the jail sticks
@@ -245,8 +244,28 @@ public class JailMain extends JavaPlugin {
         //if they rely on any of the configuration settings (such as signs)
         getServer().getPluginManager().callEvent(new JailPluginReloadedEvent(this));
     }
+    
+    /** Reloads/Loads the move protection listener based upon it's previous status and the config. */
+    private void reloadMoveProtection() {
+        boolean moveProtection = getConfig().getBoolean(Settings.MOVEPROTECTION.getPath());
+        
+        //If move protection is not enabled and it used to be,
+        //unregister it.
+        if(!moveProtection && this.mpl != null) {
+            HandlerList.unregisterAll(this.mpl);
+            this.mpl = null;
+            this.debug("The move protection listener is now disabled.");
+        }
+        
+        //If it is enabled and it used to not be, then enable it.
+        if(moveProtection && this.mpl == null) {
+            this.mpl = new MoveProtectionListener(this);
+            getServer().getPluginManager().registerEvents(mpl, this);
+            this.debug("The move protection listener is now enabled.");
+        }
+    }
 
-    /** Reloads the scoreboard manager class, useful when something is changed int he config about it. */
+    /** Reloads the scoreboard manager class, useful when something is changed in the config about it. */
     private void reloadScoreBoardManager() {
         this.sbm.removeAllScoreboards();
         this.sbm = null;
