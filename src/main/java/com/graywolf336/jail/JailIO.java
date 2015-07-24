@@ -1157,7 +1157,7 @@ public class JailIO {
                 break;
             default:
                 if(flat != null) {
-                    flat.set("jails." + j.getName() + "cells." + c.getName(), null);
+                    flat.set("jails." + j.getName() + ".cells." + c.getName(), null);
 
                     try {
                         flat.save(new File(pl.getDataFolder(), "data.yml"));
