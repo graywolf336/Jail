@@ -255,12 +255,12 @@
 		<repository>
 			<id>repo-release</id>
 			<name>repo.graywolf336.com Releases</name>
-			<url>http://repo.graywolf336.com/content/repositories/releases/</url>
+			<url>http://repo.graywolf336.com/content/repositories/grays-public-release/</url>
 		</repository>
 		<snapshotRepository>
 			<id>repo-snapshot</id>
 			<name>repo.graywolf336.com Snapshots</name>
-			<url>http://repo.graywolf336.com/content/repositories/snapshots/</url>
+			<url>http://repo.graywolf336.com/content/repositories/grays-public-snapshot/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
