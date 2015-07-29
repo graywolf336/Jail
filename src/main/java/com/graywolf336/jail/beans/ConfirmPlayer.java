@@ -19,7 +19,7 @@ public class ConfirmPlayer {
         this.name = name;
         this.args = args;
         this.confirm = confirm;
-        this.expires = System.currentTimeMillis() + 5000L;
+        this.expires = System.currentTimeMillis() + 10000L;
     }
 
     /** Returns the name of the thing needing to confirm. */

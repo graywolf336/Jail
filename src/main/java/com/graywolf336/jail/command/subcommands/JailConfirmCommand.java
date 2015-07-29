@@ -26,6 +26,7 @@ public class JailConfirmCommand implements Command{
             if(jm.confirmingHasExpired(sender.getName())) {
                 //Their confirmation time frame has closed
                 sender.sendMessage(Lang.EXPIRED.get());
+                jm.removeConfirming(sender.getName());
             }else {
                 switch(jm.getWhatIsConfirming(sender.getName())) {
                     case CLEAR:

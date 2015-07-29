@@ -678,16 +678,7 @@ public class JailManager {
 
     /** Checks if the given name is confirming something. */
     public boolean isConfirming(String name) {
-        if(this.confirms.containsKey(name)) {
-            if(this.confirmingHasExpired(name)) {
-                getPlugin().debug("Removing " + name + "'s confirmation as it expired.");
-                this.removeConfirming(name);
-            }
-
-            return this.confirms.containsKey(name);
-        }else {
-            return false;
-        }
+        return this.confirms.containsKey(name);
     }
 
     /** Returns true if the confirmation has expired, false if it is still valid. */
