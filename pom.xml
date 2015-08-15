@@ -10,13 +10,13 @@
 	<url>http://dev.bukkit.org/bukkit-plugins/jail/</url>
 
 	<ciManagement>
-		<url>http://ci.graywolf336.com/job/Jail/</url>
+		<url>https://ci.craftyn.com/job/Jail/</url>
 		<system>jenkins</system>
 	</ciManagement>
 
 	<issueManagement>
-		<url>http://dev.bukkit.org/bukkit-plugins/jail/tickets/</url>
-		<system>Dev Bukkit</system>
+		<url>https://github.com/graywolf336/Jail/issues</url>
+		<system>GitHub</system>
 	</issueManagement>
 
 	<scm>
@@ -254,13 +254,13 @@
 	<distributionManagement>
 		<repository>
 			<id>repo-release</id>
-			<name>repo.graywolf336.com Releases</name>
-			<url>http://repo.graywolf336.com/content/repositories/grays-public-release/</url>
+			<name>Jail Releases</name>
+			<url>https://repo.craftyn.com/repository/internal/</url>
 		</repository>
 		<snapshotRepository>
 			<id>repo-snapshot</id>
-			<name>repo.graywolf336.com Snapshots</name>
-			<url>http://repo.graywolf336.com/content/repositories/grays-public-snapshot/</url>
+			<name>Jail Snapshots</name>
+			<url>https://repo.craftyn.com/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>

@@ -21,8 +21,8 @@ public class Update {
 
     // Static information for querying the API
     private static final String BUKKIT_API_QUERY = "https://api.curseforge.com/servermods/files?projectIds=" + projectID;
-    private static final String CI_STABLEDEV_API_QUERY = "http://ci.graywolf336.com/job/Jail/lastStableBuild/api/json";
-    private static final String CI_DEV_API_QUERY = "http://ci.graywolf336.com/job/Jail/lastSuccessfulBuild/api/json";
+    private static final String CI_STABLEDEV_API_QUERY = "https://ci.craftyn.com/job/Jail/lastStableBuild/api/json";
+    private static final String CI_DEV_API_QUERY = "https://ci.craftyn.com/job/Jail/lastSuccessfulBuild/api/json";
     private boolean needed = false;
 
     // The url for the new file and file version
