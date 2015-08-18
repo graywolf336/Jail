@@ -16,12 +16,20 @@ public class CachePrisoner {
         this.p = prisoner;
     }
 
-    /** Gets the Jail this cache is in. */
+    /**
+     * Gets the {@link Jail} this cache is in.
+     * 
+     * @return the {@link Jail} instance
+     */
     public Jail getJail() {
         return this.jail;
     }
 
-    /** Gets the Prisoner in this cache. */
+    /**
+     * Gets the {@link Prisoner} in this cache.
+     * 
+     * @return the {@link Prisoner} instance
+     */
     public Prisoner getPrisoner() {
         return this.p;
     }

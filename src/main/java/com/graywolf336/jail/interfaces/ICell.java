@@ -11,22 +11,38 @@ import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.beans.SimpleLocation;
 
 public interface ICell {
-    /** Gets the id of the cell in the database, <strong>internal usage only</strong> */
+    /**
+     * Gets the id of the cell in the database, <strong>internal usage only</strong>
+     * 
+     * @return database's id, don't use for external reasons
+     */
     public int getDatabaseID();
 
-    /** Gets the name of the cell. */
+    /**
+     * Gets the name of the cell.
+     * 
+     * @return Cell's name
+     */
     public String getName();
 
     /** Sets the prisoner in this cell. */
     public void setPrisoner(Prisoner prisoner);
 
-    /** Gets the prisoner being held in this cell. */
+    /**
+     * Gets the prisoner being held in this cell.
+     * 
+     * @return the {@link Prisoner} instance in this cell, null if no prisoner
+     */
     public Prisoner getPrisoner();
 
     /** Nullifies the prisoner data. */
     public void removePrisoner();
 
-    /** Returns true if there is currently a prisoner in this cell. */
+    /**
+     * Returns true if there is currently a prisoner in this cell.
+     * 
+     * @return Whether there is a prisoner or not
+     */
     public boolean hasPrisoner();
 
     /** Adds all the given signs to the cell. */
@@ -35,19 +51,39 @@ public interface ICell {
     /** Adds a sign to the cell. */
     public void addSign(SimpleLocation sign);
 
-    /** Returns all the signs for this cell. */
+    /**
+     * Returns all the signs for this cell.
+     * 
+     * @return All the signs used by this cell
+     */
     public HashSet<SimpleLocation> getSigns();
 
-    /** Checks if there are any signs for this cell. */
+    /**
+     * Checks if there are any signs for this cell.
+     * 
+     * @return Whether this cell has signs or not.
+     */
     public boolean hasSigns();
 
-    /** Returns the entire list of signs in a string. */
+    /**
+     * Returns the entire list of signs in a string.
+     * 
+     * @return the serialized string of sign locations
+     */
     public String getSignString();
 
-    /** Gets a list of all the signs which are invalid (not signs anymore). */
+    /**
+     * Gets a list of all the signs which are invalid (not signs anymore).
+     * 
+     * @return Returns a list of all the invalid signs 
+     */
     public List<String> getInvalidSigns();
 
-    /** Removes all the signs which are no longer sign blocks. */
+    /**
+     * Removes all the signs which are no longer sign blocks.
+     * 
+     * @return The signs cleaned up
+     */
     public List<String> cleanSigns();
 
     /**
@@ -60,7 +96,11 @@ public interface ICell {
     /** Sets the location of where the prisoner will be teleported at when jailed here. */
     public void setTeleport(SimpleLocation location);
 
-    /** Gets the teleport location where the prisoner will be teleported at when jailed here. */
+    /**
+     * Gets the teleport location where the prisoner will be teleported at when jailed here.
+     * 
+     * @return the teleport in {@link Location location}
+     */
     public Location getTeleport();
 
     /** Sets the location of the chest. */
@@ -86,6 +126,13 @@ public interface ICell {
      * @return true if there is a chest, false if there isn't.
      */
     public boolean hasChest();
+    
+    /**
+     * Checks to see if this cell uses a chest or not.
+     * 
+     * @return Whether there is a location for chest stored.
+     */
+    public boolean useChest();
 
     /**
      * Sets whether this cell has been changed or not.
@@ -95,6 +142,10 @@ public interface ICell {
      */
     public boolean setChanged(boolean changed);
 
-    /** Gets whether the Cell has changed from the last save or not. */
+    /**
+     * Gets whether the Cell has changed from the last save or not.
+     * 
+     * @return Whether the cell has changed or not since last save
+     */
     public boolean hasChanged();
 }

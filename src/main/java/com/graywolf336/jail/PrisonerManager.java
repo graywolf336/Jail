@@ -32,7 +32,7 @@ import com.graywolf336.jail.interfaces.ICell;
 /**
  * Provides methods, non-statically, that do the preparing of jails, jailing, etc.
  *
- * <p />
+ * <br /><br />
  *
  * <ul>
  * 	<li>{@link #prepareJail(Jail, ICell, Player, Prisoner) preparejail}</li>
@@ -66,7 +66,7 @@ public class PrisonerManager {
     /**
      * Does everything preparing for the jailing of the provided prisoner, if they are online it forwards it to {@link #jailPrisoner(Jail, ICell, Player, Prisoner)}.
      *
-     * <p />
+     * <br /><br />
      *
      * In this we do the following:
      * <ol>
@@ -88,7 +88,6 @@ public class PrisonerManager {
      * @throws JailRequiredException if the jail provided is null.
      * @throws PrisonerAlreadyJailedException if the prisoner is already jailed.
      * @throws PrisonerRequiredException if the prisoner's data provided is null.
-     *
      */
     public void prepareJail(final Jail jail, ICell cell, final Player player, final Prisoner prisoner) throws JailRequiredException, PrisonerAlreadyJailedException, PrisonerRequiredException {
         //Do some checks of whether the passed params are null.
@@ -373,7 +372,9 @@ public class PrisonerManager {
 
     /**
      * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
-     *
+     * 
+     * <br /><br />
+     * 
      * If you're wanting to unjail a prisoner, see the {@link #unJail(Jail, ICell, Player, Prisoner, CommandSender)} method.
      *
      * @param prisoner to be released.
@@ -419,7 +420,7 @@ public class PrisonerManager {
     /**
      * Unjails a prisoner, <strong>sync</strong>, from jail, removing all their data.
      *
-     * <p />
+     * <br /><br />
      *
      * Throws an exception if either the jail is null or the prisoner is null.
      *
@@ -564,7 +565,7 @@ public class PrisonerManager {
     /**
      * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
      *
-     * <p />
+     * <br /><br />
      *
      * This method forcefully removes all the references to this prisoner,
      * meaning if they're offline the following won't happened:
@@ -576,7 +577,7 @@ public class PrisonerManager {
      *
      * But if they're online, it goes through the regular unjailing methods.
      *
-     * <p />
+     * <br /><br />
      *
      * @param prisoner to release
      * @param sender who is releasing the prisoner, <em>can be null</em>
@@ -592,7 +593,7 @@ public class PrisonerManager {
      * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
      *
      *
-     * <p />
+     * <br /><br />
      *
      * This method forcefully removes all the references to this prisoner,
      * meaning if they're offline the following won't happened:
@@ -604,7 +605,7 @@ public class PrisonerManager {
      *
      * But if they're online, it goes through the regular unjailing methods.
      *
-     * <p />
+     * <br /><br />
      *
      * @param jail the prisoner is in
      * @param cell the prisoner is in, <em>can be null</em>

@@ -10,7 +10,7 @@ import com.graywolf336.jail.interfaces.ICell;
 /**
  * Event thrown when a prisoner is offline put will be put into jail next time they come online.
  * 
- * <p />
+ * <br /><br />
  * 
  * This event is called before everything for the jailing takes place, as the player is offline.
  * This event is called for informative purposes, see {@link PrePrisonerJailedEvent}

@@ -22,22 +22,38 @@ public class ConfirmPlayer {
         this.expires = System.currentTimeMillis() + 10000L;
     }
 
-    /** Returns the name of the thing needing to confirm. */
+    /**
+     * Returns the name of the thing needing to confirm.
+     * 
+     * @return the name of what is being confirmed
+     */
     public String getName() {
         return this.name;
     }
 
-    /** Returns the initial arguments they sent with their command. */
+    /**
+     * Returns the initial arguments they sent with their command.
+     * 
+     * @return the initial arguments of the original command
+     */
     public String[] getArguments() {
         return this.args;
     }
 
-    /** Returns what they are {@link Confirmation confirming}. */
+    /**
+     * Returns what they are {@link Confirmation confirming}.
+     * 
+     * @return the {@link Confirmation} of what they're confirming
+     */
     public Confirmation getConfirming() {
         return this.confirm;
     }
 
-    /** Returns the time in milliseconds their confirmation time frame expires. */
+    /**
+     * Returns the time in milliseconds their confirmation time frame expires.
+     * 
+     * @return the time their confirming expires
+     */
     public Long getExpiryTime() {
         return this.expires;
     }

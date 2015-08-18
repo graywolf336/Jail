@@ -27,7 +27,7 @@ import com.graywolf336.jail.steps.JailCreationSteps;
 /**
  * Handles all things related to jails.
  * 
- * <p>
+ * <p>&nbsp;</p>
  * 
  * Stores the following:
  * <ul>
@@ -62,17 +62,29 @@ public class JailManager {
         this.ccs = new CellCreationSteps();
     }
 
-    /** Returns the instance of the plugin main class. */
+    /**
+     * Returns the instance of the plugin main class.
+     * 
+     * @return {@link JailMain} instance
+     */
     public JailMain getPlugin() {
         return this.plugin;
     }
 
-    /** Returns a HashSet of all the jails. */
+    /**
+     * Returns a HashSet of all the jails.
+     * 
+     * @return HashSet of all the jail instances.
+     */
     public HashSet<Jail> getJails() {
         return new HashSet<Jail>(jails.values());
     }
 
-    /** Returns an array of all the names of the jails. */
+    /**
+     * Returns an array of all the names of the jails.
+     * 
+     * @return Array of the jail names
+     */
     public String[] getJailNames() {
         String[] toReturn = new String[jails.size()];
         
@@ -88,7 +100,7 @@ public class JailManager {
     /**
      * Gets a list of Jail names that start with the provided prefix.
      * 
-     * <p>
+     * <br /><br />
      * 
      * If the provided prefix is empty, then we add all of the jails.
      * 
@@ -410,7 +422,7 @@ public class JailManager {
     /**
      * Forcefully clears all the jails if name provided is null.
      * 
-     * <p />
+     * <br /><br />
      * 
      * This method just clears them from the storage, doesn't release them.
      * 
@@ -549,7 +561,12 @@ public class JailManager {
         return this.jailCreators.containsKey(name.toLowerCase()) || this.cellCreators.containsKey(name.toLowerCase());
     }
 
-    /** Returns a message used for telling them what they're creating and what step they're on. */
+    /**
+     * Returns a message used for telling them what they're creating and what step they're on.
+     * 
+     * @param player the name of the player to check
+     * @return The details for the step they're on
+     */
     public String getStepMessage(String player) {
         String message = "";
 
@@ -592,7 +609,12 @@ public class JailManager {
         return message;
     }
 
-    /** Returns whether or not someone is creating a <strong>Jail</strong>. */
+    /**
+     * Returns whether or not someone is creating a <strong>Jail</strong>.
+     * 
+     * @param name the player's name to check
+     * @return Whether they are creating a jail or not.
+     */
     public boolean isCreatingAJail(String name) {
         return this.jailCreators.containsKey(name.toLowerCase());
     }
@@ -613,7 +635,12 @@ public class JailManager {
         }
     }
 
-    /** Returns the instance of the CreationPlayer for this player, null if there was none found. */
+    /**
+     * Returns the instance of the CreationPlayer for this player, null if there was none found.
+     * 
+     * @param name the player's name
+     * @return gets the player's {@link CreationPlayer} instance
+     */
     public CreationPlayer getJailCreationPlayer(String name) {
         return this.jailCreators.get(name.toLowerCase());
     }
@@ -623,7 +650,12 @@ public class JailManager {
         this.jailCreators.remove(name.toLowerCase());
     }
 
-    /** Returns whether or not someone is creating a <strong>Cell</strong>. */
+    /**
+     * Returns whether or not someone is creating a <strong>Cell</strong>.
+     * 
+     * @param name the player's name to check
+     * @return Whether they are creating a jail cell or not.
+     */
     public boolean isCreatingACell(String name) {
         return this.cellCreators.containsKey(name.toLowerCase());
     }
@@ -645,7 +677,12 @@ public class JailManager {
         }
     }
 
-    /** Returns the instance of the CreationPlayer for this player, null if there was none found. */
+    /**
+     * Returns the instance of the CreationPlayer for this player, null if there was none found.
+     * 
+     * @param name the player's name to get
+     * @return The player's {@link CreationPlayer} instance.
+     */
     public CreationPlayer getCellCreationPlayer(String name) {
         return this.cellCreators.get(name.toLowerCase());
     }
@@ -655,12 +692,20 @@ public class JailManager {
         this.cellCreators.remove(name.toLowerCase());
     }
 
-    /** Gets the instance of the {@link JailCreationSteps}. */
+    /**
+     * Gets the instance of the {@link JailCreationSteps}.
+     * 
+     * @return {@link JailCreationSteps} instance
+     */
     public JailCreationSteps getJailCreationSteps() {
         return this.jcs;
     }
 
-    /** Gets the instance of the {@link CellCreationSteps}. */
+    /**
+     * Gets the instance of the {@link CellCreationSteps}.
+     * 
+     * @return the {@link CellCreationSteps} instance
+     */
     public CellCreationSteps getCellCreationSteps() {
         return this.ccs;
     }
@@ -676,23 +721,43 @@ public class JailManager {
         this.confirms.remove(name);
     }
 
-    /** Checks if the given name is confirming something. */
+    /**
+     * Checks if the given name is confirming something.
+     * 
+     * @param name the player's name
+     * @return Whether they are confirming something or not
+     */
     public boolean isConfirming(String name) {
         return this.confirms.containsKey(name);
     }
 
-    /** Returns true if the confirmation has expired, false if it is still valid. */
+    /**
+     * Returns true if the confirmation has expired, false if it is still valid.
+     * 
+     * @param name the player's name
+     * @return Whether their confirmation has expired or not.
+     */
     public boolean confirmingHasExpired(String name) {
         //If the expiry time is LESS than the current time, it has expired
         return this.confirms.get(name).getExpiryTime() < System.currentTimeMillis();
     }
 
-    /** Returns the original arguments for what we are confirming. */
+    /**
+     * Returns the original arguments for what we are confirming.
+     * 
+     * @param name the player's name
+     * @return an array of strings which is their original arguments
+     */
     public String[] getOriginalArgs(String name) {
         return this.confirms.get(name).getArguments();
     }
 
-    /** Returns what the given name is confirming. */
+    /**
+     * Returns what the given name is confirming.
+     * 
+     * @param name the player's name
+     * @return What they are confirming
+     */
     public Confirmation getWhatIsConfirming(String name) {
         return this.confirms.get(name).getConfirming();
     }

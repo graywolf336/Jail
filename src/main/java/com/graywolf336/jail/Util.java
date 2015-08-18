@@ -57,7 +57,7 @@ public class Util {
     /**
      * Checks if two numbers are inside a point, or something.
      *
-     * <p />
+     * <br /><br />
      *
      * @param loc The location.
      * @param first The first point
@@ -148,12 +148,23 @@ public class Util {
         return result.toString();
     }
 
-    /** Returns a colorful message from the color codes. */
+    /**
+     * Returns a colorful message from the color codes.
+     * 
+     * @param message the message to colorize
+     * @return the colorized message
+     */
     public static String getColorfulMessage(String message) {
-        return message.replaceAll("(?i)&([0-9abcdefklmnor])", "\u00A7$1");
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    /** Returns a message with all the possible variables replaced. */
+    /**
+     * Returns a message with all the possible variables replaced.
+     * 
+     * @param p the {@link Prisoner} data
+     * @param msg the message to replace everything in
+     * @return The message with everything replaced and colorized.
+     */
     public static String replaceAllVariables(Prisoner p, String msg) {
         msg = msg.replace("%player%", p.getLastKnownName())
                 .replace("%uuid%", p.getUUID().toString())
@@ -172,7 +183,13 @@ public class Util {
         return getColorfulMessage(msg);
     }
 
-    /** Replaces all the variables in the messages with their possible values. */
+    /**
+     * Replaces all the variables in the messages with their possible values.
+     * 
+     * @param p the {@link Prisoner} data.
+     * @param msgs the messages
+     * @return the messages but variables replaced and colorized
+     */
     public static String[] replaceAllVariables(Prisoner p, String... msgs) {
         String[] results = new String[msgs.length];
         
@@ -182,7 +199,11 @@ public class Util {
         return results;
     }
 
-    /** Returns the wand used throughout the different creation steps. */
+    /**
+     * Returns the wand used throughout the different creation steps.
+     * 
+     * @return The {@link ItemStack} to use for creation
+     */
     public static ItemStack getWand() {
         ItemStack wand = new ItemStack(Material.WOOD_SWORD);
         ItemMeta meta = wand.getItemMeta();
@@ -197,7 +218,6 @@ public class Util {
     }
 
     /**
-     *
      * Converts a string like '20minutes' into the appropriate amount of the given unit.
      *
      * @param time in a string to convert.
@@ -298,7 +318,11 @@ public class Util {
         signLines = lines;
     }
 
-    /** Gets all the lines which go on the cell signs. */
+    /**
+     * Gets all the lines which go on the cell signs.
+     * 
+     * @return the strings for the signs
+     */
     public static String[] getSignLines() {
         return signLines;
     }
@@ -325,7 +349,7 @@ public class Util {
      *
      * @param playerInventory to turn into an array of strings.
      * @return Array of strings: [ main content, armor content ]
-     * @throws IllegalStateException
+     * @throws IllegalStateException if any of the {@link ItemStack}s couldn't be parsed
      */
     public static String[] playerInventoryToBase64(PlayerInventory playerInventory) throws IllegalStateException {
         //get the main content part, this doesn't return the armor
@@ -339,13 +363,13 @@ public class Util {
      *
      * A method to serialize an {@link ItemStack} array to Base64 String.
      *
-     * <p />
+     * <br /><br />
      *
      * Based off of {@link #toBase64(Inventory)}.
      *
      * @param items to turn into a Base64 String.
      * @return Base64 string of the items.
-     * @throws IllegalStateException
+     * @throws IllegalStateException if any of the {@link ItemStack}s couldn't be parsed
      */
     public static String itemStackArrayToBase64(ItemStack[] items) throws IllegalStateException {
         try {
@@ -371,16 +395,14 @@ public class Util {
     /**
      * A method to serialize an inventory to Base64 string.
      *
-     * <p />
+     * <br /><br />
      *
      * Special thanks to Comphenix in the Bukkit forums or also known
-     * as aadnk on GitHub.
-     *
-     * <a href="https://gist.github.com/aadnk/8138186">Original Source</a>
+     * as aadnk on GitHub. <a href="https://gist.github.com/aadnk/8138186">Original Source</a>
      *
      * @param inventory to serialize
      * @return Base64 string of the provided inventory
-     * @throws IllegalStateException
+     * @throws IllegalStateException if any of the {@link ItemStack}s couldn't be parsed
      */
     public static String toBase64(Inventory inventory) throws IllegalStateException {
         try {
@@ -407,7 +429,7 @@ public class Util {
      *
      * A method to get an {@link Inventory} from an encoded, Base64, string.
      *
-     * <p />
+     * <br /><br />
      *
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
@@ -416,7 +438,7 @@ public class Util {
      *
      * @param data Base64 string of data containing an inventory.
      * @return Inventory created from the Base64 string.
-     * @throws IOException
+     * @throws IOException if we were unable to parse the base64 string
      */
     public static Inventory fromBase64(String data) throws IOException {
         if(data.isEmpty()) return Bukkit.getServer().createInventory(null, 0);
@@ -441,13 +463,13 @@ public class Util {
     /**
      * Gets an array of ItemStacks from Base64 string.
      *
-     * <p />
+     * <br /><br />
      *
      * Base off of {@link #fromBase64(String)}.
      *
      * @param data Base64 string to convert to ItemStack array.
      * @return ItemStack array created from the Base64 string.
-     * @throws IOException
+     * @throws IOException if we was unable to parse the base64 string
      */
     public static ItemStack[] itemStackArrayFromBase64(String data) throws IOException {
         if(data.isEmpty()) return new ItemStack[] {};

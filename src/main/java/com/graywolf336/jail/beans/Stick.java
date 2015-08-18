@@ -6,7 +6,6 @@ package com.graywolf336.jail.beans;
  * @author graywolf336
  * @version 1.0.1
  * @since 3.0.0
- *
  */
 public class Stick {
     private String jail, reason;
@@ -28,24 +27,36 @@ public class Stick {
         this.health = health;
     }
 
-    /** Gets the name of the jail a player will be sent when jailed via this jail stick. */
+    /**
+     * Gets the name of the jail a player will be sent when jailed via this jail stick.
+     * 
+     * @return the name of the jail this stick puts people in
+     */
     public String getJail() {
         return this.jail;
     }
 
-    /** Gets the reason a player will be jailed for when jailed via this stick. */
+    /**
+     * Gets the reason a player will be jailed for when jailed via this stick.
+     * 
+     * @return the reason of jailing used by this stick
+     */
     public String getReason() {
         return this.reason;
     }
 
-    /** Gets the amount of time a player has to serve when they are jailed via this stick. */
+    /**
+     * Gets the amount of time a player has to serve when they are jailed via this stick.
+     * 
+     * @return the amount of time someone is jailed via this stick
+     */
     public long getTime() {
         return this.time;
     }
 
     /** Gets the amount of health a player has to have before getting jailed via this stick.
      * 
-     * <p />
+     * <br /><br />
      * 
      * See here for reference: http://dev.bukkit.org/bukkit-plugins/jail/tickets/415/
      */

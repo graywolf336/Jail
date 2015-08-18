@@ -14,7 +14,7 @@ import com.graywolf336.jail.interfaces.ICell;
 /**
  * Event thrown before we a player is jailed by someone hitting them with a {@link Stick jail stick}.
  * 
- * <p />
+ * <br /><br />
  * 
  * This event is called right before we actually jail a player, and is cancellable.
  * 

@@ -8,7 +8,7 @@ import org.bukkit.Location;
 /**
  * Manages the handcuffing of players.
  * 
- * <p />
+ * <p>&nbsp;</p>
  * 
  * Provides easy to use methods for adding,
  * removing, and checking if someone has

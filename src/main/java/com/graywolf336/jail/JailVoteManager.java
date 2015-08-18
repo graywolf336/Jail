@@ -29,7 +29,8 @@ public class JailVoteManager {
     
     /**
      * Creates a new instance of this Jail Vote manager.
-     *  
+     * 
+     * @param plugin the {@link JailMain} instance
      * @throws Exception When it can't load the time correctly
      */
     protected JailVoteManager(JailMain plugin) throws Exception {
@@ -45,7 +46,11 @@ public class JailVoteManager {
         this.minYes = plugin.getConfig().getInt(Settings.JAILMINYESVOTES.getPath());
     }
     
-    /** Gets all the votes to jail someone. */
+    /**
+     * Gets all the votes to jail someone.
+     * 
+     * @return HashMap of all the votes
+     */
     public HashMap<String, JailVote> getVotes() {
         return this.votes;
     }
@@ -121,17 +126,29 @@ public class JailVoteManager {
         return this.votes.containsKey(name);
     }
     
-    /** Returns the nice formatted time of how long a vote is open. */
+    /**
+     * Returns the nice formatted time of how long a vote is open.
+     * 
+     * @return The vote length description
+     */
     public String getTimerLengthDescription() {
         return this.timerDesc;
     }
     
-    /** Returns the minimum amount of yes votes required to jail someone. */
+    /**
+     * Returns the minimum amount of yes votes required to jail someone.
+     * 
+     * @return Minimum amount of votes required.
+     */
     public int getMinimumYesVotes() {
         return this.minYes;
     }
     
-    /** Gets the current running tasks ids. */
+    /**
+     * Gets the current running tasks ids.
+     * 
+     * @return HashMap of all the current current tasks
+     */
     public HashMap<String, Integer> getRunningTasks() {
         return this.tasks;
     }
@@ -156,6 +173,7 @@ public class JailVoteManager {
      * Calculates the votes, determining whether there are enough votes to jail the person or not.
      * 
      * @param v the {@link JailVote} to do the calculation of.
+     * @return the {@link JailVoteResult} of the vote.
      */
     public JailVoteResult doTheVoteCalculation(JailVote v) {
         JailVoteResult result;

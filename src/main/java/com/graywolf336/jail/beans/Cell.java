@@ -220,6 +220,10 @@ public class Cell implements ICell {
         }else
             return false;
     }
+    
+    public boolean useChest() {
+        return this.chest != null;
+    }
 
     public boolean setChanged(boolean changed) {
         return this.changed = changed;

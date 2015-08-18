@@ -341,52 +341,93 @@ public class JailMain extends JavaPlugin {
         }
     }
 
-    /** Gets the {@link HandCuffManager} instance. */
+    /**
+     * Gets the {@link HandCuffManager} instance.
+     * 
+     * @return {@link HandCuffManager} instance
+     */
     public HandCuffManager getHandCuffManager() {
         return this.hcm;
     }
 
-    /** Gets the {@link JailIO} instance. */
+    /**
+     * Gets the {@link JailIO} instance.
+     * 
+     * @return {@link JailIO} instance
+     */
     public JailIO getJailIO() {
         return this.io;
     }
 
-    /** Gets the {@link JailManager} instance. */
+    /**
+     * Gets the {@link JailManager} instance.
+     * 
+     * @return {@link JailManager} instance
+     */
     public JailManager getJailManager() {
         return this.jm;
     }
 
-    /** Gets an instance of the {@link IJailPayManager}. */
+    /**
+     * Gets an instance of the {@link IJailPayManager}.
+     * 
+     * @return {@link IJailPayManager}
+     */
     public IJailPayManager getJailPayManager() {
         return this.jpm;
     }
 
-    /** Gets the {@link PrisonerManager} instance. */
+    /**
+     * Gets the {@link PrisonerManager} instance.
+     * 
+     * @return {@link PrisonerManager} instance
+     */
     public PrisonerManager getPrisonerManager() {
         return this.pm;
     }
 
-    /** Gets an instance of the {@link JailStickManager}. */
+    /**
+     * Gets an instance of the {@link JailStickManager}.
+     * 
+     * @return {@link JailStickManager}
+     */
     public IJailStickManager getJailStickManager() {
         return this.jsm;
     }
 
-    /** Gets the {@link ScoreBoardManager} instance. */
+    /**
+     * Gets the {@link ScoreBoardManager} instance.
+     * 
+     * @return {@link ScoreBoardManager} instance
+     */
     public ScoreBoardManager getScoreBoardManager() {
         return this.sbm;
     }
     
-    /** Gets the {@link JailVoteManager} instance. */
+    /**
+     * Gets the {@link JailVoteManager} instance.
+     * 
+     * @return {@link JailVoteManager} instance
+     */
     public JailVoteManager getJailVoteManager() {
         return this.jvm;
     }
 
-    /** Gets the {@link Update} instance.  */
+    /**
+     * Gets the {@link Update} instance.
+     * 
+     * @return {@link Update} instance
+     */
     public Update getUpdate() {
         return this.update;
     }
 
-    /** Sets whether the plugin is in debugging or not. */
+    /**
+     * Sets whether the plugin is in debugging or not.
+     * 
+     * @param debug whether to be in debuggin or not
+     * @return Whether we we debugging or not.
+     */
     public boolean setDebugging(boolean debug) {
         this.debug = debug;
 
@@ -397,7 +438,11 @@ public class JailMain extends JavaPlugin {
         return this.debug;
     }
 
-    /** Returns if the plugin is in debug state or not. */
+    /**
+     * Returns if the plugin is in debug state or not.
+     * 
+     * @return Whether we are debugging or not.
+     */
     public boolean inDebug() {
         return this.debug;
     }

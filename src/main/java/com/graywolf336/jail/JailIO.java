@@ -83,7 +83,12 @@ public class JailIO {
         }
     }
 
-    /** Prepares the storage engine to be used, returns true if everything went good. */
+    /**
+     * Prepares the storage engine to be used, returns true if everything went good.
+     * 
+     * @param doInitialCreations whether to do the initial creations (database tables or files)
+     * @return Whether it was successful or not
+     */
     protected boolean prepareStorage(boolean doInitialCreations) {
         int inital = storage == -1 ? -1 : storage;
 
@@ -1008,7 +1013,7 @@ public class JailIO {
                     cPS.setDouble(6, c.getTeleport().getYaw());
                     cPS.setDouble(7, c.getTeleport().getPitch());
 
-                    if(c.hasChest()) {
+                    if(c.useChest()) {
                         cPS.setInt(8, c.getChestLocation().getBlockX());
                         cPS.setInt(9, c.getChestLocation().getBlockY());
                         cPS.setInt(10, c.getChestLocation().getBlockZ());

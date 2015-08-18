@@ -13,7 +13,7 @@ import com.graywolf336.jail.interfaces.ICell;
 /**
  * Event thrown before we are jailing a player, both offline and online players.
  * 
- * <p />
+ * <br /><br />
  * 
  * This event is called right before we actually jail a player, and is cancellable, whether the player is offline or online, getPlayer() will always return null if isOnline() return false.
  * 

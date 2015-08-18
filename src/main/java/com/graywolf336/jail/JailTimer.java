@@ -19,7 +19,6 @@ import com.graywolf336.jail.events.PrisonerTimeChangeEvent;
  * @author graywolf336
  * @since 2.x.x
  * @version 3.0.0
- *
  */
 public class JailTimer {
     private JailMain pl;
@@ -60,12 +59,16 @@ public class JailTimer {
         }, 1200L, 1200L);
     }
 
-    /** Returns the instance of this timer. */
+    /**
+     * Returns the instance of this timer.
+     * 
+     * @return the {@link Timer} instance
+     */
     public Timer getTimer() {
         return this.timer;
     }
 
-    class TimeEvent implements Runnable {
+    private class TimeEvent implements Runnable {
         public void run() {
             long timePassed = System.currentTimeMillis() - lastTime;
             lastTime = System.currentTimeMillis();

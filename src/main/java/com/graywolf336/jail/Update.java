@@ -155,7 +155,11 @@ public class Update {
         }
     }
 
-    /** Returns true if there is an update needed, false if not. */
+    /**
+     * Returns true if there is an update needed, false if not.
+     * 
+     * @return Whether an update is available
+     */
     public boolean isAvailable() {
         return this.needed;
     }
@@ -165,7 +169,11 @@ public class Update {
         return this.version;
     }
 
-    /** Returns the new file url. */
+    /**
+     * Returns the new file url.
+     * 
+     * @return New file's url
+     */
     public String getFileUrl() {
         return this.fileUrl;
     }

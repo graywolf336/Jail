@@ -9,13 +9,25 @@ import com.graywolf336.jail.beans.Prisoner;
 
 public interface IJailPayManager {
 	
-	/** Checks if paying for infinite is enabled. */
+	/**
+	 * Checks if paying for infinite is enabled.
+	 * 
+	 * @return Whether infinite paying is enabled.
+	 */
     public boolean isInfiniteEnabled();
     
-    /** Checks if paying for timed is enabled. */
+    /**
+     * Checks if paying for timed is enabled.
+     * 
+     * @return Whether time paying is enabled.
+     */
     public boolean isTimedEnabled();
     
-    /** Gets how much it cost per minute in string format. */
+    /**
+     * Gets how much it cost per minute in string format.
+     * 
+     * @return How much it costs per minute
+     */
     public String getCostPerMinute();
     
     /**
@@ -26,10 +38,19 @@ public interface IJailPayManager {
      */
     public double calculateBill(Prisoner prisoner);
     
-    /** Gets how many minutes someone is paying for (rounds to the lowest number). */
+    /**
+     * Gets how many minutes someone is paying for (rounds to the lowest number).
+     * 
+     * @param amount amount of money
+     * @return the amount of time they're paying for
+     */
     public long getMinutesPayingFor(double amount);
     
-    /** Returns if we are using items for payment instead of economy. */
+    /**
+     * Returns if we are using items for payment instead of economy.
+     * 
+     * @return Whether paying using items is enabled
+     */
     public boolean usingItemsForPayment();
     
     /**
@@ -56,9 +77,17 @@ public interface IJailPayManager {
      */
     public void pay(Player player, double amount);
     
-    /** Gets the name of the item in nice capitals. */
+    /**
+     * Gets the name of the item in nice capitals.
+     * 
+     * @return The currency name in nice capital letters.
+     */
     public String getCurrencyName();
     
-    /** Returns the economy provider to do transaction with. */
+    /**
+     * Returns the economy provider to do transaction with.
+     * 
+     * @return the {@link Economy} instance
+     */
     public Economy getEconomy();
 }

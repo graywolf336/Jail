@@ -12,7 +12,7 @@ import com.graywolf336.jail.beans.Prisoner;
 /**
  * Event thrown before we transfer a prisoner, both offline and online prisoner.
  * 
- * <p />
+ * <br /><br />
  * 
  * This event is called right before we actually transfer a prisoner, and is cancellable, whether the prisoner is offline or online, getPlayer() will always return null if isOnline() return false.
  * 
@@ -103,22 +103,38 @@ public class PrePrisonerTransferredEvent extends Event implements Cancellable {
         this.targetCell = cell;
     }
 
-    /** Gets the {@link Prisoner} data for this prisoner. */
+    /**
+     * Gets the {@link Prisoner} data for this prisoner.
+     * 
+     * @return the {@link Prisoner} instance
+     */
     public Prisoner getPrisoner() {
         return this.prisoner;
     }
 
-    /** Gets the instance of the player being transferred <strong>but will return null if {@link #isOnline()} returns false</strong>. */
+    /**
+     * Gets the instance of the player being transferred <strong>but will return null if they're not online</strong>.
+     * 
+     * @return the {@link Player} instance
+     */
     public Player getPlayer() {
         return this.player;
     }
 
-    /** Gets whether the prisoner being transferred is online or not. */
+    /**
+     * Gets whether the prisoner being transferred is online or not.
+     * 
+     * @return Whether the player is online or not
+     */
     public boolean isPlayerOnline() {
         return player != null;
     }
 
-    /** Gets the name of what is transferring this prisoner. */
+    /**
+     * Gets the name of what is transferring this prisoner.
+     * 
+     * @return name of the person who started the transfer
+     */
     public String getTransferor() {
         return this.transferor;
     }
