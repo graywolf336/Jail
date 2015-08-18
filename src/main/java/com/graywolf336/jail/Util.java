@@ -57,7 +57,7 @@ public class Util {
     /**
      * Checks if two numbers are inside a point, or something.
      *
-     * <br /><br />
+     * <p>
      *
      * @param loc The location.
      * @param first The first point
@@ -363,7 +363,7 @@ public class Util {
      *
      * A method to serialize an {@link ItemStack} array to Base64 String.
      *
-     * <br /><br />
+     * <p>
      *
      * Based off of {@link #toBase64(Inventory)}.
      *
@@ -395,7 +395,7 @@ public class Util {
     /**
      * A method to serialize an inventory to Base64 string.
      *
-     * <br /><br />
+     * <p>
      *
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub. <a href="https://gist.github.com/aadnk/8138186">Original Source</a>
@@ -429,7 +429,7 @@ public class Util {
      *
      * A method to get an {@link Inventory} from an encoded, Base64, string.
      *
-     * <br /><br />
+     * <p>
      *
      * Special thanks to Comphenix in the Bukkit forums or also known
      * as aadnk on GitHub.
@@ -463,7 +463,7 @@ public class Util {
     /**
      * Gets an array of ItemStacks from Base64 string.
      *
-     * <br /><br />
+     * <p>
      *
      * Base off of {@link #fromBase64(String)}.
      *

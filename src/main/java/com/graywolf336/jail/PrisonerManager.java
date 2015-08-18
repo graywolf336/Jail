@@ -32,7 +32,7 @@ import com.graywolf336.jail.interfaces.ICell;
 /**
  * Provides methods, non-statically, that do the preparing of jails, jailing, etc.
  *
- * <br /><br />
+ * <p>
  *
  * <ul>
  * 	<li>{@link #prepareJail(Jail, ICell, Player, Prisoner) preparejail}</li>
@@ -66,7 +66,7 @@ public class PrisonerManager {
     /**
      * Does everything preparing for the jailing of the provided prisoner, if they are online it forwards it to {@link #jailPrisoner(Jail, ICell, Player, Prisoner)}.
      *
-     * <br /><br />
+     * <p>
      *
      * In this we do the following:
      * <ol>
@@ -373,7 +373,7 @@ public class PrisonerManager {
     /**
      * Schedules a prisoner to be released, this method is to be used <strong>async</strong>.
      * 
-     * <br /><br />
+     * <p>
      * 
      * If you're wanting to unjail a prisoner, see the {@link #unJail(Jail, ICell, Player, Prisoner, CommandSender)} method.
      *
@@ -420,7 +420,7 @@ public class PrisonerManager {
     /**
      * Unjails a prisoner, <strong>sync</strong>, from jail, removing all their data.
      *
-     * <br /><br />
+     * <p>
      *
      * Throws an exception if either the jail is null or the prisoner is null.
      *
@@ -565,7 +565,7 @@ public class PrisonerManager {
     /**
      * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
      *
-     * <br /><br />
+     * <p>
      *
      * This method forcefully removes all the references to this prisoner,
      * meaning if they're offline the following won't happened:
@@ -577,7 +577,7 @@ public class PrisonerManager {
      *
      * But if they're online, it goes through the regular unjailing methods.
      *
-     * <br /><br />
+     * <p>
      *
      * @param prisoner to release
      * @param sender who is releasing the prisoner, <em>can be null</em>
@@ -593,7 +593,7 @@ public class PrisonerManager {
      * Forcefully unjails a {@link Prisoner prisoner} from {@link Jail}.
      *
      *
-     * <br /><br />
+     * <p>
      *
      * This method forcefully removes all the references to this prisoner,
      * meaning if they're offline the following won't happened:
@@ -605,7 +605,7 @@ public class PrisonerManager {
      *
      * But if they're online, it goes through the regular unjailing methods.
      *
-     * <br /><br />
+     * <p>
      *
      * @param jail the prisoner is in
      * @param cell the prisoner is in, <em>can be null</em>

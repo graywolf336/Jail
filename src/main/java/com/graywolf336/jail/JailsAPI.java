@@ -5,7 +5,7 @@ import com.graywolf336.jail.interfaces.IJailStickManager;
 /**
  * The static api interface for Jail plugin.
  *
- * <br /><br />
+ * <p>
  *
  * If you're looking for non-static methods, please see the
  * {@link JailMain} interface.

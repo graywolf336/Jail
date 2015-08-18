@@ -56,7 +56,7 @@ public class Stick {
 
     /** Gets the amount of health a player has to have before getting jailed via this stick.
      * 
-     * <br /><br />
+     * <p>
      * 
      * See here for reference: http://dev.bukkit.org/bukkit-plugins/jail/tickets/415/
      */

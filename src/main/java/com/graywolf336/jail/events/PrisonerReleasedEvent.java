@@ -11,7 +11,7 @@ import com.graywolf336.jail.beans.Prisoner;
 /**
  * Event thrown after a prisoner is released.
  * 
- * <br /><br />
+ * <p>
  * 
  * This event is called after everything for the releasing takes place.
  * This event is called for informative purposes, see {@link PrePrisonerReleasedEvent}

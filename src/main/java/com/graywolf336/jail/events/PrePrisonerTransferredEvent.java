@@ -12,7 +12,7 @@ import com.graywolf336.jail.beans.Prisoner;
 /**
  * Event thrown before we transfer a prisoner, both offline and online prisoner.
  * 
- * <br /><br />
+ * <p>
  * 
  * This event is called right before we actually transfer a prisoner, and is cancellable, whether the prisoner is offline or online, getPlayer() will always return null if isOnline() return false.
  * 

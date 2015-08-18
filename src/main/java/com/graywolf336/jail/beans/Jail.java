@@ -36,32 +36,56 @@ public class Jail {
         nocellPrisoners = new HashMap<UUID, Prisoner>();
     }
 
-    /** Gets the instance of the plugin's main class. */
+    /**
+     * Gets the instance of the plugin's main class.
+     * 
+     * @return the {@link JailMain} instance
+     */
     public JailMain getPlugin() {
         return this.plugin;
     }
 
-    /** Sets whether this jail can be used or not. */
+    /**
+     * Sets whether this jail can be used or not.
+     * 
+     * @param enabled Whether to set if this Jail is enabled or not
+     */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
 
-    /** Gets whether this jail is enabled or not. */
+    /**
+     * Gets whether this jail is enabled or not.
+     * 
+     * @return Whether the Jail is enabled or not
+     */
     public boolean isEnabled() {
         return this.enabled;
     }
 
-    /** Sets the name of the jail. */
+    /**
+     * Sets the name of the jail.
+     * 
+     * @param name the name of the jail to set
+     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /** Gets the name of the jail. */
+    /**
+     * Gets the name of the jail.
+     * 
+     * @return the name of the jail
+     */
     public String getName() {
         return this.name;
     }
 
-    /** Sets the location of the <b>minimum</b> point to the given location's coordinates. */
+    /**
+     * Sets the location of the <b>minimum</b> point to the given location's coordinates.
+     * 
+     * @param location the {@link Location} of the lowest point
+     */
     public void setMinPoint(Location location) {
         if(this.world.isEmpty()) this.world = location.getWorld().getName();
 
@@ -70,7 +94,11 @@ public class Jail {
         this.minZ = location.getBlockZ();
     }
 
-    /** Accepts an array of ints as the coord, where <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong>. */
+    /**
+     * Accepts an array of ints as the coord, where <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong>.
+     * 
+     * @param coords the coordinates of the minimum point
+     */
     public void setMinPoint(int[] coords) {
         if(coords.length != 3) return;
 
@@ -79,12 +107,20 @@ public class Jail {
         this.minZ = coords[2];
     }
 
-    /** Gets the minimum point as a Bukkit Location class. */
+    /**
+     * Gets the minimum point as a Bukkit Location class.
+     * 
+     * @return the {@link Location} of the minimum point.
+     */
     public Location getMinPoint() {
         return new Location(plugin.getServer().getWorld(world), minX, minY, minZ);
     }
 
-    /** Sets the location of the <b>maximum</b> point to the given location's coordinates. */
+    /**
+     * Sets the location of the <b>maximum</b> point to the given location's coordinates.
+     * 
+     * @param location the {@link Location} of the maximum point
+     */
     public void setMaxPoint(Location location) {
         if(this.world.isEmpty()) this.world = location.getWorld().getName();
 
@@ -93,7 +129,11 @@ public class Jail {
         this.maxZ = location.getBlockZ();
     }
 
-    /** Gets the minimum point as a Bukkit Location class. */
+    /**
+     * Gets the minimum point as a Bukkit Location class.
+     * 
+     * @return the {@link Location} of the maximum point
+     */
     public Location getMaxPoint() {
         return new Location(plugin.getServer().getWorld(world), maxX, maxY, maxZ);
     }

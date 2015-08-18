@@ -25,7 +25,11 @@ public interface ICell {
      */
     public String getName();
 
-    /** Sets the prisoner in this cell. */
+    /**
+     * Sets the prisoner in this cell.
+     * 
+     * @param prisoner the {@link Prisoner} to set
+     */
     public void setPrisoner(Prisoner prisoner);
 
     /**
@@ -45,10 +49,18 @@ public interface ICell {
      */
     public boolean hasPrisoner();
 
-    /** Adds all the given signs to the cell. */
+    /**
+     * Adds all the given signs to the cell.
+     * 
+     * @param signs all of the signs to add
+     */
     public void addAllSigns(HashSet<SimpleLocation> signs);
 
-    /** Adds a sign to the cell. */
+    /**
+     * Adds a sign to the cell.
+     * 
+     * @param sign the {@link SimpleLocation} of the sign to add
+     */
     public void addSign(SimpleLocation sign);
 
     /**
@@ -93,7 +105,11 @@ public interface ICell {
      */
     public HashMap<String, List<String>> updateSigns();
 
-    /** Sets the location of where the prisoner will be teleported at when jailed here. */
+    /**
+     * Sets the location of where the prisoner will be teleported at when jailed here.
+     * 
+     * @param location the {@link SimpleLocation} of the teleport
+     */
     public void setTeleport(SimpleLocation location);
 
     /**
@@ -103,7 +119,11 @@ public interface ICell {
      */
     public Location getTeleport();
 
-    /** Sets the location of the chest. */
+    /**
+     * Sets the location of the chest.
+     * 
+     * @param simpleLocation the {@link SimpleLocation} of the chest
+     */
     public void setChestLocation(SimpleLocation simpleLocation);
 
     /**

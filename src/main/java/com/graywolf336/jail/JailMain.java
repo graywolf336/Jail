@@ -447,7 +447,11 @@ public class JailMain extends JavaPlugin {
         return this.debug;
     }
 
-    /** Logs a debugging message to the console if debugging is enabled. */
+    /**
+     * Logs a debugging message to the console if debugging is enabled.
+     * 
+     * @param message the item to log as debugging
+     */
     public void debug(String message) {
         if(inDebug()) getLogger().info("[Debug]: " + message);
     }

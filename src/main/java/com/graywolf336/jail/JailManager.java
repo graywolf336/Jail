@@ -27,7 +27,7 @@ import com.graywolf336.jail.steps.JailCreationSteps;
 /**
  * Handles all things related to jails.
  * 
- * <p>&nbsp;</p>
+ * <p>
  * 
  * Stores the following:
  * <ul>
@@ -100,7 +100,7 @@ public class JailManager {
     /**
      * Gets a list of Jail names that start with the provided prefix.
      * 
-     * <br /><br />
+     * <p>
      * 
      * If the provided prefix is empty, then we add all of the jails.
      * 
@@ -293,7 +293,7 @@ public class JailManager {
     /**
      * Gets the {@link Jail jail} the given player is in.
      * 
-     * <p />
+     * <p>
      * 
      * Checks the cache first.
      * 
@@ -422,7 +422,7 @@ public class JailManager {
     /**
      * Forcefully clears all the jails if name provided is null.
      * 
-     * <br /><br />
+     * <p>
      * 
      * This method just clears them from the storage, doesn't release them.
      * 
@@ -645,7 +645,11 @@ public class JailManager {
         return this.jailCreators.get(name.toLowerCase());
     }
 
-    /** Removes a CreationPlayer with the given name from the jail creators. */
+    /**
+     * Removes a CreationPlayer with the given name from the jail creators.
+     * 
+     * @param name player's name to remove
+     */
     public void removeJailCreationPlayer(String name) {
         this.jailCreators.remove(name.toLowerCase());
     }
@@ -687,7 +691,11 @@ public class JailManager {
         return this.cellCreators.get(name.toLowerCase());
     }
 
-    /** Removes a CreationPlayer with the given name from the cell creators. */
+    /**
+     * Removes a CreationPlayer with the given name from the cell creators.
+     * 
+     * @param name player's name to remove
+     */
     public void removeCellCreationPlayer(String name) {
         this.cellCreators.remove(name.toLowerCase());
     }
@@ -710,13 +718,22 @@ public class JailManager {
         return this.ccs;
     }
 
-    /** Adds something to the confirming list. */
+    /**
+     * Adds something to the confirming list.
+     * 
+     * @param name who to add
+     * @param confirmer {@link ConfirmPlayer} of what they're confirming
+     */
     public void addConfirming(String name, ConfirmPlayer confirmer) {
         getPlugin().debug("Adding a confirming for " + name + " to confirm " + confirmer.getConfirming().toString().toLowerCase());
         this.confirms.put(name, confirmer);
     }
 
-    /** Removes a name from the confirming list. */
+    /**
+     * Removes a name from the confirming list.
+     * 
+     * @param name who to remove
+     */
     public void removeConfirming(String name) {
         this.confirms.remove(name);
     }

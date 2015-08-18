@@ -46,12 +46,20 @@ public class CreationPlayer {
         this.step = 1;
     }
 
-    /** Gets the name of the jail. */
+    /**
+     * Gets the name of the jail.
+     * 
+     * @return the name of the jail the player is creating
+     */
     public String getJailName() {
         return this.jailName;
     }
 
-    /** Gets the name of the cell. */
+    /**
+     * Gets the name of the cell.
+     * 
+     * @return the name of the cell the player is creating
+     */
     public String getCellName() {
         return this.cellName;
     }
@@ -105,47 +113,75 @@ public class CreationPlayer {
         this.step++;
     }
 
-    /** Sets the first corner with the given location. */
+    /**
+     * Sets the first corner with the given location.
+     * 
+     * @param loc the location of the first corner
+     */
     public void setCornerOne(Location loc) {
         this.x1 = loc.getBlockX();
         this.y1 = loc.getBlockY();
         this.z1 = loc.getBlockZ();
     }
 
-    /** Sets the first corner with the given x, y, and z. */
+    /**
+     * Sets the first corner with the given x, y, and z.
+     * 
+     * @param x coordinate of the first corner's x
+     * @param y coordinate of the first corner's x
+     * @param z coordinate of the first corner's x
+     */
     public void setCornerOne(int x, int y, int z) {
         this.x1 = x;
         this.y1 = y;
         this.z1 = z;
     }
 
-    /** Returns the <strong>first corner</strong> coords an array of int. <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong> */
+    /**
+     * Returns the <strong>first corner</strong> coords an array of int. <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong>
+     * 
+     * @return the first corner coords
+     */
     public int[] getCornerOne() {
-        int[] t = {x1, y1, z1};
-        return t;
+        return new int[] {x1, y1, z1};
     }
 
-    /** Sets the second corner with the given location. */
+    /**
+     * Sets the second corner with the given location.
+     * 
+     * @param loc The second corner's location
+     */
     public void setCornerTwo(Location loc) {
         this.x2 = loc.getBlockX();
         this.y2 = loc.getBlockY();
         this.z2 = loc.getBlockZ();
     }
 
-    /** Sets the second corner with the given x, y, and z. */
+    /** Sets the second corner with the given x, y, and z.
+     * 
+     * @param x coordinate of the second corner's x
+     * @param y coordinate of the second corner's x
+     * @param z coordinate of the second corner's x
+     */ 
     public void setCornerTwo(int x, int y, int z) {
         this.x2 = x;
         this.y2 = y;
         this.z2 = z;
     }
 
-    /** Returns the <strong>second corner</strong> coords an array of int. <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong> */
+    /** Returns the <strong>second corner</strong> coords an array of int. <strong>0 = x</strong>, <strong>1 = y</strong>, <strong>2 = z</strong>
+     * 
+     * @return the first corner coords
+     */
     public int[] getCornerTwo() {
-        int[] t = {x2, y2, z2};
-        return t;
+        return new int[] {x2, y2, z2};
     }
 
-    /** Sets the teleport in coords from the given location. */
+    /**
+     * Sets the teleport in coords from the given location.
+     * 
+     * @param location the in location
+     */
     public void setTeleportIn(Location location) {
         this.inWorld = location.getWorld().getName();
         this.inX = location.getX();
@@ -155,7 +191,16 @@ public class CreationPlayer {
         this.inPitch = location.getPitch();
     }
 
-    /** Sets the teleport in coords from the given params. */
+    /**
+     * Sets the teleport in coords from the given params.
+     * 
+     * @param world the name of the world
+     * @param x the coordinate for x
+     * @param y the coordinate for y
+     * @param z the coordinate for z
+     * @param yaw the yaw of the teleport in
+     * @param pitch the pitch of the teleport in
+     */
     public void setTeleportIn(String world, double x, double y, double z, float yaw, float pitch) {
         this.inWorld = world;
         this.inX = x;
@@ -165,17 +210,29 @@ public class CreationPlayer {
         this.inPitch = pitch;
     }
 
-    /** Gets the teleport in location in a {@link Location}. */
+    /**
+     * Gets the teleport in location in a {@link Location}.
+     * 
+     * @return the teleport in {@link Location}
+     */
     public Location getTeleportIn() {
         return new Location(Bukkit.getWorld(inWorld), inX, inY, inZ, inYaw, inPitch);
     }
 
-    /** Gets the teleport in location in a {@link SimpleLocation}. */
+    /**
+     * Gets the teleport in location in a {@link SimpleLocation}.
+     * 
+     * @return the {@link SimpleLocation} for the teleportin
+     */
     public SimpleLocation getTeleportInSL() {
         return new SimpleLocation(inWorld, inX, inY, inZ, inYaw, inPitch);
     }
 
-    /** Sets the teleport free coords from the given location. */
+    /**
+     * Sets the teleport free coords from the given location.
+     * 
+     * @param location Sets the teleport free {@link Location}
+     */
     public void setTeleportFree(Location location) {
         this.freeWorld = location.getWorld().getName();
         this.freeX = location.getX();
@@ -185,7 +242,16 @@ public class CreationPlayer {
         this.freePitch = location.getPitch();
     }
 
-    /** Sets the teleport in coords from the given params. */
+    /**
+     * Sets the teleport free coords from the given params.
+     * 
+     * @param world the name of the world
+     * @param x the coordinate for x
+     * @param y the coordinate for y
+     * @param z the coordinate for z
+     * @param yaw the yaw of the teleport free
+     * @param pitch the pitch of the teleport free
+     */
     public void setTeleportFree(String world, double x, double y, double z, float yaw, float pitch) {
         this.freeWorld = world;
         this.freeX = x;
@@ -195,32 +261,56 @@ public class CreationPlayer {
         this.freePitch = pitch;
     }
 
-    /** Gets the teleport free location in a {@link Location}. */
+    /**
+     * Gets the teleport free location in a {@link Location}.
+     * 
+     * @return the teleport free {@link Location}
+     */
     public Location getTeleportFree() {
         return new Location(Bukkit.getWorld(freeWorld), freeX, freeY, freeZ, freeYaw, freePitch);
     }
 
-    /** Gets the teleport free location in a {@link SimpleLocation}. */
+    /**
+     * Gets the teleport free location in a {@link SimpleLocation}.
+     * 
+     * @return the teleport free {@link SimpleLocation}
+     */
     public SimpleLocation getTeleportFreeSL() {
         return new SimpleLocation(freeWorld, freeX, freeY, freeZ, freeYaw, freePitch);
     }
 
-    /** Adds a sign to this cell. */
+    /**
+     * Adds a sign to this cell.
+     * 
+     * @param sign the {@link SimpleLocation} of the sign to add
+     */
     public void addSign(SimpleLocation sign) {
         this.signs.add(sign);
     }
 
-    /** Returns all the signs, null if none (usually null when a jail is being created). */
+    /**
+     * Returns all the signs, null if none (usually null when a jail is being created).
+     * 
+     * @return all of the signs, null if none.
+     */
     public HashSet<SimpleLocation> getSigns() {
         return this.signs == null ? null : new HashSet<SimpleLocation>(this.signs);
     }
 
-    /** Sets the chest's location, used mainly for cells. */
+    /**
+     * Sets the chest's location, used mainly for cells.
+     * 
+     * @param loc the {@link SimpleLocation} of the cheset
+     */
     public void setChestLocation(SimpleLocation loc) {
         this.chest = loc;
     }
 
-    /** Gets the chest's location. */
+    /**
+     * Gets the chest's location.
+     * 
+     * @return the {@link SimpleLocation} of the cheset
+     */
     public SimpleLocation getChestLocation() {
         return this.chest;
     }

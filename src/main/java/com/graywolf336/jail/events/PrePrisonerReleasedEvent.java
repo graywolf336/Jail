@@ -11,7 +11,7 @@ import com.graywolf336.jail.interfaces.ICell;
 /**
  * Event thrown after a prisoner is released.
  * 
- * <br /><br />
+ * <p>
  * 
  * This event is called before everything for the releasing takes place.
  * This event is called for informative purposes, see {@link PrisonerReleasedEvent}

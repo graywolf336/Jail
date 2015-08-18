@@ -8,7 +8,7 @@ import com.graywolf336.jail.JailMain;
 /**
  * Event thrown after the plugin is reloaded, internal usage only.
  * 
- * <br /><br />
+ * <p>
  * 
  * This event is called right after the plugin and mostly everything has reloaded.
  * We listen to this event for updating various items in classes which are only

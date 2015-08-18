@@ -164,7 +164,11 @@ public class Update {
         return this.needed;
     }
 
-    /** Returns the new version. */
+    /**
+     * Returns the new version.
+     * 
+     * @return The string name of the new version
+     */
     public String getNewVersion() {
         return this.version;
     }
