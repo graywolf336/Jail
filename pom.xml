@@ -145,6 +145,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>2.10.3</version>
 						<configuration>
 							<additionalparam>-Xdoclint:none</additionalparam>
 						</configuration>
@@ -274,12 +275,12 @@
 		<repository>
 			<id>repo-release</id>
 			<name>Jail Releases</name>
-			<url>https://repo.craftyn.com/repository/internal/</url>
+			<url>https://repo2.craftyn.com/repository/internal/</url>
 		</repository>
 		<snapshotRepository>
 			<id>repo-snapshot</id>
 			<name>Jail Snapshots</name>
-			<url>https://repo.craftyn.com/repository/snapshots/</url>
+			<url>https://repo2.craftyn.com/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>
