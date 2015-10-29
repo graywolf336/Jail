@@ -18,8 +18,12 @@ public class JailPayManager implements IJailPayManager {
     private boolean infinite, timed;
 
     protected JailPayManager(JailMain plugin) {
-        this.item = Material.getMaterial(plugin.getConfig().getString(Settings.JAILPAYITEM.getPath().toUpperCase()));
-        if(this.item == null) this.item = Material.AIR;
+        this.item = Material.getMaterial(plugin.getConfig().getString(Settings.JAILPAYITEM.getPath()).toUpperCase());
+        
+        if(this.item == null) {
+        	plugin.getLogger().warning("Pay item is null, setting to air");
+        	this.item = Material.AIR;
+        }
 
         this.minteCost = plugin.getConfig().getDouble(Settings.JAILPAYPRICEPERMINUTE.getPath());
 
