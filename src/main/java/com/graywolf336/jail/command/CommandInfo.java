@@ -72,4 +72,11 @@ public @interface CommandInfo {
      * @return The usage message.
      */
     public String usage();
+    
+//    /**
+//     * Gets the help messages for this command, color codes enabled.
+//     * 
+//     * @return List of message strings to send as help.
+//     */
+//    public String[] help();
 }
