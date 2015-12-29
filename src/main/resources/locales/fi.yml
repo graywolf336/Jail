@@ -44,7 +44,7 @@ fi:
     pluginreloaded: '&9Jail asetukset ladattu uudelleen onnistuneesti.'
     prisonerscleared: '&cKaikki vangit %0%:sta on tyhjennetty.'
     recordentry: '&7[%0%]: &9%1% &fvangittiin &9%2%:n &ftoimesta &9%3%:ksi &fminuutiksi.
-      Syy: &9%4%.'
+      Syy: &9%4%. [%5%]'
     recordtimesjailed: '&c%0% on vangittu &a%1% kertaa.'
     sign: Kyltti
     signsrefreshed: '&aOlemme onnistuneesti päivittäneet %0% kylttiä ja poistaneet
@@ -117,7 +117,7 @@ fi:
     paidreleased: '&2Maksoit juuri %0% ja vapautit itsesi vankilasta!'
     paidreleasedelse: '&2Maksoit juuri %0% ja vapautit %1%:n vankilasta!'
     paidloweredtime: '&2Maksoit juuri %0% ja pienensit tuomiotasi %1% minuuttiin!'
-    paidloweredtimeelse: '&2Maksoit juuri %0% ja pienensit %1%:n tuomiota %1% minuuttiin!'
+    paidloweredtimeelse: '&2Maksoit juuri %0% ja pienensit %1%:n tuomiota %2% minuuttiin!'
   jailvote:
     broadcast:
       header: '&3 ------------- Jail ------------'
