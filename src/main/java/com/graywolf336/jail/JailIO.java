@@ -50,7 +50,7 @@ public class JailIO {
     protected void loadLanguage() {
         String language = pl.getConfig().getString(Settings.LANGUAGE.getPath());
         boolean save = false;
-        File langFile = new File(pl.getDataFolder(), language + ".yml");
+        File langFile = new File(pl.getDataFolder() + File.separator + "locales", language + ".yml");
 
         //File or folder already exists, let's check
         if(langFile.exists()) {
@@ -60,23 +60,23 @@ public class JailIO {
             }else {
                 pl.getLogger().severe("The language file can not be a folder.");
                 pl.getLogger().severe("As a result, we are reverting back to English as the language.");
-                Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("en.yml")));
+                Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("locales/en.yml")));
                 save = true;
             }
         }else {
             pl.getLogger().warning("Loading the default language of: en");
             pl.getLogger().warning("If you wish to change this, please rename 'en.yml' to whatever you wish and set the config value to the name of the file.");
-            Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("en.yml")));
+            Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("locales/en.yml")));
             save = true;
         }
 
         //Make sure we have all the new language settings loaded
-        if(!save) save = Lang.writeNewLanguage(YamlConfiguration.loadConfiguration(pl.getResource("en.yml")));
+        if(!save) save = Lang.writeNewLanguage(YamlConfiguration.loadConfiguration(pl.getResource("locales/en.yml")));
 
         //If we have flagged to save the language file, let's save it as en.yml as this flag usually means they didn't have it loaded.
         if(save) {
             try {
-                Lang.getFile().save(new File(pl.getDataFolder(), "en.yml"));
+                Lang.getFile().save(new File(pl.getDataFolder() + File.separator + "locales", "en.yml"));
             } catch (IOException e) {
                 pl.getLogger().severe("Unable to save the language file: " + e.getMessage() + " (" + e.getClass().getSimpleName() + ")");
             }

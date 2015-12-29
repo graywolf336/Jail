@@ -114,7 +114,7 @@ public class TestInstanceCreator {
             logger.set(main, new PluginLogger(main));
 
             doReturn(getClass().getClassLoader().getResourceAsStream("config.yml")).when(main).getResource("config.yml");
-            doReturn(getClass().getClassLoader().getResourceAsStream("en.yml")).when(main).getResource("en.yml");
+            doReturn(getClass().getClassLoader().getResourceAsStream("locales/en.yml")).when(main).getResource("locales/en.yml");
 
             // Add Jail to the list of loaded plugins
             JavaPlugin[] plugins = new JavaPlugin[] { main };
