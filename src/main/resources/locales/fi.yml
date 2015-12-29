@@ -1,0 +1,149 @@
+fi:
+  actions:
+    blockbreaking: palikan rikkomisesta
+    blockplacing: palikan laittamisesta
+    command: komennon kokeilemisesta
+    croptrampling: kasvien tallomisesta
+    interactionblocks: palikkaan vaikuttamisesta
+    interactionitems: tavaraan vaikuttamisesta
+    moving: pakenemisesta
+  confirm:
+    already: "&cOlet jo vahvistamassa jotain muuta. Kirjoita '&b/jail confirm&c' vahvistaaksesi\
+      \ sen."
+    expired: '&cVahvistuksesi vanheni jo, kirjoita uudelleen se mitä yritit vahvistaa.'
+    nothing: '&cEt ole vahvistamassa mitään.'
+    start: "&cKirjoita '&b/jail confirm&c' vahvistaaksesi että jatkamme."
+  general:
+    alljails: kaikki vankilat
+    cellemptysign: Tyhjä selli
+    cellremovalunsuccessful: '&cSellin %0% poisto vankilasta %1% ei onnistunut, koska
+      vanki on vielä sisällä. Vapauta vanki tai siirrä se ennen kuin yrität poistaa
+      selliä uudelleen.'
+    cellremoved: '&9Selli %0% on onnistuneesti poistettu vankilasta %1%.'
+    cleanedsigns: '&aSeuraavat kyltit on tyhjennetty onnistuneesti:'
+    invalidsigns: '&cSeuraavat kyltit ovat virheellisiä:'
+    jailedforeversign: '&celinajaksi'
+    jailing: '&9vangita'
+    jailremovalunsuccessful: '&cVankilan %0% poisto ei onnistunut, koska vankeja on
+      vielä sisällä. Vapauta tai siirrä vangit ensin.'
+    jailremoved: '&9Vankila %0% on poistettu onnistuneesti.'
+    jailstickdisabled: '&3Pampun käyttö: &cpoissa käytöstä'
+    jailstickenabled: '&3Pampun kayttö: &akäytössä'
+    jailstickusagedisabled: '&cYlläpitäjä on poistanut pamput käytöstä.'
+    nocell: '&cSelliä nimellä %0% ei löytynyt vankilasta %1%.'
+    nocells: '&cSellejä ei löytynyt vankilasta %0%.'
+    noinvalidsigns: '&aVirheellisiä kylttejä ei löytynyt.'
+    nojail: '&cVankilaa ei löytynyt nimellä %0%.'
+    nojails: '&cVankiloita ei juuri nyt ole olemassa.'
+    nopermission: '&cEi käyttöoikeutta.'
+    numberformatincorrect: '&cNumeromuoto on virheellinen.'
+    playercontextrequired: '&cPelaajan tausta tarvitaan tähän.'
+    playernotonline: '&cTuo pelaaja ei ole paikalla!'
+    pluginnotloaded: '&cLisäosa ei latautunut oikein, kerro ylläpitäjälle, että tarkastaa
+      konsolin virheiden varalta.'
+    pluginreloaded: '&9Jail asetukset ladattu uudelleen onnistuneesti.'
+    prisonerscleared: '&cKaikki vangit %0%:sta on tyhjennetty.'
+    recordentry: '&7[%0%]: &9%1% &fvangittiin &9%2%:n &ftoimesta &9%3%:ksi &fminuutiksi.
+      Syy: &9%4%.'
+    recordtimesjailed: '&c%0% on vangittu &a%1% kertaa.'
+    sign: Kyltti
+    signsrefreshed: '&aOlemme onnistuneesti päivittäneet %0% kylttiä ja poistaneet
+      %1% kylttiä %2% vankilassa.'
+    timeformat: dd.MM.yyyy HH:mm:ss
+    transferring: '&9siirtää'
+    unknowncommand: '&cKomentoja ei ole rekisteröity nimellä %0%.'
+  jailing:
+    afkkickmessage: '&cEt voi olla afk kun olet vankilassa.'
+    alreadyjailed: '&c%0% on jo vankilassa.'
+    broadcastmessageforever: '&9%0% on vangittu elinajaksi syystä: &c%1%'
+    broadcastmessageforminutes: '&9%0% on ollut vankilassa %1% minuuttia syystä: &c%2%'
+    broadcastunjailing: '&9%1% vapautti %0%:n vankilasta.'
+    cancelledbyanotherplugin: '&c%0%:n vangitseminen peruuntui toisen lisäosan takia,
+      eikä se jättänyt viestiä.'
+    cantbejailed: '&cTuota pelaajaa ei voi vangita.'
+    cellnotempty: '&cKohdesellissä, %0%, on jo vanki.'
+    defaultjailer: Al Capone
+    defaultjailedreason: sääntöjen rikkominen.
+    forceunjailed: '&c%0% vapautettiin väkisin.'
+    jailed: '&cSinut on vangittu!'
+    jailedwithreason: '&cSinut on vangittu! Syy: %0%'
+    muted: '&cHiljaa, olet vankilassa.'
+    noemptycells: '&cVapaita sellejä ei löytynyt vankilalle %0%, kaikki näyttää olevan
+      täynnä.'
+    noprisoners: '&9%0% on tyhjä ja siellä ei ole vankeja.'
+    notjailed: '&c%0% ei ole vankilassa.'
+    nowmuted: '&9%0% on nyt mykistetty.'
+    nowunmuted: '&9%0% ei ole enää mykistetty.'
+    offlinejail: '&2%0% on poissa ja hänet vangitaan heti kun hän tulee paikalle seuraavan
+      kerran %1% minuutiksi.'
+    onlinejail: '&2%0% vangittiin %1% minuutiksi.'
+    playerhasneverplayedbefore: '&cPelaaja %0% ei ole ollut tällä palvelimella ennen.'
+    prisonerstime: '&2%0%:lla on %1% minuuttia jäljellä.'
+    protectionmessage: '&c%0% lisätty %1%.'
+    protectionmessagenopenalty: '&cSuojaus käytössä %0%, älä tee tuota enää.'
+    provideaplayer: '&cAnna pelaaja kun yrität %0%.'
+    provideajail: '&cAnna vankila johon %0% heitä.'
+    resistedarrestjailer: '&c%0% vastusti pidätystä koska hänellä on enemmän elämää
+      kuin voit vangita.'
+    resistedarrestplayer: '&c%0% vastusti pidätystä koska hänellä on enemmän elämää
+      kuin voit vangita.'
+    status: "&2Sinut on vangittu syystä '%0%' %1%:n toimesta ja sinulla on %2% minuuttia\
+      \ jäljellä. (%3%&2)."
+    suggestedcell: '&cTyhjä selli samasta vankilasta %0% löytyi: %1%'
+    telein: '&9Teleportattiin %0% %1%:n sisäsijaintiin.'
+    teleout: '&9Teleportattiin %0% %1%:n ulkosijaintiin.'
+    transferallcomplete: '&2Kaikki vangit siirretty %0%:sta %1%:een onnistuneesti.'
+    transfercancelledbyanotherplugin: '&c%0%:n siirto peruuntui toisen lisäosan takia,
+      eikä se jättänyt viestiä.'
+    transfercompletecell: '&2%0% siirretty vankilaan %1% selliin %2% onnistuneesti.'
+    transfercompletenocell: '&2%0% siirretty vankilaan %1% onnistuneesti.'
+    transferred: '&9Sinut on siirretty vankilaan %0%.'
+    unjailed: '&2Sinut on vapautettu! Kunnioita palvelimen sääntöjä, kiitos!'
+    unjailsuccess: '&2%0% on vapautettu vankilasta.'
+    willbeunjailed: '&2%0% vapautetaan heti kun hän tulee paikalle.'
+    worldunloaded: '&4%0% sijaitsee maailmassa joka ei ole ladattu. Sinne vangitseminen
+      on poissa käytöstä.'
+    worldunloadedkick: '&4Sinut on vangittu vankilaan joka ei ole juuri nyt ladattu.
+      Yritä uudelleen myöhemmin.'
+    youarenotjailed: '&2Et ole vangittu.'
+  jailpay:
+    cantpayforotherswhilejailed: '&cOlet vangittu ja et voi maksaa muita ulos.'
+    cost: '&9Sinun täytyy maksaa %0% %1% per minuutti joka vastaa %2% %1%.'
+    costinfinite: '&9Koska olet vangittu ikuisuudeksi, sinun täytyy maksaa %0% %1%.'
+    nonegativeamounts: '&cEt voi maksaa negatiivisia summia.'
+    notenabled: '&cAnteeksi, raha ei auta tälläkertaa.'
+    notenoughmoney: '&cSinulla ei ole tarpeeksi rahaa!'
+    notenoughmoneyprovided: '&cEt ole antanut tarpeeksi rahaa kattamaan tuomion!'
+    paidreleased: '&2Maksoit juuri %0% ja vapautit itsesi vankilasta!'
+    paidreleasedelse: '&2Maksoit juuri %0% ja vapautit %1%:n vankilasta!'
+    paidloweredtime: '&2Maksoit juuri %0% ja pienensit tuomiotasi %1% minuuttiin!'
+    paidloweredtimeelse: '&2Maksoit juuri %0% ja pienensit %1%:n tuomiota %1% minuuttiin!'
+  jailvote:
+    broadcast:
+      header: '&3 ------------- Jail ------------'
+      line1: '&a%0% &bäänesti että &c%1% &bpitäisi vangita.'
+      line2: '&6Kirjoita &a/jail vote %0% yes &6jos olet samaa mieltä'
+      line3: '&6tai kirjoita &a/jail vote %0% no &6jos et ole samaa mieltä.'
+      line4: '&bTämä äänestys on käynnissä %0%!'
+      footer: '&3 -----------------------------'
+    novotegoingforthatplayer: '&cTällä hetkellä ei ole äänestystä käynnissä henkilölle
+      %0%.'
+    nopermissiontostartvote: '&cSinulla ei ole lupaa aloittaa äänestystä %0%:n vangitsemiseen.'
+    notenabled: '&cYlläpitäjä on ottanut äänestyksen pois käytöstä.'
+    voteunsuccessful: '&cÄänesi jonkun vangitsemineen ei onnistunut, äänestit jo.'
+    votenosuccessful: '&aÄänestit, että %0% ei vangita onnistuneesti!'
+    voteyessuccessful: '&aÄänestit, että %0% vangitaan onnistuneesti!'
+    votestied: '&cÄänet olivat tasan, %0% ei vangittu.'
+    morenovotes: '&cEi ääniä oli enemmän, %0% ei vangittu.'
+    notenoughyes: '&cÄänestys %0%:n vangitsemiseen ei onnistunut, %1%/%2% kyllä ääntä
+      saatu.'
+    playernolongeronline: '&cPelaaja %0% ei ole enää paikalla, pelaajaa ei vangittu.'
+    alreadyvotedfor: '&cÄänestit jo %0%:lle, et voi äänestää uudelleen.'
+  handcuffing:
+    cantbehandcuffed: '&9%0% &cei voi laittaa käsirautoihin.'
+    currentlyjailed: '&9%0% &con nyt vankilassa, et voi laittaa vankeja käsirautoihin.'
+    nothandcuffed: '&9%0%&c:lla ei ole käsirautoja jotka voisi poistaa!'
+    handcuffson: '&9%0% &aon laitettu käsirautoihin!'
+    handcuffed: '&cSinut on laitettu käsirautoihin.'
+    handcuffsreleased: '&9%0% &aon vapautettu käsiraudoista.'
+    unhandcuffed: '&aSinun käsiraudat on poistettu.'
