@@ -1,8 +1,12 @@
-[Jail 3.0](http://ci.graywolf336.com/job/Jail/) - [JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc) - [Wiki](https://github.com/graywolf336/Jail/wiki) - [Translate](https://poeditor.com/join/project/zK1CT5cash)
+[Jail 3.0](http://ci.graywolf336.com/job/Jail/) - [JavaDoc](http://ci.graywolf336.com/job/Jail/javadoc) - [Wiki](https://github.com/graywolf336/Jail/wiki) - [Translate](https://translate.lingohub.com/craftyn/jail-plugin/dashboard)
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people, can be on a time basis. This plugin also offers wide variety of protections, this way players won't escape out of jail.
 
 [![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/)
+
+Translating
+===
+If you would like to help translate this project, please shoot me an email `graywolf336`@`craftyn.com` and saying which language(s) you would like to contribute to and I will add you.
 
 Developing/Building
 ===
