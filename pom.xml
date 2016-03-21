@@ -175,7 +175,7 @@
 				</includes>
 			</resource>
 			<resource>
-				<targetPath>/locales</targetPath>
+				<targetPath>./locales</targetPath>
 				<filtering>true</filtering>
 				<directory>${basedir}/src/main/resources/locales/</directory>
 				<includes>
