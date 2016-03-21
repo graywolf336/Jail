@@ -1,7 +1,9 @@
 package com.graywolf336.jail.listeners;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -36,9 +38,11 @@ import com.graywolf336.jail.interfaces.ICell;
 
 public class PlayerListener implements Listener {
     private JailMain pl;
+    private HashMap<UUID, Long> clicks;
 
     public PlayerListener(JailMain plugin) {
         this.pl = plugin;
+        this.clicks = new HashMap<UUID, Long>();
     }
 
     @EventHandler(ignoreCancelled=true)
@@ -50,6 +54,19 @@ public class PlayerListener implements Listener {
 
             if(p.getInventory().getItemInMainHand().isSimilar(Util.getWand())) {
                 if(jm.isCreatingSomething(p.getName())) {
+                    
+                    long current = System.currentTimeMillis();
+                    if(clicks.containsKey(p.getUniqueId())) {
+                        if(current - clicks.get(p.getUniqueId()) > 500) {
+                            clicks.put(p.getUniqueId(), current);
+                        }else {
+                            pl.debug("Prevented a double click for " + p.getName() + "!");
+                            return;
+                        }
+                    }else {
+                        clicks.put(p.getUniqueId(), current);
+                    }
+                    
                     if(jm.isCreatingAJail(p.getName())) {
                         pl.debug("Stepping into creating a jail.");
                         jm.getJailCreationSteps().step(jm, p, jm.getJailCreationPlayer(p.getName()), loc);
@@ -57,8 +74,6 @@ public class PlayerListener implements Listener {
                         pl.debug("Stepping into creating a cell.");
                         jm.getCellCreationSteps().step(jm, p, jm.getCellCreationPlayer(p.getName()), loc);
                     }
-
-                    event.setCancelled(true);
                 }
             }
         }
@@ -173,6 +188,8 @@ public class PlayerListener implements Listener {
                 pl.getScoreBoardManager().removeScoreBoard(event.getPlayer());
             }
         }
+        
+        clicks.remove(event.getPlayer().getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.LOW)

@@ -205,7 +205,7 @@ public class Util {
      * @return The {@link ItemStack} to use for creation
      */
     public static ItemStack getWand() {
-        ItemStack wand = new ItemStack(Material.WOOD_SWORD);
+        ItemStack wand = new ItemStack(Material.CLAY_BRICK);
         ItemMeta meta = wand.getItemMeta();
         meta.setDisplayName(ChatColor.AQUA + "Jail Wand");
         LinkedList<String> lore = new LinkedList<String>();

@@ -26,7 +26,6 @@ import com.graywolf336.jail.enums.Lang;
  * @version 1.0.1
  */
 public class CellCreationSteps {
-
     /** Sends the Cell Creation message for starting out. */
     public void startStepping(Player player){
         player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation (tp) ----------");
