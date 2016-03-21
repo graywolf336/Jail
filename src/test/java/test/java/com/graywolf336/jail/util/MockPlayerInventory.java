@@ -318,12 +318,16 @@ public class MockPlayerInventory implements PlayerInventory {
 
     }
     
-    public void setExtraContents(ItemStack[] items) {
+    public void setExtraContents(ItemStack[] contents) {
         
     }
     
     public ItemStack[] getExtraContents() {
         return null;
+    }
+    
+    public void setStorageContents(ItemStack[] contents) {
+        
     }
     
     public ItemStack[] getStorageContents() {
