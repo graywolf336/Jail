@@ -12,7 +12,7 @@ Developing/Building
 ===
 If you want to make some changes, build, and run the unit tests you will notice we require CraftBukkit 1.8 with maven and it isn't hosted anywhere publically for legal reasons. You will need to build CraftBukkit 1.8 yourself and then put it locally for maven with the following command:
 
-`mvn install:install-file -Dfile=craftbukkit-1.8.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.8-R0.1-SNAPSHOT -Dpackaging=jar`
+`mvn install:install-file -Dfile=craftbukkit-1.9-R0.1.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.9-R0.1-SNAPSHOT -Dpackaging=jar`
 
 Beta 5 Changes
 ===

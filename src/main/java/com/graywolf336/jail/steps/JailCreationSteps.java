@@ -30,8 +30,8 @@ public class JailCreationSteps {
         if(player.getInventory().contains(wand)) {
             int i = player.getInventory().first(wand);
             if(i != -1) {
-                player.getInventory().setItem(i, player.getItemInHand());
-                player.setItemInHand(wand);
+                player.getInventory().setItem(i, player.getInventory().getItemInMainHand());
+                player.getInventory().setItemInMainHand(wand);
             }
         }else {
             player.getInventory().addItem(wand);

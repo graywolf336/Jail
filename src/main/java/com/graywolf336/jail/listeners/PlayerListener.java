@@ -48,7 +48,7 @@ public class PlayerListener implements Listener {
             Location loc = event.getClickedBlock() == null ? p.getLocation() : event.getClickedBlock().getLocation();
             JailManager jm = pl.getJailManager();
 
-            if(p.getItemInHand().isSimilar(Util.getWand())) {
+            if(p.getInventory().getItemInMainHand().isSimilar(Util.getWand())) {
                 if(jm.isCreatingSomething(p.getName())) {
                     if(jm.isCreatingAJail(p.getName())) {
                         pl.debug("Stepping into creating a jail.");
@@ -225,8 +225,8 @@ public class PlayerListener implements Listener {
             Player player = (Player) event.getEntity();
 
             if(pl.getJailStickManager().isUsingJailStick(attacker.getUniqueId())) {
-                if(pl.getJailStickManager().isValidStick(attacker.getItemInHand().getType())) {
-                    if(attacker.hasPermission("jail.usejailstick." + attacker.getItemInHand().getType().toString().toLowerCase())) {
+                if(pl.getJailStickManager().isValidStick(attacker.getInventory().getItemInMainHand().getType())) {
+                    if(attacker.hasPermission("jail.usejailstick." + attacker.getInventory().getItemInMainHand().getType().toString().toLowerCase())) {
                         //The person the attacker is trying to jail stick is already jailed, don't handle that
                         if(pl.getJailManager().isPlayerJailed(player.getUniqueId())) {
                             attacker.sendMessage(Lang.ALREADYJAILED.get(player.getName()));
@@ -234,7 +234,7 @@ public class PlayerListener implements Listener {
                             if(player.hasPermission("jail.cantbejailed")) {
                                 attacker.sendMessage(Lang.CANTBEJAILED.get());
                             }else {
-                                Stick s = pl.getJailStickManager().getStick(attacker.getItemInHand().getType());
+                                Stick s = pl.getJailStickManager().getStick(attacker.getInventory().getItemInMainHand().getType());
 
                                 if(player.getHealth() <= s.getHealth() || s.getHealth() == -1) {
                                     Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),

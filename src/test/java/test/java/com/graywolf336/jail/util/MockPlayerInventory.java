@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.inventory.InventoryType;
@@ -13,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class MockPlayerInventory implements PlayerInventory {
-
     private int armorSize = 4, inventorySize = 36;
     ItemStack[] armorContents = new ItemStack[armorSize];
     ItemStack[] inventoryContents = new ItemStack[inventorySize];
@@ -294,8 +294,27 @@ public class MockPlayerInventory implements PlayerInventory {
                 + ",\"armorContents\":" + makeMap(getArmorContents()) + "}";
     }
 
-    @Override
     public void setHeldItemSlot(int slot) {
+
+    }
+
+    public Location getLocation() {
+        return null;
+    }
+
+    public ItemStack getItemInMainHand() {
+        return null;
+    }
+
+    public ItemStack getItemInOffHand() {
+        return null;
+    }
+
+    public void setItemInMainHand(ItemStack item) {
+
+    }
+
+    public void setItemInOffHand(ItemStack item) {
 
     }
 }
