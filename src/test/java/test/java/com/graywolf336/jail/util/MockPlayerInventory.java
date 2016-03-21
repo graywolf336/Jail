@@ -317,4 +317,16 @@ public class MockPlayerInventory implements PlayerInventory {
     public void setItemInOffHand(ItemStack item) {
 
     }
+    
+    public void setExtraContents(ItemStack[] items) {
+        
+    }
+    
+    public ItemStack[] getExtraContents() {
+        return null;
+    }
+    
+    public ItemStack[] getStorageContents() {
+        return null;
+    }
 }
