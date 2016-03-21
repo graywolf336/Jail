@@ -354,6 +354,9 @@ public class PrisonerManager {
         //replace all of the %p% so that the commands can have a player name in them
         for(String command : pl.getConfig().getStringList(Settings.COMMANDSONJAIL.getPath())) {
             command = command.replaceAll("%p%", player.getName());
+            command = command.replaceAll("%player%", player.getName());
+            command = command.replaceAll("%uuid%", player.getUniqueId().toString());
+            command = command.replaceAll("%reason%", prisoner.getReason());
             pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
         }
 
@@ -546,6 +549,9 @@ public class PrisonerManager {
         //replace all of the %p% so that the commands can have a player name in them
         for(String command : pl.getConfig().getStringList(Settings.COMMANDSONRELEASE.getPath())) {
             command = command.replaceAll("%p%", player.getName());
+            command = command.replaceAll("%player%", player.getName());
+            command = command.replaceAll("%uuid%", player.getUniqueId().toString());
+            command = command.replaceAll("%reason%", prisoner.getReason());
             pl.getServer().dispatchCommand(pl.getServer().getConsoleSender(), command);
         }
 
