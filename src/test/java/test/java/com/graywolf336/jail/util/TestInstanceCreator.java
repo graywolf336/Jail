@@ -65,6 +65,7 @@ public class TestInstanceCreator {
     public static final File serverDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
     public static final File worldsDirectory = new File("bin" + File.separator + "test" + File.separator + "server");
     public static final File pluginDirectory = new File(serverDirectory + File.separator + "plugins" + File.separator + "JailTest");
+    public static final File localeDirectory = new File(serverDirectory + File.separator + "plugins" + File.separator + "JailTest" + File.separator + "locales");
 
     @SuppressWarnings("deprecation")
     public boolean setup() {
@@ -73,6 +74,8 @@ public class TestInstanceCreator {
         try {
             pluginDirectory.mkdirs();
             Assert.assertTrue(pluginDirectory.exists());
+            localeDirectory.mkdirs();
+            Assert.assertTrue(localeDirectory.exists());
 
             MockGateway.MOCK_STANDARD_METHODS = false;
 

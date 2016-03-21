@@ -67,6 +67,8 @@
 			<groupId>com.sk89q.worldedit</groupId>
 			<artifactId>worldedit-bukkit</artifactId>
 			<version>6.1</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -74,6 +76,8 @@
 			<artifactId>Vault</artifactId>
 			<version>1.5.6</version>
 			<type>jar</type>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -166,6 +170,14 @@
 				<targetPath>.</targetPath>
 				<filtering>true</filtering>
 				<directory>${basedir}/src/main/resources/</directory>
+				<includes>
+					<include>*.yml</include>
+				</includes>
+			</resource>
+			<resource>
+				<targetPath>/locales</targetPath>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources/locales/</directory>
 				<includes>
 					<include>*.yml</include>
 				</includes>
