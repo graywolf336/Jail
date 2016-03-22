@@ -172,7 +172,7 @@ public class PrisonerManager {
      * @param player who is the prisoner
      * @param prisoner data containing everything pertaining to them
      */
-    protected void jailPrisoner(Jail jail, ICell cell, Player player, Prisoner prisoner) {
+    protected void jailPrisoner(final Jail jail, ICell cell, final Player player, final Prisoner prisoner) {
         if(cell instanceof NoCell)
             cell = null;
         else if(cell instanceof AnyCell)
@@ -256,94 +256,103 @@ public class PrisonerManager {
 
         //If the cell doesn't equal null, then let's put them in the jail
         if(cell != null) {
-            //check if we store the inventory
-            if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
-                List<String> blacklist = pl.getConfig().getStringList(Settings.JAILEDINVENTORYBLACKLIST.getPath());
-                //Check if there is a chest to store our items to and if it is a double chest, if not we will then serialize it
-                if(cell.hasChest()) {
-                    //Get the chest's inventory and then clear it
-                    Inventory chest = cell.getChest().getInventory();
-                    chest.clear();
-
-                    //Get the separate inventory, so we can iterate of them
-                    ItemStack[] inventory = player.getInventory().getContents();
-                    ItemStack[] armor = player.getInventory().getArmorContents();
-
-                    for(ItemStack item : inventory) {
-                        if(item != null) {
-                            if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
-                                int i = chest.firstEmpty();
-                                if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-                                    chest.setItem(i, item);
-                                }
-                            }
-                        }
-                    }
-
-                    for(ItemStack item : armor) {
-                        if(item != null) {
-                            if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
-                                int i = chest.firstEmpty();
-                                if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-                                    chest.setItem(i, item);
-                                }
-                            }
-                        }
-                    }
-
-                    player.getInventory().setArmorContents(null);
-                    player.getInventory().clear();
-                }else {
-                    for(ItemStack item : player.getInventory().getContents())
-                        if(item != null)
-                            if(Util.isStringInsideList(item.getType().toString(), blacklist))
-                                player.getInventory().remove(item);
-
-                    for(ItemStack item : player.getInventory().getArmorContents())
-                        if(item != null)
-                            if(Util.isStringInsideList(item.getType().toString(), blacklist))
-                                player.getInventory().remove(item);
-
-                    String[] inv = Util.playerInventoryToBase64(player.getInventory());
-                    prisoner.setInventory(inv[0]);
-                    prisoner.setArmor(inv[1]);
-
-                    player.getInventory().setArmorContents(null);
-                    player.getInventory().clear();
-                }
-            }
-
             //Teleport them to the cell's teleport location
             //they will now be placed in jail.
             pl.debug("Teleporting " + player.getName() + " to " + jail.getName() + " in the cell " + cell.getName() + "'s in: " + jail.getTeleportIn().toString());
             player.teleport(cell.getTeleport());
-        }else {
-            //There is no cell we're jailing them to, so stick them in the jail
+            
+            //check if we store the inventory
             if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
-                List<String> blacklist = pl.getConfig().getStringList(Settings.JAILEDINVENTORYBLACKLIST.getPath());
+                final ICell theCell = cell;
+                pl.getServer().getScheduler().runTaskLater(pl, new Runnable() {
+                    public void run() {
+                        List<String> blacklist = pl.getConfig().getStringList(Settings.JAILEDINVENTORYBLACKLIST.getPath());
+                        //Check if there is a chest to store our items to and if it is a double chest, if not we will then serialize it
+                        if(theCell.hasChest()) {
+                            //Get the chest's inventory and then clear it
+                            Inventory chest = theCell.getChest().getInventory();
+                            chest.clear();
 
-                for(ItemStack item : player.getInventory().getContents())
-                    if(item != null)
-                        if(Util.isStringInsideList(item.getType().toString(), blacklist))
-                            player.getInventory().remove(item);
+                            //Get the separate inventory, so we can iterate of them
+                            ItemStack[] inventory = player.getInventory().getContents();
+                            ItemStack[] armor = player.getInventory().getArmorContents();
 
-                for(ItemStack item : player.getInventory().getArmorContents())
-                    if(item != null)
-                        if(Util.isStringInsideList(item.getType().toString(), blacklist))
-                            player.getInventory().remove(item);
+                            for(ItemStack item : inventory) {
+                                if(item != null) {
+                                    if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
+                                        int i = chest.firstEmpty();
+                                        if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+                                            chest.setItem(i, item);
+                                        }
+                                    }
+                                }
+                            }
 
-                String[] inv = Util.playerInventoryToBase64(player.getInventory());
-                prisoner.setInventory(inv[0]);
-                prisoner.setArmor(inv[1]);
+                            for(ItemStack item : armor) {
+                                if(item != null) {
+                                    if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
+                                        int i = chest.firstEmpty();
+                                        if(i != -1) {//Check that we have got a free spot, should never happen but just in case
+                                            chest.setItem(i, item);
+                                        }
+                                    }
+                                }
+                            }
 
-                player.getInventory().setArmorContents(null);
-                player.getInventory().clear();
+                            player.getInventory().setArmorContents(null);
+                            player.getInventory().clear();
+                        }else {
+                            for(ItemStack item : player.getInventory().getContents())
+                                if(item != null)
+                                    if(Util.isStringInsideList(item.getType().toString(), blacklist))
+                                        player.getInventory().remove(item);
+
+                            for(ItemStack item : player.getInventory().getArmorContents())
+                                if(item != null)
+                                    if(Util.isStringInsideList(item.getType().toString(), blacklist))
+                                        player.getInventory().remove(item);
+
+                            String[] inv = Util.playerInventoryToBase64(player.getInventory());
+                            prisoner.setInventory(inv[0]);
+                            prisoner.setArmor(inv[1]);
+
+                            player.getInventory().setArmorContents(null);
+                            player.getInventory().clear();
+                        }
+                    };
+                }, 10);
             }
-
+        }else {
             //Teleport them to the jail's teleport in location
             //They will now be placed in jail.
             pl.debug("Teleporting " + player.getName() + " to " + jail.getName() + "'s in: " + jail.getTeleportIn().toString());
             player.teleport(jail.getTeleportIn());
+            
+            //There is no cell we're jailing them to, so stick them in the jail
+            if(pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true)) {
+                pl.getServer().getScheduler().runTaskLater(pl, new Runnable() {
+                    public void run() {
+                        List<String> blacklist = pl.getConfig().getStringList(Settings.JAILEDINVENTORYBLACKLIST.getPath());
+
+                        for(ItemStack item : player.getInventory().getContents())
+                            if(item != null)
+                                if(Util.isStringInsideList(item.getType().toString(), blacklist))
+                                    player.getInventory().remove(item);
+
+                        for(ItemStack item : player.getInventory().getArmorContents())
+                            if(item != null)
+                                if(Util.isStringInsideList(item.getType().toString(), blacklist))
+                                    player.getInventory().remove(item);
+
+                        String[] inv = Util.playerInventoryToBase64(player.getInventory());
+                        prisoner.setInventory(inv[0]);
+                        prisoner.setArmor(inv[1]);
+
+                        player.getInventory().setArmorContents(null);
+                        player.getInventory().clear();
+                    };
+                }, 10);
+            }
         }
 
         //Set them to not allowing teleporting, as we are not going to be moving them anymore
@@ -437,7 +446,7 @@ public class PrisonerManager {
      * @throws PrisonerRequiredException when the provided prisoner data is null.
      *
      */
-    public void unJail(Jail jail, ICell cell, Player player, Prisoner prisoner, CommandSender sender) throws AsyncUnJailingNotSupportedException, JailRequiredException, PrisonerRequiredException  {
+    public void unJail(final Jail jail, ICell cell, final Player player, final Prisoner prisoner, final CommandSender sender) throws AsyncUnJailingNotSupportedException, JailRequiredException, PrisonerRequiredException  {
         if(!pl.getServer().isPrimaryThread()) throw new AsyncUnJailingNotSupportedException();
 
         //Do some checks of whether the passed params are null.
@@ -467,31 +476,7 @@ public class PrisonerManager {
             player.getPassenger().eject();
             player.eject();
         }
-
-        //In case we had set their sleeping state to be ignored
-        //let's enable their sleeping state taking place again
-        player.setSleepingIgnored(false);
-
-        //If the config has us teleporting them back to their
-        //previous position then let's do that
-        boolean tpd = false;
-        if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
-            if(prisoner.getPreviousLocation() != null)
-                tpd = player.teleport(prisoner.getPreviousLocation());
-        }
-
-        //If they haven't already been teleported and the config has us to teleport on release,
-        //then we teleport players to the jail's free spot
-        if(!tpd && pl.getConfig().getBoolean(Settings.TELEPORTONRELEASE.getPath(), true)) {
-            player.teleport(jail.getTeleportFree());
-        }
-
-        //If we are to restore their previous gamemode and we have it stored,
-        //then by all means let's restore it
-        if(pl.getConfig().getBoolean(Settings.RESTOREPREVIOUSGAMEMODE.getPath(), false)) {
-            player.setGameMode(prisoner.getPreviousGameMode());
-        }
-
+        
         //Now, let's restore their inventory if we can store it but
         //first up is clearing their inventory...if we can store it
         boolean store = pl.getConfig().getBoolean(Settings.JAILEDSTOREINVENTORY.getPath(), true);
@@ -500,7 +485,7 @@ public class PrisonerManager {
             player.getInventory().setArmorContents(null);
             player.getInventory().clear();
         }
-
+        
         //if the cell isn't null, let's check if the cell has a chest and if so then try out best to restore
         //the prisoner's inventory from that
         if(cell != null) {
@@ -544,6 +529,34 @@ public class PrisonerManager {
             pl.getJailIO().removePrisoner(jail, prisoner);
             jail.removePrisoner(prisoner);
         }
+
+        //In case we had set their sleeping state to be ignored
+        //let's enable their sleeping state taking place again
+        player.setSleepingIgnored(false);
+        
+        pl.getServer().getScheduler().runTaskLater(pl, new Runnable() {
+            public void run() {
+                //If the config has us teleporting them back to their
+                //previous position then let's do that
+                boolean tpd = false;
+                if(pl.getConfig().getBoolean(Settings.RELEASETOPREVIOUSPOSITION.getPath(), false)) {
+                    if(prisoner.getPreviousLocation() != null)
+                        tpd = player.teleport(prisoner.getPreviousLocation());
+                }
+
+                //If they haven't already been teleported and the config has us to teleport on release,
+                //then we teleport players to the jail's free spot
+                if(!tpd && pl.getConfig().getBoolean(Settings.TELEPORTONRELEASE.getPath(), true)) {
+                    player.teleport(jail.getTeleportFree());
+                }
+
+                //If we are to restore their previous gamemode and we have it stored,
+                //then by all means let's restore it
+                if(pl.getConfig().getBoolean(Settings.RESTOREPREVIOUSGAMEMODE.getPath(), false)) {
+                    player.setGameMode(prisoner.getPreviousGameMode());
+                }
+            };
+        }, 5);
 
         //Get the commands to execute prisoners are unjailed
         //replace all of the %p% so that the commands can have a player name in them

@@ -48,71 +48,75 @@ public class JailingListener implements Listener {
     }
 
     @EventHandler
-    public void setInmatesClothing(PrisonerJailedEvent event) {
+    public void setInmatesClothing(final PrisonerJailedEvent event) {
         if(pl.getConfig().getBoolean(Settings.CLOTHINGENABLED.getPath())) {
-            String[] helmet = pl.getConfig().getString(Settings.CLOTHINGHELMET.getPath()).toUpperCase().split("~");
-            switch(helmet.length) {
-                case 1:
-                    event.getPlayer().getInventory().setHelmet(new ItemStack(Material.valueOf(helmet[0])));
-                    break;
-                case 2:
-                    ItemStack item = new ItemStack(Material.valueOf(helmet[0]));
-                    LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
-                    String[] colors = helmet[1].split(",");
-                    meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
-                    item.setItemMeta(meta);
-                    event.getPlayer().getInventory().setHelmet(item);
-                default:
-                    break;
-            }
+            pl.getServer().getScheduler().runTaskLater(pl, new Runnable() {
+                public void run() {
+                    String[] helmet = pl.getConfig().getString(Settings.CLOTHINGHELMET.getPath()).toUpperCase().split("~");
+                    switch(helmet.length) {
+                        case 1:
+                            event.getPlayer().getInventory().setHelmet(new ItemStack(Material.valueOf(helmet[0])));
+                            break;
+                        case 2:
+                            ItemStack item = new ItemStack(Material.valueOf(helmet[0]));
+                            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+                            String[] colors = helmet[1].split(",");
+                            meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
+                            item.setItemMeta(meta);
+                            event.getPlayer().getInventory().setHelmet(item);
+                        default:
+                            break;
+                    }
 
-            String[] chest = pl.getConfig().getString(Settings.CLOTHINGCHEST.getPath()).toUpperCase().split("~");
-            switch(chest.length) {
-                case 1:
-                    event.getPlayer().getInventory().setChestplate(new ItemStack(Material.valueOf(chest[0])));
-                    break;
-                case 2:
-                    ItemStack item = new ItemStack(Material.valueOf(chest[0]));
-                    LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
-                    String[] colors = chest[1].split(",");
-                    meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
-                    item.setItemMeta(meta);
-                    event.getPlayer().getInventory().setChestplate(item);
-                default:
-                    break;
-            }
+                    String[] chest = pl.getConfig().getString(Settings.CLOTHINGCHEST.getPath()).toUpperCase().split("~");
+                    switch(chest.length) {
+                        case 1:
+                            event.getPlayer().getInventory().setChestplate(new ItemStack(Material.valueOf(chest[0])));
+                            break;
+                        case 2:
+                            ItemStack item = new ItemStack(Material.valueOf(chest[0]));
+                            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+                            String[] colors = chest[1].split(",");
+                            meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
+                            item.setItemMeta(meta);
+                            event.getPlayer().getInventory().setChestplate(item);
+                        default:
+                            break;
+                    }
 
-            String[] legs = pl.getConfig().getString(Settings.CLOTHINGLEGS.getPath()).toUpperCase().split("~");
-            switch(legs.length) {
-                case 1:
-                    event.getPlayer().getInventory().setLeggings(new ItemStack(Material.valueOf(legs[0])));
-                    break;
-                case 2:
-                    ItemStack item = new ItemStack(Material.valueOf(legs[0]));
-                    LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
-                    String[] colors = legs[1].split(",");
-                    meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
-                    item.setItemMeta(meta);
-                    event.getPlayer().getInventory().setLeggings(item);
-                default:
-                    break;
-            }
+                    String[] legs = pl.getConfig().getString(Settings.CLOTHINGLEGS.getPath()).toUpperCase().split("~");
+                    switch(legs.length) {
+                        case 1:
+                            event.getPlayer().getInventory().setLeggings(new ItemStack(Material.valueOf(legs[0])));
+                            break;
+                        case 2:
+                            ItemStack item = new ItemStack(Material.valueOf(legs[0]));
+                            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+                            String[] colors = legs[1].split(",");
+                            meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
+                            item.setItemMeta(meta);
+                            event.getPlayer().getInventory().setLeggings(item);
+                        default:
+                            break;
+                    }
 
-            String[] boots = pl.getConfig().getString(Settings.CLOTHINGBOOTS.getPath()).toUpperCase().split("~");
-            switch(boots.length) {
-                case 1:
-                    event.getPlayer().getInventory().setBoots(new ItemStack(Material.valueOf(boots[0])));
-                    break;
-                case 2:
-                    ItemStack item = new ItemStack(Material.valueOf(boots[0]));
-                    LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
-                    String[] colors = boots[1].split(",");
-                    meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
-                    item.setItemMeta(meta);
-                    event.getPlayer().getInventory().setBoots(item);
-                default:
-                    break;
-            }
+                    String[] boots = pl.getConfig().getString(Settings.CLOTHINGBOOTS.getPath()).toUpperCase().split("~");
+                    switch(boots.length) {
+                        case 1:
+                            event.getPlayer().getInventory().setBoots(new ItemStack(Material.valueOf(boots[0])));
+                            break;
+                        case 2:
+                            ItemStack item = new ItemStack(Material.valueOf(boots[0]));
+                            LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+                            String[] colors = boots[1].split(",");
+                            meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
+                            item.setItemMeta(meta);
+                            event.getPlayer().getInventory().setBoots(item);
+                        default:
+                            break;
+                    }
+                };
+            }, 20);
         }
     }
 }
