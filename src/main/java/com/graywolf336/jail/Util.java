@@ -37,6 +37,7 @@ import com.graywolf336.jail.enums.Lang;
 public class Util {
     private final static Pattern DURATION_PATTERN = Pattern.compile("^(\\d+)\\s*(m(?:inute)?s?|h(?:ours?)?|d(?:ays?)?|s(?:econd)?s?)?$", Pattern.CASE_INSENSITIVE);
     private static String[] signLines = new String[] { "", "", "", "" };
+    private final static int inventoryMultipule = 9;
 
     /**
      * Checks if the first {@link Vector} is inside this region.
@@ -446,14 +447,16 @@ public class Util {
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(Base64Coder.decodeLines(data));
             BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream);
-            Inventory inventory = Bukkit.getServer().createInventory(null, dataInput.readInt());
+            int size = dataInput.readInt();
+            Inventory inventory = Bukkit.getServer().createInventory(null, (int)Math.ceil((double)size / inventoryMultipule) * inventoryMultipule);
 
             // Read the serialized inventory
-            for (int i = 0; i < inventory.getSize(); i++) {
+            for (int i = 0; i < size; i++) {
                 inventory.setItem(i, (ItemStack) dataInput.readObject());
             }
 
             dataInput.close();
+            inputStream.close();
             return inventory;
         } catch (ClassNotFoundException e) {
             throw new IOException("Unable to decode class type.", e);
