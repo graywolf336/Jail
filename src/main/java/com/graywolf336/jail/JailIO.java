@@ -1255,7 +1255,7 @@ public class JailIO {
                 List<String> previous = records.getStringList(uuid);
                 previous.add(Lang.RECORDENTRY.get(new String[] { date, username, jailer, String.valueOf(time), reason, uuid }));
 
-                records.set(username, previous);
+                records.set(uuid, previous);
 
                 try {
                     records.save(new File(pl.getDataFolder(), "records.yml"));
