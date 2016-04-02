@@ -275,7 +275,6 @@ public class PrisonerManager {
 
                             //Get the separate inventory, so we can iterate of them
                             ItemStack[] inventory = player.getInventory().getContents();
-                            ItemStack[] armor = player.getInventory().getArmorContents();
 
                             for(ItemStack item : inventory) {
                                 if(item != null) {
@@ -287,19 +286,7 @@ public class PrisonerManager {
                                     }
                                 }
                             }
-
-                            for(ItemStack item : armor) {
-                                if(item != null) {
-                                    if(!Util.isStringInsideList(item.getType().toString(), blacklist)) {
-                                        int i = chest.firstEmpty();
-                                        if(i != -1) {//Check that we have got a free spot, should never happen but just in case
-                                            chest.setItem(i, item);
-                                        }
-                                    }
-                                }
-                            }
-
-                            player.getInventory().setArmorContents(null);
+                            
                             player.getInventory().clear();
                         }else {
                             for(ItemStack item : player.getInventory().getContents())
@@ -312,9 +299,7 @@ public class PrisonerManager {
                                     if(Util.isStringInsideList(item.getType().toString(), blacklist))
                                         player.getInventory().remove(item);
 
-                            String[] inv = Util.playerInventoryToBase64(player.getInventory());
-                            prisoner.setInventory(inv[0]);
-                            prisoner.setArmor(inv[1]);
+                            prisoner.setInventory(Util.toBase64(player.getInventory()));
 
                             player.getInventory().setArmorContents(null);
                             player.getInventory().clear();
@@ -344,9 +329,7 @@ public class PrisonerManager {
                                 if(Util.isStringInsideList(item.getType().toString(), blacklist))
                                     player.getInventory().remove(item);
 
-                        String[] inv = Util.playerInventoryToBase64(player.getInventory());
-                        prisoner.setInventory(inv[0]);
-                        prisoner.setArmor(inv[1]);
+                        prisoner.setInventory(Util.toBase64(player.getInventory()));
 
                         player.getInventory().setArmorContents(null);
                         player.getInventory().clear();

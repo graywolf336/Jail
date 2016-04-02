@@ -17,7 +17,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
 import org.bukkit.util.io.BukkitObjectInputStream;
@@ -343,21 +342,6 @@ public class Util {
         Collections.sort(unused);
         
         return unused;
-    }
-
-    /**
-     * Converts the player inventory to a String array of Base64 strings. First string is the content and second string is the armor.
-     *
-     * @param playerInventory to turn into an array of strings.
-     * @return Array of strings: [ main content, armor content ]
-     * @throws IllegalStateException if any of the {@link ItemStack}s couldn't be parsed
-     */
-    public static String[] playerInventoryToBase64(PlayerInventory playerInventory) throws IllegalStateException {
-        //get the main content part, this doesn't return the armor
-        String content = toBase64(playerInventory);
-        String armor = itemStackArrayToBase64(playerInventory.getArmorContents());
-
-        return new String[] { content, armor };
     }
 
     /**
