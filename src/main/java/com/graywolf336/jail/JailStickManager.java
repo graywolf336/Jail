@@ -67,7 +67,7 @@ public class JailStickManager implements IJailStickManager {
                 }
 
                 try {
-                    this.sticks.put(m, new Stick(jail, a[3], time, a.length > 5 ? Double.valueOf(a[4]) : -1));
+                    this.sticks.put(m, new Stick(jail, a[3], time, a.length >= 5 ? Double.valueOf(a[4]) : -1));
                 }catch (Exception e) {
                     e.printStackTrace();
                     pl.getLogger().severe(s);

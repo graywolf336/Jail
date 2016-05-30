@@ -240,62 +240,73 @@ public class PlayerListener implements Listener {
 
             Player attacker = (Player) event.getDamager();
             Player player = (Player) event.getEntity();
+            
+            //They aren't using the jail stick, they need to toggle themselves
+            if(!pl.getJailStickManager().isUsingJailStick(attacker.getUniqueId())) return;
+            
+            //They don't have a valid jail stick type
+            if(!pl.getJailStickManager().isValidStick(attacker.getInventory().getItemInMainHand().getType())) return;
+            
+            //They don't have permission for that type of jail stick
+            if(!attacker.hasPermission("jail.usejailstick." + attacker.getInventory().getItemInMainHand().getType().toString().toLowerCase())) return;
+            
+            //The player they hit is already jailed.
+            if(pl.getJailManager().isPlayerJailed(player.getUniqueId())) {
+            	attacker.sendMessage(Lang.ALREADYJAILED.get(player.getName()));
+            	return;
+            }
 
-            if(pl.getJailStickManager().isUsingJailStick(attacker.getUniqueId())) {
-                if(pl.getJailStickManager().isValidStick(attacker.getInventory().getItemInMainHand().getType())) {
-                    if(attacker.hasPermission("jail.usejailstick." + attacker.getInventory().getItemInMainHand().getType().toString().toLowerCase())) {
-                        //The person the attacker is trying to jail stick is already jailed, don't handle that
-                        if(pl.getJailManager().isPlayerJailed(player.getUniqueId())) {
-                            attacker.sendMessage(Lang.ALREADYJAILED.get(player.getName()));
-                        }else {
-                            if(player.hasPermission("jail.cantbejailed")) {
-                                attacker.sendMessage(Lang.CANTBEJAILED.get());
-                            }else {
-                                Stick s = pl.getJailStickManager().getStick(attacker.getInventory().getItemInMainHand().getType());
+            //The player can't be jailed due to permissions.
+            if(player.hasPermission("jail.cantbejailed")) {
+                attacker.sendMessage(Lang.CANTBEJAILED.get());
+                return;
+            }
+            
+            //Get the stick the attacker (police) is using
+            Stick s = pl.getJailStickManager().getStick(attacker.getInventory().getItemInMainHand().getType());
 
-                                if(player.getHealth() <= s.getHealth() || s.getHealth() == -1) {
-                                    Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),
-                                            pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
-                                            s.getTime(), attacker.getName(), s.getReason());
+            //Check if the player can resist arrest via health with this stick
+            pl.debug("Jail stick health resist check: " + "(" + s.getHealth() + "," + player.getHealth() + ") - " + (s.getHealth() <= player.getHealth() && s.getHealth() != -1));
+            if(s.getHealth() < player.getHealth() && s.getHealth() != -1) {
+            	attacker.sendMessage(Lang.RESISTEDARRESTJAILER.get(player.getName()));
+                player.sendMessage(Lang.RESISTEDARRESTPLAYER.get(attacker.getName()));
+            	return;
+            }
+            
+            //The player can be jailed.
+            Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),
+                    pl.getConfig().getBoolean(Settings.AUTOMATICMUTE.getPath()),
+                    s.getTime(), attacker.getName(), s.getReason());
 
-                                    PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
-                                            pl.getJailManager().getJail(s.getJail()), new AnyCell(), p, player, attacker.getName(), s);
+            PrePrisonerJailedByJailStickEvent jEvent = new PrePrisonerJailedByJailStickEvent(
+                    pl.getJailManager().getJail(s.getJail()), new AnyCell(), p, player, attacker.getName(), s);
 
-                                    pl.getServer().getPluginManager().callEvent(jEvent);
+            pl.getServer().getPluginManager().callEvent(jEvent);
 
-                                    if(jEvent.isCancelled()) {
-                                        if(jEvent.getCancelledMessage().isEmpty())
-                                            attacker.sendMessage(Lang.CANCELLEDBYANOTHERPLUGIN.get(player.getName()));
-                                        else
-                                            attacker.sendMessage(jEvent.getCancelledMessage());
-                                    }else {
-                                        //recall data from the event
-                                        Jail j = jEvent.getJail();
-                                        ICell c = jEvent.getCell();
-                                        p = jEvent.getPrisoner();
-                                        player = jEvent.getPlayer();
+            if(jEvent.isCancelled()) {
+                if(jEvent.getCancelledMessage().isEmpty())
+                    attacker.sendMessage(Lang.CANCELLEDBYANOTHERPLUGIN.get(player.getName()));
+                else
+                    attacker.sendMessage(jEvent.getCancelledMessage());
+            }else {
+                //recall data from the event
+                Jail j = jEvent.getJail();
+                ICell c = jEvent.getCell();
+                p = jEvent.getPrisoner();
+                player = jEvent.getPlayer();
 
-                                        //Player is not online
-                                        if(player == null) {
-                                            attacker.sendMessage(Lang.OFFLINEJAIL.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
-                                        }else {
-                                            //Player *is* online
-                                            attacker.sendMessage(Lang.ONLINEJAIL.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
-                                        }
+                //Player is not online
+                if(player == null) {
+                    attacker.sendMessage(Lang.OFFLINEJAIL.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+                }else {
+                    //Player *is* online
+                    attacker.sendMessage(Lang.ONLINEJAIL.get(new String[] { p.getLastKnownName(), String.valueOf(p.getRemainingTimeInMinutes()) }));
+                }
 
-                                        try {
-                                            pl.getPrisonerManager().prepareJail(j, c, player, p);
-                                        } catch (Exception e) {
-                                            attacker.sendMessage(ChatColor.RED + e.getMessage());
-                                        }
-                                    }
-                                }else {
-                                    attacker.sendMessage(Lang.RESISTEDARRESTJAILER.get(player.getName()));
-                                    player.sendMessage(Lang.RESISTEDARRESTPLAYER.get(attacker.getName()));
-                                }
-                            }
-                        }
-                    }
+                try {
+                    pl.getPrisonerManager().prepareJail(j, c, player, p);
+                } catch (Exception e) {
+                    attacker.sendMessage(ChatColor.RED + e.getMessage());
                 }
             }
         }

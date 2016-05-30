@@ -135,9 +135,9 @@ permissions:
         default: true
     jail.modifyjail:
         default: op
-    jail.usejailstick280:
+    jail.usejailstick.stick:
         default: op
-        description: change 280 for another jailstick item
+        description: change stick for another jailstick item
     jail.canbestickjailed:
         default: true
     jail.openchest:
