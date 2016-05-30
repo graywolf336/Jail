@@ -46,7 +46,7 @@ public class TestJailDefaultConfig {
         assertEquals("The config version is not 3.", 3, main.getConfig().getInt(Settings.CONFIGVERSION.getPath()));
         assertTrue("Default debugging is off.", main.getConfig().getBoolean(Settings.DEBUG.getPath()));
         assertEquals("Default language is not 'en'.", "en", main.getConfig().getString(Settings.LANGUAGE.getPath()));
-        assertEquals("Default updating channel is not bukkit.", "bukkit", main.getConfig().getString(Settings.UPDATECHANNEL.getPath()));
+        assertEquals("Default updating channel is not 1.8.", "1.8", main.getConfig().getString(Settings.UPDATECHANNEL.getPath()));
         assertTrue("Default updating notifications is false.", main.getConfig().getBoolean(Settings.UPDATENOTIFICATIONS.getPath()));
         assertEquals("Default updating time checking is not 1h.", "1h", main.getConfig().getString(Settings.UPDATETIME.getPath()));
         assertTrue("Default usage of bukkit timer is false.", main.getConfig().getBoolean(Settings.USEBUKKITTIMER.getPath()));

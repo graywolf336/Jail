@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.graywolf336</groupId>
 	<artifactId>Jail</artifactId>
-	<version>3.0.0_1.8-SNAPSHOT</version>
+	<version>3.0.0.1.8-SNAPSHOT</version>
 	<name>Jail</name>
 	<description>Ban too harsh? Mute too weak? Kicking not enough? Jail them!</description>
 	<url>http://dev.bukkit.org/bukkit-plugins/jail/</url>

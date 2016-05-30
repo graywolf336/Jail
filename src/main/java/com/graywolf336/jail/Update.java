@@ -23,6 +23,7 @@ public class Update {
     private static final String BUKKIT_API_QUERY = "https://api.curseforge.com/servermods/files?projectIds=" + projectID;
     private static final String CI_STABLEDEV_API_QUERY = "https://ci.craftyn.com/job/Jail/lastStableBuild/api/json";
     private static final String CI_DEV_API_QUERY = "https://ci.craftyn.com/job/Jail/lastSuccessfulBuild/api/json";
+    private static final String CI_DEV_18_API_QUERY = "https://ci.craftyn.com/job/Jail - Bukkit 1.8/lastSuccessfulBuild/api/json";
     private boolean needed = false;
 
     // The url for the new file and file version
@@ -41,6 +42,8 @@ public class Update {
                 url = new URL(CI_STABLEDEV_API_QUERY);
             }else if(channel.equalsIgnoreCase("dev")) {
                 url = new URL(CI_DEV_API_QUERY);
+            }else if(channel.equalsIgnoreCase("1.8")) {
+            	url = new URL(CI_DEV_18_API_QUERY);
             }else {
                 url = new URL(BUKKIT_API_QUERY);
             }

@@ -3,7 +3,7 @@ system:
   debug: false
   language: 'en'
   updates:
-    channel: 'bukkit' #can be dev, stable-dev, bukkit
+    channel: '1.8' #can be dev, stable-dev, bukkit
     notification: true
     time: 1h #the amount of time between checks for an update, while we are in betas it will be low but when out of beta it will be every 11 hours
   useBukkitTimer: true

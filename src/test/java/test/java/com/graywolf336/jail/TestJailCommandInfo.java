@@ -107,7 +107,7 @@ public class TestJailCommandInfo {
 
         assertTrue(main.onCommand(sender, command, "jail", args));
         verify(sender).sendMessage(ChatColor.AQUA + "----------Jail Zone Creation----------");
-        verify(sender).sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your wooden sword. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
+        verify(sender).sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your clay brick. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
         verify(sender).sendMessage(ChatColor.AQUA + "--------------------------------------");
     }
 
