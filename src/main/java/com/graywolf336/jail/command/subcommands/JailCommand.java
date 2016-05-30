@@ -264,6 +264,8 @@ public class JailCommand implements Command {
         //by the time it gets to this command it'll have at least two arguments
         String last = args[args.length - 1];
         
+        jm.getPlugin().debug("The last item is: " + last);
+        
         if(last.isEmpty() || !commands.contains(last.replace("-", ""))) {
             //the current part is empty. Need to look at their previous
             //item and if it is a valid option, then provide them a valid tab complete option
@@ -284,15 +286,19 @@ public class JailCommand implements Command {
                     }
                 }else if(previous.endsWith("r")) return Collections.emptyList();
                 else if(!commands.contains(args[args.length - 2].replace("-", ""))) return Util.getUnusedItems(commands, args, false);
+            }else {
+            	return getPlayers(jm, last);
             }
         }else if(last.equalsIgnoreCase("-")) {
             //add some smart checking so that it only returns a list of what isn't already
             //in the command :)
             return Util.getUnusedItems(commands, args, false);
         }else {
+        	jm.getPlugin().debug("Getting the list of online players.");
             return getPlayers(jm, last);
         }
         
+        jm.getPlugin().debug("Returning an empty list.");
         return Collections.emptyList();
     }
     
@@ -305,6 +311,7 @@ public class JailCommand implements Command {
                     results.add(p.getName());
         
         Collections.sort(results);
+        jm.getPlugin().debug("The list we're returning is: " + Util.getStringFromList(", ", results));
         
         return results;
     }
