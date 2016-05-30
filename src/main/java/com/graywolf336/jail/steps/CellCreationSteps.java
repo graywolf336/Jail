@@ -29,15 +29,15 @@ public class CellCreationSteps {
     /** Sends the Cell Creation message for starting out. */
     public void startStepping(Player player){
         player.sendMessage(ChatColor.AQUA + "---------- Jail Cell Creation (tp) ----------");
-        player.sendMessage(ChatColor.GREEN + "First, you must select a teleport point for the cell! Move to the teleport point and then click anywhere with your wooden sword to set it.");
+        player.sendMessage(ChatColor.GREEN + "First, you must select a teleport point for the cell! Move to the teleport point and then click anywhere with your clay brick to set it.");
         player.sendMessage(ChatColor.AQUA + "----------------------------------------");
 
         ItemStack wand = Util.getWand();
         if(player.getInventory().contains(wand)) {
             int i = player.getInventory().first(wand);
             if(i != -1) {
-                player.getInventory().setItem(i, player.getInventory().getItemInMainHand());
-                player.getInventory().setItemInMainHand(wand);
+                player.getInventory().setItem(i, player.getInventory().getItemInHand());
+                player.getInventory().setItemInHand(wand);
             }
         }else {
             player.getInventory().addItem(wand);

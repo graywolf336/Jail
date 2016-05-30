@@ -289,7 +289,7 @@ public class ProtectionListener implements Listener {
 
                         event.setCancelled(true);
                     }
-                }else if (event.getPlayer().getInventory().getItemInMainHand() != null) {
+                }else if (event.getPlayer().getInventory().getItemInHand() != null) {
                     //Otherwise let's check if they have something in hand
                     //Get the interaction blacklist, check if the current item is in there
                     //if it is, then let's take action

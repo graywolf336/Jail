@@ -52,7 +52,7 @@ public class PlayerListener implements Listener {
             Location loc = event.getClickedBlock() == null ? p.getLocation() : event.getClickedBlock().getLocation();
             JailManager jm = pl.getJailManager();
 
-            if(p.getInventory().getItemInMainHand().isSimilar(Util.getWand())) {
+            if(p.getInventory().getItemInHand().isSimilar(Util.getWand())) {
                 if(jm.isCreatingSomething(p.getName())) {
                     
                     long current = System.currentTimeMillis();
@@ -242,8 +242,8 @@ public class PlayerListener implements Listener {
             Player player = (Player) event.getEntity();
 
             if(pl.getJailStickManager().isUsingJailStick(attacker.getUniqueId())) {
-                if(pl.getJailStickManager().isValidStick(attacker.getInventory().getItemInMainHand().getType())) {
-                    if(attacker.hasPermission("jail.usejailstick." + attacker.getInventory().getItemInMainHand().getType().toString().toLowerCase())) {
+                if(pl.getJailStickManager().isValidStick(attacker.getInventory().getItemInHand().getType())) {
+                    if(attacker.hasPermission("jail.usejailstick." + attacker.getInventory().getItemInHand().getType().toString().toLowerCase())) {
                         //The person the attacker is trying to jail stick is already jailed, don't handle that
                         if(pl.getJailManager().isPlayerJailed(player.getUniqueId())) {
                             attacker.sendMessage(Lang.ALREADYJAILED.get(player.getName()));
@@ -251,7 +251,7 @@ public class PlayerListener implements Listener {
                             if(player.hasPermission("jail.cantbejailed")) {
                                 attacker.sendMessage(Lang.CANTBEJAILED.get());
                             }else {
-                                Stick s = pl.getJailStickManager().getStick(attacker.getInventory().getItemInMainHand().getType());
+                                Stick s = pl.getJailStickManager().getStick(attacker.getInventory().getItemInHand().getType());
 
                                 if(player.getHealth() <= s.getHealth() || s.getHealth() == -1) {
                                     Prisoner p = new Prisoner(player.getUniqueId().toString(), player.getName(),
