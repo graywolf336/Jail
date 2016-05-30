@@ -23,7 +23,7 @@ public class JailCreationSteps {
     /** Sends the Jail Creation message for starting out. */
     public void startStepping(Player player) {
         player.sendMessage(ChatColor.AQUA + "----------Jail Zone Creation----------");
-        player.sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your wooden sword. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
+        player.sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your clay brick. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
         player.sendMessage(ChatColor.AQUA + "--------------------------------------");
 
         ItemStack wand = Util.getWand();
