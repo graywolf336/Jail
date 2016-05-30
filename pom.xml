@@ -45,6 +45,11 @@
 			<id>sk89q-repo</id>
 			<url>http://maven.sk89q.com/repo/</url>
 		</repository>
+		
+		<repository>
+			<id>gray-snapshot</id>
+			<url>https://repo.craftyn.com/repository/graywolf336-snapshots/</url>
+		</repository>
 	</repositories>
 
 	<dependencies>
