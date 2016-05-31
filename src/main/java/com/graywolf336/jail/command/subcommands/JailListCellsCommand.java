@@ -39,7 +39,7 @@ public class JailListCellsCommand implements Command {
                 
                 Collections.sort(cells);
                 
-                sender.sendMessage(cells.size() == 0 ? Lang.NOCELLS.get(j.getName()) : ChatColor.GREEN + Util.getStringFromList(", ", cells));
+                sender.sendMessage(cells.isEmpty() ? Lang.NOCELLS.get(j.getName()) : ChatColor.GREEN + Util.getStringFromList(", ", cells));
             }else {
                 sender.sendMessage(Lang.NOJAIL.get(args[1]));
             }

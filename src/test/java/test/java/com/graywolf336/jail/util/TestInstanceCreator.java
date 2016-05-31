@@ -394,6 +394,10 @@ public class TestInstanceCreator {
     public CommandSender getPlayerCommandSender() {
         return this.mockPlayerSender;
     }
+    
+    public ConsoleCommandSender getConsoleSender() {
+    	return this.consoleSender;
+    }
 
     private void deleteFolder(File folder) {
         File[] files = folder.listFiles();

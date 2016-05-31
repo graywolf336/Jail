@@ -47,19 +47,17 @@ public class HandCuffListener implements Listener {
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         if(event.isCancelled()) return;
 
-        if (pl.getHandCuffManager().isHandCuffed(event.getPlayer().getUniqueId())) {
-            if(event.getTo() != tos.get(event.getPlayer().getName())) {
-                Location to = pl.getHandCuffManager().getLocation(event.getPlayer().getUniqueId());
-                to.setPitch(event.getTo().getPitch());
-                to.setYaw(event.getTo().getYaw());
+        if (pl.getHandCuffManager().isHandCuffed(event.getPlayer().getUniqueId()) && event.getTo() != tos.get(event.getPlayer().getName())) {
+            Location to = pl.getHandCuffManager().getLocation(event.getPlayer().getUniqueId());
+            to.setPitch(event.getTo().getPitch());
+            to.setYaw(event.getTo().getYaw());
 
-                tos.put(event.getPlayer().getName(), to);
-                event.getPlayer().teleport(to);
+            tos.put(event.getPlayer().getName(), to);
+            event.getPlayer().teleport(to);
 
-                if(System.currentTimeMillis() >= pl.getHandCuffManager().getNextMessageTime(event.getPlayer().getUniqueId())) {
-                    event.getPlayer().sendMessage(ChatColor.RED + "You are handcuffed and cant move!");
-                    pl.getHandCuffManager().updateNextTime(event.getPlayer().getUniqueId());
-                }
+            if(System.currentTimeMillis() >= pl.getHandCuffManager().getNextMessageTime(event.getPlayer().getUniqueId())) {
+                event.getPlayer().sendMessage(ChatColor.RED + "You are handcuffed and cant move!");
+                pl.getHandCuffManager().updateNextTime(event.getPlayer().getUniqueId());
             }
         }
     }
@@ -68,11 +66,9 @@ public class HandCuffListener implements Listener {
     public void playerChat(AsyncPlayerChatEvent event) {
         if(event.isCancelled()) return;
 
-        if (pl.getHandCuffManager().isHandCuffed(event.getPlayer().getUniqueId())) {
-            if(!event.getPlayer().hasPermission("jail.command.handcuff")) {
-                event.setCancelled(true);
-                event.getPlayer().sendMessage(ChatColor.RED + "You are handcuffed and aren't allowed to talk!");
-            }
+        if (pl.getHandCuffManager().isHandCuffed(event.getPlayer().getUniqueId()) && !event.getPlayer().hasPermission("jail.command.handcuff")) {
+        	event.setCancelled(true);
+            event.getPlayer().sendMessage(ChatColor.RED + "You are handcuffed and aren't allowed to talk!");
         }
     }
 
@@ -100,13 +96,9 @@ public class HandCuffListener implements Listener {
     public void preCommands(PlayerCommandPreprocessEvent event) {
         if(event.isCancelled()) return;
 
-        if (pl.getHandCuffManager().isHandCuffed(event.getPlayer().getUniqueId())) {
-            if(!event.getPlayer().hasPermission("jail.command.handcuff")) {
-                if(!event.getMessage().startsWith("/r") || !event.getMessage().startsWith("/reply")) {
-                    event.setCancelled(true);
-                    event.getPlayer().sendMessage(ChatColor.RED + "You are handcuffed and aren't allowed to use commands!");
-                }
-            }
+        if (pl.getHandCuffManager().isHandCuffed(event.getPlayer().getUniqueId()) && !event.getPlayer().hasPermission("jail.command.handcuff") && (!event.getMessage().startsWith("/r") || !event.getMessage().startsWith("/reply"))) {
+        	event.setCancelled(true);
+            event.getPlayer().sendMessage(ChatColor.RED + "You are handcuffed and aren't allowed to use commands!");
         }
     }
 }

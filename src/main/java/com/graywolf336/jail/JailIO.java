@@ -407,6 +407,9 @@ public class JailIO {
                 default:
                     break;
             }
+            
+            //Make sure the statement is closed.
+            if(!st.isClosed()) st.close();
         } catch (SQLException e) {
             e.printStackTrace();
             pl.getLogger().severe("---------- Jail Error!!! ----------");
@@ -512,7 +515,7 @@ public class JailIO {
                 }
 
                 //Remove the invalid prisoners
-                if(cellsToRemove.size() != 0) {
+                if(!cellsToRemove.isEmpty()) {
                     StringBuilder ids = new StringBuilder();
                     for(int c : cellsToRemove) {
                         if(ids.length() == 0) ids.append("'" + c + "'");
@@ -585,7 +588,7 @@ public class JailIO {
                 }
 
                 //Remove the invalid prisoners
-                if(prisonersToRemove.size() != 0) {
+                if(!prisonersToRemove.isEmpty()) {
                     String names = "";
                     for(String s : prisonersToRemove) {
                         if(names.isEmpty()) names = "'" + s + "'";
