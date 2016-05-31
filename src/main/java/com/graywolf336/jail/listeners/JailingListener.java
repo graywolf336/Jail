@@ -64,6 +64,7 @@ public class JailingListener implements Listener {
                             meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
                             item.setItemMeta(meta);
                             event.getPlayer().getInventory().setHelmet(item);
+                            break;
                         default:
                             break;
                     }
@@ -80,6 +81,7 @@ public class JailingListener implements Listener {
                             meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
                             item.setItemMeta(meta);
                             event.getPlayer().getInventory().setChestplate(item);
+                            break;
                         default:
                             break;
                     }
@@ -96,6 +98,7 @@ public class JailingListener implements Listener {
                             meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
                             item.setItemMeta(meta);
                             event.getPlayer().getInventory().setLeggings(item);
+                            break;
                         default:
                             break;
                     }
@@ -112,6 +115,7 @@ public class JailingListener implements Listener {
                             meta.setColor(Color.fromBGR(Integer.parseInt(colors[2]), Integer.parseInt(colors[1]), Integer.parseInt(colors[0])));
                             item.setItemMeta(meta);
                             event.getPlayer().getInventory().setBoots(item);
+                            break;
                         default:
                             break;
                     }
