@@ -162,7 +162,7 @@ public class JailHandler {
             //Get the matches from the first argument passed
             List<Command> matches = getMatches(args[0].toLowerCase());
 
-            if(matches.size() == 0) {
+            if(matches.isEmpty()) {
                 //No matches found, thus it is more likely than not they are trying to jail someone
                 c = getMatches("jail").get(0);
 
@@ -182,12 +182,10 @@ public class JailHandler {
         CommandInfo i = c.getClass().getAnnotation(CommandInfo.class);
 
         // First, let's check if the sender has permission for the command.
-        if(!i.permission().isEmpty()) {
-            if(!sender.hasPermission(i.permission())) {
-                jailmanager.getPlugin().debug("Sender has no permission: " + i.permission());
-                sender.sendMessage(Lang.NOPERMISSION.get() + (jailmanager.getPlugin().inDebug() ? " (" + i.permission() + ")" : ""));
-                return true;
-            }
+        if(!i.permission().isEmpty() && !sender.hasPermission(i.permission())) {
+        	jailmanager.getPlugin().debug("Sender has no permission: " + i.permission());
+            sender.sendMessage(Lang.NOPERMISSION.get() + (jailmanager.getPlugin().inDebug() ? " (" + i.permission() + ")" : ""));
+            return true;
         }
 
         // Next, let's check if we need a player and then if the sender is actually a player

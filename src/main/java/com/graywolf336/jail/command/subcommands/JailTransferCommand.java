@@ -194,9 +194,8 @@ public class JailTransferCommand implements Command {
         List<String> results = new ArrayList<String>();
         
         for(Cell c : jm.getJail(jail).getCells())
-            if(!c.hasPrisoner())
-                if(cell.isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), cell))
-                    results.add(c.getName());
+            if(!c.hasPrisoner() && (cell.isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), cell)))
+            	results.add(c.getName());
         
         Collections.sort(results);
         

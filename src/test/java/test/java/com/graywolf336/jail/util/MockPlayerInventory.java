@@ -15,8 +15,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class MockPlayerInventory implements PlayerInventory {
     private int armorSize = 4, inventorySize = 36;
-    ItemStack[] armorContents = new ItemStack[armorSize];
-    ItemStack[] inventoryContents = new ItemStack[inventorySize];
+    private ItemStack[] armorContents = new ItemStack[armorSize];
+    private ItemStack[] inventoryContents = new ItemStack[inventorySize];
 
     @Override
     public ItemStack[] getArmorContents() {

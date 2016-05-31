@@ -202,9 +202,7 @@ public class JailCommand implements Command {
 
         //If the jailer gave no reason, then let's get the default reason
         String reason = "";
-        if(!params.isReason()) {
-            reason = Lang.DEFAULTJAILEDREASON.get();
-        }else {
+        if(params.isReason()) {
             StringBuilder sb = new StringBuilder();
             for(String s : params.getReason()) {
                 sb.append(s).append(' ');
@@ -212,6 +210,9 @@ public class JailCommand implements Command {
 
             sb.deleteCharAt(sb.length() - 1);
             reason = sb.toString();
+            
+        }else {
+        	reason = Lang.DEFAULTJAILEDREASON.get();
         }
 
         //If the config has automatic muting, then let's set them as muted
@@ -320,9 +321,8 @@ public class JailCommand implements Command {
         List<String> results = new ArrayList<String>();
         
         for(Cell c : jm.getJail(jail).getCells())
-            if(!c.hasPrisoner())
-                if(cell.isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), cell))
-                    results.add(c.getName());
+            if(!c.hasPrisoner() && (cell.isEmpty() || StringUtil.startsWithIgnoreCase(c.getName(), cell)))
+            	results.add(c.getName());
         
         Collections.sort(results);
         

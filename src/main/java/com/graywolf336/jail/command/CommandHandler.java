@@ -39,7 +39,7 @@ public class CommandHandler {
     public List<String> parseTabComplete(JailManager jm, CommandSender sender, String commandLine, String[] args) throws Exception {
         List<Command> matches = getMatches(commandLine);
         
-        if(matches.size() == 0 || matches.size() > 1) return Collections.emptyList();
+        if(matches.isEmpty() || matches.size() > 1) return Collections.emptyList();
         else {
             CommandInfo i = matches.get(0).getClass().getAnnotation(CommandInfo.class);
             
@@ -83,7 +83,7 @@ public class CommandHandler {
         List<Command> matches = getMatches(commandLine);
 
         //If no matches were found, send them the unknown command message.
-        if(matches.size() == 0) {
+        if(matches.isEmpty()) {
             if(commandLine.startsWith("jail")) {
                 String j = commandLine.substring(0, 4);
                 String a0 = commandLine.substring(4, commandLine.length());
