@@ -397,12 +397,14 @@ public class LegacyManager {
                         pl.debug(Settings.JAILPAYPRICEPERMINUTE.getPath() + " <-- " + s.getString());
                         count++;
                     }
+                    break;
                 case PriceForInfiniteJail:
                     if(global.contains(s.getString())) {
                         c.set(Settings.JAILPAYPRICEINFINITE.getPath(), OldSettings.getGlobalInt(global, s));
                         pl.debug(Settings.JAILPAYPRICEINFINITE.getPath() + " <-- " + s.getString());
                         count++;
                     }
+                    break;
                 case JailPayCurrency:
                     if(global.contains(s.getString())) {
                         Material mat = Material.getMaterial(OldSettings.getGlobalInt(global, s));
@@ -412,6 +414,7 @@ public class LegacyManager {
                             count++;
                         }
                     }
+                    break;
                 default:
                     break;
             }
