@@ -407,9 +407,6 @@ public class JailIO {
                 default:
                     break;
             }
-            
-            //Make sure the statement is closed.
-            if(!st.isClosed()) st.close();
         } catch (SQLException e) {
             e.printStackTrace();
             pl.getLogger().severe("---------- Jail Error!!! ----------");
