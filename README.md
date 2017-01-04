@@ -14,7 +14,10 @@ If you want to make some changes, build, and run the unit tests you will notice 
 
 `mvn install:install-file -Dfile=craftbukkit-1.9-R0.1.jar -DgroupId=org.bukkit -DartifactId=craftbukkit -Dversion=1.9-R0.1-SNAPSHOT -Dpackaging=jar`
 
-Beta 5 Changes
+Beta 6 Changes
+*Changes since Beta 5*
+
+[Beta 5](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.5) Changes
 ===
 *Changes since Beta 4*
 * Added a command to update, verify, refresh, and clean signs on cells. [#79](https://github.com/graywolf336/Jail/issues/79)
