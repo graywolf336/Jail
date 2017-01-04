@@ -52,6 +52,7 @@ public class JailCommand implements Command {
      * - If the cell is not empty then checks to be sure that cell exists
      * - If the prisoner is online or not.
      */
+    @SuppressWarnings("deprecation")
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         if(jm.getJails().isEmpty()) {
             sender.sendMessage(Lang.NOJAILS.get());

@@ -20,6 +20,7 @@ public class ScoreBoardManager {
     private HashMap<UUID, Scoreboard> boards;
     private OfflinePlayer time;
 
+    @SuppressWarnings("deprecation")
     protected ScoreBoardManager(JailMain plugin) {
         this.pl = plugin;
         this.man = plugin.getServer().getScoreboardManager();
@@ -42,6 +43,7 @@ public class ScoreBoardManager {
      * @param player of whom to add the scoreboard to.
      * @param pris data for the provided prisoner
      */
+    @SuppressWarnings("deprecation")
     public void addScoreBoard(Player player, Prisoner pris) {
         if(!boards.containsKey(player.getUniqueId())) {
             boards.put(player.getUniqueId(), man.getNewScoreboard());
@@ -98,6 +100,7 @@ public class ScoreBoardManager {
      * @param player of whom to update the scoreboard for.
      * @param pris data for the player
      */
+    @SuppressWarnings("deprecation")
     private void updatePrisonersBoard(Player player, Prisoner pris) {
         boards.get(player.getUniqueId()).getObjective("test").getScore(time).setScore(pris.getRemainingTimeInMinutesInt());
     }

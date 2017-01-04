@@ -19,6 +19,7 @@ import com.graywolf336.jail.enums.Lang;
         usage = "/jail record [name] (display)"
         )
 public class JailRecordCommand implements Command {
+    @SuppressWarnings("deprecation")
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         if(args.length == 2) {
             // /jail record <username>

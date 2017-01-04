@@ -22,6 +22,7 @@ import com.graywolf336.jail.enums.Lang;
         usage = "/handcuff [player]"
         )
 public class HandCuffCommand implements Command {
+    @SuppressWarnings("deprecation")
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         Player player = jm.getPlugin().getServer().getPlayer(args[0]);
 

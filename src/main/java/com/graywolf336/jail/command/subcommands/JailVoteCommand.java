@@ -27,6 +27,7 @@ import com.graywolf336.jail.enums.Settings;
 public class JailVoteCommand implements Command {
     private static final String[] options =  new String[] { "yes", "no" };
     
+    @SuppressWarnings("deprecation")
     public boolean execute(JailManager jm, CommandSender sender, String... args) {
         if(jm.getPlugin().getConfig().getBoolean(Settings.JAILVOTEENABLED.getPath()) && jm.getPlugin().getJailVoteManager() != null && !jm.getJails().isEmpty()) {
             Player p = (Player) sender;

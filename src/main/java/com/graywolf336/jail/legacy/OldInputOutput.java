@@ -103,6 +103,7 @@ public class OldInputOutput {
         ps.close();
     }
 
+    @SuppressWarnings("deprecation")
     public void LoadPrisoners() throws SQLException {
         if(pl.getJailManager().getJails().size() != 0) {
             PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM jail_prisoners");

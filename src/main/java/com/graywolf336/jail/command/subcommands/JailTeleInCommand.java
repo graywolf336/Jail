@@ -23,6 +23,7 @@ import com.graywolf336.jail.enums.Lang;
         usage = "/jail telein [jail] (name)"
         )
 public class JailTeleInCommand implements Command {
+    @SuppressWarnings("deprecation")
     public boolean execute(JailManager jm, CommandSender sender, String... args) throws Exception {
         Jail j = jm.getJail(args[1]);
 
