@@ -14,6 +14,7 @@ import static org.powermock.api.support.membermodification.MemberModifier.suppre
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -32,6 +33,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemFactory;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -57,6 +60,7 @@ public class TestInstanceCreator {
     private JailMain main;
     private Server mockServer;
     private Player mockPlayer;
+    private PlayerInventory mockPlayerInventory;
     private World mockWorld;
     private CommandSender mockSender, mockPlayerSender;
     private ConsoleCommandSender consoleSender;
@@ -70,7 +74,7 @@ public class TestInstanceCreator {
     @SuppressWarnings("deprecation")
     public boolean setup() {
         r = new Random();
-        
+
         try {
             pluginDirectory.mkdirs();
             Assert.assertTrue(pluginDirectory.exists());
@@ -161,23 +165,22 @@ public class TestInstanceCreator {
 
             when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
 
-            when(mockServer.createWorld(Matchers.isA(WorldCreator.class))).thenAnswer(
-                    new Answer<World>() {
-                        public World answer(InvocationOnMock invocation) throws Throwable {
-                            WorldCreator arg;
-                            try {
-                                arg = (WorldCreator) invocation.getArguments()[0];
-                            } catch (Exception e) {
-                                return null;
-                            }
-                            // Add special case for creating null worlds.
-                            // Not sure I like doing it this way, but this is a special case
-                            if (arg.name().equalsIgnoreCase("nullworld")) {
-                                return MockWorldFactory.makeNewNullMockWorld(arg.name(), arg.environment(), arg.type());
-                            }
-                            return MockWorldFactory.makeNewMockWorld(arg.name(), arg.environment(), arg.type());
-                        }
-                    });
+            when(mockServer.createWorld(Matchers.isA(WorldCreator.class))).thenAnswer(new Answer<World>() {
+                public World answer(InvocationOnMock invocation) throws Throwable {
+                    WorldCreator arg;
+                    try {
+                        arg = (WorldCreator) invocation.getArguments()[0];
+                    } catch (Exception e) {
+                        return null;
+                    }
+                    // Add special case for creating null worlds.
+                    // Not sure I like doing it this way, but this is a special
+                    // case
+                    if (arg.name().equalsIgnoreCase("nullworld"))
+                        return MockWorldFactory.makeNewNullMockWorld(arg.name(), arg.environment(), arg.type());
+                    return MockWorldFactory.makeNewMockWorld(arg.name(), arg.environment(), arg.type());
+                }
+            });
 
             when(mockServer.unloadWorld(anyString(), anyBoolean())).thenReturn(true);
 
@@ -186,10 +189,9 @@ public class TestInstanceCreator {
             when(bt.getTaskId()).thenReturn(r.nextInt());
             when(bt.getOwner()).thenReturn(main);
             when(bt.isSync()).thenReturn(false);
-            
+
             BukkitScheduler mockScheduler = mock(BukkitScheduler.class);
-            when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class), anyLong())).
-            thenAnswer(new Answer<BukkitTask>() {
+            when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class), anyLong())).thenAnswer(new Answer<BukkitTask>() {
                 public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
@@ -199,9 +201,9 @@ public class TestInstanceCreator {
                     }
                     arg.run();
                     return bt;
-                }});
-            when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class))).
-            thenAnswer(new Answer<BukkitTask>() {
+                }
+            });
+            when(mockScheduler.scheduleSyncDelayedTask(any(Plugin.class), any(Runnable.class))).thenAnswer(new Answer<BukkitTask>() {
                 public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
@@ -211,9 +213,9 @@ public class TestInstanceCreator {
                     }
                     arg.run();
                     return bt;
-                }});
-            when(mockScheduler.runTaskTimerAsynchronously(any(Plugin.class), any(Runnable.class), anyLong(), anyLong())).
-            thenAnswer(new Answer<BukkitTask>() {
+                }
+            });
+            when(mockScheduler.runTaskTimerAsynchronously(any(Plugin.class), any(Runnable.class), anyLong(), anyLong())).thenAnswer(new Answer<BukkitTask>() {
                 public BukkitTask answer(InvocationOnMock invocation) throws Throwable {
                     Runnable arg;
                     try {
@@ -223,7 +225,8 @@ public class TestInstanceCreator {
                     }
                     arg.run();
                     return bt;
-                }});
+                }
+            });
             when(mockServer.getScheduler()).thenReturn(mockScheduler);
 
             // Set server
@@ -270,7 +273,13 @@ public class TestInstanceCreator {
             when(mockSender.addAttachment(main)).thenReturn(null);
             when(mockSender.isOp()).thenReturn(true);
 
-            // Init our player, who is op and who has all permissions (with name of graywolf336)
+            // Mock the player's inventory
+            // TODO: Mock the methods when needed
+            mockPlayerInventory = mock(PlayerInventory.class);
+            when(mockPlayerInventory.addItem(Matchers.isA(ItemStack.class))).thenReturn(new HashMap<Integer, ItemStack>());
+
+            // Init our player, who is op and who has all permissions (with name
+            // of graywolf336)
             mockPlayer = mock(Player.class);
             UUID playerId = UUID.fromString("062c14ba-4c47-4757-911b-bbf9a60dab7b");
             when(mockPlayer.getUniqueId()).thenReturn(playerId);
@@ -281,13 +290,14 @@ public class TestInstanceCreator {
             when(mockPlayer.hasPermission(anyString())).thenReturn(true);
             when(mockPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
             when(mockPlayer.isOp()).thenReturn(true);
-            when(mockPlayer.getInventory()).thenReturn(new MockPlayerInventory());
+            when(mockPlayer.getInventory()).thenReturn(mockPlayerInventory);
             when(mockPlayer.getLocation()).thenReturn(new Location(mockWorld, 23, 70, -242));
             when(mockServer.getPlayer("graywolf336")).thenReturn(mockPlayer);
             when(mockServer.getPlayer(playerId)).thenReturn(mockPlayer);
             players.add(playerId);
 
-            // Init our second command sender, but this time is an instance of a player
+            // Init our second command sender, but this time is an instance of a
+            // player
             mockPlayerSender = mockPlayer;
             when(mockPlayerSender.getServer()).thenReturn(mockServer);
             when(mockPlayerSender.getName()).thenReturn("graywolf336");
@@ -336,12 +346,12 @@ public class TestInstanceCreator {
         deleteFolder(serverDirectory);
         return true;
     }
-    
+
     @SuppressWarnings("deprecation")
     public boolean addMockPlayer(String name, UUID id) {
-        if(players.contains(id)) {
+        if (players.contains(id))
             return false;
-        }else {
+        else {
             Player anotherPlayer = mock(Player.class);
             when(anotherPlayer.getUniqueId()).thenReturn(id);
             when(anotherPlayer.getName()).thenReturn(name);
@@ -351,7 +361,7 @@ public class TestInstanceCreator {
             when(anotherPlayer.hasPermission(anyString())).thenReturn(true);
             when(anotherPlayer.hasPermission(Matchers.isA(Permission.class))).thenReturn(true);
             when(anotherPlayer.isOp()).thenReturn(true);
-            when(anotherPlayer.getInventory()).thenReturn(new MockPlayerInventory());
+            when(anotherPlayer.getInventory()).thenReturn(mockPlayerInventory);
             when(anotherPlayer.getLocation()).thenReturn(new Location(mockWorld, 56, 85, -2420));
             when(mockServer.getPlayer(name)).thenReturn(anotherPlayer);
             when(mockServer.getPlayer(id)).thenReturn(anotherPlayer);
@@ -359,11 +369,11 @@ public class TestInstanceCreator {
             return true;
         }
     }
-    
+
     public boolean addJail(String name) {
-        if(main.getJailManager().isValidJail(name)) {
+        if (main.getJailManager().isValidJail(name))
             return false;
-        }else {
+        else {
             Jail j = new Jail(main, name);
             j.setWorld("world");
             j.setMaxPoint(new int[] { r.nextInt(), r.nextInt(256), r.nextInt() });
@@ -376,36 +386,36 @@ public class TestInstanceCreator {
     }
 
     public JailMain getMain() {
-        return this.main;
+        return main;
     }
 
     public Server getServer() {
-        return this.mockServer;
+        return mockServer;
     }
 
     public CommandSender getCommandSender() {
-        return this.mockSender;
+        return mockSender;
     }
 
     public Player getPlayer() {
-        return this.mockPlayer;
+        return mockPlayer;
     }
 
     public CommandSender getPlayerCommandSender() {
-        return this.mockPlayerSender;
+        return mockPlayerSender;
     }
-    
+
     public ConsoleCommandSender getConsoleSender() {
-    	return this.consoleSender;
+        return consoleSender;
     }
 
     private void deleteFolder(File folder) {
         File[] files = folder.listFiles();
-        if(files != null) {
-            for(File f: files) {
-                if(f.isDirectory()) {
+        if (files != null) {
+            for (File f : files) {
+                if (f.isDirectory()) {
                     deleteFolder(f);
-                }else {
+                } else {
                     f.delete();
                 }
             }

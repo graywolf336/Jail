@@ -1,6 +1,7 @@
 package test.java.com.graywolf336.jail;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -19,6 +20,7 @@ import test.java.com.graywolf336.jail.util.TestInstanceCreator;
 
 import com.graywolf336.jail.JailMain;
 import com.graywolf336.jail.Util;
+import com.graywolf336.jail.beans.Prisoner;
 import com.graywolf336.jail.enums.Lang;
 
 @RunWith(PowerMockRunner.class)
@@ -93,7 +95,7 @@ public class TestJailLanguage {
         assertEquals(colorize("&cYou can not be afk while being jailed."), Lang.AFKKICKMESSAGE.get());
         assertEquals(colorize("&cgraywolf336 is already jailed."), Lang.ALREADYJAILED.get("graywolf336"));
         assertEquals(colorize("&9graywolf336 has been jailed forever for: &cSome cool reason."), Lang.BROADCASTMESSAGEFOREVER.get(new String[] { "graywolf336", "Some cool reason." }));
-        assertEquals(colorize("&9graywolf336 has been jailed for 60 minutes for: &cSome cool reason."), Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { "graywolf336", "60", "Some cool reason."}));
+        assertEquals(colorize("&9graywolf336 has been jailed for 60 minutes for: &cSome cool reason."), Lang.BROADCASTMESSAGEFORMINUTES.get(new String[] { "graywolf336", "60", "Some cool reason." }));
         assertEquals(colorize("&9graywolf336 has been unjailed by console."), Lang.BROADCASTUNJAILING.get(new String[] { "graywolf336", "console" }));
         assertEquals(colorize("&cJailing graywolf336 was cancelled by another plugin and they did not leave you a message."), Lang.CANCELLEDBYANOTHERPLUGIN.get("graywolf336"));
         assertEquals(colorize("&cThat player can not be jailed."), Lang.CANTBEJAILED.get());
@@ -159,6 +161,23 @@ public class TestJailLanguage {
         assertEquals(colorize("&cYou have been handcuffed."), Lang.HANDCUFFED.get());
         assertEquals(colorize("&9graywolf336 &ahas been released from their handcuffs."), Lang.HANDCUFFSRELEASED.get("graywolf336"));
         assertEquals(colorize("&aYour handcuffs have been removed."), Lang.UNHANDCUFFED.get());
+    }
+
+    @Test
+    public void testReplacingAllVariables() {
+        String template = "%player% (%uuid%) was jailed for %timeinminutes% minutes by %jailer% for \"%reason%\" and has been afk for %afktime%. Pretty time: %prettytime%";
+        String resultGreaterThanZero = Util.replaceAllVariables(new Prisoner("e7965e93-df29-4440-9960-feeaef3fe772", "graywolf336", true, 60000L, "Notch", "code coverage"), template);
+        String resultLessThanZero = Util.replaceAllVariables(new Prisoner("e7965e93-df29-4440-9960-feeaef3fe772", "graywolf336", true, -1, "Notch", "code coverage"), template);
+        String[] resultArray = Util.replaceAllVariables(new Prisoner("e7965e93-df29-4440-9960-feeaef3fe772", "graywolf336", true, -1, "Notch", "code coverage"), new String[] { template });
+
+        assertEquals("graywolf336 (e7965e93-df29-4440-9960-feeaef3fe772) was jailed for 1 minutes by Notch for \"code coverage\" and has been afk for 0s. Pretty time: 1m0s", resultGreaterThanZero);
+        assertEquals("graywolf336 (e7965e93-df29-4440-9960-feeaef3fe772) was jailed for -1 minutes by Notch for \"code coverage\" and has been afk for 0s. Pretty time: §cfor life", resultLessThanZero);
+        assertArrayEquals(new String[] { "graywolf336 (e7965e93-df29-4440-9960-feeaef3fe772) was jailed for -1 minutes by Notch for \"code coverage\" and has been afk for 0s. Pretty time: §cfor life" }, resultArray);
+    }
+
+    @Test
+    public void testDurationBreakdownJailedForever() {
+        assertEquals("§cfor life", Util.getDurationBreakdown(-1));
     }
 
     private String colorize(String msg) {

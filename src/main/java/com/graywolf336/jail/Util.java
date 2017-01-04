@@ -169,14 +169,14 @@ public class Util {
         msg = msg.replace("%player%", p.getLastKnownName())
                 .replace("%uuid%", p.getUUID().toString())
                 .replace("%reason%", p.getReason())
-                .replace("%jailer", p.getJailer())
+                .replace("%jailer%", p.getJailer())
                 .replace("%afktime%", Util.getDurationBreakdown(p.getAFKTime()));
 
         if(p.getRemainingTime() >= 0) {
             msg = msg.replace("%timeinminutes%", String.valueOf(p.getRemainingTimeInMinutes()));
             msg = msg.replace("%prettytime%", Util.getDurationBreakdown(p.getRemainingTime()));
         }else {
-            msg = msg.replace("%timeinminutes%", Lang.JAILEDFOREVERSIGN.get());
+            msg = msg.replace("%timeinminutes%", String.valueOf(-1));
             msg = msg.replace("%prettytime%", Lang.JAILEDFOREVERSIGN.get());
         }
 
