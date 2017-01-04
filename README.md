@@ -18,8 +18,9 @@ Beta 6 Changes
 ===
 *Changes since Beta 5*
 * Plugin now requires Java 1.8
+* Fixed an issue with sqlite and 1.10 [#128](https://github.com/graywolf336/Jail/issues/128)
 
-Beta 5 Changes
+[Beta 5](https://github.com/graywolf336/Jail/releases/tag/v3.0.0-beta.5) Changes
 ===
 *Changes since Beta 4*
 * Added a command to update, verify, refresh, and clean signs on cells. [#79](https://github.com/graywolf336/Jail/issues/79)
