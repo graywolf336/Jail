@@ -37,10 +37,10 @@ public class JailTimer {
         this.lastTime = System.currentTimeMillis();
         if(pl.getConfig().getBoolean(Settings.USEBUKKITTIMER.getPath())) {
             pl.getLogger().info("Using the Bukkit Scheduler.");
-            pl.getServer().getScheduler().runTaskTimerAsynchronously(pl, new TimeEvent(), 200, 200);
+            pl.getServer().getScheduler().runTaskTimerAsynchronously(pl, new TimeEvent(), 1200L, 1200L);
         }else {
             pl.getLogger().info("Using the Java Timer.");
-            timer = new Timer(10000, new ActionListener () {
+            timer = new Timer(60000, new ActionListener () {
                 public void actionPerformed (ActionEvent event) {
                     pl.getServer().getScheduler().scheduleSyncDelayedTask(pl, new TimeEvent());
                 };
@@ -49,14 +49,14 @@ public class JailTimer {
             timer.start();
         }
 
-        //Save all the jail information every minute, not every 10 seconds
+        //Save all the jail information every 10 minutes
         pl.getServer().getScheduler().runTaskTimerAsynchronously(pl, new Runnable() {
             public void run() {
                 for(Jail j : pl.getJailManager().getJails()) {
                     pl.getJailIO().saveJail(j);
                 }
             }
-        }, 1200L, 1200L);
+        }, 12000L, 12000L);
     }
 
     /**
