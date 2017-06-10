@@ -46,7 +46,6 @@ public class JailIO {
     }
 
     /** Loads the language file from disk, if there is none then we save the default one. */
-    @SuppressWarnings("deprecation")
     protected void loadLanguage() {
         String language = pl.getConfig().getString(Settings.LANGUAGE.getPath());
         boolean save = false;
@@ -60,18 +59,18 @@ public class JailIO {
             }else {
                 pl.getLogger().severe("The language file can not be a folder.");
                 pl.getLogger().severe("As a result, we are reverting back to English as the language.");
-                Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("locales/en.yml")));
+                Lang.setFile(YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(),"locales/en.yml")));
                 save = true;
             }
         }else {
             pl.getLogger().warning("Loading the default language of: en");
             pl.getLogger().warning("If you wish to change this, please rename 'en.yml' to whatever you wish and set the config value to the name of the file.");
-            Lang.setFile(YamlConfiguration.loadConfiguration(pl.getResource("locales/en.yml")));
+            Lang.setFile(YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(),"locales/en.yml")));
             save = true;
         }
 
         //Make sure we have all the new language settings loaded
-        if(!save) save = Lang.writeNewLanguage(YamlConfiguration.loadConfiguration(pl.getResource("locales/en.yml")));
+        if(!save) save = Lang.writeNewLanguage(YamlConfiguration.loadConfiguration(new File(pl.getDataFolder(),"locales/en.yml")));
 
         //If we have flagged to save the language file, let's save it as en.yml as this flag usually means they didn't have it loaded.
         if(save) {
