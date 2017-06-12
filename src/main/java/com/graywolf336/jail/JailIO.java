@@ -1,6 +1,7 @@
 package com.graywolf336.jail;
 
 import java.io.File;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
