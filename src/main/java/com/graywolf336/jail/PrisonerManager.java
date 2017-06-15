@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -232,7 +233,14 @@ public class PrisonerManager {
         //only eject them if they're inside a vehicle and also eject anyone else on top of them
         if(player.isInsideVehicle()) {
             player.getVehicle().eject();
-            player.getPassenger().eject();
+
+            if (Util.doesClassHaveThisMethod(Entity.class, "getPassengers")) {
+                player.getPassengers().forEach(e -> e.eject());
+            } else {
+                //Ideally we should @SurpressWarnings due to the handling this, but leaving this here for now
+                player.getPassenger().eject();
+            }
+
             player.eject();
         }
 
@@ -456,7 +464,14 @@ public class PrisonerManager {
         //them so we can possibly teleport them
         if(player.isInsideVehicle()) {
             player.getVehicle().eject();
-            player.getPassenger().eject();
+
+            if (Util.doesClassHaveThisMethod(Entity.class, "getPassengers")) {
+                player.getPassengers().forEach(e -> e.eject());
+            } else {
+                //Ideally we should @SurpressWarnings due to the handling this, but leaving this here for now
+                player.getPassenger().eject();
+            }
+
             player.eject();
         }
         

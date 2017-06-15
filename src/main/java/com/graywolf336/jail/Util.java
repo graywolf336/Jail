@@ -512,4 +512,22 @@ public class Util {
             Bukkit.getLogger().severe("Unable to restore " + player.getName() + "'s inventory.");
         }
     }
+
+    /**
+     * Checks if the provided class has the provided method.
+     *
+     * @param c The {@link Class} to check on.
+     * @param method The name of the method to check for
+     * @return whether the method exists or not.
+     */
+    public static boolean doesClassHaveThisMethod(Class<?> c, String method) {
+        try {
+            c.getMethod(method);
+            return true;
+        } catch (NoSuchMethodException e) {
+            return true;
+        } catch (SecurityException e) {
+            return false;
+        }
+    }
 }
