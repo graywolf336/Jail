@@ -2,6 +2,7 @@ package com.graywolf336.jail.enums;
 
 public enum Settings {
     ALLOWJAILINGNEVERPLAYEDBEFOREPLAYERS("jailing.jail.allowJailingNeverPlayedBeforePlayers"),
+    ALLOWJAILINGOFFLINEPLAYERS("jailing.jail.allowJaillingOfflinePlayers"),
     AUTOMATICCELL("jailing.jail.automaticCell"),
     AUTOMATICMUTE("jailing.jail.automaticMute"),
     BROADCASTJAILING("jailing.jail.broadcastJailing"),

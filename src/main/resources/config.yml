@@ -20,10 +20,10 @@ jailing:
   during:
     blockBreakPenalty: 5m
     blockBreakProtection: true
-    blockBreakWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be broken at any time by prisoners
+    blockBreakWhiteList: ['farmland', 'carrot', 'potato'] # these blocks can be broken at any time by prisoners
     blockPlacePenalty: 5m
     blockPlaceProtection: true
-    blockPlaceWhiteList: ['crops', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
+    blockPlaceWhiteList: ['farmland', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
     cellsign:
     - '%player%'
     - '%prettytime%'
@@ -44,17 +44,18 @@ jailing:
     movePenalty: 10m
     moveProtection: true
     openChest: true
-    preventInteractionBlocks: ['wooden_door', 'iron_door_block']
+    preventInteractionBlocks: ['oak_door', 'spruce_door', 'birch_door', 'jungle_door', 'acacia_door', 'dark_oak_door', 'iron_door']
     preventInteractionBlocksPenalty: 5m
     preventInteractionItems: []
     preventInteractionItemsPenalty: 5m
     recieveMessages: true
     scoreboard:
-      enabled: false
+      enabled: true
       title: 'Jail Info'
       time: '&aTime:'
   jail:
     allowJailingNeverPlayedBeforePlayers: false
+    allowJaillingOfflinePlayers: true
     automaticCell: true
     automaticMute: true
     broadcastJailing: false

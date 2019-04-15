@@ -99,6 +99,11 @@ public class JailCommand implements Command {
         
         String uuid = "";
         if(p == null) {
+            if (!jm.getPlugin().getConfig().getBoolean(Settings.ALLOWJAILINGOFFLINEPLAYERS.getPath())) {
+                sender.sendMessage(Lang.PLAYERHASNEVERPLAYEDBEFORE.get());
+                return true;
+            }
+
             //TODO: Make this whole jail command non-blocking
             OfflinePlayer of = jm.getPlugin().getServer().getOfflinePlayer(params.getPlayer());
             

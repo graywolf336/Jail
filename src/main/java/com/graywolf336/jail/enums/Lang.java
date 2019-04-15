@@ -101,6 +101,8 @@ public enum Lang {
     UNJAILED("jailing"),
     /** The message sent to the person who released a prisoner from jail. */
     UNJAILSUCCESS("jailing"),
+    /** The message sent when you jailing offline players is not allowed. */
+    UNALLOWEDTOJAILOFFLINE("jailing"),
     /** The message went when an offline player is unjailed. */
     WILLBEUNJAILED("jailing"),
     /** The message sent when trying to jail a player in an unloaded world. */

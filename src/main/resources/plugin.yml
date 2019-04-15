@@ -6,6 +6,8 @@ authors: [graywolf336]
 website: dev.bukkit.org/server-mods/jail/
 softdepend: [WorldEdit, Vault, Multiverse-Core]
 load: POSTWORLD
+api-version: 1.13
+
 commands:
     jail:
         description: Jail specified player for specified amount of time.
@@ -19,6 +21,7 @@ commands:
         description: Allows the player to handcuff another player
     unhandcuff:
         description: Allows the player to unhandcuff someone
+
 permissions:
     jail.*:
         children:
