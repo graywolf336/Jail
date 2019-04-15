@@ -773,7 +773,6 @@ public class JailIO {
                     long st = System.currentTimeMillis();
 
                     try {
-                        if(con == null) this.prepareStorage(false);
                         PreparedStatement ps = getConnection().prepareStatement("REPLACE INTO "
                                 + prefix + "jails (`name`, `world`, `top.x`, `top.y`, `top.z`, `bottom.x`, `bottom.y`,"
                                 + "`bottom.z`, `tps.in.x`, `tps.in.y`, `tps.in.z`, `tps.in.yaw`, `tps.in.pitch`,"
@@ -996,10 +995,15 @@ public class JailIO {
             case 1:
             case 2:
                 try {
+                    Connection con = getConnection();
+                    if (con == null) {
+                        break;
+                    }
+
                     pl.debug("Saving the cell " + c.getName());
                     boolean hasId = c.getDatabaseID() != -1;
 
-                    PreparedStatement cPS = getConnection().prepareStatement((hasId ? "REPLACE" : "INSERT")
+                    PreparedStatement cPS = con.prepareStatement((hasId ? "REPLACE" : "INSERT")
                             + " INTO `" + prefix + "cells` (" + (hasId ? "`cellid`, " : "")
                             + "`name`, `jail`, `tp.x`, `tp.y`, `tp.z`, `tp.yaw`,"
                             + "`tp.pitch`, `chest.x`, `chest.y`, `chest.z`, `signs`) VALUES ("
@@ -1030,7 +1034,7 @@ public class JailIO {
 
                     if(c.hasPrisoner()) {
                         Prisoner p = c.getPrisoner();
-                        PreparedStatement pPS = getConnection().prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
+                        PreparedStatement pPS = con.prepareStatement("REPLACE INTO `" + prefix + "prisoners` (`uuid`, `name`, `jail`, `cell`, `muted`, `time`,"
                                 + "`offlinePending`, `toBeTransferred`, `jailer`, `reason`, `inventory`, `armor`, `previousLocation`, `previousGameMode`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
                         pPS.setString(1, p.getUUID().toString());
                         pPS.setString(2, p.getLastKnownName());
@@ -1087,7 +1091,12 @@ public class JailIO {
             case 1:
             case 2:
                 try {
-                    PreparedStatement pp = getConnection().prepareStatement("delete from `" + prefix + "prisoners` where uuid = ?");
+                    Connection con = getConnection();
+                    if (con == null) {
+                        break;
+                    }
+
+                    PreparedStatement pp = con.prepareStatement("delete from `" + prefix + "prisoners` where uuid = ?");
                     pp.setString(1, p.getUUID().toString());
 
                     pl.debug("Removing " + p.getLastKnownName() + " (" + p.getUUID().toString() + ") from " + (storage == 2 ? "MySQL" : "SQLite") + " database.");
@@ -1134,7 +1143,12 @@ public class JailIO {
         switch(storage) {
             case 1:
                 try {
-                    PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ?;");
+                    Connection con = getConnection();
+                    if (con == null) {
+                        break;
+                    }
+
+                    PreparedStatement p = con.prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ?;");
                     p.setString(1, c.getName());
                     p.setString(2, j.getName());
 
@@ -1148,7 +1162,12 @@ public class JailIO {
                 break;
             case 2:
                 try {
-                    PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
+                    Connection con = getConnection();
+                    if (con == null) {
+                        break;
+                    }
+
+                    PreparedStatement p = con.prepareStatement("delete from `" + prefix + "cells` where name = ? and jail = ? limit 1;");
                     p.setString(1, c.getName());
                     p.setString(2, j.getName());
 
@@ -1192,7 +1211,12 @@ public class JailIO {
                 }
 
                 try {
-                    PreparedStatement p = getConnection().prepareStatement("delete from `" + prefix + "jails` where name = ?");
+                    Connection c = getConnection();
+                    if (c == null) {
+                        break;
+                    }
+
+                    PreparedStatement p = c.prepareStatement("delete from `" + prefix + "jails` where name = ?");
                     p.setString(1, name);
 
                     p.executeUpdate();
@@ -1233,7 +1257,12 @@ public class JailIO {
                 break;
             case 2:
                 try {
-                    PreparedStatement p = getConnection().prepareStatement("insert into `" + prefix + "records` (`uuid`, `username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?,?);");
+                    Connection c = getConnection();
+                    if (c == null) {
+                        break;
+                    }
+
+                    PreparedStatement p = c.prepareStatement("insert into `" + prefix + "records` (`uuid`, `username`, `jailer`, `date`, `time`,  `reason`) VALUES (?,?,?,?,?,?);");
                     p.setString(1, uuid);
                     p.setString(2, username);
                     p.setString(3, jailer);
@@ -1284,7 +1313,12 @@ public class JailIO {
                 break;
             case 2:
                 try {
-                    PreparedStatement ps = getConnection().prepareStatement("SELECT * FROM " + prefix + "records where uuid = ?");
+                    Connection c = getConnection();
+                    if (c == null) {
+                        break;
+                    }
+
+                    PreparedStatement ps = c.prepareStatement("SELECT * FROM " + prefix + "records where uuid = ?");
                     ps.setString(1, uuid.toString());
                     ResultSet set = ps.executeQuery();
 

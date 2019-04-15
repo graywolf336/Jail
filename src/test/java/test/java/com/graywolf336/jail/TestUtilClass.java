@@ -29,7 +29,7 @@ public class TestUtilClass {
         list.add(Material.WHEAT_SEEDS.toString());
         list.add("coal_ore");
         list.add("torch");
-        array = new String[] { Material.SEEDS.toString(), "coal_ore", "torch" };
+        array = new String[] { Material.WHEAT_SEEDS.toString(), "coal_ore", "torch" };
         bottomCorner = new Vector(-10.50, 50.25, 100.00);
         topCorner = new Vector(50, 100, 250);
     }
@@ -67,7 +67,7 @@ public class TestUtilClass {
 
     @Test
     public void testInArray() {
-        assertTrue(Util.isStringInsideArray("seeds", array));
+        assertTrue(Util.isStringInsideArray("wheat_seeds", array));
         assertTrue(Util.isStringInsideArray(Material.COAL_ORE.toString(), array));
         assertTrue(Util.isStringInsideArray("tOrCh", array));
     }
