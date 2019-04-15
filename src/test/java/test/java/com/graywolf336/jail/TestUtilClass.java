@@ -1,6 +1,7 @@
 package test.java.com.graywolf336.jail;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -18,6 +19,7 @@ import com.graywolf336.jail.Util;
 
 public class TestUtilClass {
     private static List<String> list;
+    private static String[] array;
     private static Vector bottomCorner;
     private static Vector topCorner;
 
@@ -27,6 +29,7 @@ public class TestUtilClass {
         list.add(Material.WHEAT_SEEDS.toString());
         list.add("coal_ore");
         list.add("torch");
+        array = new String[] { Material.SEEDS.toString(), "coal_ore", "torch" };
         bottomCorner = new Vector(-10.50, 50.25, 100.00);
         topCorner = new Vector(50, 100, 250);
     }
@@ -57,6 +60,26 @@ public class TestUtilClass {
     }
 
     @Test
+    public void testFirstGreaterThanSecond() {
+        Vector greaterFirst = new Vector(10, 86, -104);
+        assertFalse(Util.isInsideAB(greaterFirst, topCorner, bottomCorner));
+    }
+
+    @Test
+    public void testInArray() {
+        assertTrue(Util.isStringInsideArray("seeds", array));
+        assertTrue(Util.isStringInsideArray(Material.COAL_ORE.toString(), array));
+        assertTrue(Util.isStringInsideArray("tOrCh", array));
+    }
+
+    @Test
+    public void testNotInArray() {
+        assertFalse(Util.isStringInsideArray("dirt", array));
+        assertFalse(Util.isStringInsideArray("SAND", array));
+        assertFalse(Util.isStringInsideArray(Material.BEDROCK.toString(), array));
+    }
+
+    @Test
     public void testInList() {
         assertTrue(Util.isStringInsideList("wheat_seeds", list));
         assertTrue(Util.isStringInsideList(Material.COAL_ORE.toString(), list));
@@ -68,6 +91,21 @@ public class TestUtilClass {
         assertFalse(Util.isStringInsideList("dirt", list));
         assertFalse(Util.isStringInsideList("SAND", list));
         assertFalse(Util.isStringInsideList(Material.BEDROCK.toString(), list));
+    }
+
+    @Test
+    public void testCorrectStringFromArray() {
+        assertEquals("SEEDS,coal_ore,torch", Util.getStringFromArray(",", array));
+    }
+
+    @Test
+    public void testCorrectStringFromList() {
+        assertEquals("SEEDS,coal_ore,torch", Util.getStringFromList(",", list));
+    }
+
+    @Test
+    public void testColorfulMessage() {
+        assertEquals("§4Col§lor§fful §1messages", Util.getColorfulMessage("&4Col&lor&fful &1messages"));
     }
 
     @Test
@@ -109,7 +147,7 @@ public class TestUtilClass {
         assertEquals(1L, Util.getTime("60m", TimeUnit.HOURS), 0);
         assertEquals(6L, Util.getTime("6d", TimeUnit.DAYS), 0);
     }
-    
+
     @Test
     public void testDurationBreakdown() {
         assertEquals("1s", Util.getDurationBreakdown(1000));
@@ -117,5 +155,22 @@ public class TestUtilClass {
         assertEquals("1h0m0s", Util.getDurationBreakdown(3600000));
         assertEquals("1d0h0m0s", Util.getDurationBreakdown(86400000));
         assertEquals("1d1h1m1s", Util.getDurationBreakdown(90061000));
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidDateFormat() throws Exception {
+        Util.getTime("abcdefg");
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidUpdateSigns() throws Exception {
+        Util.updateSignLinesCache(new String[] {});
+    }
+
+    @Test
+    public void testUpdateSignsCache() throws Exception {
+        String[] lines = new String[] { "test1", "test2", "test3", "test4" };
+        Util.updateSignLinesCache(lines);
+        assertArrayEquals(lines, Util.getSignLines());
     }
 }

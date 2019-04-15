@@ -7,6 +7,7 @@ import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.verify;
 
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -27,7 +28,7 @@ public class TestJailCommands {
     private static TestInstanceCreator creator;
     private static JailMain main;
     private static final String name = "TestJailCommands";
-    
+
     @BeforeClass
     public static void setUp() throws Exception {
         creator = new TestInstanceCreator();
@@ -44,7 +45,7 @@ public class TestJailCommands {
         creator.tearDown();
         main = null;
     }
-    
+
     @Test
     public void testJailTimeCommand() throws Exception {
         Long time = Util.getTime("30m");
@@ -53,21 +54,32 @@ public class TestJailCommands {
         main.getPrisonerManager().prepareJail(main.getJailManager().getJail(name), null, creator.getPlayer(), p);
         assertTrue("The player " + creator.getPlayer().getName() + " is not jailed, checked by UUID.", main.getJailManager().isPlayerJailed(creator.getPlayer().getUniqueId()));
         assertTrue("The player " + creator.getPlayer().getName() + " is not jailed, checked by username.", main.getJailManager().isPlayerJailedByLastKnownUsername(creator.getPlayer().getName()));
-        
-        //jail time show graywolf336
+
+        // jail time show graywolf336
         assertTrue("The command failed.", main.onCommand(creator.getCommandSender(), null, "jail", new String[] { "time", "show", creator.getPlayer().getName() }));
         verify(creator.getCommandSender(), atLeast(1)).sendMessage(ChatColor.DARK_GREEN + "graywolf336 has 30 minutes remaining.");
-        
-        //jail time add graywolf336 30m
+
+        // jail time add graywolf336 30m
         assertTrue("The command failed.", main.onCommand(creator.getCommandSender(), null, "jail", new String[] { "time", "add", creator.getPlayer().getName(), "30m" }));
         verify(creator.getCommandSender(), atLeast(1)).sendMessage(ChatColor.DARK_GREEN + "graywolf336 has 60 minutes remaining.");
-        
-        //jail time remove graywolf336 10m
+
+        // jail time remove graywolf336 10m
         assertTrue("The command failed.", main.onCommand(creator.getCommandSender(), null, "jail", new String[] { "time", "remove", creator.getPlayer().getName(), "10m" }));
         verify(creator.getCommandSender(), atLeast(1)).sendMessage(ChatColor.DARK_GREEN + "graywolf336 has 50 minutes remaining.");
-        
-        //jail time set graywolf336 25m
+
+        // jail time set graywolf336 25m
         assertTrue("The command failed.", main.onCommand(creator.getCommandSender(), null, "jail", new String[] { "time", "set", creator.getPlayer().getName(), "25m" }));
         verify(creator.getCommandSender(), atLeast(1)).sendMessage(ChatColor.DARK_GREEN + "graywolf336 has 25 minutes remaining.");
+    }
+
+    @Test
+    public void testJailCreateCommands() {
+        assertTrue("The command jailed.", main.onCommand(creator.getPlayer(), null, "jail", new String[] { "create", "testingUno" }));
+        verify(creator.getPlayer(), atLeast(1)).sendMessage(ChatColor.AQUA + "----------Jail Zone Creation----------");
+        verify(creator.getPlayer(), atLeast(1)).sendMessage(ChatColor.GREEN + "First, you must select jail cuboid. Select the first point of the cuboid by right clicking on the block with your clay brick. DO NOT FORGET TO MARK THE FLOOR AND CEILING TOO!");
+        verify(creator.getPlayer(), atLeast(1)).sendMessage(ChatColor.AQUA + "--------------------------------------");
+
+        ItemStack wand = Util.getWand();
+        verify(creator.getPlayer().getInventory(), atLeast(1)).addItem(wand);
     }
 }
