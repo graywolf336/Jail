@@ -232,7 +232,6 @@ public class PrisonerManager {
         //only eject them if they're inside a vehicle and also eject anyone else on top of them
         if(player.isInsideVehicle()) {
             player.getVehicle().eject();
-            player.getPassenger().eject();
             player.eject();
         }
 
@@ -452,11 +451,10 @@ public class PrisonerManager {
         //the *future* move checkers won't be canceling our moving.
         prisoner.setTeleporting(true);
 
-        //In case they have somehow got on a vehicle, let's unmount
+        //In case they have somehow got in a vehicle, let's unmount
         //them so we can possibly teleport them
         if(player.isInsideVehicle()) {
             player.getVehicle().eject();
-            player.getPassenger().eject();
             player.eject();
         }
         

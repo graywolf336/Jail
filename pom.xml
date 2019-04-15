@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.graywolf336</groupId>
@@ -56,14 +57,14 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.9-R0.1-SNAPSHOT</version>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
 
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
-			<version>1.9-R0.1-SNAPSHOT</version>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>provided</scope>
 		</dependency>
@@ -71,7 +72,7 @@
 		<dependency>
 			<groupId>com.sk89q.worldedit</groupId>
 			<artifactId>worldedit-bukkit</artifactId>
-			<version>6.1</version>
+			<version>7.0.0-SNAPSHOT</version>
 			<scope>provided</scope>
 			<optional>true</optional>
 		</dependency>
@@ -167,7 +168,6 @@
 	<build>
 		<directory>target</directory>
 		<outputDirectory>target/classes</outputDirectory>
-		<!-- <sourceDirectory>${basedir}/src</sourceDirectory> -->
 		<defaultGoal>clean install test</defaultGoal>
 
 		<resources>
@@ -324,12 +324,12 @@
 		<repository>
 			<id>repo-release</id>
 			<name>Jail Releases</name>
-			<url>https://repo2.craftyn.com/repository/internal/</url>
+			<url>https://repo.craftyn.com/repository/internal/</url>
 		</repository>
 		<snapshotRepository>
 			<id>repo-snapshot</id>
 			<name>Jail Snapshots</name>
-			<url>https://repo2.craftyn.com/repository/snapshots/</url>
+			<url>https://repo.craftyn.com/repository/snapshots/</url>
 		</snapshotRepository>
 	</distributionManagement>
 </project>

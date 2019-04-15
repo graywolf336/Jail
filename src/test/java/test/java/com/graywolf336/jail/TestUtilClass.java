@@ -26,7 +26,7 @@ public class TestUtilClass {
     @BeforeClass
     public static void setUp() throws Exception {
         list = new ArrayList<String>();
-        list.add(Material.SEEDS.toString());
+        list.add(Material.WHEAT_SEEDS.toString());
         list.add("coal_ore");
         list.add("torch");
         array = new String[] { Material.SEEDS.toString(), "coal_ore", "torch" };
@@ -81,7 +81,7 @@ public class TestUtilClass {
 
     @Test
     public void testInList() {
-        assertTrue(Util.isStringInsideList("seeds", list));
+        assertTrue(Util.isStringInsideList("wheat_seeds", list));
         assertTrue(Util.isStringInsideList(Material.COAL_ORE.toString(), list));
         assertTrue(Util.isStringInsideList("tOrCh", list));
     }

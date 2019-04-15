@@ -19,7 +19,6 @@ import com.graywolf336.jail.enums.Settings;
 import com.graywolf336.jail.events.JailPluginReloadedEvent;
 import com.graywolf336.jail.interfaces.IJailPayManager;
 import com.graywolf336.jail.interfaces.IJailStickManager;
-import com.graywolf336.jail.legacy.LegacyManager;
 import com.graywolf336.jail.listeners.CacheListener;
 import com.graywolf336.jail.listeners.CellSignListener;
 import com.graywolf336.jail.listeners.EntityListener;
@@ -63,14 +62,6 @@ public class JailMain extends JavaPlugin {
 
         hcm = new HandCuffManager();
         jm = new JailManager(this);
-
-        //Try to load the old stuff before we load anything, esp the storage stuff
-        LegacyManager lm = new LegacyManager(this);
-        if(lm.doWeNeedToConvert()) {
-            lm.convertOldData();
-            if(!lm.wasAnythingConverted()) getLogger().severe("We was unable to convert some, or all, of the old data.");
-        }
-
         io = new JailIO(this);
         io.loadLanguage();
 
@@ -82,11 +73,6 @@ public class JailMain extends JavaPlugin {
         }
 
         io.loadJails();
-
-        //If we converted something, let's save EVERYTHING including the cells
-        if(lm.wasAnythingConverted()) {
-            io.saveEverything();
-        }
 
         cmdHand = new CommandHandler(this);
         jh = new JailHandler(this);

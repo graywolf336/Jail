@@ -223,7 +223,7 @@ public class ProtectionListener implements Listener {
         if(pl.getJailManager().isPlayerJailed(event.getPlayer().getUniqueId())) {
             //Next, check if crap trampling protection is enabled
             if(pl.getConfig().getBoolean(Settings.CROPTRAMPLINGPROTECTION.getPath())) {
-                if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.SOIL) {
+                if(event.getAction() == Action.PHYSICAL && event.getClickedBlock().getType() == Material.FARMLAND) {
                     if(pl.getJailManager().getJailFromLocation(event.getClickedBlock().getLocation()) != null) {
                         try {
                             long add = Util.getTime(pl.getConfig().getString(Settings.CROPTRAMPLINGPENALTY.getPath()));

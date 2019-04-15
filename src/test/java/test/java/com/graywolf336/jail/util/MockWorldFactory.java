@@ -100,7 +100,6 @@ public class MockWorldFactory {
             }
         });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
-            @SuppressWarnings("deprecation")
             public Block answer(InvocationOnMock invocation) throws Throwable {
                 Location loc;
                 try {
@@ -115,7 +114,6 @@ public class MockWorldFactory {
                 }
 
                 when(mockBlock.getType()).thenReturn(blockType);
-                when(mockBlock.getTypeId()).thenReturn(blockType.getId());
                 when(mockBlock.getWorld()).thenReturn(loc.getWorld());
                 when(mockBlock.getX()).thenReturn(loc.getBlockX());
                 when(mockBlock.getY()).thenReturn(loc.getBlockY());
@@ -145,7 +143,6 @@ public class MockWorldFactory {
             }
         });
         when(mockWorld.getBlockAt(any(Location.class))).thenAnswer(new Answer<Block>() {
-            @SuppressWarnings("deprecation")
             public Block answer(InvocationOnMock invocation) throws Throwable {
                 Location loc;
                 try {
@@ -158,7 +155,6 @@ public class MockWorldFactory {
                 Material blockType = Material.AIR;
 
                 when(mockBlock.getType()).thenReturn(blockType);
-                when(mockBlock.getTypeId()).thenReturn(blockType.getId());
                 when(mockBlock.getWorld()).thenReturn(loc.getWorld());
                 when(mockBlock.getX()).thenReturn(loc.getBlockX());
                 when(mockBlock.getY()).thenReturn(loc.getBlockY());
