@@ -70,7 +70,7 @@ public class TestJailDefaultConfig {
         assertTrue("Default setting for block break proection is false.", main.getConfig().getBoolean(Settings.BLOCKBREAKPROTECTION.getPath()));
 
         List<String> blockbreakwhite = main.getConfig().getStringList(Settings.BLOCKBREAKWHITELIST.getPath());
-        assertTrue("Default block breaking doesn't contain crops.", blockbreakwhite.contains("crops"));
+        assertTrue("Default block breaking doesn't contain crops.", blockbreakwhite.contains("wheat"));
         assertTrue("Default block breaking doesn't contain carrot.", blockbreakwhite.contains("carrot"));
         assertTrue("Default block breaking doesn't contain potato.", blockbreakwhite.contains("potato"));
 
@@ -79,7 +79,7 @@ public class TestJailDefaultConfig {
         assertTrue("Default setting for block place proection is false.", main.getConfig().getBoolean(Settings.BLOCKPLACEPROTECTION.getPath()));
 
         List<String> blockplacewhite = main.getConfig().getStringList(Settings.BLOCKPLACEWHITELIST.getPath());
-        assertTrue("Default block placing whitelist doesn't contain crops.", blockplacewhite.contains("crops"));
+        assertTrue("Default block placing whitelist doesn't contain crops.", blockplacewhite.contains("wheat"));
         assertTrue("Default block placing whitelist doesn't contain carrot.", blockplacewhite.contains("carrot"));
         assertTrue("Default block placing whitelist doesn't contain potato.", blockplacewhite.contains("potato"));
 

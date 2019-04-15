@@ -20,10 +20,10 @@ jailing:
   during:
     blockBreakPenalty: 5m
     blockBreakProtection: true
-    blockBreakWhiteList: ['farmland', 'carrot', 'potato'] # these blocks can be broken at any time by prisoners
+    blockBreakWhiteList: ['wheat', 'carrot', 'potato'] # these blocks can be broken at any time by prisoners
     blockPlacePenalty: 5m
     blockPlaceProtection: true
-    blockPlaceWhiteList: ['farmland', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
+    blockPlaceWhiteList: ['wheat', 'carrot', 'potato'] # these blocks can be placed at any time by prisoners
     cellsign:
     - '%player%'
     - '%prettytime%'
