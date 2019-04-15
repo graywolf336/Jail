@@ -84,11 +84,6 @@ public class MockPlayerInventory implements PlayerInventory {
     }
 
     @Override
-    public int clear(int i, int i2) {
-        return 0;
-    }
-
-    @Override
     public HumanEntity getHolder() {
         return null;
     }
@@ -148,22 +143,12 @@ public class MockPlayerInventory implements PlayerInventory {
     }
 
     @Override
-    public boolean contains(int i) {
-        return false;
-    }
-
-    @Override
     public boolean contains(Material material) {
         return false;
     }
 
     @Override
     public boolean contains(ItemStack itemStack) {
-        return false;
-    }
-
-    @Override
-    public boolean contains(int i, int i1) {
         return false;
     }
 
@@ -178,11 +163,6 @@ public class MockPlayerInventory implements PlayerInventory {
     }
 
     @Override
-    public HashMap<Integer, ? extends ItemStack> all(int i) {
-        return null;
-    }
-
-    @Override
     public HashMap<Integer, ? extends ItemStack> all(Material material) {
         return null;
     }
@@ -190,11 +170,6 @@ public class MockPlayerInventory implements PlayerInventory {
     @Override
     public HashMap<Integer, ? extends ItemStack> all(ItemStack itemStack) {
         return null;
-    }
-
-    @Override
-    public int first(int i) {
-        return 0;
     }
 
     @Override
@@ -210,11 +185,6 @@ public class MockPlayerInventory implements PlayerInventory {
     @Override
     public int firstEmpty() {
         return 0;
-    }
-
-    @Override
-    public void remove(int i) {
-
     }
 
     @Override
@@ -277,12 +247,11 @@ public class MockPlayerInventory implements PlayerInventory {
         return false;
     }
 
-    @SuppressWarnings("deprecation")
     private static Map<String, Object> makeMap(ItemStack[] items) {
         Map<String, Object> contents = new LinkedHashMap<String, Object>(
                 items.length);
         for (int i = 0; i < items.length; i++) {
-            if (items[i] != null && items[i].getTypeId() != 0) {
+            if (items[i] != null && items[i].getType() != Material.AIR) {
                 contents.put(Integer.valueOf(i).toString(), items[i]);
             }
         }

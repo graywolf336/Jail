@@ -93,7 +93,7 @@ public class CellCreationSteps {
 
     /** Applies the second step, which is adding signs to the cell. */
     private void secondStep(CreationPlayer cp, Player player, Block block) {
-        if (block.getType() == Material.SIGN_POST || block.getType() == Material.WALL_SIGN) {
+        if (block.getType() == Material.SIGN || block.getType() == Material.WALL_SIGN) {
             cp.addSign(new SimpleLocation(block.getLocation()));
 
             //Set the sign's first text
