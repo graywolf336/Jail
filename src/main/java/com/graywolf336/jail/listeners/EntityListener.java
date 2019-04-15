@@ -25,7 +25,7 @@ public class EntityListener implements Listener {
             for(Block b : event.blockList()) {
                 //Check the current block and if it is inside a jail,
                 //then let's do something else
-                if(pl.getJailManager().getJailFromLocation(b.getLocation()) != null) {
+                if(pl.getJailManager().isLocationAJail(b.getLocation())) {
                     //Clear the blocklist, this way the explosion effect still happens
                     event.blockList().clear();
                     return;
@@ -39,7 +39,7 @@ public class EntityListener implements Listener {
         //If we are protecting the jails from endermen protection
         if(pl.getConfig().getBoolean(Settings.ENDERMENPROTECTION.getPath())) {
             //Check if there are any jails where the block's location is
-            if(pl.getJailManager().getJailFromLocation(event.getBlock().getLocation()) != null) {
+            if(pl.getJailManager().isLocationAJail(event.getBlock().getLocation())) {
                 //Let's cancel the event so it doesn't happen
                 event.setCancelled(true);
             }

@@ -107,8 +107,8 @@ public class TestJailDefaultConfig {
 
         // interaction blocks protection section
         List<String> interactionBlocks = main.getConfig().getStringList(Settings.PREVENTINTERACTIONBLOCKS.getPath());
-        assertTrue("Default interaction blocks whitelist doesn't contain wooden_door.", interactionBlocks.contains("wooden_door"));
-        assertTrue("Default interaction blocks whitelist doesn't contain iron_door_block.", interactionBlocks.contains("iron_door_block"));
+        assertTrue("Default interaction blocks whitelist doesn't contain wooden_door.", interactionBlocks.contains("oak_door"));
+        assertTrue("Default interaction blocks whitelist doesn't contain iron_door_block.", interactionBlocks.contains("iron_door"));
         assertEquals("Default setting for preventing interaction blocks penalty is not 5m.", "5m", main.getConfig().getString(Settings.PREVENTINTERACTIONBLOCKSPENALTY.getPath()));
 
         // interaction items protection section
@@ -116,7 +116,7 @@ public class TestJailDefaultConfig {
         assertEquals("Default setting for preventing interaction blocks penalty is not 5m.", "5m", main.getConfig().getString(Settings.PREVENTINTERACTIONBLOCKSPENALTY.getPath()));
 
         assertTrue("Default setting for recieving messages is false.", main.getConfig().getBoolean(Settings.RECIEVEMESSAGES.getPath()));
-        assertFalse("Default setting for scoreboard being enabled is true.", main.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath()));
+        assertTrue("Default setting for scoreboard being enabled is false.", main.getConfig().getBoolean(Settings.SCOREBOARDENABLED.getPath()));
         assertEquals("Default setting for the scoreboard title is not Jail Info.", "Jail Info", main.getConfig().getString(Settings.SCOREBOARDTITLE.getPath()));
         assertEquals("Default setting for the scoreboard time language is not &aTime:", "&aTime:", main.getConfig().getString(Settings.SCOREBOARDTIME.getPath()));
     }

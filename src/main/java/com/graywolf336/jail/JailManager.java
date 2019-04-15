@@ -200,6 +200,22 @@ public class JailManager {
     }
 
     /**
+     * Gets whether the location is inside of a Jail.
+     * 
+     * @param l to determine if is in a jail
+     * @return whether it is inside a jail or not
+     */
+    public boolean isLocationAJail(Location l) {
+        for(Jail j : jails.values()) {
+            if(Util.isInsideAB(l.toVector(), j.getMinPoint().toVector(), j.getMaxPoint().toVector())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Checks to see if the given name for a {@link Jail} is valid, returns true if it is a valid jail.
      * 
      * @param name The name of the jail to check.
