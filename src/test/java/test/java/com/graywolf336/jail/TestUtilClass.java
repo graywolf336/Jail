@@ -95,12 +95,12 @@ public class TestUtilClass {
 
     @Test
     public void testCorrectStringFromArray() {
-        assertEquals("SEEDS,coal_ore,torch", Util.getStringFromArray(",", array));
+        assertEquals("WHEAT_SEEDS,coal_ore,torch", Util.getStringFromArray(",", array));
     }
 
     @Test
     public void testCorrectStringFromList() {
-        assertEquals("SEEDS,coal_ore,torch", Util.getStringFromList(",", list));
+        assertEquals("WHEAT_SEEDS,coal_ore,torch", Util.getStringFromList(",", list));
     }
 
     @Test
