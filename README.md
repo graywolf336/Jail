@@ -2,7 +2,7 @@
 ====
 This plugins adds Jail to your Minecraft server. Admins can define several jails and then jail/unjail people, can be on a time basis. This plugin also offers wide variety of protections, this way players won't escape out of jail.
 
-[![Build Status](http://ci.graywolf336.com/job/Jail/badge/icon)](http://ci.graywolf336.com/job/Jail/) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7934cceb4d27488f99ccba52f30681d1)](https://www.codacy.com/app/graywolf336/Jail?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=graywolf336/Jail&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/7934cceb4d27488f99ccba52f30681d1)](https://www.codacy.com/app/graywolf336/Jail?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=graywolf336/Jail&amp;utm_campaign=Badge_Coverage)
+[![Build Status](https://ci.craftyn.com/job/Jail/badge/icon)](https://ci.graywolf336.com/job/Jail/) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7934cceb4d27488f99ccba52f30681d1)](https://www.codacy.com/app/graywolf336/Jail?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=graywolf336/Jail&amp;utm_campaign=Badge_Grade) [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/7934cceb4d27488f99ccba52f30681d1)](https://www.codacy.com/app/graywolf336/Jail?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=graywolf336/Jail&amp;utm_campaign=Badge_Coverage)
 
 Translating
 ===
